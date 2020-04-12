@@ -3,7 +3,7 @@ layout: page
 title: Education
 permalink: /education/
 ---
-## Education (formal ones may be):
+(The formal ones may be)
 
   -   B.Tech in IT from [Netaji Subhash Engineering College](http://www.google.com/url?q=http%3A%2F%2Fnsec.ac.in&sa=D&sntz=1&usg=AFQjCNFe2EBGpA-oSLcYVmdISgkSmENcHg) (2013 - 17) (Final year dissertation: [A CFS–DNN-Based Intrusion Detection System](https://www.google.com/url?q=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-981-10-7901-6_19&sa=D&sntz=1&usg=AFQjCNG3tTcrgh7dSLAOYYjUY7PcCnpDQA))
 -   High School from [Jadavpur Vidyapith](http://www.google.com/url?q=http%3A%2F%2Fjadavpurvidyapithhs.org%2F&sa=D&sntz=1&usg=AFQjCNEwgsSXPP9UKLU9PxZOHYFpMamXIA) (PCMC) (2005 - 13)
