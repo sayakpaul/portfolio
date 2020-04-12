@@ -10,7 +10,7 @@ Hi there. Thank you for visiting this site. I am Sayak (সায়ক). I am curr
 
 Previously at [DataCamp](datacamp.com), I developed projects ([here](https://www.datacamp.com/projects/558?tap_a=5644-dce66f&tap_s=357540-5b28dd) and [here](https://www.datacamp.com/projects/754?tap_a=5644-dce66f&tap_s=357540-5b28dd)), and practice pools ([here](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd)) for DataCamp. Prior to DataCamp, I have worked at [TCS Research and Innovation](https://www.tcs.com/research-and-innovation) (TRDDC) on **Data Privacy**. There, I was a part of TCS's critically acclaimed GDPR solution called [Crystal Ball](https://www.tcs.com/tcs-recognized-leader-gdpr-services-by-nelsonhall).
 
-Off the work, I enjoy writing technical articles and talking at developer meetups and conferences. My subject of interest broadly lies in areas like **Machine Learning Interpretability**, **Full-Stack Data Science**.
+Off the work, I enjoy [writing technical articles](https://sayakpaul.github.io/portfolio/authoring/) and [talking at developer meetups and conferences](https://sayakpaul.github.io/portfolio/talksseminarsworkshops/). My subject of interest broadly lies in areas like **Machine Learning Interpretability**, **Full-Stack Data Science**.
 
 [Github](https://github.com/sayakpaul/) | [LinkedIn](https://www.linkedin.com/in/sayak-paul/) | [Twitter](https://twitter.com/RisingSayak) | [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) | [Email](mailto:spsayakpaul@gmail.com)
 
