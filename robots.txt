@@ -1,1 +1,1 @@
-Sitemap: https://sayakpaul.github.io/portfolio/sitemap.xml
+Sitemap: https://sayak.dev/sitemap.xml
