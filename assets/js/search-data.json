@@ -29,7 +29,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "This is where you put the contents of your About page. Like all your pages, it’s in Markdown format. . This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "content": ". Hi there. Thank you for visiting this site. I am Sayak (সায়ক). I am currently with PyImageSearch where I apply deep learning to solve real-world problems in computer vision and bring some of the solutions to edge devices. I am also responsible for providing Q&amp;A support to PyImageSearch readers. . Previously at DataCamp, I developed projects (here and here), and practice pools (here) for DataCamp. Prior to DataCamp, I have worked at TCS Research and Innovation (TRDDC) on Data Privacy. There, I was a part of TCS’s critically acclaimed GDPR solution called Crystal Ball. . Off the work, I enjoy writing technical articles and talking at developer meetups and conferences. My subject of interest broadly lies in areas like Machine Learning Interpretability, Full-Stack Data Science. . Github | LinkedIn | Twitter | ResearchGate | Email | . Timeline: . PyImageSearch (June, 2019 - present) | DataCamp (August 2018 - June 2019) (on contract) | TCS Research and Innovation (January 2018 - August 2018) | Tata Consultancy Services Limited (July 2017 - January 2018) | CareerIn (Dec, 2016 - Feb, 2017) (intern) | . Badges I proudly endorse: . . . An honour to be their son 🙂 . Tapas Kumar Paul | Baby Paul | .",
           "url": "https://sayakpaul.github.io/portfolio/about/",
           "relUrl": "/about/",
           "date": ""
