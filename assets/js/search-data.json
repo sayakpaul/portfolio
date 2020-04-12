@@ -38,9 +38,20 @@
   
 
   
+      ,"page2": {
+          "title": "Education",
+          "content": "Education (formal ones may be): . B.Tech in IT from Netaji Subhash Engineering College (2013 - 17) (Final year dissertation: A CFS–DNN-Based Intrusion Detection System) | High School from Jadavpur Vidyapith (PCMC) (2005 - 13) | Certifications relevant to my subject of interest: Introduction to Data Science in Python (University of Michigan) | Data Scientist with Python Track (DataCamp) | Data Analyst with Python Track (DataCamp) | Deep Learning Specialization (deeplearning.ai) | Advanced Machine Learning with TensorFlow on Google Cloud Platform | TensorFlow in Practice Specialization (deeplearning.ai) | TensorFlow: Data and Deployment Specialization (deeplearning.ai) | . | .",
+          "url": "https://sayakpaul.github.io/portfolio/education/",
+          "relUrl": "/education/",
+          "date": ""
+      }
+      
+  
 
   
-      ,"page3": {
+
+  
+      ,"page4": {
           "title": "Interviews",
           "content": "The purpose of conducting these interviews is to mainly get insights about the real-world project experiences, perspectives on learning new things, some fun facts and thereby enriching the communities in the process. I sincerely thank the interviewees for taking the time out from their busy schedules and for agreeing to do these interviews. Here are the interviews I have done so far - . An interview with Robert Crowe, Developer Advocate (TensorFlow) at Google | An interview with Snehasis Banerjee, Scientist at TCS Research and Innovation | An interview with Abhishek Kumar, Senior Manager, Data Science at Publicis Sapient | An interview with Laurence Moroney, Developer Advocate at Google | An interview with Karl Fezer, AI Ecosystem Evangelist at Arm | An interview with Dan Becker, Team Lead of Kaggle Learn &amp; Product Lead of Kaggle Kernels | An interview with Rajarshee Mitra, Data Scientist at Microsoft | An interview with Alessio, Lead Data Scientist at FloydHub | An interview with Joel Grus, Research Engineer at Allen Institute for Artificial Intelligence | An interview with Josh Tobin, Research Scientist at OpenAI | An interview with Andrew Ferlitsch, Developer Program Engineer at Google | An interview with Shalini De Mello, Principal Research Scientist at NVIDIA | An interview with Rahul Agrawal, Principal Machine Learning Manager at AI and Research, Microsoft | An interview with Aakash Nain, Research Engineer at Ola | An interview with Xander Steenbrugge, Machine Learning Researcher &amp; YouTuber at “Arxiv Insights” | An interview with Ines Montani, Co-founder at Explosion | An interview with Girish Palshikar, Principal Scientist at TCS Research and Innovation | An interview with Christoph Molnar, Interpretable Machine Learning Researcher | An interview with Leslie Smith, Senior Research Scientist at U.S. Naval Research Laboratory | An interview with Arindam Pal, Senior Research Scientist at CSIRO | An interview with Ankur Patel, Vice President of Data Science at 7Park Data | An interview with Max Pumperla, Deep Learning Engineer at Skymind | An interview with Abhishek Thakur, Data Scientist, and Kaggle 3x Grandmaster | An interview with Dmytro Mishkin, Computer Vision Researcher | An interview with Ellick Chan, Head of University Relations and Research — Intel AI Academy | An interview with Thomas Wolf, Chief Science Officer at Hugging Face | An interview with Dat Tran, Head of AI at Axel Springer AI | An interview with Daniel Seita, Ph.D. student at UC, Berkeley | An interview with Vladimir Iglovikov, Senior Computer Vision Engineer at Lyft | An interview with Hamel Husain, Staff Machine Learning Engineer at GitHub | .",
           "url": "https://sayakpaul.github.io/portfolio/interviews/",
@@ -70,7 +81,7 @@
   
 
   
-      ,"page11": {
+      ,"page12": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://sayakpaul.github.io/portfolio/robots.txt",
