@@ -1,0 +1,22 @@
+---
+layout: page
+title: Research
+permalink: /research/
+---
+I am interested in the following problems (with no particular deadline). This page also enlists the publications I have been a part of.
+
+## Some research problems/problems I wish to solve:
+-   **Surveillance for water wastage:** Water wastage is a vicious problem. In spite of several campaigns and infinite awareness activities, water wastage is still an avid problem. In countries like India especially in its rural areas, this problem imposes a great threat. The aim of this work is to facilitate modern image processing and information retrieval techniques to extract the relevant images from satellite image data and to build an effective surveillance system to reduce the amount of water wastage.
+-   **Information extraction from Annual Report:** Most companies report their annual financial statements every year formally on their company website. This is typically published in a PDF format, with the financial data usually presented in the form of tables. The financial reports of companies are utilized by banks and other financial institutions to evaluate company performances to enable these institutions to approve loans or manage other transactions with these institutions. A huge amount of manual effort is spent by financial institutions today to fetch these financial reports and extract the financial data from reports. The objective is to automate this extraction process to minimize the manual effort. This will enable companies to increase their productivity and save considerable effort.
+-   **Generate Corporate profiles from the Web:** When a company engages with their clients and establishes a relationship, it does an initial KYC (Know Your Customer), to get background information about the company and its key stakeholders and employees, like the list of C-Level executives of their client and their designations, HQ address, Phone numbers etc. The KYC is done manually by users for every client, which usually runs into hundreds of thousands of clients for some large companies. Fetching profile information from either company websites or from public search engines is a tedious effort and takes considerable time. The objective of this use case is to automate the information extraction process and save on effort and increase productivity.
+-   **Towards intelligent food safety and food distribution:** Food wastage and poor quality are genuine problems in many countries like India. How can we facilitate AI techniques in order to maintain a good safety and distribution trade-off in food-care.
+
+  
+
+*I am open to discuss/collaborate on these problems
+
+## Publications:
+-   **Paul S**., Banerjee C., Ghoshal M. (2018)  [**A CFS–DNN-Based Intrusion Detection System**](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1007%2F978-981-10-7901-6_19&sa=D&sntz=1&usg=AFQjCNFzOUPqdOOKBps043v56wGUSi5N1g). In: Bera R., Sarkar S., Chakraborty S. (eds) Advances in Communication, Devices and Networking. Lecture Notes in Electrical Engineering, vol 462. Springer, Singapore.
+-   Gupta J.,  **Paul S**., Ghosh A. (2019)  [**A Novel Transfer Learning-Based Missing Value Imputation on Discipline Diverse Real Test Datasets—A Comparative Study with Different Machine Learning Algorithms**](https://www.google.com/url?q=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%252F978-981-13-1501-5_71&sa=D&sntz=1&usg=AFQjCNEbP-XwVNxKc3u9OvrY2_UzHJtOCQ). In: Abraham A., Dutta P., Mandal J., Bhattacharya A., Dutta S. (eds) Emerging Technologies in Data Mining and Information Security. Advances in Intelligent Systems and Computing, vol 814. Springer, Singapore.
+-   C. Baneriee,  **S. Paul**  and M. Ghoshal,  [**A Comparative Study of Different Ensemble Learning Techniques Using Wisconsin Breast Cancer Dataset**](https://www.google.com/url?q=https%3A%2F%2Fieeexplore.ieee.org%2Fdocument%2F8526215&sa=D&sntz=1&usg=AFQjCNFdSr2phgcOOtf9-V7NPeANKmfE5g)**,**  _2017_ International Conference on Computer, Electrical & Communication Engineering (ICCECE), Kolkata, India, 2017, pp. 1-6.
+-   S. Sengupta, S. Basak, P. Saikia,  **S. Paul**  et al.,  **A review of deep learning with special emphasis on architectures, applications and recent trends, Knowledge-Based Systems**  (2020) 105596,  [https://doi.org/10.1016/j.knosys.2020.105596](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1016%2Fj.knosys.2020.105596&sa=D&sntz=1&usg=AFQjCNHSYP_YnUMLo4aGenPXGqUin4Doig).
