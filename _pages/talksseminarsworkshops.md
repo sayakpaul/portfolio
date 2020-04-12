@@ -3,10 +3,7 @@ layout: page
 title: Talks/Seminars/Workshops
 permalink: /talksseminarsworkshops/
 ---
-
-I take the idea of  **learning and sharing**  very seriously and hence the existence of this page. I love to attend developer meetups, conferences, workshops and learn from them as much as I can. I sometimes talk on a range of topics that I love the most. All the slides of my talks/sessions can be found  [here](https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fsayakpaul%2FTalksGiven&sa=D&sntz=1&usg=AFQjCNHX-5Lo4DDV_z1v8fRSolATlk5Jbg).
-
-## Talks/Seminars/Workshops:
+I take the idea of  **learning and sharing**  very seriously and hence the existence of this page. I love to attend developer meetups, conferences, workshops and learn from them as much as I can. I sometimes talk on a range of topics that I love the most. All the slides of my talks/sessions can be found here.
 
 ### Given by me:
 -   Presented our paper  [**A CFS–DNN-Based Intrusion Detection System**](https://www.google.com/url?q=https%3A%2F%2Fdoi.org%2F10.1007%2F978-981-10-7901-6_19&sa=D&sntz=1&usg=AFQjCNFzOUPqdOOKBps043v56wGUSi5N1g)  at  [International Conference on Communication Devices and Networking](https://www.google.com/url?q=https%3A%2F%2Fwww.springer.com%2Fin%2Fbook%2F9789811079009&sa=D&sntz=1&usg=AFQjCNH9Jj9pNtHNGg70klxFjcGHRSjc7g), Sikkim Manipal Institute of Technology, Sikkim, June 3, 2017.
