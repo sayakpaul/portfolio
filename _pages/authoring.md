@@ -3,7 +3,6 @@ layout: page
 title: Authoring
 permalink: /authoring/
 ---
-
 Co-authored a book  [**Hands-On Python Deep Learning for the Web**](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A)  ([Packt Publishers](http://www.google.com/url?q=http%3A%2F%2Fpacktpub.com&sa=D&sntz=1&usg=AFQjCNHfinKsiP_yLJDqHTIwXaolcDOUfw)).
 
 Authored a  [liveProject](https://www.google.com/url?q=https%3A%2F%2Fliveproject.manning.com%2F&sa=D&sntz=1&usg=AFQjCNHuveAimQ3wMD8RZBzR-BqJrrzdyA)  namely  [**Use Machine Learning to Detect**  **Phishing Websites**](https://www.google.com/url?q=https%3A%2F%2Fliveproject.manning.com%2Fproject%2F101%2F3%2Fuse-machine-learning-to-detect-phishing-websites%3F&sa=D&sntz=1&usg=AFQjCNHjQAmdo3Bi8thxty3JmpD8I9vi6Q)  with  [Manning Publishers](https://www.google.com/url?q=https%3A%2F%2Fwww.manning.com%2F&sa=D&sntz=1&usg=AFQjCNGZo9PYnC7IWSAch7uMGngXqDsioQ).
@@ -80,6 +79,5 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   “Reparameterization” trick in Variational Autoencoders ([**Towards Data Science**](https://www.google.com/url?q=https%3A%2F%2Ftowardsdatascience.com&sa=D&sntz=1&usg=AFQjCNEDpuOzDwTYeGD8p2VjcidsLVw9nQ)) -  [https://bit.ly/2RjoWnM](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2RjoWnM&sa=D&sntz=1&usg=AFQjCNHOZZzhFNnjGGLkN1SlDb0tcYVzyg)
 
   
-
 [^4]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s monthly  [newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
 [^5]:This one won the ML GDE Dev Challenge
