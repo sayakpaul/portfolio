@@ -9,7 +9,7 @@ Authored a  [liveProject](https://www.google.com/url?q=https%3A%2F%2Fliveproject
 
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more.
 
-## [Datacamp](https://learn.datacamp.com/):
+## [Datacamp](https://learn.datacamp.com/)
 -   KMeans clustering with `scikit-learn` -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
 -   DBSCAN: A macroscopic investigation in Python -  [https://goo.gl/fDGYUn](https://goo.gl/fDGYUn)
 -   Hyperparameter Optimization in Machine Learning Models -  [https://goo.gl/5C6ouV](https://goo.gl/5C6ouV)
@@ -51,7 +51,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 [^2]:This article got featured in "[Machine Learning Top 10 Articles for the Past Month (v.Nov 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.mybridge.co%2Fmachine-learning-top-10-articles-for-the-past-month-v-nov-2018-35f1fd88cb49&sa=D&sntz=1&usg=AFQjCNFfndNPZXPMj2Snv5RF7LBaemoFMQ)" and secured a rank of 9.
 [^3]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Dec 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2F%40Mybridge%2Fpython-top-10-articles-for-the-past-month-v-dec-2018-6c4c7a10b61e&sa=D&sntz=1&usg=AFQjCNF0tvByWxbRdliqPPHzdLXVWeKpTw)" and secured a rank of 10.
 
-## [FloydHub](https://www.floydhub.com/):
+## [FloydHub](https://www.floydhub.com/)
 -   Introduction to Anomaly Detection in Python - [https://bit.ly/2TZLg4d](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2TZLg4d&sa=D&sntz=1&usg=AFQjCNEL3rtDmja9iQkYsL79fUEfFIupnQ)
 -   Introduction to K-Means Clustering in Python with `scikit-learn` - [https://bit.ly/2IZev5a](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2IZev5a&sa=D&sntz=1&usg=AFQjCNGk3PE-JUXjdJ6nCXI_6Ld9ddEjzg)
 -   An introduction to Q-Learning: Reinforcement Learning - [http://bit.ly/2HxuVzo](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2HxuVzo&sa=D&sntz=1&usg=AFQjCNFWuiHiiyss0bdQ-KUSr_sHS_CKhA)
@@ -72,7 +72,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
 -   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
 
-## Others:
+## Others
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
 -   Predicting the publisher’s name from an article: A case study (for  [**Google Developers Experts' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fgoogle-developer-experts&sa=D&sntz=1&usg=AFQjCNE5ZP96KI2Vlkm_7ZNZx6gk1-g22g)) -  [http://bit.ly/2K9TpS8](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2K9TpS8&sa=D&sntz=1&usg=AFQjCNHYVn1jY9D0pTkUkMCPGVup-5y-Sw) [^5]
 -   A comprehensive list of data science resources for developers (for  [**Intel DevMesh**](http://www.google.com/url?q=http%3A%2F%2Fdevmesh.intel.com&sa=D&sntz=1&usg=AFQjCNG6G3_-7qKsEnZHfzMtGGgB7JkeBQ)) -  [https://intel.ly/2J2UYSs](https://www.google.com/url?q=https%3A%2F%2Fintel.ly%2F2J2UYSs&sa=D&sntz=1&usg=AFQjCNHsgNC2r1OUktnw4zeWIKhWl9JzDA)
