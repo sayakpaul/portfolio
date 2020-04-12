@@ -1,7 +1,7 @@
 ---
 layout: page
-title: About Me
-permalink: /about/
+title: Interviews
+permalink: /interviews/
 ---
 
 The purpose of conducting these interviews is to mainly **get insights about the real-world project experiences, perspectives on learning new things**, some fun facts and thereby enriching the communities in the process. I sincerely thank the interviewees for taking the time out from their busy schedules and for agreeing to do these interviews. Here are the interviews I have done so far -
