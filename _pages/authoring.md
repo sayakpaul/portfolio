@@ -10,7 +10,7 @@ Authored a  [liveProject](https://www.google.com/url?q=https%3A%2F%2Fliveproject
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more.
 
 ## [Datacamp](https://learn.datacamp.com/):
--   KMeans clustering with scikit-learn -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
+-   KMeans clustering with `scikit-learn` -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
 -   DBSCAN: A macroscopic investigation in Python -  [https://goo.gl/fDGYUn](https://goo.gl/fDGYUn)
 -   Hyperparameter Optimization in Machine Learning Models -  [https://goo.gl/5C6ouV](https://goo.gl/5C6ouV)
 -   Towards Preventing Overfitting: Regularization -  [https://goo.gl/B9vxia](https://goo.gl/B9vxia)
@@ -53,7 +53,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 
 ## [FloydHub](https://www.floydhub.com/):
 -   Introduction to Anomaly Detection in Python - [https://bit.ly/2TZLg4d](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2TZLg4d&sa=D&sntz=1&usg=AFQjCNEL3rtDmja9iQkYsL79fUEfFIupnQ)
--   Introduction to K-Means Clustering in Python with scikit-learn - [https://bit.ly/2IZev5a](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2IZev5a&sa=D&sntz=1&usg=AFQjCNGk3PE-JUXjdJ6nCXI_6Ld9ddEjzg)
+-   Introduction to K-Means Clustering in Python with `scikit-learn` - [https://bit.ly/2IZev5a](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2IZev5a&sa=D&sntz=1&usg=AFQjCNGk3PE-JUXjdJ6nCXI_6Ld9ddEjzg)
 -   An introduction to Q-Learning: Reinforcement Learning - [http://bit.ly/2HxuVzo](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2HxuVzo&sa=D&sntz=1&usg=AFQjCNFWuiHiiyss0bdQ-KUSr_sHS_CKhA)
 -   How to plan and execute your ML and DL projects - [http://bit.ly/2XtMCeh](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2XtMCeh&sa=D&sntz=1&usg=AFQjCNFUdF778nt4PgTMASPoxvX9Soh6ow)
 -   Becoming One With the Data ([**FloydHub**](https://www.google.com/url?q=https%3A%2F%2Fwww.floydhub.com&sa=D&sntz=1&usg=AFQjCNHmkwAWvPLMMAtgPzi_yKAF1R8eBg)) -  [http://bit.ly/30N3bPA] [^4]
@@ -70,7 +70,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   The effects of weight initialization on neural nets - [https://bit.ly/3bk34Qu](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F3bk34Qu&sa=D&sntz=1&usg=AFQjCNHQEuW9Snzmd21d8apFT5HvdjkU5w)
 -   Introduction to image inpainting with deep learning - [https://bit.ly/39CqTBK](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F39CqTBK&sa=D&sntz=1&usg=AFQjCNHdG6Jas-kk95hB9MC-JgMcnq6qew) (Joint work with [Ayush Thakur](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2Fayushthakur0&sa=D&sntz=1&usg=AFQjCNHhWFJzSWoahTWqv8gnUSTAO1uU9w))
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
--   Distributed training in `tf.kera`s with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
+-   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
 
 ## Others:
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
