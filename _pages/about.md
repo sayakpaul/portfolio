@@ -4,7 +4,7 @@ title: About Me
 permalink: /about/
 ---
 
-![]({{site.baseurl}}/images/image_sayak.jpg "Credit: [Snehangshu Bhattacharya](https://www.linkedin.com/in/snehangshu-bhattacharya-3891b5153/)")
+![]({{site.baseurl}}/images/image_sayak.jpg "Credit: Snehangshu Bhattacharya")
 
 Hi there. Thank you for visiting this site. I am Sayak (সায়ক). I am currently with [PyImageSearch](pyimagesearch.com) where I apply deep learning to solve real-world problems in computer vision and bring some of the solutions to edge devices. I am also responsible for providing Q&A support to PyImageSearch readers.
 
@@ -23,9 +23,9 @@ Off the work, I enjoy writing technical articles and talking at developer meetup
 
 ## Badges I proudly endorse:
 
-![]({{site.baseurl}}/images/innovator_badge.jpg "https://devmesh.intel.com/users/sayak-paul")
+![]({{site.baseurl}}/images/innovator_badge.jpg "https://bit.ly/isi-sp")
 
-![]({{site.baseurl}}/images/gde_badge.jpg "https://developers.google.com/community/experts/directory/profile/profile-sayak_paul")
+![]({{site.baseurl}}/images/gde_badge.png "https://bit.ly/gde-sp")
 
 ## An honour to be their son 🙂
 - Tapas Kumar Paul
