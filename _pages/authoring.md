@@ -5,7 +5,7 @@ permalink: /authoring/
 ---
 Co-authored a book  [**Hands-On Python Deep Learning for the Web**](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A)  ([Packt Publishers](http://www.google.com/url?q=http%3A%2F%2Fpacktpub.com&sa=D&sntz=1&usg=AFQjCNHfinKsiP_yLJDqHTIwXaolcDOUfw)).
 
-Authored a  [liveProject](https://www.google.com/url?q=https%3A%2F%2Fliveproject.manning.com%2F&sa=D&sntz=1&usg=AFQjCNHuveAimQ3wMD8RZBzR-BqJrrzdyA)  namely  [**Use Machine Learning to Detect**  **Phishing Websites**](https://www.google.com/url?q=https%3A%2F%2Fliveproject.manning.com%2Fproject%2F101%2F3%2Fuse-machine-learning-to-detect-phishing-websites%3F&sa=D&sntz=1&usg=AFQjCNHjQAmdo3Bi8thxty3JmpD8I9vi6Q)  with  [Manning Publishers](https://www.google.com/url?q=https%3A%2F%2Fwww.manning.com%2F&sa=D&sntz=1&usg=AFQjCNGZo9PYnC7IWSAch7uMGngXqDsioQ).
+Authored a  [liveProject](https://liveproject.manning.com/)  namely  [**Use Machine Learning to Detect**  **Phishing Websites**](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites)  with  [Manning Publishers](https://www.manning.com/).
 
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more.
 
