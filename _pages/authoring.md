@@ -72,7 +72,8 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
 -   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
 
-## Others
+## Other
+- [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
 -   Predicting the publisher’s name from an article: A case study (for  [**Google Developers Experts' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fgoogle-developer-experts&sa=D&sntz=1&usg=AFQjCNE5ZP96KI2Vlkm_7ZNZx6gk1-g22g)) -  [http://bit.ly/2K9TpS8](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2K9TpS8&sa=D&sntz=1&usg=AFQjCNHYVn1jY9D0pTkUkMCPGVup-5y-Sw) [^5]
 -   A comprehensive list of data science resources for developers (for  [**Intel DevMesh**](http://www.google.com/url?q=http%3A%2F%2Fdevmesh.intel.com&sa=D&sntz=1&usg=AFQjCNG6G3_-7qKsEnZHfzMtGGgB7JkeBQ)) -  [https://intel.ly/2J2UYSs](https://www.google.com/url?q=https%3A%2F%2Fintel.ly%2F2J2UYSs&sa=D&sntz=1&usg=AFQjCNHsgNC2r1OUktnw4zeWIKhWl9JzDA)
