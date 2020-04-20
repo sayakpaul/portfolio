@@ -26,7 +26,7 @@ Before I start the sharing process, I generally create a Google Doc to effective
 
 I generally keep the description to a maximum of _280 characters_ so that I can use it on Twitter as well. 
 
-Now, coming to the platforms/communities, here are the recommendations:
+Now, coming to the platforms/communities, here are the recommendations (in no particular order):
 - HackerNews (https://news.ycombinator.com/newest)
 - Made With ML (https://madewithml.com/)
 - Reddit
@@ -41,6 +41,11 @@ Now, coming to the platforms/communities, here are the recommendations:
     - [Deep Learning](https://www.facebook.com/groups/DeepLearnng/)
 - Fast.ai Forum (https://forums.fast.ai/)
 - LinkedIn
+- Google Groups (depends on the framework used in the work)
+    - discuss@tensorflow.org
+    - tflite@tensorflow.org
+    - tfjs@tensorflow.org
+    - tfx@tensorflow.org
 
 While sharing about my work, I find it to be important to attach a brief description always. Additionally, if your work is related to implementing a research work, you should definitely include it on [Papers with Code](https://paperswithcode.com/). 
 
@@ -52,4 +57,4 @@ You might be an active person on online forums like Quora, StackOverflow, and so
 The performance of a neural net depends a lot on how its parameters are initialized when it is starting to train. Moreover, if we initialize it randomly for each runs, it’s bound to be non-reproducible (almost) and even not-so-performant too. On the other hand, if we initialize it with contant values, it might take it way too long to converge. With that, we also eliminate the beauty of randomness which in turn gives a neural net the power to reach a covergence quicker using gradient-based learning. We clearly need a better way to initialize it.
 Careful initialization of weights helps us to develop in training them better. To know more, one can follow [this article of mine](https://www.wandb.com/articles/the-effects-of-weight-initialization-on-neural-nets). 
 
-Well, that's it for this article. I hope it proves to be useful for you. I am thankful to [Alessio](https://www.linkedin.com/in/alessio-gozzoli-530aa2109/) of [FloydHub](https://www.floydhub.com/) for sharing these tips/ways with me. 
+Well, that's it for this article. I hope it proves to be useful for you. Please let me know about any suggestions you may have via the comments. I am thankful to [Alessio](https://www.linkedin.com/in/alessio-gozzoli-530aa2109/) of [FloydHub](https://www.floydhub.com/) for sharing these tips/ways with me. 
