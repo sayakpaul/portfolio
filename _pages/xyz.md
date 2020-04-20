@@ -3,13 +3,13 @@ layout: page
 title: XYZ
 permalink: /xyz/
 ---
--   Beta -tester of DataCamp's course [**Deep Learning in Python**](https://www.google.com/url?q=https%3A%2F%2Fwww.datacamp.com%2Fcourses%2Fdeep-learning-in-python&sa=D&sntz=1&usg=AFQjCNFj_ARj6UvKDMpbzqYLj8hpYR2CSg)
+-   Beta-tester of DataCamp's course [**Deep Learning in Python**](https://www.google.com/url?q=https%3A%2F%2Fwww.datacamp.com%2Fcourses%2Fdeep-learning-in-python&sa=D&sntz=1&usg=AFQjCNFj_ARj6UvKDMpbzqYLj8hpYR2CSg)
 -   Taught under-privileged children and managed operations for a TCS-CSR initiative called **H20 (Helping Hand Organization)**
 -   [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [**Campus Commune**](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ)
--   Mentor for [**Smart India Hackathon 2018**](https://drive.google.com/file/d/15JvLStZkS_5iLRo7qClG2y6WMdsy5DnM/view?usp=sharing)  and [**Smart India Hackathon 2019**](https://www.google.com/url?q=https%3A%2F%2Fwww.sih.gov.in%2Fsih2019&sa=D&sntz=1&usg=AFQjCNH2IcG02UQDACx_BTCOeEf0isqygQ)
+-   Mentored for [**Smart India Hackathon 2018**](https://drive.google.com/file/d/15JvLStZkS_5iLRo7qClG2y6WMdsy5DnM/view?usp=sharing)  and [**Smart India Hackathon 2019**](https://www.google.com/url?q=https%3A%2F%2Fwww.sih.gov.in%2Fsih2019&sa=D&sntz=1&usg=AFQjCNH2IcG02UQDACx_BTCOeEf0isqygQ)
 -   [Advisor](https://www.google.com/url?q=https%3A%2F%2Fv1.overleaf.com%2Fadvisors%23!members&sa=D&sntz=1&usg=AFQjCNGjSWoV6FN_2tktSHHtSb5rjJW0yw) to [**Overleaf**](http://www.google.com/url?q=http%3A%2F%2Foverleaf.com&sa=D&sntz=1&usg=AFQjCNEIxwMcHi5tr4qXXu-HM9CR_zSW6Q), an online LaTex platform
 -   Contributing author at [**Towards Data Science**](https://www.google.com/url?q=https%3A%2F%2Ftowardsdatascience.com%2Fintroduction-to-procedures-and-cursors-in-sql-f9d9b9ea1fe7&sa=D&sntz=1&usg=AFQjCNHyuiF-7sxdXnBwBk46Xj1yZCZj9w)
--   Mentor for  [GirlScript Summer of Code 2019](https://www.google.com/url?q=https%3A%2F%2Fwww.gssoc.tech&sa=D&sntz=1&usg=AFQjCNFc7paA7Yo7ysBo4wzGD6-koZ6XLw)
+-   Mentored for  [GirlScript Summer of Code 2019](https://www.google.com/url?q=https%3A%2F%2Fwww.gssoc.tech&sa=D&sntz=1&usg=AFQjCNFc7paA7Yo7ysBo4wzGD6-koZ6XLw)
 -   Book reviewer at **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)**
 -   Co-organizer at **[GDG Kolkata](https://www.google.com/url?q=https%3A%2F%2Fgdgkolkata.org%2F&sa=D&sntz=1&usg=AFQjCNFv7NHWsGgjXbrWxA6gSyJRAmPHMA)**
 -   Organizer at **[TensorFlow User Group Kolkata](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FTFUG-Kol%2F&sa=D&sntz=1&usg=AFQjCNGSigBHJiGjDwNw2ukRhA_pfPFqNA)**
