@@ -9,7 +9,7 @@ Previously at [DataCamp](datacamp.com), I developed projects ([here](https://www
 
 Off the work, I enjoy [writing technical articles](https://sayakpaul.github.io/portfolio/authoring/) and [talking at developer meetups and conferences](https://sayakpaul.github.io/portfolio/talksseminarsworkshops/). My subject of interest broadly lies in areas like **Machine Learning Interpretability**, **Full-Stack Data Science**.
 
-[Github](https://github.com/sayakpaul/) | [LinkedIn](https://www.linkedin.com/in/sayak-paul/) | [Twitter](https://twitter.com/RisingSayak) | [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) | [Email](mailto:spsayakpaul@gmail.com)
+[GitHub](https://github.com/sayakpaul/) | [LinkedIn](https://www.linkedin.com/in/sayak-paul/) | [Twitter](https://twitter.com/RisingSayak) | [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) | [Email](mailto:spsayakpaul@gmail.com)
 
 ## Timeline:
 - PyImageSearch (June, 2019 - present)
