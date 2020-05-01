@@ -34,7 +34,7 @@ I take the idea of  **learning and sharing**  very seriously and hence the exist
 -   Spoke at  [Sigma 2020](https://www.google.com/url?q=https%3A%2F%2Fallevents.in%2Fkolkata%2Fsigma-2020-a-transit-through-time%2F200018965165649&sa=D&sntz=1&usg=AFQjCNEGZzZ3zJWPG1Gc0Isu_lImfO4lng)  on  [**Machine Learning: For the Community by the Community**](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2Fsigma-2020&sa=D&sntz=1&usg=AFQjCNE8blxrQUY7mdenSPAEodTvKjThxQ)**,** Kolkata (February 12, 2020).
 -   Spoke at  [MENA Digital Days 202](https://events.withgoogle.com/menadd/)0 on  **Building data pipelines with tf.data**. Deck  [here](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2Fmena-20&sa=D&sntz=1&usg=AFQjCNEBpjCupJ7v_Yogqwwf6o5otxB2Bg), session video  [here](https://www.youtube.com/watch?v=fc0_eLmxm0E&feature=em-lbrm).
 -   Spoke for GDG Goa at an  [online event](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGoogleGoa%2Fevents%2F269678892%2F&sa=D&sntz=1&usg=AFQjCNGqyk2Nz7e4JTBM9_e016tdBRfGPw)  on  **Hello, TensorFlow**. Deck  [here](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2Fgdg-goa-20&sa=D&sntz=1&usg=AFQjCNFCE4R-fZwB2SraKegXfxSMhfhd2Q), session  [here](https://www.youtube.com/watch?v=z_S8hCOxLWo).
--   Spoke for GDG Pune and WTM Pune on [**Doing more with TensorFlow Lite** for GDG Pune](https://bit.ly/tfl-pune), April 26, 2020.
+-   Spoke for GDG Pune and WTM Pune on [**Doing more with TensorFlow Lite**](https://bit.ly/tfl-pune), April 26, 2020.
 - Spoke for Global AI Hub, Turkey on [**Gotchas of Transfer Learning for Image Classification**](http://bit.ly/tl-sayak), May 01, 2020. 
 
 ### Co-organized by me:
