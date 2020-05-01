@@ -72,6 +72,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
 -   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
 - Reproducible Models with W&B - [https://bit.ly/34V5ZNz](https://bit.ly/34V5ZNz)
+- Transfer Learning with EfficientNet family of models - [https://bit.ly/2zMJVcE](https://bit.ly/2zMJVcE)
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
