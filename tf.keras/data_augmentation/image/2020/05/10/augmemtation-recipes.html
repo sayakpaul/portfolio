@@ -707,7 +707,7 @@ For most of the scenarios, the ImageDataGenerator should be good enough. Its fle
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
 </pre></div>
-<p>Now, <code>model</code> should be good to go with - <code>model.fit(train_ds, )</code>. A fully worked out example is available <a href="https://colab.research.google.com/drive/17vHSAj7no7RMdJ18MJomTf8twqw1suYC#scrollTo=nhSR8l3OX_sM">here</a>. Note that, performance might get slightly affected when going with this approach.</p>
+<p>Now, <code>model</code> should be good to go with - <code>model.fit(train_ds, ...)</code>. A fully worked out example is available <a href="https://colab.research.google.com/drive/17vHSAj7no7RMdJ18MJomTf8twqw1suYC#scrollTo=nhSR8l3OX_sM">here</a>. Note that, performance might get slightly affected when going with this approach.</p>
 <p>Let’s now think about situations where we may need to use a combination of the image ops of TensorFlow and the layers we just saw. What if we need to plug in custom augmentation operations in the augmentation pipeline? Added on top of it, what if we need to fix the probability at which the augmentation operations would get applied? Data augmentation pipelines are quite central behind the success of recent works like <a href="https://arxiv.org/abs/2002.05709">SimCLR</a>, <a href="https://arxiv.org/abs/1912.02781">Augmix</a>, etc.</p>
 
 </div>
