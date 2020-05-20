@@ -73,10 +73,11 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Introduction to image inpainting with deep learning - [https://bit.ly/39CqTBK](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F39CqTBK&sa=D&sntz=1&usg=AFQjCNHdG6Jas-kk95hB9MC-JgMcnq6qew) (Joint work with [Ayush Thakur](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2Fayushthakur0&sa=D&sntz=1&usg=AFQjCNHhWFJzSWoahTWqv8gnUSTAO1uU9w))
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
 -   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
-- Reproducible Models with W&B - [https://bit.ly/34V5ZNz](https://bit.ly/34V5ZNz)
-- EvoNorm layers in TensorFlow 2 - [https://bit.ly/3arUw9q](https://bit.ly/3arUw9q)
-- Transfer Learning with EfficientNet family of models - [https://bit.ly/2zMJVcE](https://bit.ly/2zMJVcE)
-- A Tale of Model Quantization in TF Lite - [https://bit.ly/3dlCRSI](https://bit.ly/3dlCRSI)
+-   Reproducible Models with W&B - [https://bit.ly/34V5ZNz](https://bit.ly/34V5ZNz)
+-   EvoNorm layers in TensorFlow 2 - [https://bit.ly/3arUw9q](https://bit.ly/3arUw9q)
+-   Transfer Learning with EfficientNet family of models - [https://bit.ly/2zMJVcE](https://bit.ly/2zMJVcE)
+-   A Tale of Model Quantization in TF Lite - [https://bit.ly/3dlCRSI](https://bit.ly/3dlCRSI)
+-   Towards self-supervised image understanding with SimCLR - [https://bit.ly/2LHq6WR](https://bit.ly/2LHq6WR)
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
