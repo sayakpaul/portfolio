@@ -38,3 +38,4 @@ The purpose of conducting these interviews is to mainly **get insights about the
 -   [An interview with **Hamel Husain**, Staff Machine Learning Engineer at GitHub](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2F%40spsayakpaul%2Fan-interview-with-hamel-husain-staff-machine-learning-engineer-at-github-a39c21af0414&sa=D&sntz=1&usg=AFQjCNEgXagB1brKICBUei_ajOziq264Lw)
 - [An interview with **Patrick Hall**, Principal Scientist at bnh.ai and Advisor to H2O.ai](https://medium.com/@spsayakpaul/an-interview-with-patrick-hall-principal-scientist-at-bnh-ai-and-advisor-to-h2o-ai-74631d58a660)
 - [An interview with **Colin Raffel**, Research Scientist at Google](https://medium.com/@spsayakpaul/an-interview-with-colin-raffel-research-scientist-at-google-5e445a5e57c6)
+- [An interview with **Niki Parmar**, Senior Research Scientist at Google Brain](https://medium.com/@spsayakpaul/an-interview-with-niki-parmar-senior-research-scientist-at-google-brain-1d4d58fc4d83)
