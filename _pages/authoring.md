@@ -13,7 +13,6 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 
 ## [Datacamp](https://learn.datacamp.com/)
 -   KMeans clustering with `scikit-learn` -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
--   DBSCAN: A macroscopic investigation in Python -  [https://goo.gl/fDGYUn](https://goo.gl/fDGYUn)
 -   Hyperparameter Optimization in Machine Learning Models -  [https://goo.gl/5C6ouV](https://goo.gl/5C6ouV)
 -   Towards Preventing Overfitting: Regularization -  [https://goo.gl/B9vxia](https://goo.gl/B9vxia)
 -   Ensemble Learning in Python -  [https://goo.gl/dmH9db](https://goo.gl/dmH9db)
