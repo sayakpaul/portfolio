@@ -78,6 +78,9 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   A Tale of Model Quantization in TF Lite - [https://bit.ly/3dlCRSI](https://bit.ly/3dlCRSI)
 -   Towards self-supervised image understanding with SimCLR - [https://bit.ly/2LHq6WR](https://bit.ly/2LHq6WR)
 -   The Power of Random Features of a CNN - [https://bit.ly/2XKv76A](https://bit.ly/2XKv76A)
+-   Plotting top loss images while training models - [https://bit.ly/30Xzs9E](https://bit.ly/30Xzs9E) (Joint work with [Tulasi](https://www.linkedin.com/in/tulasi-ram-laghumavarapu-aba672103/))
+-   Improving Image Classifiers with Supervised Contrastive Learning - [https://bit.ly/2UVZtm7](https://bit.ly/2UVZtm7) (Joint work with [Sweta Shaw](https://www.linkedin.com/in/sweta-shaw-797540159/))
+-   Scooping into Model Pruning in Deep Learning - [https://bit.ly/2AJ67W4](https://bit.ly/2AJ67W4) 
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
