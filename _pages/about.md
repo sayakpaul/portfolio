@@ -13,11 +13,11 @@ Off the work, I enjoy [writing technical articles](https://www.sayak.dev/authori
 |-----------------------------------------	|-----------------------------------------------------	|--------------------------------------------	|------------------------------------------------------------------	|---------------------------------------	|
 
 ## Timeline:
-- PyImageSearch (June, 2019 - present)
-- DataCamp (August 2018 - June 2019) (on contract)
-- TCS Research and Innovation (January 2018 - August 2018)
-- Tata Consultancy Services Limited (July 2017 - January 2018)
-- CareerIn (Dec, 2016 - Feb, 2017) (intern)
+- Deep Learning Associate, PyImageSearch (June, 2019 - present)
+- Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
+- Software Engineer, TCS Research and Innovation (January 2018 - August 2018)
+- Software Engineer, Tata Consultancy Services Limited (July 2017 - January 2018)
+- Intern, CareerIn (Dec, 2016 - Feb, 2017) (intern)
 
 ## Badges I proudly endorse:
 
