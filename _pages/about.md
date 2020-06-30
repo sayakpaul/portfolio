@@ -9,8 +9,7 @@ Previously at [DataCamp](https://www.datacamp.com/), I developed projects ([here
 
 Off the work, I enjoy [writing technical articles](https://www.sayak.dev/authoring) and [talking at developer meetups and conferences](https://sayak.dev/talksseminarsworkshops/). My subject of interest broadly lies in areas like **Machine Learning Interpretability**, **Full-Stack Data Science**.
 
-| [GitHub](https://github.com/sayakpaul/) 	| [LinkedIn](https://www.linkedin.com/in/sayak-paul/) 	| [Twitter](https://twitter.com/RisingSayak) 	| [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) 	| [Email](mailto:spsayakpaul@gmail.com) 	|
-|-----------------------------------------	|-----------------------------------------------------	|--------------------------------------------	|------------------------------------------------------------------	|---------------------------------------	|
+[GitHub](https://github.com/sayakpaul/) [LinkedIn](https://www.linkedin.com/in/sayak-paul/) [Twitter](https://twitter.com/RisingSayak) [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) [Email](mailto:spsayakpaul@gmail.com)
 
 ## Timeline:
 - Deep Learning Associate, PyImageSearch (June, 2019 - present)
