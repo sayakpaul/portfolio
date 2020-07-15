@@ -69,7 +69,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Bayesian Hyperparameter Optimization - A Primer - [http://bit.ly/38SqXgR](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F38SqXgR&sa=D&sntz=1&usg=AFQjCNHgfbyldGKWcHSXW5mDdLwNmxc5Mg)
 -   Visualize models in TensorBoard with Weights and Biases - [http://bit.ly/3cCP5qq](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F3cCP5qq&sa=D&sntz=1&usg=AFQjCNH6auY7Xeu-p08KGzo5s18P0OHfDg)
 -   The effects of weight initialization on neural nets - [https://bit.ly/3bk34Qu](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F3bk34Qu&sa=D&sntz=1&usg=AFQjCNHQEuW9Snzmd21d8apFT5HvdjkU5w)
--   Introduction to image inpainting with deep learning - [https://bit.ly/39CqTBK](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F39CqTBK&sa=D&sntz=1&usg=AFQjCNHdG6Jas-kk95hB9MC-JgMcnq6qew) (Joint work with [Ayush Thakur](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2Fayushthakur0&sa=D&sntz=1&usg=AFQjCNHhWFJzSWoahTWqv8gnUSTAO1uU9w))
+-   Introduction to image inpainting with deep learning - [https://bit.ly/39CqTBK](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F39CqTBK&sa=D&sntz=1&usg=AFQjCNHdG6Jas-kk95hB9MC-JgMcnq6qew) (joint work with [Ayush Thakur](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2Fayushthakur0&sa=D&sntz=1&usg=AFQjCNHhWFJzSWoahTWqv8gnUSTAO1uU9w))
 -   Kaggle Starter Kernel - Jigsaw Multilingual Toxic Comment Classification - [https://bit.ly/2UQtnbB](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2UQtnbB&sa=D&sntz=1&usg=AFQjCNFMI4aWpQDnSc4TGulSdCjQqOqtVQ)
 -   Distributed training in `tf.keras` with W&B - [https://bit.ly/2JZkQwJ](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2JZkQwJ&sa=D&sntz=1&usg=AFQjCNGApDlRhL9Qln1EJHNbWRLGawPkiQ)
 -   Reproducible Models with W&B - [https://bit.ly/34V5ZNz](https://bit.ly/34V5ZNz)
@@ -78,8 +78,8 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   A Tale of Model Quantization in TF Lite - [https://bit.ly/3dlCRSI](https://bit.ly/3dlCRSI)
 -   Towards self-supervised image understanding with SimCLR - [https://bit.ly/2LHq6WR](https://bit.ly/2LHq6WR)
 -   The Power of Random Features of a CNN - [https://bit.ly/2XKv76A](https://bit.ly/2XKv76A)
--   Plotting top loss images while training models - [https://bit.ly/30Xzs9E](https://bit.ly/30Xzs9E) (Joint work with [Tulasi](https://www.linkedin.com/in/tulasi-ram-laghumavarapu-aba672103/))
--   Improving Image Classifiers with Supervised Contrastive Learning - [https://bit.ly/2UVZtm7](https://bit.ly/2UVZtm7) (Joint work with [Sweta Shaw](https://www.linkedin.com/in/sweta-shaw-797540159/))
+-   Plotting top loss images while training models - [https://bit.ly/30Xzs9E](https://bit.ly/30Xzs9E) (joint work with [Tulasi](https://www.linkedin.com/in/tulasi-ram-laghumavarapu-aba672103/))
+-   Improving Image Classifiers with Supervised Contrastive Learning - [https://bit.ly/2UVZtm7](https://bit.ly/2UVZtm7) (joint work with [Sweta Shaw](https://www.linkedin.com/in/sweta-shaw-797540159/))
 -   Scooping into Model Pruning in Deep Learning - [https://bit.ly/2AJ67W4](https://bit.ly/2AJ67W4) 
 
 ## Other
@@ -87,6 +87,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
 -   Predicting the publisher’s name from an article: A case study (for  [**Google Developers Experts' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fgoogle-developer-experts&sa=D&sntz=1&usg=AFQjCNE5ZP96KI2Vlkm_7ZNZx6gk1-g22g)) -  [http://bit.ly/2K9TpS8](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2K9TpS8&sa=D&sntz=1&usg=AFQjCNHYVn1jY9D0pTkUkMCPGVup-5y-Sw) [^5]
 -   GDE Journey — Sayak Paul (for  [**Google Developers Experts' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fgoogle-developer-experts&sa=D&sntz=1&usg=AFQjCNE5ZP96KI2Vlkm_7ZNZx6gk1-g22g)) - [https://bit.ly/2WVQsLd](https://bit.ly/2WVQsLd)
+-   Selfie2Anime with TFLite (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - https://medium.com/@margaretmz/f97500800ffe
 -   A comprehensive list of data science resources for developers (for  [**Intel DevMesh**](http://www.google.com/url?q=http%3A%2F%2Fdevmesh.intel.com&sa=D&sntz=1&usg=AFQjCNG6G3_-7qKsEnZHfzMtGGgB7JkeBQ)) -  [https://intel.ly/2J2UYSs](https://www.google.com/url?q=https%3A%2F%2Fintel.ly%2F2J2UYSs&sa=D&sntz=1&usg=AFQjCNHsgNC2r1OUktnw4zeWIKhWl9JzDA)
 -   Detecting phishing websites using machine learning ([**Intel Software Innovators' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fintel-software-innovators&sa=D&sntz=1&usg=AFQjCNGyV7cYGuTfpkFU2iPrIMognBZx_A)) -  [http://bit.ly/2YBvaAs](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2YBvaAs&sa=D&sntz=1&usg=AFQjCNHAGKnEC3Ea2VVU5sGH2vG4iV10_g)
 -   Lessons learned from a Deep Learning Hackathon ([**Intel Software Innovators' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fintel-software-innovators&sa=D&sntz=1&usg=AFQjCNGyV7cYGuTfpkFU2iPrIMognBZx_A)) -  [http://bit.ly/2YfnZhI](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2YfnZhI&sa=D&sntz=1&usg=AFQjCNGPzUVQmdpw0WsRxzjIgSziBFBpvA)
