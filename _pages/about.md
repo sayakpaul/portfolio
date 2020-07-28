@@ -8,6 +8,8 @@ I am currently working at [PyImageSearch](https://www.pyimagesearch.com/) on Com
 Previously at [DataCamp](https://www.datacamp.com/), I developed projects ([Predicting Credit Card Approvals](https://www.datacamp.com/projects/558?tap_a=5644-dce66f&tap_s=357540-5b28dd) and [Analyze International Debt Statistics](https://www.datacamp.com/projects/754?tap_a=5644-dce66f&tap_s=357540-5b28dd)), and practice pools ([Advanced Deep Learning with Keras](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd) (requires a login to see)) for DataCamp. Prior to DataCamp, I have worked at [TCS Research and Innovation](https://www.tcs.com/research-and-innovation) (TRDDC) on **Data Privacy**. There, I was a part of TCS's critically acclaimed GDPR solution called [Crystal Ball](https://www.tcs.com/tcs-recognized-leader-gdpr-services-by-nelsonhall).
 
 My subject of interest broadly lies in the area of visual representation learning. I love open-source initiatives and currently, I am actively contributing to [TensorFlow Hub](https://tfhub.dev/s?publisher=sayakpaul). Off the work, I like writing technical articles, working on applied Machine Learning ideas, and giving talks at developer meetups and conferences.
+
+
 [GitHub](https://github.com/sayakpaul/) [LinkedIn](https://www.linkedin.com/in/sayak-paul/) [Twitter](https://twitter.com/RisingSayak) [ResearchGate](https://www.researchgate.net/profile/Sayak_Paul2) [Email](mailto:spsayakpaul@gmail.com)
 
 ## Timeline:
