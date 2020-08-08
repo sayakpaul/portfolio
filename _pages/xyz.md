@@ -20,7 +20,8 @@ permalink: /xyz/
 -   Mentored at [**Google Code-in**](https://codein.withgoogle.com/) for TensorFlow through December, 2019 - January 2020 ([Certificate](https://drive.google.com/file/d/1DcTS7ogACmuvnvGJWw5-3yL9xp06IJPc/view?usp=sharing))
 -   Mentored at [**Build For Digital India**](https://events.withgoogle.com/buildfordigitalindia/) Bootcamps through January 2020 - February 2020 ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1225747137616498690&sa=D&sntz=1&usg=AFQjCNHOArwPGTqTx17LLJvq9KHI_KQueA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 -   Mentored at [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
+-   Program committe member, [**ML Conf EU**](https://mlconf.eu/#program-committee)
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
-- I love watching TV serieses also (Narcos, Gotham, Fringe, Seal Team, Ozark being all time favorites). 
+- I love watching TV serieses also (Narcos, Suits, Fringe, Seal Team, Ozark being all time favorites). 
