@@ -40,3 +40,4 @@ The purpose of conducting these interviews is to mainly **get insights about the
 -   [An interview with **Colin Raffel**, Research Scientist at Google](https://medium.com/@spsayakpaul/an-interview-with-colin-raffel-research-scientist-at-google-5e445a5e57c6)
 -   [An interview with **Niki Parmar**, Senior Research Scientist at Google Brain](https://medium.com/@spsayakpaul/an-interview-with-niki-parmar-senior-research-scientist-at-google-brain-74a592596cb3)
 -   [An interview with **Alexander (Sasha) Rush**, Associate Professor at Cornell University](https://medium.com/@spsayakpaul/an-interview-with-alexander-sasha-rush-associate-professor-at-cornell-university-220fed1e87ea)
+-   [An interview with **Vincent Sitzmann**, Postdoctoral Researcher at MIT](https://medium.com/@spsayakpaul/an-interview-with-vincent-sitzmann-postdoctoral-researcher-at-mit-46edbd72aa84)
