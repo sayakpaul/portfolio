@@ -82,6 +82,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Improving Image Classifiers with Supervised Contrastive Learning - [https://bit.ly/2UVZtm7](https://bit.ly/2UVZtm7) (joint work with [Sweta Shaw](https://www.linkedin.com/in/sweta-shaw-797540159/))
 -   Plunging into Model Pruning in Deep Learning - [https://bit.ly/2AJ67W4](https://bit.ly/2AJ67W4) 
 -   Understanding the Effectivity of Ensembles in Deep Learning - [https://bit.ly/deep-ensembles](https://bit.ly/deep-ensembles) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
+-   An Introduction to Adversarial Examples in Deep Learning - [https://bit.ly/3b2zss2](https://bit.ly/3b2zss2)
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
