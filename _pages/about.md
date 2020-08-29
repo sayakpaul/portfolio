@@ -17,7 +17,7 @@ My subject of interest broadly lies in the area of visual representation learnin
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
 - Software Engineer, TCS Research and Innovation (January 2018 - August 2018)
 - Software Engineer, Tata Consultancy Services Limited (July 2017 - January 2018)
-- Intern, CareerIn (Dec, 2016 - Feb, 2017) (intern)
+- Intern, CareerIn (Dec, 2016 - Feb, 2017) 
 
 ## Badges I proudly endorse:
 
