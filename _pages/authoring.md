@@ -3,9 +3,9 @@ layout: page
 title: Authoring
 permalink: /authoring/
 ---
-Co-authored a book  [**Hands-On Python Deep Learning for the Web**](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A)  ([Packt Publishers](http://www.google.com/url?q=http%3A%2F%2Fpacktpub.com&sa=D&sntz=1&usg=AFQjCNHfinKsiP_yLJDqHTIwXaolcDOUfw)).
+Co-authored a book  [Hands-On Python Deep Learning for the Web](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A)  ([Packt Publishers](http://www.google.com/url?q=http%3A%2F%2Fpacktpub.com&sa=D&sntz=1&usg=AFQjCNHfinKsiP_yLJDqHTIwXaolcDOUfw)).
 
-Authored a  [liveProject](https://liveproject.manning.com/)  namely  [**Use Machine Learning to Detect**  **Phishing Websites**](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e)  with  [Manning Publishers](https://www.manning.com/).
+Authored a  [liveProject](https://liveproject.manning.com/)  namely  [Use Machine Learning to Detect Phishing Websites](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e)  with  [Manning Publishers](https://www.manning.com/).
 
 Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://www.datacamp.com/projects/558?tap_a=5644-dce66f&tap_s=357540-5b28dd) and [Analyze International Debt Statistics](https://www.datacamp.com/projects/754?tap_a=5644-dce66f&tap_s=357540-5b28dd)) and a DataCamp Practice Pool on [Advanced Deep Learning with Keras](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd). 
 
