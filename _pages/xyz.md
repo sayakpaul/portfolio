@@ -9,7 +9,6 @@ permalink: /xyz/
 -   Mentored for [**Smart India Hackathon 2018**](https://drive.google.com/file/d/15JvLStZkS_5iLRo7qClG2y6WMdsy5DnM/view?usp=sharing)  and [**Smart India Hackathon 2019**](https://www.google.com/url?q=https%3A%2F%2Fwww.sih.gov.in%2Fsih2019&sa=D&sntz=1&usg=AFQjCNH2IcG02UQDACx_BTCOeEf0isqygQ)
 -   [Advisor](https://www.google.com/url?q=https%3A%2F%2Fv1.overleaf.com%2Fadvisors%23!members&sa=D&sntz=1&usg=AFQjCNGjSWoV6FN_2tktSHHtSb5rjJW0yw) to [**Overleaf**](http://www.google.com/url?q=http%3A%2F%2Foverleaf.com&sa=D&sntz=1&usg=AFQjCNEIxwMcHi5tr4qXXu-HM9CR_zSW6Q), an online LaTex platform
 -   Contributing author at [**Towards Data Science**](https://www.google.com/url?q=https%3A%2F%2Ftowardsdatascience.com%2Fintroduction-to-procedures-and-cursors-in-sql-f9d9b9ea1fe7&sa=D&sntz=1&usg=AFQjCNHyuiF-7sxdXnBwBk46Xj1yZCZj9w)
--   Mentored for  [GirlScript Summer of Code 2019](https://www.google.com/url?q=https%3A%2F%2Fwww.gssoc.tech&sa=D&sntz=1&usg=AFQjCNFc7paA7Yo7ysBo4wzGD6-koZ6XLw)
 -   Book reviewer at **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)**
 -   Co-organizer at **[GDG Kolkata](https://www.google.com/url?q=https%3A%2F%2Fgdgkolkata.org%2F&sa=D&sntz=1&usg=AFQjCNFv7NHWsGgjXbrWxA6gSyJRAmPHMA)**
 -   Organizer at **[TensorFlow User Group Kolkata](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FTFUG-Kol%2F&sa=D&sntz=1&usg=AFQjCNGSigBHJiGjDwNw2ukRhA_pfPFqNA)**
@@ -21,6 +20,7 @@ permalink: /xyz/
 -   Mentored at [**Build For Digital India**](https://events.withgoogle.com/buildfordigitalindia/) Bootcamps through January 2020 - February 2020 ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1225747137616498690&sa=D&sntz=1&usg=AFQjCNHOArwPGTqTx17LLJvq9KHI_KQueA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 -   Mentored at [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 -   Program committe member, [**ML Conf EU**](https://mlconf.eu/#program-committee)
+-   Organizing member of [**TFUG India Summit 2020**](http://tfug.in/)
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
