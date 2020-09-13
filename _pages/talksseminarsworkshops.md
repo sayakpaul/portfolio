@@ -39,7 +39,7 @@ I take the idea of  **learning and sharing**  very seriously and hence the exist
 - Spoke on **TensorFlow Hub: Models, Models, and Models** for [TFUG Hyderabad](https://twitter.com/tfughyd/status/1255503396108410880) on May 03, 2020. Deck: [http://bit.ly/tf-hub](http://bit.ly/tf-hub). A recording of the session is available [here](https://www.youtube.com/watch?v=jVNZd3KA2FI). 
 -   Participated in an ML fire-side chat hosted by [Aniedi](https://twitter.com/aniediudo) to speak to the developers of African regions. Recording is available [here](https://www.youtube.com/watch?v=y1mwuxWvd8w) (May 30, 2020). 
 -   Spoke at Pie and AI Kolkata on **Becoming One with the Data**. Deck [here](https://bit.ly/one-data) & session recording [here](https://bit.ly/dlailive) (May 31, 2020).
--   Spoke on **Model Optimization 101** for [TFUG Thrissur](https://www.meetup.com/tfug-thrissur/photos/30888563/490730360/). Deck [here](http://bit.ly/mo-101) (June 07, 2020). A recording on the same topic from a different event is available [here](https://youtu.be/u5_JorytAcI). 
+-   Spoke on **Model Optimization 101** for [TFUG Thrissur](https://www.meetup.com/tfug-thrissur/photos/30888563/490730360/). Deck [here](http://bit.ly/mo-101) (June 07, 2020). A recording on the same topic from a different event is available [here](https://youtu.be/u5_JorytAcI). I have also presented this at Google for Startups Accelerator ([GoogleDevsIN tweet](https://twitter.com/GoogleDevsIN/status/1302932126019411970)).
 -   Spoke to Tim Scarfe, Connor Shorten, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [https://bit.ly/ml-st-sayak](https://bit.ly/ml-st-sayak).
 -   Spoke on **A few good stuff in TensorFlow Lite** for [GDG Berlin](https://www.meetup.com/gdg-berlin/events/271458374/) (July 16, 2020). Deck is available [here](http://bit.ly/stuff-tflite) and a recording is available [here](https://www.youtube.com/watch?v=Ly4s0fsG93c). 
 
@@ -50,5 +50,6 @@ I take the idea of  **learning and sharing**  very seriously and hence the exist
 -   [**Let's Build**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F266991860%2F&sa=D&sntz=1&usg=AFQjCNFRNPDLbylmxjuz85soM3VfkJ4YPA), January 4, 2020.
 -   [**from tfug import kolkata**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FTFUG-Kol%2Fevents%2F268165444%2F&sa=D&sntz=1&usg=AFQjCNHHcBc6jaIl44-gUN0R_ONwBcMPAA), February 15, 2020.
 -   [**Kolkata Kreate**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
+-   [**TFUG India Summit**](http://tfug.in/), September 3 - 6, 2020.
 
 **Note:** If you are interested to invite me as a speaker for your event, please get in touch by dropping an email at [spsayakpaul@gmail.com](mailto:spsayakpaul@gmail.com). If you are interested in having me submit a CFP first, that is absolutely fine! Please don't hesitate to ask that.
