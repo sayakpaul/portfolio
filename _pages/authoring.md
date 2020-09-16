@@ -84,6 +84,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Understanding the Effectivity of Ensembles in Deep Learning - [https://bit.ly/deep-ensembles](https://bit.ly/deep-ensembles) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   An Introduction to Adversarial Examples in Deep Learning - [https://bit.ly/3b2zss2](https://bit.ly/3b2zss2)
 -   Unsupervised Visual Representation Learning with SwAV - [http://bit.ly/swav-tf](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
+-   Distilling Knowledge in Neural Networks - [https://bit.ly/3mvsbGn](https://bit.ly/3mvsbGn)
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
