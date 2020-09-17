@@ -271,13 +271,14 @@ window.onload = wrap_img;
 <p><img src="https://camo.githubusercontent.com/a6d39dcc04416c84bd23f5e2ae87dceb40c6ef8b/68747470733a2f2f646c2e666261697075626c696366696c65732e636f6d2f64656570636c75737465722f616e696d617465642e676966" alt="" title="Source: GitHub repository of SwAV"></p>
 <p>SwAV might appear as a simpler framework than SimCLR but there are a number of different pieces to look after here:</p>
 <ul>
-<li>Maintaining a differentiable codebook</li>
-<li>Optimal transportation of the representations to form the codebook using the <a href="https://en.wikipedia.org/wiki/Sinkhorn%27s_theorem">Sinkhorn-Knopp algorithm</a>
+<li>Maintaining a differentiable prototype bank</li>
+<li>Optimal transportation of the representations to form soft codes using the <a href="https://en.wikipedia.org/wiki/Sinkhorn%27s_theorem">Sinkhorn-Knopp algorithm</a>
 </li>
-<li>Multi crop data augmentation policy</li>
-<li>Swapping prediction problem</li>
+<li>Multi-crop data augmentation policy</li>
+<li>Swapped prediction problem</li>
 </ul>
 <p>When working in practical scenarios we often need to maintain a trade-off between technical feasibility and performance. To me, SimCLR cuts it through in terms of technical feasibility.</p>
+<p><strong>Update</strong>: Along with <a href="https://twitter.com/ayushthakur0">Ayush</a> and generous amount of help from Mathilde Caron (first author of SwAV) we were finally able to <a href="https://wandb.ai/authors/swav-tf/reports/Unsupervised-visual-representation-learning-with-SwAV--VmlldzoyMjg3Mzg">minimally implement SwAV</a> after realizing the improvements it brings to the table.</p>
 
 </div>
 </div>
