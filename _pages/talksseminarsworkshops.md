@@ -45,11 +45,9 @@ I take the idea of  **learning and sharing**  very seriously and hence the exist
 -   Spoke to Mathilde Caron (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [http://bit.ly/mlst-mathilde](http://bit.ly/mlst-mathilde).
 
 ### Co-organized by me:
--   [**Full-Stack Data Science Workshop**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F257619091%2F&sa=D&sntz=1&usg=AFQjCNF2AmwbB7StL6_0p30Q_BajT1NDYQ)  along with  [The Code Foundation](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D2156870471192215%26ref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNFhx5dRi5ewTMl1zeum8NfMiweB0A)  and  [GDG Kolkata](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2FGDGKolkata%2F%3Fref%3Dsearch%26__tn__%3D%252Cd%252CP-R%26eid%3DARBdcBhWXz9a1gJY5hnMDfBnI6vGNxplkVQaEXdEsyYMHHOPpyhddq4ZjvR59U21A71MlFP-mpq6hMzA&sa=D&sntz=1&usg=AFQjCNEHq4LIR1f9LFUIlfkoqYoOSrMmSA), Kolkata, January 19, 2019.
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
 -   [**TensorFlow All-Around Kolkata**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F264055077%2F&sa=D&sntz=1&usg=AFQjCNEDVmgkSk8TwBTH7owjE0usWFzLYg), August 31, 2019.
 -   [**Let's Build**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F266991860%2F&sa=D&sntz=1&usg=AFQjCNFRNPDLbylmxjuz85soM3VfkJ4YPA), January 4, 2020.
--   [**from tfug import kolkata**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FTFUG-Kol%2Fevents%2F268165444%2F&sa=D&sntz=1&usg=AFQjCNHHcBc6jaIl44-gUN0R_ONwBcMPAA), February 15, 2020.
 -   [**Kolkata Kreate**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [**TFUG India Summit**](http://tfug.in/), September 3 - 6, 2020.
 
