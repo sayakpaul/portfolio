@@ -219,10 +219,10 @@ I decided to revisit some of the GCP ML APIs that I already knew, <a href="https
 <p>I also like to refer to these workflows as <em>mental models</em>. Additionally, it helps me to figure out the major dependencies and steps that may be required for the work so that I can plan accordingly. I discuss the importance of developing mental models in <a href="https://blog.floydhub.com/structuring-and-planning-your-machine-learning-project/#building-a-mental-image-of-the-execution-flow"><span class="underline">this blog post</span></a>.</p>
 <p>(You might have noticed that the above model is a bit different from the first initial idea - I added a logo detection block in there as well.)</p>
 <p>Here is another workflow I developed for the second idea I mentioned above:</p>
-<p><img src="https://i.ibb.co/64Kw8wW/workflow-2.png" alt=""></p>
+<p><img src="https://i.ibb.co/6P5Sjnx/workflow-2.png" alt=""></p>
 <p>This is slightly different from the initial idea I had. In fact, it does not even incorporate anything related to the Vision API. If I only wanted to deal with arXiv papers, I thought using the <a href="https://arxiv.org/help/api"><span class="underline">arXiv API</span></a> (I used the <a href="https://pypi.org/project/arxiv/"><span class="underline">arXiv Python library</span></a>) would be a far more reasonable option here since it already provides important information about an arXiv paper such as its categories, abstract, last updated date, and so on.</p>
 <p>Finally, I wanted to combine the Vision and Text-to-Speech APIs for the second idea I had. In their demos, Dale and Kaz used <a href="https://cloud.google.com/automl-tables"><span class="underline">AutoML Tables</span></a> to train a model capable of classifying a paragraph of text into the following categories - “body", "header", "caption" and "others". But I wanted to see if I can bypass this additional training step <em>to filter out the abstract block of a paper and perform optical character recognition (OCR) locally.</em> So, I came up with the following workflow -</p>
-<p><img src="https://i.ibb.co/64Kw8wW/workflow-3.png" alt=""></p>
+<p><img src="https://i.ibb.co/VgwV9v9/workflow-3.png" alt=""></p>
 <p>As we can see I am using two Python libraries additionally -</p>
 <ul>
 <li>
