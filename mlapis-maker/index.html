@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>The Maker Philosophy with ML APIs | Sayak Paul</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="The Maker Philosophy with ML APIs" />
+<meta name="author" content="Sayak Paul" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Practising being a maker with Google Cloud Platform’s ML APIs." />
+<meta property="og:description" content="Practising being a maker with Google Cloud Platform’s ML APIs." />
+<link rel="canonical" href="https://sayak.dev/mlapis-maker/" />
+<meta property="og:url" content="https://sayak.dev/mlapis-maker/" />
+<meta property="og:site_name" content="Sayak Paul" />
+<meta property="og:image" content="https://sayak.dev/images/maker.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-24T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Sayak Paul"},"headline":"The Maker Philosophy with ML APIs","description":"Practising being a maker with Google Cloud Platform’s ML APIs.","datePublished":"2020-09-24T00:00:00-05:00","dateModified":"2020-09-24T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/mlapis-maker/"},"url":"https://sayak.dev/mlapis-maker/","image":"https://sayak.dev/images/maker.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163448909-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>The Maker Philosophy with ML APIs | Sayak Paul</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="The Maker Philosophy with ML APIs" />
+<meta name="author" content="Sayak Paul" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Practising being a maker with Google Cloud Platform’s ML APIs." />
+<meta property="og:description" content="Practising being a maker with Google Cloud Platform’s ML APIs." />
+<link rel="canonical" href="https://sayak.dev/mlapis-maker/" />
+<meta property="og:url" content="https://sayak.dev/mlapis-maker/" />
+<meta property="og:site_name" content="Sayak Paul" />
+<meta property="og:image" content="https://sayak.dev/images/maker.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-24T00:00:00-05:00" />
+<script type="application/ld+json">
+{"author":{"@type":"Person","name":"Sayak Paul"},"headline":"The Maker Philosophy with ML APIs","description":"Practising being a maker with Google Cloud Platform’s ML APIs.","datePublished":"2020-09-24T00:00:00-05:00","dateModified":"2020-09-24T00:00:00-05:00","@type":"BlogPosting","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/mlapis-maker/"},"url":"https://sayak.dev/mlapis-maker/","image":"https://sayak.dev/images/maker.png","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163448909-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Sayak Paul</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/authoring/">Authoring</a><a class="page-link" href="/education/">Education</a><a class="page-link" href="/interviews/">Interviews</a><a class="page-link" href="/research/">Research</a><a class="page-link" href="/talksseminarsworkshops/">Talks/Seminars/Workshops</a><a class="page-link" href="/xyz/">XYZ</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">The Maker Philosophy with ML APIs</h1><p class="page-description">Practising being a maker with Google Cloud Platform’s ML APIs.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-09-24T00:00:00-05:00" itemprop="datePublished">
+        Sep 24, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Sayak Paul</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      12 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#gcp">gcp</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#vision">vision</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#apis">apis</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#The-ideation-phase">The ideation phase </a></li>
+<li class="toc-entry toc-h1"><a href="#The-mental-model">The mental model </a></li>
+<li class="toc-entry toc-h1"><a href="#Building-a-short-video-descriptor">Building a short video descriptor </a></li>
+<li class="toc-entry toc-h1"><a href="#Detecting,-cropping,-and-reading-an-arXiv-summary">Detecting, cropping, and reading an arXiv summary </a></li>
+<li class="toc-entry toc-h1"><a href="#Final-thoughts">Final thoughts </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020_09_26_maker_ml_apis.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>In this post, I discuss how I used several Google Cloud Platform (GCP) APIs to turn two ideas into small prototypes. It includes my thought process, the problems I ran into while developing the prototypes, and my approach toward tackling them. All the code discussed in the post is available in <a href="https://github.com/sayakpaul/GCP-ML-API-Demos"><span class="underline">this repository</span></a>.</p>
+<p>As a Machine Learning (ML) Practitioner, I advocate for having an understanding of the underlying principles of the models and other stuff that I use. This understanding has many extents. Sometimes, it involves minimally implementing models, and sometimes it may not involve the from-scratch implementation. When it does not involve the implementation part and when the model is readily available, I prefer to put such models directly to use and get a sense of their broader capabilities.</p>
+<p>With libraries like TensorFlow, PyTorch, and Scikit-Learn, realizing this usage has never been easier. As all of these libraries are open-source, you could easily get access to the low-level primitives of their model APIs whenever you’d like. It may require you to have a sufficient amount of experience with the library you’d use. But as a Machine Learning Practitioner, one cannot skip this practice. It’s important to have a good grip over a particular Machine Learning library given the domain of choice (structured tabular dataset, images, texts, audios, for example).</p>
+<p>On the other hand, APIs that offer ML as a service, allow non-ML folks to incorporate the power of Machine Learning in their applications very easily. This way developers can prototype ideas faster than ever. Some would argue that <a href="https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/"><span class="underline">leaky abstractions</span></a> can hit sooner than expected and it can be particularly <a href="https://karpathy.github.io/2019/04/25/recipe/"><span class="underline">very miserable in Machine Learning</span></a>. Nonetheless, if you are more on the applied side of things and don’t want to worry about this aspect, that’s perfectly fine.</p>
+<p>I wanted to revisit this idea through the lens of an ML Practitioner. More precisely, I wanted to build a series of short demos utilizing the <a href="https://cloud.google.com/products/ai"><span class="underline">Cloud ML APIs offered by Google Cloud Platform</span></a>. The premise here is if I have an idea for an ML project, I wanted to see how quickly I can develop a <a href="https://en.wikipedia.org/wiki/Proof_of_concept"><span class="underline">PoC</span></a> around it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-ideation-phase">
+<a class="anchor" href="#The-ideation-phase" aria-hidden="true"><span class="octicon octicon-link"></span></a>The ideation phase<a class="anchor-link" href="#The-ideation-phase"> </a>
+</h1>
+<p>Let me quote <strong>Emil Wallner</strong> from <a href="https://blog.floydhub.com/emils-story-as-a-self-taught-ai-researcher/"><span class="underline">this interview</span></a> -</p>
+<p><em>It’s important to collect objective evidence that you can apply machine learning.</em></p>
+<p>With regard to successful ML practice, this statement couldn’t have been more appropriate. Machine Learning has affected almost every industry in some way, it has changed the way we develop and perceive software. Coming up with an ML application idea that’s not already there or implemented is actually pretty hard.</p>
+<p>So, I ideated the prototypes drawing inspiration from what is already available. For example, <a href="https://twitter.com/dalequark"><span class="underline">Dale</span></a> and <a href="https://twitter.com/kazunori_279"><span class="underline">Kaz</span></a> of Google built <a href="https://www.linkedin.com/feed/update/urn:li:activity:6706930343590584320/"><span class="underline">this uber-cool demo</span></a> that lets you transform a PDF into an audiobook. I really wanted to build something similar but in a more minimal capacity -- something that could solely run on a Colab Notebook.</p>
+<p>I decided to revisit some of the GCP ML APIs that I already knew, <a href="https://cloud.google.com/vision"><span class="underline">Vision</span></a>, <a href="https://cloud.google.com/text-to-speech"><span class="underline">Text-to-Speech</span></a> APIs, for example. As someone that is already working in the field of Computer Vision, I was inclined to do something that involves it. So here are some initial ideas that came to mind after spending a considerable amount of time with the different API documentation available on GCP:</p>
+<ul>
+<li>
+<p>A pipeline that takes a short video clip, detects the entities present in the video and generates an audio clip dictating detected entity labels. This allowed me to spend some time with GCP’s <a href="https://cloud.google.com/video-intelligence"><span class="underline">Video Intelligence API</span></a>.</p>
+</li>
+<li>
+<p>A pipeline that takes an <a href="https://arxiv.org/"><span class="underline">arXiv paper</span></a> and generates an audio clip of the paper abstract. This was inspired by the demo that Dale and Kaz had already built.</p>
+</li>
+</ul>
+<p>Note that if you are already experienced with the Vision and Text-to-Speech APIs then these may seem very trivial.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="The-mental-model">
+<a class="anchor" href="#The-mental-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>The mental model<a class="anchor-link" href="#The-mental-model"> </a>
+</h1>
+<p>After these ideas, I designed a bunch of visual workflows demonstrating the steps required to realize these ideas along with the right tooling. Here’s an example -</p>
+<div align="center">
+<img src="https://i.ibb.co/64Kw8wW/workflow-1.png" width="850">&lt;/img&gt;</div>
+<p>I also like to refer to these workflows as <em>mental models</em>. Additionally, it helps me to figure out the major dependencies and steps that may be required for the work so that I can plan accordingly. I discuss the importance of developing mental models in <a href="https://blog.floydhub.com/structuring-and-planning-your-machine-learning-project/#building-a-mental-image-of-the-execution-flow"><span class="underline">this blog post</span></a>.</p>
+<p>(You might have noticed that the above model is a bit different from the first initial idea - I added a logo detection block in there as well.)</p>
+<p>Here is another workflow I developed for the second idea I mentioned above:</p>
+<div align="center">
+<img src="https://i.ibb.co/64Kw8wW/workflow-2.png" width="850">&lt;/img&gt;</div>
+<p>This is slightly different from the initial idea I had. In fact, it does not even incorporate anything related to the Vision API. If I only wanted to deal with arXiv papers, I thought using the <a href="https://arxiv.org/help/api"><span class="underline">arXiv API</span></a> (I used the <a href="https://pypi.org/project/arxiv/"><span class="underline">arXiv Python library</span></a>) would be a far more reasonable option here since it already provides important information about an arXiv paper such as its categories, abstract, last updated date, and so on.</p>
+<p>Finally, I wanted to combine the Vision and Text-to-Speech APIs for the second idea I had. In their demos, Dale and Kaz used <a href="https://cloud.google.com/automl-tables"><span class="underline">AutoML Tables</span></a> to train a model capable of classifying a paragraph of text into the following categories - “body", "header", "caption" and "others". But I wanted to see if I can bypass this additional training step <em>to filter out the abstract block of a paper and perform optical character recognition (OCR) locally.</em> So, I came up with the following workflow -</p>
+<div align="center">
+<img src="https://i.ibb.co/64Kw8wW/workflow-3.png" width="850">&lt;/img&gt;</div>
+<p>As we can see I am using two Python libraries additionally -</p>
+<ul>
+<li>
+<p><code>pdf2image</code> - as the name suggests, it is for converting a PDF file to PNG.</p>
+</li>
+<li>
+<p><code>pytesseract</code> - this is for performing OCR locally on an image.</p>
+</li>
+</ul>
+<p>In the next sections, I'll discuss the problems I faced while implementing these workflows in code, and how I went about approaching the solutions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Building-a-short-video-descriptor">
+<a class="anchor" href="#Building-a-short-video-descriptor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building a short video descriptor<a class="anchor-link" href="#Building-a-short-video-descriptor"> </a>
+</h1>
+<p>In the following texts, we will go over the main ingredients that turned out to be important while developing the prototypes. This will include some code along with the motivation to justify their inclusion.</p>
+<p>For the first two workflows, it was mostly about reading the documentation carefully and figuring out the right APIs to use. GCP provides first-class documentation for these APIs with bindings available in many different languages as you can see in the figure below -</p>
+<p><img src="https://i.ibb.co/CMRMwMS/image2.png" alt="" title="Source: https://cloud.google.com/video-intelligence/docs/analyze-labels"></p>
+<p>I repurposed these code snippets for the workflows. The <a href="https://googleapis.dev/python/videointelligence/latest/index.html"><span class="underline">Python binding</span></a> of the Video Intelligence API is simple to use -</p>
+<p>You first instantiate the client and instruct what all you are interested in performing -</p>
+<div class="highlight"><pre><span></span><span class="n">video_client</span> <span class="o">=</span> <span class="n">videointelligence</span><span class="o">.</span><span class="n">VideoIntelligenceServiceClient</span><span class="p">()</span>
+<span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">videointelligence</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">Feature</span><span class="o">.</span><span class="n">LABEL_DETECTION</span><span class="p">]</span>
+</pre></div>
+<p>It provides a bag of different features like entity detection, logo recognition, text recognition, object tracking, and so on. Here I am only interested in performing entity detection on a per-segment basis. A user usually specifies segments if they are interested to only analyze a part of their videos. I didn’t specify any segments, and in that case, the Video Intelligence API handles the entire video as a segment. The API also allows you to perform label detection on more granular levels, i.e. on both shot and frame levels.</p>
+<p>After the initialization, it was only a matter of a few keystrokes till I made my first video annotation request -</p>
+<div class="highlight"><pre><span></span><span class="c1"># Specify the mode in which label detection is to be performed</span>
+<span class="n">mode</span> <span class="o">=</span> <span class="n">videointelligence</span><span class="o">.</span><span class="n">enums</span><span class="o">.</span><span class="n">LabelDetectionMode</span><span class="o">.</span><span class="n">SHOT_AND_FRAME_MODE</span>
+<span class="n">config</span> <span class="o">=</span> <span class="n">videointelligence</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">LabelDetectionConfig</span><span class="p">(</span><span class="n">label_detection_mode</span><span class="o">=</span><span class="n">mode</span><span class="p">)</span>
+<span class="n">context</span> <span class="o">=</span> <span class="n">videointelligence</span><span class="o">.</span><span class="n">types</span><span class="o">.</span><span class="n">VideoContext</span><span class="p">(</span><span class="n">label_detection_config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># Make the request</span>
+<span class="n">operation</span> <span class="o">=</span> <span class="n">video_client</span><span class="o">.</span><span class="n">annotate_video</span><span class="p">(</span>
+    <span class="n">input_uri</span><span class="o">=</span><span class="n">gcs_path</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="n">features</span><span class="p">,</span> <span class="n">video_context</span><span class="o">=</span><span class="n">context</span><span class="p">)</span>
+</pre></div>
+<p>Here I am supplying a GCS bucket path of the video I wanted to infer on. Processing the results of the operation is also straightforward -</p>
+<div class="highlight"><pre><span></span><span class="c1"># Process video/segment level label annotations</span>
+<span class="c1"># Get the first response, since we sent only one video.</span>
+<span class="n">segment_labels</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">annotation_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">segment_label_annotations</span>
+<span class="n">video_labels</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">segment_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segment_labels</span><span class="p">):</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Video label description: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">))</span>
+   <span class="n">video_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+</pre></div>
+<p>After I got the entity labels on the entire video the next task was to use the Text-to-Speech API to generate an audio clip. For that, I simply followed the <a href="https://cloud.google.com/text-to-speech/docs/ssml-tutorial"><span class="underline">official tutorial</span></a> and reused the code.</p>
+<p>The logo detection pipeline is almost similar with some very minor changes. In case you want to catch all the details please follow this <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Video_Intelligence_TTS.ipynb"><span class="underline">Colab Notebook</span></a>.</p>
+<p>I tested the entire workflow on the following video and you can see the outputs right below it -
+
+</p>
+<center>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/8mUIvDtxS_s" frameborder="0" allowfullscreen=""></iframe>
+</center>
+
+<div class="highlight"><pre><span></span>Processing video <span class="k">for</span> label annotations:
+
+Finished processing.
+Video label description: sidewalk
+Video label description: street
+Video label description: public space
+Video label description: pedestrian
+
+Processing video <span class="k">for</span> logo detection:
+
+Finished processing.
+</pre></div>
+<p>As for the audio clip, it got came out pretty nice -</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<audio controls="">
+  <source src="https://storage.googleapis.com/video-api-storage/labels.mp3" type="audio/mpeg"></source>
+</audio>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Speed-wise the entire pipeline executed pretty quickly.</p>
+<p>I had some previous experience working with videos, so I was able to get an idea of what was going under the hood for the video-related activities but for speech, I plan to get to that probably in the next summer (?)</p>
+<p>A potential extension of this demo could be developed to aid blind people to navigate their ways when they are outside. I developed this demo keeping this mind, hence you won't see any visual results.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Detecting,-cropping,-and-reading-an-arXiv-summary">
+<a class="anchor" href="#Detecting,-cropping,-and-reading-an-arXiv-summary" aria-hidden="true"><span class="octicon octicon-link"></span></a>Detecting, cropping, and reading an arXiv summary<a class="anchor-link" href="#Detecting,-cropping,-and-reading-an-arXiv-summary"> </a>
+</h1>
+<p>I presented with two different workflows for the second idea i.e. get the abstract of an arXiv paper and generate an audio clip of it. The workflow involving the arxiv Python library wasn’t problematic at all, so I am not going to discuss it in detail. You can always check out <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Parser.ipynb"><span class="underline">this fully worked out Colab Notebook</span></a> in case you are interested.</p>
+<p>The other workflow is a bit more involved. In there, I wanted to take an arXiv paper in PDF format, use the Vision API to get blocks of texts from it, and then locate the abstract from there like so -</p>
+<div align="center">
+<img src="https://i.ibb.co/QkCGCxm/image1.png" width="850">&lt;/img&gt;</div>
+<p>But that’s not it. I also wanted to perform OCR locally on the text blocks. This essentially allowed me to reduce the number of calls to the Vision API and thereby saving me some $. The final piece of the puzzle was to take the local OCR results and generate an audio clip. If you saw the <a href="https://cloud.google.com/text-to-speech/docs"><span class="underline">Text-to-Speech documentation</span></a>, you probably noticed that it is really not a big deal.</p>
+<p>So, to realize this workflow here’s what I did (<a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Locator_Reader.ipynb"><span class="underline">Colab Notebook</span></a>) -</p>
+<ul>
+<li>As I am only interested in dealing with the abstract of a paper, I first converted the entire PDF-formatted paper to PNG and serialized only the first page. I used the pdf2png library for this.</li>
+<li>
+<p>Next, I used the Vision API to make a document_text_detection() request for getting the dense text blocks. The code for this is again, very straightforward -</p>
+<div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">vision</span><span class="o">.</span><span class="n">ImageAnnotatorClient</span><span class="p">()</span>
+  <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
+
+  <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_file</span><span class="p">:</span>
+  <span class="n">content</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+  <span class="n">image</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+  <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">document_text_detection</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+  <span class="n">document</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">full_text_annotation</span>
+
+  <span class="c1"># Segregate the blocks</span>
+  <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">document</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+      <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">)</span>
+</pre></div>
+</li>
+<li>
+<p>Then I used the example presented <a href="https://cloud.google.com/vision/docs/fulltext-annotations"><span class="underline">here</span></a> to draw the bounding boxes on the input image which we saw earlier. I also reused these bounding boxes to segregate different blocks as inferred by the Vision API.</p>
+</li>
+<li>
+<p>I am not going to get into the gory details of how I did the segregation. The catch here is for dense text block detection, Vision API returns <em>polygon coordinates</em> and <em>not</em> rectangular coordinates. So, I had to take polygon crops to segregate the different text blocks. (Thanks to <a href="https://stackoverflow.com/questions/22588074/polygon-crop-clip-using-python-pil"><span class="underline">this StackOverflow thread</span></a>.)</p>
+</li>
+<li>After the segregation part, I used pytesseract to perform OCR on the segregated text blocks. In pytesseract it’s literally doable with <code>text = pytesseract.image_to_string(image_block)</code>.</li>
+<li>Now, an abstract cannot be just a single character (if the OCR was performed correctly). So I only considered those OCR’s texts where the character length is greater than 1000.</li>
+<li>
+<p>Even with this kind of thresholding, you’d end up with multiple text blocks where this criterion holds. To counter this, I first sorted the OCR’d text blocks with respect to their character lengths and checked if a text block contained only one or no reference to citations. If this criterion was matched then the text block is returned as the abstract.</p>
+<p>Here’s how I coded it up:</p>
+<div class="highlight"><pre><span></span><span class="n">texts_sorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">len</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">text</span> <span class="ow">in</span> <span class="n">texts_sorted</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="o">&amp;</span> <span class="n">text</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="s2">"["</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">abstract</span> <span class="o">=</span> <span class="n">text</span>
+</pre></div>
+<p>The upper case criterion is there to ensure an abstract always starts with an uppercase letter.</p>
+<p>I am aware that these handcrafted rules can get broken for many instances. But I wanted to explore this possibility anyway.</p>
+</li>
+<li>
+<p>To make sure the Text-to-Speech API does not account for any citation I filtered out the raw text to escape them - <code>raw_lines = re.sub("[[\s*\d*\,*]*]", "", raw_lines)</code>.</p>
+</li>
+</ul>
+<p>And that’s it! After a number of trial and error rounds, I was able to get a decent output.</p>
+<div align="center">
+<img src="https://i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" width="850">&lt;/img&gt;</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<audio controls="">
+  <source src="https://storage.googleapis.com/video-api-storage/resnet_abstract.mp3" type="audio/mpeg"></source>
+</audio>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Final-thoughts">
+<a class="anchor" href="#Final-thoughts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final thoughts<a class="anchor-link" href="#Final-thoughts"> </a>
+</h1>
+<p>Throughout this post, we went over two different ideas that are good prototype candidates for Machine Learning. We saw how easy it is to see these ideas in actions with different ML APIs. We saw how to make these different APIs work together to solve a given problem. Now, if you are feeling excited enough, you can dive deeper into the different ML tasks we saw: detection and classification, for example. Also note that even if one is using these APIs, it’s important to be able to process the API responses properly for the project at hand.</p>
+<p>I would like to leave you with <a href="https://cloud.google.com/solutions/"><span class="underline">this amazing resource</span></a> provided by GCP. It includes detailed solution walkthroughs of real-world problem scenarios across a wide range of different industry verticals. They also show how to make the best use of different GCP services.</p>
+<p><em>I would like to thank <a href="https://twitter.com/kweinmeister?lang=en"><span class="underline">Karl Weinmeister</span></a> for reviewing this post and for sharing his valuable feedback. Also, thanks to the <a href="https://developers.google.com/programs/experts/"><span class="underline">GDE program</span></a> for providing the GCP credit support which made these demos possible.</em></p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="sayakpaul/portfolio"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/mlapis-maker/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Deep Learning, Computer Vision, Interviews, etc.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/sayakpaul" title="sayakpaul"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/RisingSayak" title="RisingSayak"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
