@@ -267,9 +267,9 @@ I decided to revisit some of the GCP ML APIs that I already knew, <a href="https
 <span class="c1"># Get the first response, since we sent only one video.</span>
 <span class="n">segment_labels</span> <span class="o">=</span> <span class="n">operation</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">annotation_results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">segment_label_annotations</span>
 <span class="n">video_labels</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">segment_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segment_labels</span><span class="p">):</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">"Video label description: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">))</span>
-   <span class="n">video_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">segment_label</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">segment_labels</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Video label description: </span><span class="si">{}</span><span class="s2">"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">))</span>
+    <span class="n">video_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">segment_label</span><span class="o">.</span><span class="n">entity</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
 </pre></div>
 <p>After I got the entity labels on the entire video the next task was to use the Text-to-Speech API to generate an audio clip. For that, I simply followed the <a href="https://cloud.google.com/text-to-speech/docs/ssml-tutorial"><span class="underline">official tutorial</span></a> and reused the code.</p>
 <p>The logo detection pipeline is almost similar with some very minor changes. In case you want to catch all the details please follow this <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Video_Intelligence_TTS.ipynb"><span class="underline">Colab Notebook</span></a>.</p>
@@ -332,19 +332,19 @@ Finished processing.
 <li>
 <p>Next, I used the Vision API to make a document_text_detection() request for getting the dense text blocks. The code for this is again, very straightforward -</p>
 <div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">vision</span><span class="o">.</span><span class="n">ImageAnnotatorClient</span><span class="p">()</span>
-  <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
 
-  <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_file</span><span class="p">:</span>
-      <span class="n">content</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_file</span><span class="p">:</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
-  <span class="n">image</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
-  <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">document_text_detection</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
-  <span class="n">document</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">full_text_annotation</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">document_text_detection</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
+<span class="n">document</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">full_text_annotation</span>
 
-  <span class="c1"># Segregate the blocks</span>
-  <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">document</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
-      <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-          <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">)</span>
+<span class="c1"># Segregate the blocks</span>
+<span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">document</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+        <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">)</span>
 </pre></div>
 </li>
 <li>
