@@ -324,8 +324,7 @@ Finished processing.
 </h1>
 <p>I presented with two different workflows for the second idea i.e. get the abstract of an arXiv paper and generate an audio clip of it. The workflow involving the arxiv Python library wasn’t problematic at all, so I am not going to discuss it in detail. You can always check out <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Parser.ipynb"><span class="underline">this fully worked out Colab Notebook</span></a> in case you are interested.</p>
 <p>The other workflow is a bit more involved. In there, I wanted to take an arXiv paper in PDF format, use the Vision API to get blocks of texts from it, and then locate the abstract from there like so -</p>
-<div align="center">
-<img src="https://i.ibb.co/QkCGCxm/image1.png" width="850">&lt;/img&gt;</div>
+<p><img src="https://i.ibb.co/QkCGCxm/image1.png" alt=""></p>
 <p>But that’s not it. I also wanted to perform OCR locally on the text blocks. This essentially allowed me to reduce the number of calls to the Vision API and thereby saving me some $. The final piece of the puzzle was to take the local OCR results and generate an audio clip. If you saw the <a href="https://cloud.google.com/text-to-speech/docs"><span class="underline">Text-to-Speech documentation</span></a>, you probably noticed that it is really not a big deal.</p>
 <p>So, to realize this workflow here’s what I did (<a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Locator_Reader.ipynb"><span class="underline">Colab Notebook</span></a>) -</p>
 <ul>
