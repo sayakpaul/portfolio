@@ -220,13 +220,13 @@ window.onload = wrap_img;
 <h2 id="The-hassle-free-conversions">
 <a class="anchor" href="#The-hassle-free-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>The hassle-free conversions<a class="anchor-link" href="#The-hassle-free-conversions"> </a>
 </h2>
-<p>Before we build our way toward the fun stuff, let’s start with the conversions that won’t cause us a night’s sleep. Conversions based on <a href="https://www.tensorflow.org/lite/performance/post_training_quant"><span class="underline">dynamic-range</span></a> and <code>float16</code> quantization would come under this category.
+<p>Before we build our way toward the fun stuff, let’s start with the conversions that won’t cause us a night’s sleep. Conversions based on <a href="https://www.tensorflow.org/lite/performance/post_training_quant"><span class="underline">dynamic-range</span></a> and <a href="https://www.tensorflow.org/lite/performance/post_training_float16_quant">float16</a> quantization would come under this category.
 </p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>The EdgeTPU and DSP variants of MobileDet are meant to run on the respective hardware accelerators. These accelerators need a model to be in full integer precision. So converting the EdgeTPU and DSP variants with dynamic-range and <code>float16</code> quantization does not have any practical usage.
 </div>
-<p>So, for dynamic-range and <code>float16</code> quantization based conversions, we will be using the CPU variant only. This variant is available as <code>ssd_mobiledet_cpu_coco</code>. Once the model bundle is untar’d we get the following files -</p>
+<p>So, for dynamic-range and <code>float16</code> quantization based conversions, we will be using the CPU variant only. This variant is available <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md#mobile-models">here</a> as <code>ssd_mobiledet_cpu_coco</code>. Once the model bundle is untar’d we get the following files -</p>
 <div class="highlight"><pre><span></span>├── model.ckpt-400000.data-00000-of-00001
 ├── model.ckpt-400000.index
 ├── model.ckpt-400000.meta
@@ -280,7 +280,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <code>output_arrays</code> is set according to the instructions provided in <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/export_tflite_ssd_graph.py"><span class="underline">this guide</span></a>. Those operations represent four arrays: <code>detection_boxes</code>, <code>detection_classes</code>, <code>detection_scores</code>, and <code>num_detections</code>, usually a mandate for any object detector out there.</li>
 </ul>
 <p>The rest of the parts in the code listing should be familiar to you if you already know about the typical post-training quantization process in TFLite. For <code>float16</code> quantization, all the things would remain the same; we just need to add this line before calling <code>convert()</code> - <code>converter.target_spec.supported_types = [tf.float16]</code>.</p>
-<p>The dynamic-range quantized model is <strong>4.3 MB</strong> in size and float16 one is <strong>8.2 MB</strong>. Later, we will see how fast this model would run on actual mobile devices with and without different accelerators.</p>
+<p>The dynamic-range quantized model is <strong>4.3 MB</strong> in size and <code>float16</code> one is <strong>8.2 MB</strong>. Later, we will see how fast this model would run on actual mobile devices with and without different accelerators.</p>
 
 </div>
 </div>
@@ -385,7 +385,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <h2 id="Show-me-some-results">
 <a class="anchor" href="#Show-me-some-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show me some results<a class="anchor-link" href="#Show-me-some-results"> </a>
 </h2>
-<p>For the CPU variant model, its float16 quantized TFLite provided with decent results -</p>
+<p>For the CPU variant model, its <code>float16</code> quantized TFLite provided with decent results -</p>
 <p><img src="https://i.ibb.co/k6c93CC/image3.png" alt=""></p>
 <p>On Colab, the inference time is about <strong>92.36 ms</strong> for this particular model. I experimented with different threshold values for filtering out the weak predictions and a threshold of <strong>0.3</strong> yielded the best results. These results are pretty consistent across the several different models we talked about.</p>
 <p>A major point to note here for the EdgeTPU and DSP variants, their converted counterparts would be much slower on Colab since they were specifically optimized for different hardware accelerators.</p>
