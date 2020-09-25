@@ -189,10 +189,12 @@ window.onload = wrap_img;
 <a class="anchor" href="#The-ideation-phase" aria-hidden="true"><span class="octicon octicon-link"></span></a>The ideation phase<a class="anchor-link" href="#The-ideation-phase"> </a>
 </h1>
 <p>Let me quote <strong>Emil Wallner</strong> from <a href="https://blog.floydhub.com/emils-story-as-a-self-taught-ai-researcher/"><span class="underline">this interview</span></a> -</p>
+<blockquote>
 <p><em>It’s important to collect objective evidence that you can apply machine learning.</em></p>
+</blockquote>
 <p>With regard to successful ML practice, this statement couldn’t have been more appropriate. Machine Learning has affected almost every industry in some way, it has changed the way we develop and perceive software. Coming up with an ML application idea that’s not already there or implemented is actually pretty hard.</p>
-<p>So, I ideated the prototypes drawing inspiration from what is already available. For example, <a href="https://twitter.com/dalequark"><span class="underline">Dale</span></a> and <a href="https://twitter.com/kazunori_279"><span class="underline">Kaz</span></a> of Google built <a href="https://www.linkedin.com/feed/update/urn:li:activity:6706930343590584320/"><span class="underline">this uber-cool demo</span></a> that lets you transform a PDF into an audiobook. I really wanted to build something similar but in a more minimal capacity -- something that could solely run on a Colab Notebook.</p>
-<p>I decided to revisit some of the GCP ML APIs that I already knew, <a href="https://cloud.google.com/vision"><span class="underline">Vision</span></a>, <a href="https://cloud.google.com/text-to-speech"><span class="underline">Text-to-Speech</span></a> APIs, for example. As someone that is already working in the field of Computer Vision, I was inclined to do something that involves it. So here are some initial ideas that came to mind after spending a considerable amount of time with the different API documentation available on GCP:</p>
+<p>So, I ideated the prototypes drawing inspiration from what is already available. For example, <a href="https://twitter.com/dalequark"><span class="underline">Dale</span></a> and <a href="https://twitter.com/kazunori_279"><span class="underline">Kaz</span></a> of Google built <a href="https://www.linkedin.com/feed/update/urn:li:activity:6706930343590584320/"><span class="underline">this uber-cool demo</span></a> that lets you transform a PDF into an audiobook. I really wanted to build something similar but in a more minimal capacity -- something that could solely run on a Colab Notebook.
+I decided to revisit some of the GCP ML APIs that I already knew, <a href="https://cloud.google.com/vision"><span class="underline">Vision</span></a>, <a href="https://cloud.google.com/text-to-speech"><span class="underline">Text-to-Speech</span></a> APIs, for example. As someone that is already working in the field of Computer Vision, I was inclined to do something that involves it. So here are some initial ideas that came to mind after spending a considerable amount of time with the different API documentation available on GCP:</p>
 <ul>
 <li>
 <p>A pipeline that takes a short video clip, detects the entities present in the video and generates an audio clip dictating detected entity labels. This allowed me to spend some time with GCP’s <a href="https://cloud.google.com/video-intelligence"><span class="underline">Video Intelligence API</span></a>.</p>
@@ -213,17 +215,14 @@ window.onload = wrap_img;
 <a class="anchor" href="#The-mental-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>The mental model<a class="anchor-link" href="#The-mental-model"> </a>
 </h1>
 <p>After these ideas, I designed a bunch of visual workflows demonstrating the steps required to realize these ideas along with the right tooling. Here’s an example -</p>
-<div align="center">
-<img src="https://i.ibb.co/64Kw8wW/workflow-1.png" width="850">&lt;/img&gt;</div>
+<p><img src="https://i.ibb.co/64Kw8wW/workflow-1.png" alt=""></p>
 <p>I also like to refer to these workflows as <em>mental models</em>. Additionally, it helps me to figure out the major dependencies and steps that may be required for the work so that I can plan accordingly. I discuss the importance of developing mental models in <a href="https://blog.floydhub.com/structuring-and-planning-your-machine-learning-project/#building-a-mental-image-of-the-execution-flow"><span class="underline">this blog post</span></a>.</p>
 <p>(You might have noticed that the above model is a bit different from the first initial idea - I added a logo detection block in there as well.)</p>
 <p>Here is another workflow I developed for the second idea I mentioned above:</p>
-<div align="center">
-<img src="https://i.ibb.co/64Kw8wW/workflow-2.png" width="850">&lt;/img&gt;</div>
+<p><img src="https://i.ibb.co/64Kw8wW/workflow-2.png" alt=""></p>
 <p>This is slightly different from the initial idea I had. In fact, it does not even incorporate anything related to the Vision API. If I only wanted to deal with arXiv papers, I thought using the <a href="https://arxiv.org/help/api"><span class="underline">arXiv API</span></a> (I used the <a href="https://pypi.org/project/arxiv/"><span class="underline">arXiv Python library</span></a>) would be a far more reasonable option here since it already provides important information about an arXiv paper such as its categories, abstract, last updated date, and so on.</p>
 <p>Finally, I wanted to combine the Vision and Text-to-Speech APIs for the second idea I had. In their demos, Dale and Kaz used <a href="https://cloud.google.com/automl-tables"><span class="underline">AutoML Tables</span></a> to train a model capable of classifying a paragraph of text into the following categories - “body", "header", "caption" and "others". But I wanted to see if I can bypass this additional training step <em>to filter out the abstract block of a paper and perform optical character recognition (OCR) locally.</em> So, I came up with the following workflow -</p>
-<div align="center">
-<img src="https://i.ibb.co/64Kw8wW/workflow-3.png" width="850">&lt;/img&gt;</div>
+<p><img src="https://i.ibb.co/64Kw8wW/workflow-3.png" alt=""></p>
 <p>As we can see I am using two Python libraries additionally -</p>
 <ul>
 <li>
@@ -337,7 +336,7 @@ Finished processing.
   <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
 
   <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_file</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">image_file</span><span class="p">:</span>
-  <span class="n">content</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+      <span class="n">content</span> <span class="o">=</span> <span class="n">image_file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
 
   <span class="n">image</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">content</span><span class="o">=</span><span class="n">content</span><span class="p">)</span>
   <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">document_text_detection</span><span class="p">(</span><span class="n">image</span><span class="o">=</span><span class="n">image</span><span class="p">)</span>
@@ -345,8 +344,8 @@ Finished processing.
 
   <span class="c1"># Segregate the blocks</span>
   <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">document</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
-  <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
-      <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">blocks</span><span class="p">:</span>
+          <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="o">.</span><span class="n">bounding_box</span><span class="p">)</span>
 </pre></div>
 </li>
 <li>
@@ -373,8 +372,8 @@ Finished processing.
 </li>
 </ul>
 <p>And that’s it! After a number of trial and error rounds, I was able to get a decent output.</p>
-<div align="center">
-<img src="https://i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" width="850">&lt;/img&gt;</div>
+<p><img src="https://i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" alt=""></p>
+
 </div>
 </div>
 </div>
@@ -393,7 +392,7 @@ Finished processing.
 <h1 id="Final-thoughts">
 <a class="anchor" href="#Final-thoughts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Final thoughts<a class="anchor-link" href="#Final-thoughts"> </a>
 </h1>
-<p>Throughout this post, we went over two different ideas that are good prototype candidates for Machine Learning. We saw how easy it is to see these ideas in actions with different ML APIs. We saw how to make these different APIs work together to solve a given problem. Now, if you are feeling excited enough, you can dive deeper into the different ML tasks we saw: detection and classification, for example. Also note that even if one is using these APIs, it’s important to be able to process the API responses properly for the project at hand.</p>
+<p>Throughout this post, we went over two different ideas that are good prototype candidates for Machine Learning. We saw how easy it is to see these ideas in actions with different ML APIs. We saw how to make these different APIs work together to solve a given problem. Now, if you are feeling excited enough, you can dive deeper into the different ML tasks we saw: <strong>detection</strong> and <strong>classification</strong>, for example. Also note that even if one is using these APIs, it’s important to be able to process the API responses properly for the project at hand.</p>
 <p>I would like to leave you with <a href="https://cloud.google.com/solutions/"><span class="underline">this amazing resource</span></a> provided by GCP. It includes detailed solution walkthroughs of real-world problem scenarios across a wide range of different industry verticals. They also show how to make the best use of different GCP services.</p>
 <p><em>I would like to thank <a href="https://twitter.com/kweinmeister?lang=en"><span class="underline">Karl Weinmeister</span></a> for reviewing this post and for sharing his valuable feedback. Also, thanks to the <a href="https://developers.google.com/programs/experts/"><span class="underline">GDE program</span></a> for providing the GCP credit support which made these demos possible.</em></p>
 
