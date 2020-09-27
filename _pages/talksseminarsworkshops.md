@@ -43,6 +43,7 @@ I take the idea of  **learning and sharing**  very seriously and hence the exist
 -   Spoke to Tim Scarfe, Connor Shorten, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [https://bit.ly/ml-st-sayak](https://bit.ly/ml-st-sayak).
 -   Spoke on **A few good stuff in TensorFlow Lite** for [GDG Berlin](https://www.meetup.com/gdg-berlin/events/271458374/) (July 16, 2020). Deck is available [here](http://bit.ly/stuff-tflite) and a recording is available [here](https://www.youtube.com/watch?v=Ly4s0fsG93c). 
 -   Spoke to Mathilde Caron (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [http://bit.ly/mlst-mathilde](http://bit.ly/mlst-mathilde).
+-   Spoke on **GitHub Actions for Machine Learning** at Global AI On Tour Mumbai (September 27, 2020). Deck is available [here](http://bit.ly/ga-ml).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
