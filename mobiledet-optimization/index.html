@@ -220,7 +220,7 @@ window.onload = wrap_img;
 <h2 id="The-hassle-free-conversions">
 <a class="anchor" href="#The-hassle-free-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>The hassle-free conversions<a class="anchor-link" href="#The-hassle-free-conversions"> </a>
 </h2>
-<p>Before we build our way toward the fun stuff, let’s start with the conversions that won’t cause us a night’s sleep. Conversions based on <a href="https://www.tensorflow.org/lite/performance/post_training_quant"><span class="underline">dynamic-range</span></a> and <a href="https://www.tensorflow.org/lite/performance/post_training_float16_quant">float16</a> quantization would come under this category.
+<p>Before we build our way toward the fun stuff, let’s start with the conversions that won’t cost us a night’s sleep. Conversions based on <a href="https://www.tensorflow.org/lite/performance/post_training_quant"><span class="underline">dynamic-range</span></a> and <a href="https://www.tensorflow.org/lite/performance/post_training_float16_quant">float16</a> quantization would come under this category.
 </p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
@@ -343,7 +343,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <span class="n">converter</span><span class="o">.</span><span class="n">quantized_input_stats</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"normalized_input_image_tensor"</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)}</span>
 <span class="n">tflite_model</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 </pre></div>
-<p>If you’re thinking this does not look all that gory compared to the above code listing. It does not have to be, the tooling should help you to realize these things seamlessly. But catching these details during your project development may not be trivial. Note that we don’t specify <code>converter.inference_output_type</code>. Hold your breath, we will come to this in a moment.</p>
+<p>If you’re thinking this does not look all that gory compared to the above code listing - tt does not have to be! The tooling should help you do these things seamlessly. But catching these details during your project development may not be trivial. Note that we don’t specify <code>converter.inference_output_type</code>. Hold your breath, we will come to this in a moment.</p>
 <p>After successful execution, we get two full integer quantized models - EdgeTPU one is <strong>4.2 MB</strong> and the DSP one is <strong>7.0 MB</strong>.</p>
 
 </div>
@@ -355,7 +355,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <h3 id="Integer-quantization-for-CPU-variants-and-float32-precision-models">
 <a class="anchor" href="#Integer-quantization-for-CPU-variants-and-float32-precision-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Integer quantization for CPU variants and float32 precision models<a class="anchor-link" href="#Integer-quantization-for-CPU-variants-and-float32-precision-models"> </a>
 </h3>
-<p>The variants that don’t contain fake quantization nodes (CPU and all the models in <code>float32</code> precision) the conversion process is <em>relatively</em> simpler for them. Recollect that the EdgeTPU and DSP variants come in two different precisions - <code>uint8</code> and <code>float32</code>. For example, here’s how it would be for the <code>float32</code> precision models -</p>
+<p>The variants that don’t contain fake quantization nodes (CPU and all the models in <code>float32</code> precision) have a <em>relatively</em> simpler conversion process. Recollect that the EdgeTPU and DSP variants come in two different precisions - <code>uint8</code> and <code>float32</code>. For example, here’s how it would be for the <code>float32</code> precision models -</p>
 <div class="highlight"><pre><span></span><span class="n">converter</span><span class="o">.</span><span class="n">representative_dataset</span> <span class="o">=</span> <span class="n">representative_dataset_gen</span>
 <span class="n">converter</span><span class="o">.</span><span class="n">inference_input_type</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">uint8</span>
 <span class="n">converter</span><span class="o">.</span><span class="n">optimizations</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">lite</span><span class="o">.</span><span class="n">Optimize</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">]</span>
@@ -374,7 +374,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 
 <pre><code>RuntimeError: Unsupported output type UINT8 for output tensor 'TFLite_Detection_PostProcess' of type FLOAT32.</code></pre>
 <p>This is why we did not set the <code>converter.inference_output_type</code> parameter.</p>
-<p>This concludes all the problems you may run into if you ever wanted to convert the MobileDet models offered by the TFOD API team. In the last two sections, we'll see these converted models in action and how fast they can perform on respective hardware accelerators.</p>
+<p>This should resolve all the problems you may run into if you ever wanted to convert the MobileDet models offered by the TFOD API team. In the last two sections, we'll see these converted models in action and how fast they can perform on respective hardware accelerators.</p>
 
 </div>
 </div>
@@ -385,7 +385,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <h2 id="Show-me-some-results">
 <a class="anchor" href="#Show-me-some-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Show me some results<a class="anchor-link" href="#Show-me-some-results"> </a>
 </h2>
-<p>For the CPU variant model, its <code>float16</code> quantized TFLite provided with decent results -</p>
+<p>For the CPU variant model, its <code>float16</code> quantized TFLite provided decent results -</p>
 <p><img src="https://i.ibb.co/k6c93CC/image3.png" alt=""></p>
 <p>On Colab, the inference time is about <strong>92.36 ms</strong> for this particular model. I experimented with different threshold values for filtering out the weak predictions and a threshold of <strong>0.3</strong> yielded the best results. These results are pretty consistent across the several different models we talked about.</p>
 <p>A major point to note here for the EdgeTPU and DSP variants, their converted counterparts would be much slower on Colab since they were specifically optimized for different hardware accelerators.</p>
@@ -429,7 +429,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <a class="anchor" href="#Conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion<a class="anchor-link" href="#Conclusion"> </a>
 </h1>
 <p>In this post, we discussed some of the intricate problems one may run into while converting different variants of the MobileDet model in TFLite. One aspect about TFLite that I really like is how it provides the tooling needed to deal with practical problems like this.</p>
-<p>I am thankful to Khanh for thoroughly guiding me while writing this post.</p>
+<p>I am thankful to Khanh for thoroughly guiding me while writing this post. Thanks to <a href="https://sg.linkedin.com/in/martinandrews">Martin Andrews</a> for suggesting textual edits.</p>
 
 </div>
 </div>
