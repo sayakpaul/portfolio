@@ -328,9 +328,9 @@ Finished processing.
 <p>But that’s not it. I also wanted to perform OCR locally on the text blocks. This essentially allowed me to reduce the number of calls to the Vision API and thereby saving me some $. The final piece of the puzzle was to take the local OCR results and generate an audio clip. If you saw the <a href="https://cloud.google.com/text-to-speech/docs"><span class="underline">Text-to-Speech documentation</span></a>, you probably noticed that it is really not a big deal.</p>
 <p>So, to realize this workflow here’s what I did (<a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Locator_Reader.ipynb"><span class="underline">Colab Notebook</span></a>) -</p>
 <ul>
-<li>As I am only interested in dealing with the abstract of a paper, I first converted the entire PDF-formatted paper to PNG and serialized only the first page. I used the pdf2png library for this.</li>
+<li>As I am only interested in dealing with the abstract of a paper, I first converted the entire PDF-formatted paper to PNG and serialized only the first page. I used the <code>pdf2png</code> library for this.</li>
 <li>
-<p>Next, I used the Vision API to make a document_text_detection() request for getting the dense text blocks. The code for this is again, very straightforward -</p>
+<p>Next, I used the Vision API to make a <code>document_text_detection()</code> request for getting the dense text blocks. The code for this is again, very straightforward -</p>
 <div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">vision</span><span class="o">.</span><span class="n">ImageAnnotatorClient</span><span class="p">()</span>
 <span class="n">bounds</span> <span class="o">=</span> <span class="p">[]</span>
 
