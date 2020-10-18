@@ -9,12 +9,12 @@ Previously at [DataCamp](https://www.datacamp.com/), I developed projects ([Pred
 
 My subject of interest broadly lies in the area of visual representation learning. I love open-source initiatives and currently, I am actively contributing to [TensorFlow Hub](https://tfhub.dev/s?publisher=sayakpaul). Off the work, I like writing technical articles, working on applied Machine Learning ideas, and giving talks at developer meetups and conferences.
 
-<p align="center">
-  <a href="https://github.com/sayakpaul"><img src="https://img.shields.io/github/followers/sayakpaul.svg?label=GitHub&style=social" alt="GitHub"></a>
-  <a href="https://twitter.com/sayakpaul"><img src="https://img.shields.io/twitter/follow/RisingSayak?label=Twitter&style=social" alt="Twitter"></a>
-  <a href="https://www.linkedin.com/in/sayak-paul"><img src="https://img.shields.io/badge/LinkedIn--_.svg?style=social&logo=linkedin" alt="LinkedIn"></a>
-  <a href="mailto:spsayakpaul@gmail.com"><img src="https://img.shields.io/badge/Gmail--_.svg?style=social&logo=gmail" alt="Gmail"></a>
-</p>
+
+- <a href="https://github.com/sayakpaul"><img src="https://img.shields.io/github/followers/sayakpaul.svg?label=GitHub&style=social" alt="GitHub"></a>
+- <a href="https://twitter.com/sayakpaul"><img src="https://img.shields.io/twitter/follow/RisingSayak?label=Twitter&style=social" alt="Twitter"></a>
+- <a href="https://www.linkedin.com/in/sayak-paul"><img src="https://img.shields.io/badge/LinkedIn--_.svg?style=social&logo=linkedin" alt="LinkedIn"></a>
+- <a href="mailto:spsayakpaul@gmail.com"><img src="https://img.shields.io/badge/Gmail--_.svg?style=social&logo=gmail" alt="Gmail"></a>
+
 
 ## Timeline:
 - Deep Learning Associate, PyImageSearch (June, 2019 - present)
