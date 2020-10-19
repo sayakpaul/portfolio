@@ -27,9 +27,7 @@ My subject of interest broadly lies in the area of visual representation learnin
 
 ## Badges I proudly endorse:
 
-![]({{site.baseurl}}/images/innovator_badge.jpg "https://bit.ly/isi-sp")
-
-![]({{site.baseurl}}/images/gde_badge.png "https://bit.ly/gde-sp")
+![]({{site.baseurl}}/images/badges.png)
 
 ## An honour to be their son 🙂
 - Tapas Kumar Paul
