@@ -46,7 +46,7 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 -   Spoke on **GitHub Actions for Machine Learning** at Global AI On Tour Mumbai (September 27, 2020). Deck is available [here](http://bit.ly/ga-ml).
 -   Spoke on **The Maker Philosophy with ML APIs** at [Mindhack Summit](https://www.mindhacksummit.com/) (October 12, 2020). Deck is available [here](https://bit.ly/maker-api). 
 -   Spoke on **Adversarial Examples in Deep Learning** at [DevFest UK & Ireland 2020](https://www.devfest-uki.com/speakers-more-details) (October 17, 2020). Deck is available [here](http://bit.ly/ia-101).
--   Spoke to Sara Hooker (Google Brain), with Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [https://www.youtube.com/watch?v=sQFxbQ7ade0](https://www.youtube.com/watch?v=sQFxbQ7ade0).
+-   Spoke to Sara Hooker (Google Brain), with Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [bit.ly/sara_mlst](http://bit.ly/sara_mlst).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
