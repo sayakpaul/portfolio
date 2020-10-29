@@ -47,6 +47,8 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 -   Spoke on **The Maker Philosophy with ML APIs** at [Mindhack Summit](https://www.mindhacksummit.com/) (October 12, 2020). Deck is available [here](https://bit.ly/maker-api). 
 -   Spoke on **Adversarial Examples in Deep Learning** at [DevFest UK & Ireland 2020](https://www.devfest-uki.com/speakers-more-details) (October 17, 2020). Deck is available [here](http://bit.ly/ia-101).
 -   Spoke to Sara Hooker (Google Brain), with Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [bit.ly/sara_mlst](http://bit.ly/sara_mlst).
+-   Spoke to Sanyam Bhutani (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [bit.ly/sanyam_mlst](http://bit.ly/sanyam_mlst).
+-   Took a workshop on **Adversarial Robustness in Deep Learning** with [Dipanjan Sarkar](https://www.linkedin.com/in/dipanzan/) at [Deep Learning DevCon 2020](https://dldc.adasci.org/). The materials are available here - [bit.ly/adv_learn](http://bit.ly/adv_learn).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
