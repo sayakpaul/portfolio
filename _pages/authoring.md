@@ -7,7 +7,7 @@ Co-authored a book  [Hands-On Python Deep Learning for the Web](https://www.goog
 
 Authored the following liveProjects with [Manning](https://www.manning.com/):  
 * [Use Machine Learning to Detect Phishing Websites](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e) 
-* [Summarize News Articles with NLP, Deep Learning, and Python](https://www.manning.com/liveproject/summarize-news-articles-with-nlp-deep-learning-and-pythona_aid=pyimagesearch&a_bid=643ce05e) (with [Souradip Chakraborty](https://www.linkedin.com/in/souradip-chakraborty/)) 
+* [Summarize News Articles with NLP, Deep Learning, and Python](https://www.manning.com/liveproject/summarize-news-articles-with-nlp-deep-learning-and-python?a_aid=pyimagesearch&a_bid=643ce05e) (with [Souradip Chakraborty](https://www.linkedin.com/in/souradip-chakraborty/)) 
 
 Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://www.datacamp.com/projects/558?tap_a=5644-dce66f&tap_s=357540-5b28dd) and [Analyze International Debt Statistics](https://www.datacamp.com/projects/754?tap_a=5644-dce66f&tap_s=357540-5b28dd)) and a DataCamp Practice Pool on [Advanced Deep Learning with Keras](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd). 
 
