@@ -15,3 +15,4 @@ permalink: /education/
     -   [TensorFlow in Practice Specialization (deeplearning.ai)](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fusd3e3lk7vo8fm1%2FTensorFlow%2520in%2520Practice%2520Specialization.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNEfC8RyLfHCsQEE2lZs1fg-uRfRxw)
     -   [TensorFlow: Data and Deployment Specialization (deeplearning.ai)](https://www.google.com/url?q=https%3A%2F%2Fwww.coursera.org%2Faccount%2Faccomplishments%2Fspecialization%2F7WB6WXTY53JD&sa=D&sntz=1&usg=AFQjCNFhgcNQVNegGBgdXsuCkuEKWJW7wQ)
     -   [Generative Adversarial Networks (GANs) (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/certificate/3U5QXRJXRVZC)
+    -   [Natural Language Processing (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/certificate/FS7WK2VD2464)
