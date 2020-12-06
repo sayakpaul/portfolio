@@ -51,7 +51,7 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 -   Took a workshop on **Adversarial Robustness in Deep Learning** with [Dipanjan Sarkar](https://www.linkedin.com/in/dipanzan/) at [Deep Learning DevCon 2020](https://dldc.adasci.org/) (October 29, 2020). The materials are available here - [bit.ly/adv_learn](http://bit.ly/adv_learn).
 -   Spoke on **Demystifying Self-Supervised Learning for Visual Recognition** at [SciPy Japan 2020](https://www.scipyjapan.scipy.org/schedule) (October 30, 2020). Deck is available here - [bit.ly/scipy-sp](http://bit.ly/scipy-sp). Session recording is available [here](https://www.youtube.com/watch?v=3686AJmoDTA).
 -   Spoke to Santosh on **Demystifying ML and AI for beginners** at his podcast [Tech Talks With Santosh](https://www.youtube.com/channel/UChvYTafHRgXKb0VbYGeG0nw): https://youtu.be/BhLQN-XIO04 (November 07, 2020). 
-- Spoke with **Simon Kornblith** (Google Brain) with Tim Scarfe and Yannic Kilcher at the [Machine Learning Street Talk](https://youtu.be/1EqJyMy0LnE).
+- Spoke with **Simon Kornblith** (Google Brain) at the [Machine Learning Street Talk](https://youtu.be/1EqJyMy0LnE) (with Tim Scarfe and Yannic Kilcher).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
