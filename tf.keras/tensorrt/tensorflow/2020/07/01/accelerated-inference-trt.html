@@ -447,7 +447,7 @@ average(sec):0.03,fps:31.67
   <span class="n">precision_mode</span><span class="o">=</span><span class="s1">'FP16'</span><span class="p">,</span>
   <span class="n">is_dynamic_op</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
-<p>We use the <code>precision_mode</code> argument to provide the kind numerical precision we would want to see the model parameters get converted to which in this case, is FP16. <code>is_dynamic_op</code> argument is set to True so the shapes would be determined during runtime.  Onto the next step.</p>
+<p>We use the <code>precision_mode</code> argument to specify the numerical precision of the model parameters we would want. In this case it is FP16 (float16). <code>is_dynamic_op</code> argument is set to True so that the shapes would be determined during runtime.  Onto the next step.</p>
 <p>(<code>trt</code> is aliased as <code>from tensorflow.python.compiler.tensorrt import trt_convert as trt</code>.)</p>
 </li>
 <li>
