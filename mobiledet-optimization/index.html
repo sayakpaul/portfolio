@@ -343,7 +343,7 @@ $ python models/research/object_detection/export_tflite_ssd_graph.py <span class
 <span class="n">converter</span><span class="o">.</span><span class="n">quantized_input_stats</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"normalized_input_image_tensor"</span><span class="p">:</span> <span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)}</span>
 <span class="n">tflite_model</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
 </pre></div>
-<p>If you’re thinking this does not look all that gory compared to the above code listing - tt does not have to be! The tooling should help you do these things seamlessly. But catching these details during your project development may not be trivial. Note that we don’t specify <code>converter.inference_output_type</code>. Hold your breath, we will come to this in a moment.</p>
+<p>If you’re thinking this does not look all that gory compared to the above code listing - it does not have to be! The tooling should help you do these things seamlessly. But catching these details during your project development may not be trivial. Note that we don’t specify <code>converter.inference_output_type</code>. Hold your breath, we will come to this in a moment.</p>
 <p>After successful execution, we get two full integer quantized models - EdgeTPU one is <strong>4.2 MB</strong> and the DSP one is <strong>7.0 MB</strong>.</p>
 
 </div>
