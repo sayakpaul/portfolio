@@ -16,7 +16,8 @@ permalink: /xyz/
     - [**Build For Digital India**](https://events.withgoogle.com/buildfordigitalindia/) Bootcamps through January 2020 - February 2020 ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1225747137616498690&sa=D&sntz=1&usg=AFQjCNHOArwPGTqTx17LLJvq9KHI_KQueA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
     - [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
     - Mentored at [**Google for Startups India Accelerator Class 4**](https://twitter.com/GoogleDevsIN/status/1302932126019411970)
--   Program committe member, [**ML Conf EU**](https://mlconf.eu/#program-committee)
+-   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
+-   Recepient of the [Intel Top Innovator Award](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 -   Recepient of the [Google Open Source Peer Bonus Award](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). Here's a related [blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 
 ## Non-tech:
