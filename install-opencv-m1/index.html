@@ -174,7 +174,7 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This post shows how to build and install OpenCV on a MacBook Pro that comes with an <a href="https://www.apple.com/in/mac/m1/">M1 chip</a>. Yes, you guessed it right - as of <strong>January 01 2021</strong>, there’s no pre-compiled OpenCV binary compatible with this MasBook pro variant. So, open up a terminal and get started!</p>
+<p>This post shows how to build and install OpenCV on a MacBook Pro that comes with an <a href="https://www.apple.com/in/mac/m1/">M1 chip</a>. Yes, you guessed it right - as of <strong>January 01 2021</strong>, there’s no pre-compiled OpenCV binary compatible with this MacBook Pro variant. So, open up a terminal and get started!</p>
 <p><em>These steps should run on a MacBook Air too.</em></p>
 
 </div>
@@ -237,11 +237,11 @@ window.onload = wrap_img;
 </h2>
 <p>First, let's download the OpenCV and OpenCV extended module files and prepare them for compilation.</p>
 <div class="highlight"><pre><span></span>% wget -O opencv.zip https://github.com/opencv/opencv/archive/4.5.0.zip
-% wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.5.0.zip
-% unzip opencv.zip
-% unzip opencv_contrib.zip
-% <span class="nb">cd</span> opencv
-% mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
+  % wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.5.0.zip
+  % unzip opencv.zip
+  % unzip opencv_contrib.zip
+  % <span class="nb">cd</span> opencv
+  % mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
 </pre></div>
 <p>Now, we are all set to fire the <code>cmake</code> command that would build OpenCV for us. Let’s review it briefly -</p>
 <div class="highlight"><pre><span></span>% cmake <span class="se">\</span>
