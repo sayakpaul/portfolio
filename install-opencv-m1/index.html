@@ -174,8 +174,12 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>This post shows how to build and install OpenCV on a MacBook Pro that comes with an <a href="https://www.apple.com/in/mac/m1/">M1 chip</a>. Yes, you guessed it right - as of <strong>January 01, 2021</strong>, there’s no pre-compiled OpenCV binary compatible with this MacBook Pro variant. So, open up a terminal and get started!</p>
-<p><em>These steps should run on a MacBook Air too.</em></p>
+<p>This post shows how to build and install OpenCV on a MacBook Pro that comes with an <a href="https://www.apple.com/in/mac/m1/">M1 chip</a>. Yes, you guessed it right - as of <strong>January 01, 2021</strong>, there’s no pre-compiled OpenCV binary compatible with this MacBook Pro variant. So, open up a terminal and get started!
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>The following steps should run well on an M1 MacBook Air too.
+</div>
 
 </div>
 </div>
@@ -186,14 +190,14 @@ window.onload = wrap_img;
 <h2 id="Install-Xcode-and-Homebrew">
 <a class="anchor" href="#Install-Xcode-and-Homebrew" aria-hidden="true"><span class="octicon octicon-link"></span></a>Install Xcode and Homebrew<a class="anchor-link" href="#Install-Xcode-and-Homebrew"> </a>
 </h2>
-<p>We start by executing <code>% sudo xcodebuild -license</code> from the terminal.</p>
+<p>We start by executing <code>sudo xcodebuild -license</code> from a terminal.</p>
 <p>When you execute the above command, you would need to accept the Xcode license. Then, in order to make use of Apple command line tools, we need to install it - 
-<code>% sudo xcode-select --install</code>.</p>
+<code>sudo xcode-select --install</code>.</p>
 <p>Homebrew manages packages on a Mac. In order to install it execute the following - 
-<code>% /usr/bin/ruby -e "%(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code>.</p>
+<code>/usr/bin/ruby -e "%(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</code>.</p>
 <p>You would want to add the command brew after the installation is complete. To do so, execute the following - 
-<code>% nano ~/.zshrc</code></p>
-<p>Then insert <code>export PATH=%PATH:/opt/homebrew/bin</code> into it and press <code>Ctrl + X</code> from your keyboard. Then execute <code>source ~/.zshrc</code> from the terminal.</p>
+<code>nano ~/.zshrc</code></p>
+<p>Then insert <code>export PATH=$PATH:/opt/homebrew/bin</code> into it and press <code>Ctrl + X</code> from your keyboard. Then execute <code>source ~/.zshrc</code> from the terminal.</p>
 <p>Note that the exact path to Homebrew might be different for your system, so please double check that.</p>
 <p>Next up, we install a few system-level utilities required by OpenCV on a Mac.</p>
 
