@@ -256,10 +256,10 @@ window.onload = wrap_img;
 </pre></div>
 <p>Now, we are all set to fire the <code>cmake</code> command that would build OpenCV for us. Let’s review it briefly -</p>
 <div class="highlight"><pre><span></span>% cmake <span class="se">\</span>
-  -D <span class="nv">CMAKE_SYSTEM_PROCESSOR</span><span class="o">=</span>arm64 <span class="se">\</span>
-  -D <span class="nv">CMAKE_OSX_ARCHITECTURES</span><span class="o">=</span>arm64 <span class="se">\</span>
-  -D <span class="nv">WITH_OPENJPEG</span><span class="o">=</span>OFF <span class="se">\</span>
-  -D <span class="nv">WITH_IPP</span><span class="o">=</span>OFF <span class="se">\</span>
+  -DCMAKE_SYSTEM_PROCESSOR<span class="o">=</span>arm64 <span class="se">\</span>
+  -DCMAKE_OSX_ARCHITECTURES<span class="o">=</span>arm64 <span class="se">\</span>
+  -DWITH_OPENJPEG<span class="o">=</span>OFF <span class="se">\</span>
+  -DWITH_IPP<span class="o">=</span>OFF <span class="se">\</span>
   -D <span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>RELEASE <span class="se">\</span>
   -D <span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>/usr/local <span class="se">\</span>
   -D <span class="nv">OPENCV_EXTRA_MODULES_PATH</span><span class="o">=</span>/Users/sayakpaul/Downloads/opencv_contrib-4.5.0/modules <span class="se">\</span>
@@ -271,7 +271,7 @@ window.onload = wrap_img;
   -D <span class="nv">OPENCV_ENABLE_NONFREE</span><span class="o">=</span>ON <span class="se">\</span>
   -D <span class="nv">BUILD_EXAMPLES</span><span class="o">=</span>ON ..
 </pre></div>
-<p>As per <a href="https://github.com/opencv/opencv/issues/18049#issuecomment-671878454">this issue comment</a>, <code>CMAKE_SYSTEM_PROCESSOR</code>, <code>CMAKE_OSX_ARCHITECTURES</code>, <code>WITH_OPENJPEG</code>, and <code>WITH_IPP</code> are needed to be set during the compilation step. Also, please pay attention to the following arguments - <code>OPENCV_EXTRA_MODULES_PATH</code> and <code>PYTHON3_EXECUTABLE</code>. For these two arguments, you would want to first determine the paths and then supply them accordingly.</p>
+<p>As per <a href="https://github.com/opencv/opencv/issues/18049#issuecomment-671878454">this issue comment</a>, <code>DCMAKE_SYSTEM_PROCESSOR</code>, <code>DCMAKE_OSX_ARCHITECTURES</code>, <code>DWITH_OPENJPEG</code>, and <code>DWITH_IPP</code> are needed to be set during the compilation step. Also, please pay attention to the following arguments - <code>OPENCV_EXTRA_MODULES_PATH</code> and <code>PYTHON3_EXECUTABLE</code>. For these two arguments, you would want to first determine the paths and then supply them accordingly.</p>
 <p>Now, before you run the above <code>cmake</code> command, activate the conda environment you created in an earlier step (<code>conda activate &lt;environment_name&gt;</code>) if you haven’t already.  The compilation took <em>~3 minutes</em> for me and it should produce outputs like so -</p>
 <p><img src="https://i.ibb.co/YdpBSh0/image.png" alt=""></p>
 <p>Next, we launch the make command - <code>make -j8</code>. With all the eight cores (<code>j8</code> stands for eight cores here) chugging along, this step took <em>~8 minutes</em> for me. You can adjust the <code>j</code> option with respect to the hardware available.  After it’s done you should get an output like so -</p>
