@@ -229,7 +229,8 @@ window.onload = wrap_img;
 <div class="highlight"><pre><span></span>% wget https://github.com/apple/tensorflow_macos/releases/download/v0.1alpha0/tensorflow_macos-0.1alpha0.tar.gz
 % tar xvf tensorflow_macos-0.1alpha0.tar.gz
 % <span class="nb">cd</span> tensorflow_macos/arm64
-% pip install --upgrade --no-dependencies --force numpy-1.18.5-cp38-cp38-macosx_11_0_arm64.whl
+% pip install --upgrade --no-dependencies --force numpy-1.18.5-cp38-cp38-macosx_11_0_arm64.whl 
+% <span class="nb">cd</span> ~
 </pre></div>
 <p></p>
 <div class="flash">
@@ -251,7 +252,7 @@ window.onload = wrap_img;
 % wget -O opencv_contrib.zip https://github.com/opencv/opencv_contrib/archive/4.5.0.zip
 % unzip opencv.zip
 % unzip opencv_contrib.zip
-% <span class="nb">cd</span> opencv
+% <span class="nb">cd</span> opencv-4.5.0
 % mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build
 </pre></div>
 <p>Now, we are all set to fire the <code>cmake</code> command that would build OpenCV for us. Let’s review it briefly -</p>
