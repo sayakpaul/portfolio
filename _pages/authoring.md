@@ -59,7 +59,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Introduction to K-Means Clustering in Python with `scikit-learn` - [https://bit.ly/2IZev5a](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2IZev5a&sa=D&sntz=1&usg=AFQjCNGk3PE-JUXjdJ6nCXI_6Ld9ddEjzg)
 -   An introduction to Q-Learning: Reinforcement Learning - [http://bit.ly/2HxuVzo](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2HxuVzo&sa=D&sntz=1&usg=AFQjCNFWuiHiiyss0bdQ-KUSr_sHS_CKhA)
 -   How to plan and execute your ML and DL projects - [http://bit.ly/2XtMCeh](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2XtMCeh&sa=D&sntz=1&usg=AFQjCNFUdF778nt4PgTMASPoxvX9Soh6ow)
--   Becoming One With the Data  -  [http://bit.ly/30N3bPA] [^4]
+-   Becoming One With the Data  -  [http://bit.ly/30N3bPA](http://bit.ly/30N3bPA) [^4]
 -   Training Neural Nets: a Hacker’s Perspective - [http://bit.ly/training-neural-nets](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2Ftraining-neural-nets&sa=D&sntz=1&usg=AFQjCNEB5bIbr71DxKkJdGiTYPbVHtr5ZA)
 
 ## [Weights and Biases](https://www.wandb.com/)
