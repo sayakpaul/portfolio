@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Distributed Training in TensorFlow with AI Platform &amp; Docker | Sayak Paul</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Distributed Training in TensorFlow with AI Platform &amp; Docker" />
+<meta name="author" content="Sayak Paul" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Training a model using distributed training with AI Platform and Docker." />
+<meta property="og:description" content="Training a model using distributed training with AI Platform and Docker." />
+<link rel="canonical" href="https://sayak.dev/distributed-training/" />
+<meta property="og:url" content="https://sayak.dev/distributed-training/" />
+<meta property="og:site_name" content="Sayak Paul" />
+<meta property="og:image" content="https://sayak.dev/images/distributed_training.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/distributed-training/"},"author":{"@type":"Person","name":"Sayak Paul"},"description":"Training a model using distributed training with AI Platform and Docker.","image":"https://sayak.dev/images/distributed_training.png","@type":"BlogPosting","url":"https://sayak.dev/distributed-training/","headline":"Distributed Training in TensorFlow with AI Platform &amp; Docker","dateModified":"2021-04-06T00:00:00-05:00","datePublished":"2021-04-06T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163448909-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Distributed Training in TensorFlow with AI Platform &amp; Docker | Sayak Paul</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Distributed Training in TensorFlow with AI Platform &amp; Docker" />
+<meta name="author" content="Sayak Paul" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Training a model using distributed training with AI Platform and Docker." />
+<meta property="og:description" content="Training a model using distributed training with AI Platform and Docker." />
+<link rel="canonical" href="https://sayak.dev/distributed-training/" />
+<meta property="og:url" content="https://sayak.dev/distributed-training/" />
+<meta property="og:site_name" content="Sayak Paul" />
+<meta property="og:image" content="https://sayak.dev/images/distributed_training.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-06T00:00:00-05:00" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/distributed-training/"},"author":{"@type":"Person","name":"Sayak Paul"},"description":"Training a model using distributed training with AI Platform and Docker.","image":"https://sayak.dev/images/distributed_training.png","@type":"BlogPosting","url":"https://sayak.dev/distributed-training/","headline":"Distributed Training in TensorFlow with AI Platform &amp; Docker","dateModified":"2021-04-06T00:00:00-05:00","datePublished":"2021-04-06T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-163448909-1','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Sayak Paul</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about/">About Me</a><a class="page-link" href="/authoring/">Authoring</a><a class="page-link" href="/education/">Education</a><a class="page-link" href="/interviews/">Interviews</a><a class="page-link" href="/research/">Research</a><a class="page-link" href="/talksseminarsworkshops/">Talks/Seminars/Workshops</a><a class="page-link" href="/xyz/">XYZ</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Distributed Training in TensorFlow with AI Platform &amp; Docker</h1><p class="page-description">Training a model using distributed training with AI Platform and Docker.</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-04-06T00:00:00-05:00" itemprop="datePublished">
+        Apr 6, 2021
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Sayak Paul</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      13 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/categories/#tensorflow">tensorflow</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#keras">keras</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#distributed-training">distributed-training</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#ai-platform">ai-platform</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#docker">docker</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/categories/#mlops">mlops</a>
+        
+      
+      </p>
+    
+
+    
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#Environment-setup">Environment setup </a></li>
+<li class="toc-entry toc-h1"><a href="#Notes-on-the-task,-data-pipeline,-and-training">Notes on the task, data pipeline, and training </a></li>
+<li class="toc-entry toc-h1"><a href="#Fitting-in-Docker">Fitting in Docker </a></li>
+<li class="toc-entry toc-h1"><a href="#Building-and-locally-running-our-container">Building and locally running our container </a></li>
+<li class="toc-entry toc-h1"><a href="#Submitting-a-distributed-training-job">Submitting a distributed training job </a></li>
+<li class="toc-entry toc-h1"><a href="#Delving-deep-into-training-costs-and-resource-utilization">Delving deep into training costs and resource utilization </a></li>
+<li class="toc-entry toc-h1"><a href="#Conclusion">Conclusion </a></li>
+<li class="toc-entry toc-h1"><a href="#Acknowledgements">Acknowledgements </a></li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-04-06-distributed-training-ai-platform.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Jupyter Notebooks are a great way to present your code offering a good level of interactivity, transparency, and reproducibility. However, operating with a Jupyter Notebook environment can get very challenging if you are working your way through large-scale training workflows as is common in deep learning.</p>
+<p>If you are conducting large-scale training it is likely that you are using a powerful remote machine via SSH access. So, even if you are not using Jupyter Notebooks, problems like SSH pipe breakage, network teardown, etc. can easily occur. Consider using a powerful virtual machine on Cloud as your remote. The problem gets far worse when there’s a connection loss but you somehow forget to turn off that virtual machine to stop consuming its resources. You get billed for practically <em>nothing</em> when the breakdown happens until and unless you have set up some amount of alerts and fault tolerance.</p>
+<p>To resolve these kinds of problems, we would want to have the following things in the pipeline:</p>
+<ul>
+<li>A training workflow that is fully managed by a secure and reliable service with high availability. </li>
+<li>The service should automatically provision and de-provision the resources we would ask it to configure allowing us to only get charged for what’s been truly consumed. </li>
+<li>The service should also be very flexible. It must not introduce too much technical debt into our existing pipelines. </li>
+</ul>
+<p>In this post, we are going to consider all of these factors and will implement them using a service called <a href="https://cloud.google.com/ai-platform">AI Platform</a> (provided by Google Cloud Platform) and <a href="https://www.docker.com/">Docker</a>. We will use TensorFlow and Keras to handle <strong>distributed training</strong> to develop an image classification model capable of classifying cats and dogs. Apart from deep learning-related knowledge, a bit of familiarity would be needed to fully understand this post.</p>
+<p>All of the code developed for this post can be found <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">here</a>. We won’t be covering the entire codebase, instead, we will focus on the most important bits.</p>
+<p>If you are like me, who have lost sleep over the very thought of the aforementioned problem, you will likely find this tutorial a good starting point to get around it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Environment-setup">
+<a class="anchor" href="#Environment-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Environment setup<a class="anchor-link" href="#Environment-setup"> </a>
+</h1>
+<p>You will need to have Docker, command-line GCP tools like <code>gcloud</code>, and TensorFlow (2.x) installed if you are on a local machine. But if you have a <a href="https://cloud.google.com/billing/docs/how-to/modify-project">billing-enabled GCP project</a> it’s possible to get started <em>without</em> any significant setup.</p>
+<p>We will use a cheap <a href="https://cloud.google.com/ai-platform-notebooks">AI Platform Notebook</a> instance as our staging machine which we will use to build our custom Docker image, push it to <a href="https://cloud.google.com/container-registry">Google Container Registry (GCR)</a>, and submit a <code>training</code> job to AI Platform. Additionally, we will use this instance to create <a href="https://www.tensorflow.org/tutorials/load_data/tfrecord">TensorFlow Records</a> (TFRecords) from the original dataset (<a href="https://www.tensorflow.org/datasets/catalog/cats_vs_dogs">Cats vs. Dogs</a> in this case) and upload them to a GCS Bucket. AI Platform notebooks come pre-configured with many useful Python libraries, Linux packages like <code>docker</code>, and also the command-line GCP tools like <code>gcloud</code>. 
+</p>
+<div class="flash">
+    <svg class="octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info octicon octicon-info" viewbox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z"></path></svg>
+    <strong>Note: </strong>I used an <code>n1-standard-4</code> instance with TensorFlow 2.4 as the base image which costs <strong>$0.141 hourly</strong>.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Notes-on-the-task,-data-pipeline,-and-training">
+<a class="anchor" href="#Notes-on-the-task,-data-pipeline,-and-training" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes on the task, data pipeline, and training<a class="anchor-link" href="#Notes-on-the-task,-data-pipeline,-and-training"> </a>
+</h1>
+<p><strong>Task</strong></p>
+<p>As mentioned earlier, we will be training an image classification model on the Cats vs. Dogs dataset which is a moderate-sized dataset. The learning problem is a <a href="https://developers.google.com/machine-learning/glossary#binary_classification">binary classification</a> task.</p>
+<p><strong>Data pipeline</strong></p>
+<p>For setting up our data pipeline, we will first create shards of TFRecords from the original dataset. Each of the shards will contain batches of preprocessed images and their labels. This has an advantage. When we would load these shards back for training, we won’t need to do any preprocessing giving us a slight performance boost. Figure 1 demonstrates our TFRecords’ creation workflow.</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/data.png" alt="Figure 1: Schematics of our TFRecord’s creation process."></p>
+<center>
+<b>Figure 1</b>: Schematics of our TFRecord’s creation process.
+</center>
+<p>As you might have already noticed that we have also thrown in another component in the mix -- a GCS Bucket. We would need to store our data on a Google Cloud Storage (GCS) Bucket since the training code won’t be executed locally. We could have used other bucket services (like <a href="https://aws.amazon.com/s3/">AWS S3</a>) here but TensorFlow has very unified integrations with GCS Buckets, hence. We will be using the same GCS Bucket to store our trained model and also TensorBoard logs. The total <a href="https://cloud.google.com/storage/pricing">cost</a> to store all of these will be about <strong>$1.20</strong>.</p>
+<p>You are welcome to check out the corresponding code <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/create_tfrecords.py">here</a>. In order to streamline the TFRecords’ creation and upload process we will make use of a little <a href="https://www.shellscript.sh/">shell script</a>:</p>
+<div class="highlight"><pre><span></span><span class="nb">echo</span> <span class="s2">"Uploading TFRecords to Storage Bucket..."</span>
+<span class="nb">echo</span> gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>
+
+python ../trainer/create_tfrecords.py
+
+gsutil -m cp -r train_tfr gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>
+gsutil -m cp -r validation_tfr gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>
+
+gsutil ls -lh gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>
+</pre></div>
+<p>After creating the TFRecords we simply copy them over to a previously created GCS Bucket. You can create one by executing the following: <code>gsutil mb ${BUCKET_NAME}</code>.</p>
+<p><strong>Training</strong></p>
+<p>As for the training pipeline, we will follow the steps below:</p>
+<ul>
+<li>Load the TFRecords from GCS using CPU in a parallelized way using <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset">tf.data.Dataset.map()</a> and feed batches of data to our model. For performance, we will also <a href="https://www.tensorflow.org/guide/data_performance#prefetching">prefetch</a> several future batches of data so that our model does not have to wait for the data to consume. Our data loader is present here in <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/data_loader.py">this script</a>.</li>
+<li>We will be using a pre-trained model to unleash the power of <a href="https://ruder.io/transfer-learning/">transfer learning</a>. In particular, we will be using the <a href="https://arxiv.org/pdf/1608.06993">DenseNet121</a> model that is available inside <a href="https://www.tensorflow.org/api_docs/python/tf/keras/applications">tf.keras.applications</a>. </li>
+<li>We will be training our model inside the <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy">tf.distribute.MirroredStrategy</a> scope for distributed training. This strategy is applicable when we have a single host containing multiple GPUs. We will also be using <a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed-precision training</a> to speed up the process. The code for realizing this is <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">here</a>.  </li>
+</ul>
+<p>The training will take place on a remote machine fully managed by AI Platform.</p>
+<p>So far, we have discussed the utilities for creating TFRecords, loading them, and building and training our model. Here’s how the code is structured in the GitHub repository mentioned at the beginning of the post:</p>
+<div class="highlight"><pre><span></span>├── Dockerfile
+├── README.md
+├── config.yaml
+├── scripts
+│   ├── train_cloud.sh
+│   ├── train_local.sh
+│   └── upload_tfr.sh
+└── trainer
+    ├── config.py
+    ├── create_tfrecords.py
+    ├── data_loader.py
+    ├── model_training.py
+    ├── model_utils.py
+    ├── task.py
+    └── tfr_utils.py
+</pre></div>
+<p>Next, we will be reviewing how Docker fits into all these. From there on, we will have all the recipes set up to kickstart model training.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Fitting-in-Docker">
+<a class="anchor" href="#Fitting-in-Docker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Fitting in Docker<a class="anchor-link" href="#Fitting-in-Docker"> </a>
+</h1>
+<p>To submit custom training jobs to AI Platform, we need to package our code inside a Docker image. So, let’s start with that.</p>
+<p>To build a Docker image, we first need to define a <code>Dockerfile</code> specifying how it should itself up. <a href="https://cloud.google.com/container-registry">Google Container Registry (GCR)</a> provides CUDA-configured TensorFlow containers that we can use to build custom ones. In our case, we extend one such container. Our <code>[Dockerfile](https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/Dockerfile)</code> looks like so:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Use an existing CUDA-configured TensorFlow container</span>
+FROM gcr.io/deeplearning-platform-release/tf2-gpu.2-4
+WORKDIR /root
+
+<span class="c1"># Update TensorFlow to the latest version (2.4.1 at the</span>
+<span class="c1"># time of writing).</span>
+RUN pip install -U tensorflow
+
+<span class="c1"># Copies the trainer code to the docker image.</span>
+COPY trainer/config.py ./trainer/config.py
+COPY trainer/data_loader.py ./trainer/data_loader.py
+COPY trainer/model_utils.py ./trainer/model_utils.py
+COPY trainer/model_training.py ./trainer/model_training.py
+COPY trainer/task.py ./trainer/task.py
+
+<span class="c1"># Set up the entry point to invoke the trainer.</span>
+ENTRYPOINT <span class="o">[</span><span class="s2">"python"</span><span class="o">]</span>
+CMD <span class="o">[</span><span class="s2">"trainer/task.py"</span><span class="o">]</span>
+</pre></div>
+<p>After we have defined the <code>Dockerfile</code>, we can proceed to build it and do a round of model training by locally running it.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Building-and-locally-running-our-container">
+<a class="anchor" href="#Building-and-locally-running-our-container" aria-hidden="true"><span class="octicon octicon-link"></span></a>Building and locally running our container<a class="anchor-link" href="#Building-and-locally-running-our-container"> </a>
+</h1>
+<p>We will be using GCR to manage the lifecycle of our container. To build a Docker container, one must provide a correct Image URI (Uniform Resource Identifier) and it depends on the platform you are using for managing your container. In our case, that is GCR.</p>
+<p>For GCR, the format of the image goes like the following: <code>gcr.io/${PROJECT_ID}/${IMAGE_REPO_NAME}:${IMAGE_TAG}</code>, where <code>PROJECT_ID</code> is the ID of your GCP project and <code>IMAGE_REPO_NAME</code> and <code>IMAGE_TAG</code> are identifiers.</p>
+<p>We then build our image and locally run it:</p>
+<div class="highlight"><pre><span></span>$ docker build -f Dockerfile -t <span class="si">${</span><span class="nv">IMAGE_URI</span><span class="si">}</span> ./
+$ docker run <span class="si">${</span><span class="nv">IMAGE_URI</span><span class="si">}</span> <span class="se">\</span>
+    trainer/task.py --bucket <span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span> <span class="se">\</span>
+    --train-pattern <span class="si">${</span><span class="nv">TRAIN_FILES</span><span class="si">}</span> <span class="se">\</span>
+    --valid-pattern <span class="si">${</span><span class="nv">VALIDATION_FILES</span><span class="si">}</span>
+</pre></div>
+<p>To make the process cleaner, we can create a shell script and put all the instructions inside it. You can follow <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/scripts/train_local.sh">this one</a> to get an idea.</p>
+<p>The first time it’s run, it’s going to take a while. But after that, all the consequent runs will use the cached resources to speed up the build.  The local Docker daemon (<code>dockerd</code>) will first read our <code>Dockerfile</code> and after getting to the entry point, it will parse all the command-line arguments we provided to <code>task.py</code>. <code>task.py</code> just takes all the command-line arguments and starts the model training. <code>TRAIN_FILES</code> and <code>VALIDATION_FILES</code> are patterns to the TFRecords residing inside a GCS Bucket and they look like so -</p>
+<div class="highlight"><pre><span></span><span class="nv">TRAIN_FILES</span><span class="o">=</span>gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>/train_tfr/*.tfrec
+<span class="nv">VALIDATION_FILES</span><span class="o">=</span>gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span>/validation_tfr/*.tfrec
+</pre></div>
+<p>If everything goes well, then, after a while, you should be able to see that our model has started training:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/docker_build.png" alt=""></p>
+<center>
+<b>Figure 2</b>: Docker build.
+</center>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/local_run.png" alt=""></p>
+<center>
+<b>Figure 3</b>: Local training logs.
+</center>
+<p>The local Docker run is a way for us to ensure our code is running fine without any hiccups. So, it’s advisable to stop the local run after you have ensured the model is able to start training. With this, we are now ready to push our custom Docker image to GCR, and submit a training job to AI Platform.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Submitting-a-distributed-training-job">
+<a class="anchor" href="#Submitting-a-distributed-training-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submitting a distributed training job<a class="anchor-link" href="#Submitting-a-distributed-training-job"> </a>
+</h1>
+<p>For this step, we need to add two more lines of code:</p>
+<ul>
+<li>After building our Docker image, we need to push it to GCR so that AI Platform can pull it to run model training. </li>
+<li>Submit a training job to AI Platform. </li>
+</ul>
+<p>So, let’s put these pieces together:</p>
+<div class="highlight"><pre><span></span><span class="c1"># Build and push the docker image</span>
+$ docker build -f Dockerfile -t <span class="si">${</span><span class="nv">IMAGE_URI</span><span class="si">}</span> ./
+$ docker push <span class="si">${</span><span class="nv">IMAGE_URI</span><span class="si">}</span>
+
+<span class="c1"># Submit job</span>
+$ gcloud ai-platform <span class="nb">jobs</span> submit training <span class="si">${</span><span class="nv">JOB_NAME</span><span class="si">}</span> <span class="se">\</span>
+    --region <span class="si">${</span><span class="nv">REGION</span><span class="si">}</span> <span class="se">\</span>
+    --master-image-uri <span class="si">${</span><span class="nv">IMAGE_URI</span><span class="si">}</span> <span class="se">\</span>
+    --config ./config.yaml <span class="se">\</span>
+    -- <span class="se">\</span>
+    trainer/task.py --bucket <span class="si">${</span><span class="nv">BUCKET_NAME</span><span class="si">}</span> <span class="se">\</span>
+    --train-pattern <span class="si">${</span><span class="nv">TRAIN_FILES</span><span class="si">}</span> <span class="se">\</span>
+    --valid-pattern <span class="si">${</span><span class="nv">VALIDATION_FILES</span><span class="si">}</span>
+</pre></div>
+<p>Reviewing what’s going on with the <code>gcloud</code> command, we have:</p>
+<ul>
+<li>
+<code>region</code>, that informs AI Platform about the region to be used for the training process. This very region is also going to be used to provision resources such as GPUs. If GPUs are to be used then it’s important to pass a region that has that support. You can know the regions that have this support from <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-regions">here</a>. </li>
+<li>
+<code>master-image-uri</code> is the URI of our custom Docker image. </li>
+<li>
+<p>Via <code>config</code>, we provide a specification of the kind of machine we want to use for training. This specification is provided using a <a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML</a> file and ours looks like so:</p>
+<div class="highlight"><pre><span></span><span class="nt">trainingInput</span><span class="p">:</span>
+    <span class="nt">scaleTier</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CUSTOM</span>
+    <span class="c1"># Configure a master worker with 4 V100 GPUs</span>
+    <span class="nt">masterType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">large_model_v100</span>
+</pre></div>
+<p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform. 
+</p>
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <strong>Important: </strong>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. 
+</div>
+We already know about the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:
+</li>
+</ul>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_list.png" alt=""></p>
+<center>
+<b>Figure 4</b>: AI Platform training job list.
+</center>
+<p>On the extreme right, you would notice an option called <strong>View Logs</strong> that lets us monitor our training. It’s incredibly useful to have all of your training logs stored somewhere safe <em>without</em> making any effort. Logging for an AI Platform <code>training</code> job is managed by <a href="https://cloud.google.com/logging">Cloud Logging</a>. Here’s how mine looks like:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/logs_viewer.png" alt=""></p>
+<center>
+<b>Figure 5</b>: Training logs. Notice the neat search filter query.
+</center>
+<p>After training is complete, we can verify if all the necessary artifacts were stored inside our GCS Bucket:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gcs_files.png" alt=""></p>
+<center>
+<b>Figure 6</b>: SavedModel file and TensorBoard logs.
+</center>
+<p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/CV82lAf9R2OeUNzdxh7pfQ/">here online on tensorboard.dev</a>.  Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/tensorboard.png" alt=""></p>
+<center>
+<b>Figure 7</b>: Accuracy plot.
+</center>
+<p>As an effective practitioner, It’s important to be aware of the costs and ensure maximization of resource utilization. Now that we were able to successfully complete our model training, let’s discuss these aspects in the next and final section of the post.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Delving-deep-into-training-costs-and-resource-utilization">
+<a class="anchor" href="#Delving-deep-into-training-costs-and-resource-utilization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Delving deep into training costs and resource utilization<a class="anchor-link" href="#Delving-deep-into-training-costs-and-resource-utilization"> </a>
+</h1>
+<p>AI Platform provides a number of useful metrics for the <code>training</code> jobs. Each job has a separate dashboard that makes it super easy to keep track of its statistics such as total training time, average resource utilization, etc.</p>
+<p>First, we have high-level information about the job:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_high_level.png" alt=""></p>
+<center>
+<b>Figure 8</b>: High-level information about a training job.
+</center>
+<p>We can see that the job takes about 27 minutes to complete, and this includes the provisioning of resources, completing the model training, and de-provisioning the resources.  We then see the total ML units consumed to run our job. The cost for this translates to:</p>
+<p><strong>1.37</strong> (ML units) $\times$ <strong>\$3.0708</strong> (base price of <code>large_model_v100</code> / <strong>60</strong>) $\times$ <strong>27</strong> (minutes for running the job) $\approx$ <strong>\$1.90</strong>.</p>
+<p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing">this document</a> that details the cost calculation scheme.</p>
+<p>So far our costs are: \$0.141 (AI Platform Notebook) + \\$1.20 (GCS) + \$1.90 (`training` job) = **\\$3.241**. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as a <code>large_model_v100</code> machine:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/notebook_pricing.png" alt=""></p>
+<center>
+<b>Figure 9</b>: Cost for an AI Platform Notebook with 4 V100 GPUs with n1-standard-8.
+</center>
+<p>Coming to CPU utilization, we have some room for improvement it seems:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/cpu_util.png" alt=""></p>
+<center>
+<b>Figure 10</b>: CPU utilization of our training resources.
+</center>
+<p>The overall GPU utilization has a few spikes which might need some more inspections in the future:</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gpu_util.png" alt=""></p>
+<center>
+<b>Figure 11</b>: GPU utilization of our training resources.
+</center>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusion">
+<a class="anchor" href="#Conclusion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conclusion<a class="anchor-link" href="#Conclusion"> </a>
+</h1>
+<p>We have covered quite a lot of ground in this post. I hope by now you have an idea of how to combine tools like Docker, AI Platform to manage your large-scale training workflows in a more cost-effective and scalable way. As a next step, you could take the trained model from AI Platform and deploy the model using it. AI Platform <a href="https://cloud.google.com/ai-platform/prediction/docs"><code>predict</code> jobs</a> make it easier to expose models via REST API-like services that are fully managed by AI Platform offering things like autoscaling, authorization, monitoring, etc. If you'd like to try it out yourself, I encourage you to check out the code of this post on <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">GitHub</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Acknowledgements">
+<a class="anchor" href="#Acknowledgements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Acknowledgements<a class="anchor-link" href="#Acknowledgements"> </a>
+</h1>
+<p>I am thankful to <a href="https://twitter.com/kweinmeister?lang=en">Karl Weinmeister</a> for his comments on the initial draft of this post. Also, thanks to the <a href="https://developers.google.com/community/experts">ML-GDE program</a> for providing generous GCP support without which I couldn’t have executed the experiments.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="sayakpaul/portfolio"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/distributed-training/" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Deep Learning, Computer Vision, Interviews, etc.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/sayakpaul" title="sayakpaul"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/RisingSayak" title="RisingSayak"><svg class="svg-icon grey"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
