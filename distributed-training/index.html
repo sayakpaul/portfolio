@@ -376,14 +376,18 @@ $ gcloud ai-platform <span class="nb">jobs</span> submit training <span class="s
 <p>Via <code>config</code>, we provide a specification of the kind of machine we want to use for training. This specification is provided using a <a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML</a> file and ours looks like so:</p>
 <div class="highlight"><pre><span></span><span class="nt">trainingInput</span><span class="p">:</span>
     <span class="nt">scaleTier</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">CUSTOM</span>
-    <span class="c1"># Configure a master worker with 4 V100 GPUs</span>
-    <span class="nt">masterType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">large_model_v100</span>
+    <span class="c1"># Configure a master worker with 2 V100 GPUs</span>
+    <span class="nt">masterType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n1-standard-8</span> <span class="c1"># Specify the base machine type</span>
+    <span class="nt">masterConfig</span><span class="p">:</span>
+      <span class="nt">acceleratorConfig</span><span class="p">:</span>
+        <span class="nt">count</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2</span>
+        <span class="nt">type</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">NVIDIA_TESLA_V100</span>
 </pre></div>
 <p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform.
 </p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
-    <strong>Important: </strong>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. 
+    <strong>Important: </strong>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. We could have used other GPUs like T4, A100 as well that fit this criterion. 
 </div>
 We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:
 </li>
@@ -402,7 +406,7 @@ We have already discussed the part that follows <code>config</code> so we will n
 <center>
 <b>Figure 6</b>: SavedModel file and TensorBoard logs.
 </center>
-<p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/CV82lAf9R2OeUNzdxh7pfQ/">here online on tensorboard.dev</a>.  Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
+<p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/AWPrJesPSxyCX0GSmJMk1A/">here online on tensorboard.dev</a>.  Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/tensorboard.png" alt=""></p>
 <center>
 <b>Figure 7</b>: Accuracy plot.
@@ -424,13 +428,13 @@ We have already discussed the part that follows <code>config</code> so we will n
 <center>
 <b>Figure 8</b>: High-level information about a training job.
 </center>
-<p>We can see that the job takes about 27 minutes to complete, and this includes the provisioning of resources, completing the model training, and de-provisioning the resources.  We then see the total ML units consumed to run our job. The cost for this translates to:</p>
-<p><strong>1.37</strong> (ML units) $\times$ <strong>USD 3.0708</strong> (base price of <code>large_model_v100</code> / <strong>60</strong>) $\times$ <strong>27</strong> (minutes for running the job) $\approx$ <strong>USD 1.90</strong>.</p>
-<p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing">this document</a> that details the cost calculation scheme.</p>
-<p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 1.90</strong> (<code>training</code> job) = <strong>USD 3.241</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as a <code>large_model_v100</code> machine:</p>
+<p>We can see that the job takes about 22 minutes to complete, and this includes the provisioning of resources, completing the model training, and de-provisioning the resources.  We then see the total ML units consumed to run our job. The cost for this translates to:</p>
+<p><strong>1.79</strong> (Consumed ML units) $\times$ <strong>USD 0.49</strong> = <strong>USD 0.8771</strong></p>
+<p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing#ml-units">this document</a> that details the cost calculation scheme. GCP also provides a handy estimated cost calculator that you can find <a href="https://cloud.google.com/products/calculator">here</a>.</p>
+<p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 0.8771</strong> (<code>training</code> job) = <strong>USD 2.2181</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as the one we used for training:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/notebook_pricing.png" alt=""></p>
 <center>
-<b>Figure 9</b>: Cost for an AI Platform Notebook with 4 V100 GPUs with n1-standard-8.
+<b>Figure 9</b>: Cost for an AI Platform Notebook with 2 V100 GPUs with n1-standard-8.
 </center>
 <p>Coming to CPU utilization, we have some room for improvement it seems:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/cpu_util.png" alt=""></p>
