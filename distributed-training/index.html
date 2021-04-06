@@ -162,7 +162,7 @@ window.onload = wrap_img;
 <li class="toc-entry toc-h1"><a href="#Notes-on-the-task,-data-pipeline,-and-training">Notes on the task, data pipeline, and training </a></li>
 <li class="toc-entry toc-h1"><a href="#Fitting-in-Docker">Fitting in Docker </a></li>
 <li class="toc-entry toc-h1"><a href="#Building-and-locally-running-our-container">Building and locally running our container </a></li>
-<li class="toc-entry toc-h1"><a href="#Submitting-a-distributed-training-job">Submitting a distributed training job </a></li>
+<li class="toc-entry toc-h1"><a href="#Submitting-a-training-job">Submitting a training job </a></li>
 <li class="toc-entry toc-h1"><a href="#Delving-deep-into-training-costs-and-resource-utilization">Delving deep into training costs and resource utilization </a></li>
 <li class="toc-entry toc-h1"><a href="#Conclusion">Conclusion </a></li>
 <li class="toc-entry toc-h1"><a href="#Acknowledgements">Acknowledgements </a></li>
@@ -343,8 +343,8 @@ $ docker run <span class="si">${</span><span class="nv">IMAGE_URI</span><span cl
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Submitting-a-distributed-training-job">
-<a class="anchor" href="#Submitting-a-distributed-training-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submitting a distributed training job<a class="anchor-link" href="#Submitting-a-distributed-training-job"> </a>
+<h1 id="Submitting-a-training-job">
+<a class="anchor" href="#Submitting-a-training-job" aria-hidden="true"><span class="octicon octicon-link"></span></a>Submitting a training job<a class="anchor-link" href="#Submitting-a-training-job"> </a>
 </h1>
 <p>For this step, we need to add two more lines of code:</p>
 <ul>
@@ -392,7 +392,8 @@ $ gcloud ai-platform <span class="nb">jobs</span> submit training <span class="s
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. We could have used other GPUs like T4, A100 as well that fit this criterion. 
 </div>
-We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:
+<br>
+<p>We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_list.png" alt=""></p>
 <center>
 <b>Figure 4</b>: AI Platform training job list.
