@@ -425,9 +425,9 @@ We have already discussed the part that follows <code>config</code> so we will n
 <b>Figure 8</b>: High-level information about a training job.
 </center>
 <p>We can see that the job takes about 27 minutes to complete, and this includes the provisioning of resources, completing the model training, and de-provisioning the resources.  We then see the total ML units consumed to run our job. The cost for this translates to:</p>
-<p><strong>1.37</strong> (ML units) $\times$ <strong>\$3.0708</strong> (base price of <code>large_model_v100</code> / <strong>60</strong>) $\times$ <strong>27</strong> (minutes for running the job) $\approx$ <strong>\$1.90</strong>.</p>
+<p><strong>1.37</strong> (ML units) $\times$ <strong>USD 3.0708</strong> (base price of <code>large_model_v100</code> / <strong>60</strong>) $\times$ <strong>27</strong> (minutes for running the job) $\approx$ <strong>USD 1.90</strong>.</p>
 <p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing">this document</a> that details the cost calculation scheme.</p>
-<p>So far our costs are: <strong>\$0.141</strong> (AI Platform Notebook) + <strong>\$1.20 (GCS)</strong> + <strong>\$1.90</strong> (<code>training</code> job) = <strong>\$3.241</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as a <code>large_model_v100</code> machine:</p>
+<p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 1.90</strong> (<code>training</code> job) = <strong>USD 3.241</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as a <code>large_model_v100</code> machine:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/notebook_pricing.png" alt=""></p>
 <center>
 <b>Figure 9</b>: Cost for an AI Platform Notebook with 4 V100 GPUs with n1-standard-8.
