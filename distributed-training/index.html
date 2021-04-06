@@ -379,15 +379,16 @@ $ gcloud ai-platform <span class="nb">jobs</span> submit training <span class="s
     <span class="c1"># Configure a master worker with 4 V100 GPUs</span>
     <span class="nt">masterType</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">large_model_v100</span>
 </pre></div>
-<p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform. 
+<p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform.</p>
+</li>
+</ul>
+<p><br>
 </p>
 <div class="flash flash-warn">
     <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. 
 </div>
-We already know about the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:
-</li>
-</ul>
+We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:
 <p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_list.png" alt=""></p>
 <center>
 <b>Figure 4</b>: AI Platform training job list.
