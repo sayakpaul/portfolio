@@ -13,7 +13,7 @@ Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://www.d
 
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more.
 
-## [Datacamp](https://learn.datacamp.com/)
+## [Datacamp](https://www.datacamp.com/)
 -   KMeans clustering with `scikit-learn` -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
 -   Hyperparameter Optimization in Machine Learning Models -  [https://goo.gl/5C6ouV](https://goo.gl/5C6ouV)
 -   Towards Preventing Overfitting: Regularization -  [https://goo.gl/B9vxia](https://goo.gl/B9vxia)
@@ -88,6 +88,12 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Unsupervised Visual Representation Learning with SwAV - [http://bit.ly/swav-tf](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   Distilling Knowledge in Neural Networks - [https://bit.ly/3mvsbGn](https://bit.ly/3mvsbGn)
 
+## [Keras][https://keras.io/]
+-   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
+-   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
+-   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
+-   [Consistency Training with Supervision](https://keras.io/examples/vision/consistency_training/)
+
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
@@ -96,9 +102,6 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
 -   How to Create a Cartoonizer with TensorFlow Lite (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [http://bit.ly/cartoonizer-app](http://bit.ly/cartoonizer-app) [^6]
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^7]
--   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
--   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
--   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
 -   A comprehensive list of data science resources for developers (for  [**Intel DevMesh**](http://www.google.com/url?q=http%3A%2F%2Fdevmesh.intel.com&sa=D&sntz=1&usg=AFQjCNG6G3_-7qKsEnZHfzMtGGgB7JkeBQ)) -  [https://intel.ly/2J2UYSs](https://www.google.com/url?q=https%3A%2F%2Fintel.ly%2F2J2UYSs&sa=D&sntz=1&usg=AFQjCNHsgNC2r1OUktnw4zeWIKhWl9JzDA)
 -   Detecting phishing websites using machine learning ([**Intel Software Innovators' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fintel-software-innovators&sa=D&sntz=1&usg=AFQjCNGyV7cYGuTfpkFU2iPrIMognBZx_A)) -  [http://bit.ly/2YBvaAs](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2YBvaAs&sa=D&sntz=1&usg=AFQjCNHAGKnEC3Ea2VVU5sGH2vG4iV10_g)
 -   Lessons learned from a Deep Learning Hackathon ([**Intel Software Innovators' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fintel-software-innovators&sa=D&sntz=1&usg=AFQjCNGyV7cYGuTfpkFU2iPrIMognBZx_A)) -  [http://bit.ly/2YfnZhI](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2YfnZhI&sa=D&sntz=1&usg=AFQjCNGPzUVQmdpw0WsRxzjIgSziBFBpvA)
