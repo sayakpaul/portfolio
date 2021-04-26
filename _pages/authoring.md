@@ -88,7 +88,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Unsupervised Visual Representation Learning with SwAV - [http://bit.ly/swav-tf](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   Distilling Knowledge in Neural Networks - [https://bit.ly/3mvsbGn](https://bit.ly/3mvsbGn)
 
-## [Keras][https://keras.io/]
+## [Keras](https://keras.io/)
 -   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
 -   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
 -   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
