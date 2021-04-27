@@ -42,3 +42,5 @@ The purpose of conducting these interviews is to mainly **get insights about the
 -   [An interview with **Alexander (Sasha) Rush**, Associate Professor at Cornell University](https://medium.com/@spsayakpaul/an-interview-with-alexander-sasha-rush-associate-professor-at-cornell-university-220fed1e87ea)
 -   [An interview with **Vincent Sitzmann**, Postdoctoral Researcher at MIT](https://medium.com/@spsayakpaul/an-interview-with-vincent-sitzmann-postdoctoral-researcher-at-mit-46edbd72aa84)
 -   [An interview with **Dan Hendrycks**, Ph.D. student at UC Berkeley](https://medium.com/@spsayakpaul/an-interview-with-dan-hendrycks-ph-d-student-at-uc-berkeley-c546e7c76657)
+
+I have had an amazing time interviewing these incredible folks and I am grateful to them. For other competing priorities, I am discontinuing the series for an indefinite period. If you enjoy reading through interviews like these, you might want to check out the [**Machine Learning Street Talk**](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ) podcast on YouTube.  
