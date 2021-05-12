@@ -93,6 +93,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
 -   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
 -   [Consistency Training with Supervision](https://keras.io/examples/vision/consistency_training/)
+-   [Learning to Resize in Computer Vision](https://keras.io/examples/vision/learnable_resizer/)
 
 ## Other
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
