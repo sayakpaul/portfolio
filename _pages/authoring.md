@@ -94,8 +94,9 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
 -   [Consistency Training with Supervision](https://keras.io/examples/vision/consistency_training/)
 -   [Learning to Resize in Computer Vision](https://keras.io/examples/vision/learnable_resizer/)
+-   [Keypoint Detection with Transfer Learning](https://keras.io/examples/vision/keypoint_detection/)
 
-## Other
+## Others
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   AMA with Sayak Paul - Hacktoberfest'19 -  [https://fossassam.tech/post/ama-sayak/](https://www.google.com/url?q=https%3A%2F%2Ffossassam.tech%2Fpost%2Fama-sayak%2F&sa=D&sntz=1&usg=AFQjCNHimN-mRO2j6YvJG2MJ7cjy9arwAw)
 -   Predicting the publisher’s name from an article: A case study (for  [**Google Developers Experts' Medium Channel**](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2Fgoogle-developer-experts&sa=D&sntz=1&usg=AFQjCNE5ZP96KI2Vlkm_7ZNZx6gk1-g22g)) -  [http://bit.ly/2K9TpS8](http://www.google.com/url?q=http%3A%2F%2Fbit.ly%2F2K9TpS8&sa=D&sntz=1&usg=AFQjCNHYVn1jY9D0pTkUkMCPGVup-5y-Sw) [^5]
