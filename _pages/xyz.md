@@ -17,9 +17,10 @@ permalink: /xyz/
     - [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
     - Mentored at [**Google for Startups India Accelerator Class 4**](https://twitter.com/GoogleDevsIN/status/1302932126019411970)
     - Currently mentoring for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/)
+-   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
 -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
+-   Recepient of the [Google Open Source Peer Bonus Award (2020)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 -   Recepient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0)
--   Recepient of the [Google Open Source Peer Bonus Award (2020)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). Here's a related [blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
