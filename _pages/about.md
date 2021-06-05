@@ -19,7 +19,8 @@ My subject of interest broadly lies in the area of _visual representation learni
 </table>
 
 ## Timeline:
-- Deep Learning Associate, PyImageSearch (June, 2019 - present)
+- TBA
+- Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
 - Software Engineer, TCS Research and Innovation (January 2018 - August 2018)
 - Software Engineer, Tata Consultancy Services Limited (July 2017 - January 2018)
