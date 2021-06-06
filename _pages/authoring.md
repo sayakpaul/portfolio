@@ -69,7 +69,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Introduction to image inpainting with deep learning](https://bit.ly/39CqTBK) (joint work with [Ayush Thakur](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2Fayushthakur0&sa=D&sntz=1&usg=AFQjCNHhWFJzSWoahTWqv8gnUSTAO1uU9w))
 -   [Reproducible Models with W&B](https://bit.ly/34V5ZNz)
 -   [EvoNorm layers in TensorFlow 2](https://bit.ly/3arUw9q)
--   [A Tale of Model Quantization in TF Lite](https://bit.ly/3dlCRSI](https://bit.ly/3dlCRSI)
+-   [A Tale of Model Quantization in TF Lite](https://bit.ly/3dlCRSI)
 -   [Towards self-supervised image understanding with SimCLR](https://bit.ly/2LHq6WR)
 -   [The Power of Random Features of a CNN](https://bit.ly/2XKv76A)
 -   [Plotting top loss images while training models](https://bit.ly/30Xzs9E) (joint work with [Tulasi](https://www.linkedin.com/in/tulasi-ram-laghumavarapu-aba672103/))
