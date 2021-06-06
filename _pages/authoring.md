@@ -15,18 +15,11 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 
 ## [Datacamp](https://www.datacamp.com/)
 -   KMeans clustering with `scikit-learn` -  [https://goo.gl/dT7kYq](https://goo.gl/dT7kYq)
--   Hyperparameter Optimization in Machine Learning Models -  [https://goo.gl/5C6ouV](https://goo.gl/5C6ouV)
 -   Towards Preventing Overfitting: Regularization -  [https://goo.gl/B9vxia](https://goo.gl/B9vxia)
--   Ensemble Learning in Python -  [https://goo.gl/dmH9db](https://goo.gl/dmH9db)
--   Investigating Tensors with PyTorch -  [https://goo.gl/yoYsVL](https://goo.gl/yoYsVL)
--   Introduction to Feature Selection -  [https://goo.gl/gY8rwy](https://goo.gl/gY8rwy)
--   Demystifying crucial Statistics in Python  -  [https://goo.gl/i2Wm5v](https://goo.gl/i2Wm5v) [^1]
--   Diving Deep with Imbalanced Data -  [https://goo.gl/fZnYmV](https://goo.gl/fZnYmV)
--   Introduction to Cyclical Learning Rates -  [https://goo.gl/2fpkQQ](https://goo.gl/2fpkQQ)
+-   Demystifying Crucial Statistics in Python  -  [https://goo.gl/i2Wm5v](https://goo.gl/i2Wm5v) [^1]
 -   Turning Machine Learning Models into APIs in Python[^2] -  [https://goo.gl/vwzqtA](https://goo.gl/vwzqtA)
 -   Essentials of Linear Regression in Python[^3] -  [https://goo.gl/5nuVmt](https://goo.gl/5nuVmt)
 -   Simplifying Sentiment Analysis in Python -  [https://goo.gl/62mEJo](https://goo.gl/62mEJo)
--   Automated Machine Learning with Auto-Keras -  [https://goo.gl/XEjea4](https://goo.gl/XEjea4)
 -   Introduction to Indexing in SQL -  [https://goo.gl/7dcnE7](https://goo.gl/7dcnE7)
 -   Understanding Recursive Functions in Python -  [https://goo.gl/u1U2eH](https://goo.gl/u1U2eH)
 -   Beginner's Guide to Google's Vision API in Python -  [https://goo.gl/VCwZa8](https://goo.gl/VCwZa8)
@@ -61,6 +54,8 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [How to plan and execute your ML and DL projects](http://bit.ly/2XtMCeh)
 -   [Becoming One With the Data](http://bit.ly/30N3bPA) [^4]
 -   [Training Neural Nets: a Hacker’s Perspective](http://bit.ly/training-neural-nets)
+
+[^4]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
 
 ## [Weights and Biases](https://www.wandb.com/)
 -   [Running Hyperparameter Sweeps to Pick the Best Model](http://bit.ly/2MKHR7K)
@@ -109,8 +104,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   Introduction to procedures and cursors in SQL ([**Towards Data Science**](https://www.google.com/url?q=https%3A%2F%2Ftowardsdatascience.com&sa=D&sntz=1&usg=AFQjCNEDpuOzDwTYeGD8p2VjcidsLVw9nQ)) -  [https://bit.ly/2OTd8WF](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2OTd8WF&sa=D&sntz=1&usg=AFQjCNE9unF3zGw7A1dX9hhPhBvryZrirA)
 -   “Reparameterization” trick in Variational Autoencoders ([**Towards Data Science**](https://www.google.com/url?q=https%3A%2F%2Ftowardsdatascience.com&sa=D&sntz=1&usg=AFQjCNEDpuOzDwTYeGD8p2VjcidsLVw9nQ)) -  [https://bit.ly/2RjoWnM](https://www.google.com/url?q=https%3A%2F%2Fbit.ly%2F2RjoWnM&sa=D&sntz=1&usg=AFQjCNHOZZzhFNnjGGLkN1SlDb0tcYVzyg)
 
-  
-[^4]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s monthly  [newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
+
 [^5]:This one won the ML GDE Dev Challenge.
 [^6]:Published from the official TensorFlow blog.
 [^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
