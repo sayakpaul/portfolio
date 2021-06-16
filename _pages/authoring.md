@@ -88,6 +88,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Learning to Resize in Computer Vision](https://keras.io/examples/vision/learnable_resizer/)
 -   [Keypoint Detection with Transfer Learning](https://keras.io/examples/vision/keypoint_detection/)
 -   [Video Classification with a CNN-RNN Architecture](https://keras.io/examples/vision/video_classification/)
+-   [Video Classification with Transformers](https://keras.io/examples/vision/video_transformers/)
 
 ## Others
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
