@@ -3,7 +3,7 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-I am primarily interested in image recognition and generation tasks which is what my professional work also requires. I am also interested in other areas of Deep Learning such as model optimization, self-supervision, and model robustness. I have a good amount of experience in implementing research ideas, sometimes incorporating them in practical applications, and communicating my implementation details through lucid writings.
+I am primarily interested in image recognition and generation tasks which is what my professional work also requires. I am also interested in other areas of Deep Learning such as model optimization, semi-supervision, self-supervision, and model robustness. I have a good amount of experience in implementing research ideas, sometimes incorporating them in practical applications, and communicating my implementation details through lucid writings.
 
 I advocate for highly readable and self-contained code. Python is what I primarily use for programming. I am proficient in TensorFlow and a beginner in PyTorch. I usually train models on Google Cloud Platform / Colaboratory / Kaggle facilitating TPUs when required.
 
