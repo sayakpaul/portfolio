@@ -7,9 +7,9 @@ I am primarily interested in image recognition and generation tasks which is wha
 
 I advocate for highly readable and self-contained code. Python is what I primarily use for programming. I am proficient in TensorFlow and a beginner in PyTorch. I usually train models on Google Cloud Platform / Colaboratory / Kaggle facilitating TPUs when required.
 
-For my community contributions and innovative projects, the Intel Software Innovator Program recognized me as one of [their top innovators in 2019](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0). For my open-source contributions, I received the [Google Open Source Peer Bonus Award in 2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html).
-
 I have a flair for open-source initiatives. Currently, I am actively contributing to <a href="https://tfhub.dev/s?publisher=sayakpaul"><font color="#FF6F00">TensorFlow Hub</font></a> and <a href="https://github.com/keras-team/keras-io/commits?author=sayakpaul"><font color="#d00000">Keras Examples</font></a>. Off the work, I like writing technical articles, working on applied Machine Learning ideas, and giving talks at developer meetups and conferences.
+
+For my community contributions and innovative projects, the Intel Software Innovator Program recognized me as one of [their top innovators in 2019](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0). For my open-source contributions, I received the [Google Open Source Peer Bonus Award in 2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html).
 
 <table>
   <tr>
