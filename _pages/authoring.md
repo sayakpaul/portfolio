@@ -22,7 +22,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Introduction to Indexing in SQL](https://goo.gl/7dcnE7) 
 -   [Understanding Recursive Functions in Python](https://goo.gl/u1U2eH) 
 -   [Beginner's Guide to Google's Vision API in Pytho](https://goo.gl/VCwZa8) 
--   [Beginner's Guide to PostgreSQL](https://goo.gl/DV1rhY) -  [https://goo.gl/DV1rhY]
+-   [Beginner's Guide to PostgreSQL](https://goo.gl/DV1rhY)
 -   [Managing Databases in PostgreSQL](https://goo.gl/YA9fAy)
 -   [Working with Spreadsheets in SQL](https://goo.gl/PYUb2v)
 -   [Installing PostgreSQL on Windows and Mac OS X](https://goo.gl/CyF8T4)
