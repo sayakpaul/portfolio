@@ -17,7 +17,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-07-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Accelerating inference of TensorFlow models using TensorRT.","@type":"BlogPosting","headline":"Using TensorRT for accelerated deep learning inference","dateModified":"2020-07-01T00:00:00-05:00","url":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html","datePublished":"2020-07-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html"},"image":"https://sayak.dev/images/speed.png","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Accelerating inference of TensorFlow models using TensorRT.","@type":"BlogPosting","headline":"Using TensorRT for accelerated deep learning inference","dateModified":"2020-07-01T00:00:00-05:00","datePublished":"2020-07-01T00:00:00-05:00","url":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html"},"image":"https://sayak.dev/images/speed.png","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -40,7 +40,7 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-07-01T00:00:00-05:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Accelerating inference of TensorFlow models using TensorRT.","@type":"BlogPosting","headline":"Using TensorRT for accelerated deep learning inference","dateModified":"2020-07-01T00:00:00-05:00","url":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html","datePublished":"2020-07-01T00:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html"},"image":"https://sayak.dev/images/speed.png","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Accelerating inference of TensorFlow models using TensorRT.","@type":"BlogPosting","headline":"Using TensorRT for accelerated deep learning inference","dateModified":"2020-07-01T00:00:00-05:00","datePublished":"2020-07-01T00:00:00-05:00","url":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/tf.keras/tensorrt/tensorflow/2020/07/01/accelerated-inference-trt.html"},"image":"https://sayak.dev/images/speed.png","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -711,7 +711,7 @@ average(sec):0.00,fps:219.98
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That’s quite a bit of improvement, isn’t it? Note that you may experience slowed up inference in the first call to <code>time_trt_model()</code>. It may happen because of the warm-up of a GPU. When running comparisons like this, it’s a good practice to first warm up the base hardware by running a few test iterations on it and then run the actual iterations for comparison. Depending on the GPU you're using, these numbers can vary (these experiments are from a <strong>Tesla P100</strong>).</p>
+<p>That’s quite a bit of improvement, isn’t it? Note that you may observe slower inference in your first call to <code>time_trt_model()</code>. It may happen because of the additional time a GPU takes to set itself up. When running comparisons like this, it’s a good practice to first warm up the base hardware by running a few test iterations on it and then run the actual iterations for comparison. Depending on the GPU you're using, these numbers can vary (these experiments were performed a <strong>Tesla P100</strong>).</p>
 <p>Talking about the memory footprints of both the models, for the pre-trained model we have -</p>
 
 </div>
@@ -804,7 +804,12 @@ average(sec):0.00,fps:219.98
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p>Woah! The size has increased in this case! This is because the computational graph of our optimized model has been changed. However, the size of the parameters (<code>mobilenet_v2/variables</code> and <code>mobilenet_v2.trt/variables</code>) of both models is the same.</p>
-<p>In real-life situations, as a machine learning practitioner, you will often have to make trade-offs between memory footprints, performance both in terms of accuracy and inference time. So having the knowledge of employing the right tools at the right moment will help you a long way. So, if you are looking for reducing the memory footprint of the model as well as accelerating the inference time, TensorFlow Lite is a good choice. In the bonus section of the post, we are going to discuss it.</p>
+<p>In real-life situations, as a machine learning practitioner, you will often have to make trade-offs between memory footprints, performance both in terms of accuracy and inference time. So having the knowledge of employing the right tools at the right moment will help you a long way. So, if you are looking for reducing the memory footprint of the model as well as accelerating the inference time, TensorFlow Lite is a good choice. In the bonus section of the post, we are going to discuss it. 
+</p>
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <strong>Important: </strong>TensorFlow has now introduced a <code>tf.experimental.tensorrt.Converter</code> API with better support for TensorRT. 
+</div>
 
 </div>
 </div>
