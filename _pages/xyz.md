@@ -19,7 +19,7 @@ permalink: /xyz/
     - Currently mentoring for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/). Students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2).
 -   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
 -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
--   Recepient of the [Google Open Source Peer Bonus Award (2020)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
+-   Recepient of the [Google Open Source Peer Bonus Award (2020 and 2021)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 -   Recepient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0)
 
 ## Non-tech:
