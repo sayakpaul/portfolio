@@ -13,6 +13,19 @@ Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://www.d
 
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more.
 
+## [Keras](https://keras.io/)
+-   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
+-   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
+-   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
+-   [Consistency Training with Supervision](https://keras.io/examples/vision/consistency_training/)
+-   [Learning to Resize in Computer Vision](https://keras.io/examples/vision/learnable_resizer/)
+-   [Keypoint Detection with Transfer Learning](https://keras.io/examples/vision/keypoint_detection/)
+-   [Video Classification with a CNN-RNN Architecture](https://keras.io/examples/vision/video_classification/)
+-   [Video Classification with Transformers](https://keras.io/examples/vision/video_transformers/)
+-   [Semi-supervision and domain adaptation with AdaMatch](https://keras.io/examples/vision/adamatch/)
+-   [Compact Convolutional Transformers](https://keras.io/examples/vision/cct/)
+-   [Conditional GAN](https://keras.io/examples/generative/conditional_gan/)
+
 ## [Datacamp](https://www.datacamp.com/)
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
 -   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^1]
@@ -77,21 +90,8 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Unsupervised Visual Representation Learning with SwAV](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   [Distilling Knowledge in Neural Networks](https://bit.ly/3mvsbGn)
 
-## [Keras](https://keras.io/)
--   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
--   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
--   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
--   [Consistency Training with Supervision](https://keras.io/examples/vision/consistency_training/)
--   [Learning to Resize in Computer Vision](https://keras.io/examples/vision/learnable_resizer/)
--   [Keypoint Detection with Transfer Learning](https://keras.io/examples/vision/keypoint_detection/)
--   [Video Classification with a CNN-RNN Architecture](https://keras.io/examples/vision/video_classification/)
--   [Video Classification with Transformers](https://keras.io/examples/vision/video_transformers/)
--   [Semi-supervision and domain adaptation with AdaMatch](https://keras.io/examples/vision/adamatch/)
--   [Compact Convolutional Transformers](https://keras.io/examples/vision/cct/)
--   [Conditional GAN](https://keras.io/examples/generative/conditional_gan/)
-
 ## Others
-- [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
+-   [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   [AMA with Sayak Paul - Hacktoberfest'19](https://fossassam.tech/post/ama-sayak/)
 -   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^5]
 -   [GDE Journey — Sayak Paul](https://bit.ly/2WVQsLd) 
