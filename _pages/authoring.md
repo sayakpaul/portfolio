@@ -88,6 +88,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Video Classification with Transformers](https://keras.io/examples/vision/video_transformers/)
 -   [Semi-supervision and domain adaptation with AdaMatch](https://keras.io/examples/vision/adamatch/)
 -   [Compact Convolutional Transformers](https://keras.io/examples/vision/cct/)
+-   [Conditional GAN](https://keras.io/examples/generative/conditional_gan/)
 
 ## Others
 - [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
