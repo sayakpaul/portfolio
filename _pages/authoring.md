@@ -25,6 +25,7 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Semi-supervision and domain adaptation with AdaMatch](https://keras.io/examples/vision/adamatch/)
 -   [Compact Convolutional Transformers](https://keras.io/examples/vision/cct/)
 -   [Conditional GAN](https://keras.io/examples/generative/conditional_gan/)
+-   [Vector-Quantized Variational Autoencoders](https://keras.io/examples/generative/vq_vae/)
 
 ## [Datacamp](https://www.datacamp.com/)
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
