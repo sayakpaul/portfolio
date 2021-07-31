@@ -19,8 +19,11 @@ permalink: /xyz/
     - Currently mentoring for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/). Students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2).
 -   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
 -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
--   Recepient of the [Google Open Source Peer Bonus Award (2020 and 2021)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
--   Recepient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0)
+-   Recipient of the [Google Open Source Peer Bonus Award (2020 and 2021)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
+-   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
+-   Recipient of the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105) for collaborating on [an innovative project](https://github.com/margaretmz/segmentation-style-transfer).
+-   Topper (Rank: 8) at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
+-   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
