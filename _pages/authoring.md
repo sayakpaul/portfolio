@@ -110,6 +110,6 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
 
 
-[^5]:This one won the ML GDE Dev Challenge.
-[^6]:Published from the official TensorFlow blog.
-[^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
+[^6]:This one won the ML GDE Dev Challenge.
+[^7]:Published from the official TensorFlow blog.
+[^8]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
