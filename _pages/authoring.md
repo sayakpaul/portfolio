@@ -100,8 +100,8 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 -   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^6]
 -   [GDE Journey — Sayak Paul](https://bit.ly/2WVQsLd) 
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
--   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) [^7]
--   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^8]
+-   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
+-   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^7]
 -   [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
@@ -110,5 +110,4 @@ Below are the blogs, articles, and tutorials I have written on Data Science, Mac
 
 
 [^6]:This one won the ML GDE Dev Challenge.
-[^7]:Published from the official TensorFlow blog.
-[^8]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
+[^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
