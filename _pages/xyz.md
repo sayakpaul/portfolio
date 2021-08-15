@@ -5,8 +5,9 @@ permalink: /xyz/
 ---
 -   Taught under-privileged children and managed operations for a TCS-CSR initiative called **H20 (Helping Hand Organization)**
 -   [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [**Campus Commune**](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ)
--   Book reviewer at **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)**
--   Co-organizer and organizer of **[GDG Kolkata](https://www.google.com/url?q=https%3A%2F%2Fgdgkolkata.org%2F&sa=D&sntz=1&usg=AFQjCNFv7NHWsGgjXbrWxA6gSyJRAmPHMA)** and **[TensorFlow User Group Kolkata](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FTFUG-Kol%2F&sa=D&sntz=1&usg=AFQjCNGSigBHJiGjDwNw2ukRhA_pfPFqNA)** respectively
+-   Book reviewer for **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)**
+-   Co-organizer of **[GDG Kolkata](https://www.meetup.com/GDG-Kolkata/)** (2019 - 2021)
+-   Organizer of **[TensorFlow User Group Kolkata](https://tfugkol.github.io/)** (2020 - 2021)
 -   **Mentorship**:
     - [**Launchpad Women Entrepreneurs**](https://photos.app.goo.gl/TGoyxJRz6sDrY91x7)
     - [**Explore ML Academy, Hyderabad**](https://events.withgoogle.com/explore-ml-in/)
