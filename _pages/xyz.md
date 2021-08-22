@@ -25,7 +25,7 @@ permalink: /xyz/
     -   Recipient of the [Google Open Source Peer Bonus Award (2020 and 2021)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
     -   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
     -   Finished 2nd (with Siddha Ganju) at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team.
-    -   Recipient of the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105) for collaborating on [an innovative project](https://github.com/margaretmz/segmentation-style-transfer).
+    -   Recipient of the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105) for a [collaborative and innovative project](https://github.com/margaretmz/segmentation-style-transfer).
     -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
     -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 
