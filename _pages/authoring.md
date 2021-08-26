@@ -31,7 +31,7 @@ as well as the blog posts.
 -   [Vector-Quantized Variational Autoencoders](https://keras.io/examples/generative/vq_vae/)
 -   [Knowledge distillation recipes](https://keras.io/examples/keras_recipes/better_knowledge_distillation/)
 -   [Multimodal entailment](https://keras.io/examples/nlp/multimodal_entailment/)
--   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joit work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
+-   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
 
 ## [Datacamp](https://www.datacamp.com/)
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
