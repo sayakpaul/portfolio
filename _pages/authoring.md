@@ -3,7 +3,7 @@ layout: page
 title: Authoring
 permalink: /authoring/
 ---
-Co-authored a book  [Hands-On Python Deep Learning for the Web](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A)  ([Packt Publishers](http://www.google.com/url?q=http%3A%2F%2Fpacktpub.com&sa=D&sntz=1&usg=AFQjCNHfinKsiP_yLJDqHTIwXaolcDOUfw)).
+Co-authored a book  [Hands-On Python Deep Learning for the Web](https://www.google.com/url?q=https%3A%2F%2Fwww.packtpub.com%2Fin%2Fdata%2Fhands-on-python-deep-learning-for-web&sa=D&sntz=1&usg=AFQjCNFMYAvFS-WzTymOqO7XyzZtdmWV0Q)  with  [Anubhav Singh](http://www.google.com/url?q=http%3A%2F%2Fxprilion.com&sa=D&sntz=1&usg=AFQjCNET_hwCDFMpPXSqwmzfw4HxevAq_A).
 
 Authored the following liveProjects with [Manning](https://www.manning.com/):  
 * [Use Machine Learning to Detect Phishing Websites](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e) 
@@ -31,6 +31,7 @@ as well as the blog posts.
 -   [Vector-Quantized Variational Autoencoders](https://keras.io/examples/generative/vq_vae/)
 -   [Knowledge distillation recipes](https://keras.io/examples/keras_recipes/better_knowledge_distillation/)
 -   [Multimodal entailment](https://keras.io/examples/nlp/multimodal_entailment/)
+-   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joit work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
 
 ## [Datacamp](https://www.datacamp.com/)
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
