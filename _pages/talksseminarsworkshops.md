@@ -57,6 +57,7 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 - Spoke with **Ishan Misra** (Facebook AI Research) at the [Machine Learning Street Talk](https://www.youtube.com/watch?v=EXJmodhu4_4) (with Tim Scarfe and Yannic Kilcher).
 - Spoke on "Key Trends of Computer Vision 2021" (June 09, 2021). Deck is available [here](http://bit.ly/trends-cv). A session recording is available
   [here](https://www.youtube.com/watch?v=KQFJRZgNrDA). A blog post summary by Benedict Neo is available [here](https://medium.com/bitgrit-data-science-publication/5-computer-vision-trends-for-2021-96fd18d5596c).
+- **Vertex AI for Easier Model Deployments** at [Google for Startups Accelerator Class 5](https://india.googleblog.com/2021/08/introducing-class-5-of-google-for.html) (August 28, 2021). Deck is available is [here](https://bit.ly/gfsa-vertex).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
