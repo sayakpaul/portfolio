@@ -7,13 +7,13 @@ I am primarily interested in image recognition and generation tasks which is wha
 
 I advocate for highly readable and self-contained code. Python is what I primarily use for programming. I am proficient in TensorFlow and a beginner in PyTorch. I usually train models on Google Cloud Platform / Colaboratory / Kaggle facilitating TPUs when required.
 
-I have a flair for open-source initiatives. I have made contributions to <a href="https://tfhub.dev/s?publisher=sayakpaul"><font color="#FF6F00">TensorFlow Hub</font></a> and <a href="https://github.com/keras-team/keras-io/commits?author=sayakpaul"><font color="#d00000">Keras Examples</font></a>. Off the work, I like writing technical articles, working on applied Machine Learning ideas, and giving talks at developer meetups and conferences.
+I have a flair for open-source initiatives. In particular, I have made contributions to <a href="https://tfhub.dev/s?publisher=sayakpaul"><font color="#FF6F00">TensorFlow Hub</font></a>, <a href="https://github.com/keras-team/keras-io/commits?author=sayakpaul"><font color="#d00000">Keras Examples</font></a>, [TensorFlow Addons](https://git.io/JuUOr), and [Neural Structured Learning](https://git.io/JuUOd). Off the work, I like writing technical articles, working on applied Machine Learning ideas, and giving talks at developer meetups and conferences.
 
 For my community contributions and innovative projects, the Intel Software Innovator Program recognized me as one of [their top innovators in 2019](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0). For my open-source contributions, I received the [Google Open Source Peer Bonus Award](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) in 2020 and 2021.
 
 <table>
   <tr>
-      <td><a href="https://github.com/sayakpaul"><img src="https://img.shields.io/github/followers/sayakpaul.svg?label=GitHub&style=social" alt="GitHub"></a></td>
+    <td><a href="https://github.com/sayakpaul"><img src="https://img.shields.io/github/followers/sayakpaul.svg?label=GitHub&style=social" alt="GitHub"></a></td>
     <td><a href="https://twitter.com/RisingSayak"><img src="https://img.shields.io/twitter/follow/RisingSayak?label=Twitter&style=social" alt="Twitter"></a></td>
     <td><a href="https://www.linkedin.com/in/sayak-paul"><img src="https://img.shields.io/badge/LinkedIn--_.svg?style=social&logo=linkedin" alt="LinkedIn"></a></td>
     <td><a href="mailto:spsayakpaul@gmail.com"><img src="https://img.shields.io/badge/Gmail--_.svg?style=social&logo=gmail" alt="Gmail"></a></td>
@@ -33,5 +33,6 @@ For my community contributions and innovative projects, the Intel Software Innov
 ![]({{site.baseurl}}/images/badges.png)
 
 ## An honour to be their son 🙂
+
 - Tapas Kumar Paul
 - Baby Paul
