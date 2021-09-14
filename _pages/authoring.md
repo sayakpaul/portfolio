@@ -17,6 +17,7 @@ that provides me with GCP credits which I use to run various experiments for my 
 as well as the blog posts.
 
 ## [Keras](https://keras.io/)
+
 -   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
 -   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
 -   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
@@ -34,6 +35,7 @@ as well as the blog posts.
 -   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
 
 ## [Datacamp](https://www.datacamp.com/)
+
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
 -   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^1]
 -   [Turning Machine Learning Models into APIs in Python](https://goo.gl/vwzqtA) [^2]
@@ -65,6 +67,7 @@ as well as the blog posts.
 [^3]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Dec 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2F%40Mybridge%2Fpython-top-10-articles-for-the-past-month-v-dec-2018-6c4c7a10b61e&sa=D&sntz=1&usg=AFQjCNF0tvByWxbRdliqPPHzdLXVWeKpTw)" and secured a rank of 10.
 
 ## [FloydHub](https://www.floydhub.com/)
+
 -   [Introduction to Anomaly Detection in Python](https://bit.ly/2TZLg4d)
 -   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://bit.ly/2IZev5a)
 -   [An introduction to Q-Learning: Reinforcement Learning](http://bit.ly/2HxuVzo)
@@ -75,6 +78,7 @@ as well as the blog posts.
 [^4]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
 
 ## [Weights and Biases](https://www.wandb.com/)
+
 -   [Running Hyperparameter Sweeps to Pick the Best Model](http://bit.ly/2MKHR7K)
 -   [arXiv Search: Generating Tags from Paper Titles](http://bit.ly/2WQ8sFh)
 -   [How to Use GCP with Weights & Biases](http://bit.ly/399Fd60)
@@ -100,6 +104,9 @@ as well as the blog posts.
 [^5]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
 ## Others
+
+-   [Lessons learned from a Deep Learning Hackathon](http://bit.ly/2YfnZhI) 
+-   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
 -   [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   [AMA with Sayak Paul - Hacktoberfest'19](https://fossassam.tech/post/ama-sayak/)
 -   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^6]
@@ -110,9 +117,10 @@ as well as the blog posts.
 -   [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
--   [Lessons learned from a Deep Learning Hackathon](http://bit.ly/2YfnZhI) 
--   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
+-   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^8]
+
 
 
 [^6]:This one won the ML GDE Dev Challenge.
 [^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
+[^8]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
