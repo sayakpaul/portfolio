@@ -22,7 +22,7 @@ permalink: /xyz/
     -   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
     -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
 -   **Awards and recognition**:
-    -   Recipient of the [Google Open Source Peer Bonus Award (2020 and 2021)](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
+    -   Recipient of the Google Open Source Peer Bonus Award ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) and [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
     -   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
     -   Finished 2nd (with Siddha Ganju) at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team.
     -   Recipient of the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105) for a [collaborative and innovative project](https://github.com/margaretmz/segmentation-style-transfer).
