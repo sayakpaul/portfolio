@@ -33,6 +33,7 @@ as well as the blog posts.
 -   [Knowledge distillation recipes](https://keras.io/examples/keras_recipes/better_knowledge_distillation/)
 -   [Multimodal entailment](https://keras.io/examples/nlp/multimodal_entailment/)
 -   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
+-   [Near-duplicate image search](https://keras.io/examples/vision/near_dup_search/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
