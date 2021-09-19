@@ -7,7 +7,8 @@ permalink: /education/
 
   -   B.Tech in IT from [Netaji Subhash Engineering College](http://www.google.com/url?q=http%3A%2F%2Fnsec.ac.in&sa=D&sntz=1&usg=AFQjCNFe2EBGpA-oSLcYVmdISgkSmENcHg) (2013 - 17) (Final year dissertation: [A CFS–DNN-Based Intrusion Detection System](https://www.google.com/url?q=https%3A%2F%2Flink.springer.com%2Fchapter%2F10.1007%2F978-981-10-7901-6_19&sa=D&sntz=1&usg=AFQjCNG3tTcrgh7dSLAOYYjUY7PcCnpDQA))
 -   High School from [Jadavpur Vidyapith](http://www.google.com/url?q=http%3A%2F%2Fjadavpurvidyapithhs.org%2F&sa=D&sntz=1&usg=AFQjCNEwgsSXPP9UKLU9PxZOHYFpMamXIA) (PCMC) (2005 - 13)
--   Courses relevant to my subject of interest:
+-   Courses/certifications relevant to my subject of interest:
+
     -   [Data Scientist with Python Track (DataCamp)](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fo1asim0it9204nv%2FData%2520Scientist%2520with%2520Python%2520Track.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNEFFOHFcOzP0mGWOxA6PbOxJkcDow)
     -   [Data Analyst with Python Track (DataCamp)](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fo1asim0it9204nv%2FData%2520Scientist%2520with%2520Python%2520Track.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNEFFOHFcOzP0mGWOxA6PbOxJkcDow)
     -   [Deep Learning Specialization (deeplearning.ai)](https://www.google.com/url?q=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fey8tl7ci24bc81r%2FDeep%2520Learning%2520Specialization%2520Coursera.pdf%3Fdl%3D0&sa=D&sntz=1&usg=AFQjCNHv5b59FKsX9LSt2m8s1U3lLJnchQ)
@@ -17,4 +18,5 @@ permalink: /education/
     -   [Generative Adversarial Networks (GANs) (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/certificate/3U5QXRJXRVZC)
     -   [Natural Language Processing (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/certificate/FS7WK2VD2464)
     -   [TensorFlow Developer Certification](https://www.credential.net/76305e02-01c7-4240-9612-09143a17e3b8#gs.oxvgq4)
-    -   [Mathematics for Machine Learning (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/certificate/ENKE8EHF4UUJ)
+    -   [Mathematics for Machine Learning (Coursera)](https://www.coursera.org/account/accomplishments/specialization/certificate/ENKE8EHF4UUJ)
+    -   [Machine Learning Engineering for Production (MLOps) (deeplearning.ai)](https://www.coursera.org/account/accomplishments/specialization/39NHJ9FGN3TF)
