@@ -9,7 +9,7 @@ Authored the following liveProjects with [Manning](https://www.manning.com/):
 * [Use Machine Learning to Detect Phishing Websites](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e) 
 * [Summarize News Articles with NLP and TensorFlow](https://www.manning.com/liveproject/summarize-news-articles-with-nlp-and-tensorflow?a_aid=pyimagesearch&a_bid=643ce05e) (with [Souradip Chakraborty](https://www.linkedin.com/in/souradip-chakraborty/)) 
 
-Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://www.datacamp.com/projects/558?tap_a=5644-dce66f&tap_s=357540-5b28dd) and [Analyze International Debt Statistics](https://www.datacamp.com/projects/754?tap_a=5644-dce66f&tap_s=357540-5b28dd)) and a DataCamp Practice Pool on [Advanced Deep Learning with Keras](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd). 
+Authored two DataCamp Projects ([Predicting Credit Card Approvals](https://datacamp.pxf.io/doyrOM) and [Analyze International Debt Statistics](https://datacamp.pxf.io/MXKEAJ)) and a DataCamp Practice Pool on [Advanced Deep Learning with Keras](https://practice.datacamp.com/p/217?tap_a=5644-dce66f&tap_s=357540-5b28dd). 
 
 Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning and more. I fortunate enough 
 to collaborate with  amazing folks from all around the globe. I am grateful to the [ML-DGE program](https://developers.google.com/programs/experts/)
