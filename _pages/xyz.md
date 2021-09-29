@@ -32,4 +32,4 @@ permalink: /xyz/
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
-- I love watching TV serieses also (Narcos, Suits, Fringe, Seal Team, Ozark being all time favorites). 
+- I love watching TV serials also (Narcos, Suits, Fringe, Seal Team, Ozark being all-time favorites). 
