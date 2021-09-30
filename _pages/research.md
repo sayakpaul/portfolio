@@ -24,6 +24,7 @@ My Google Scholar profile is available [here](https://scholar.google.com/citatio
 
 - Tutorial organizer and presenter: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR 2021)](https://sites.google.com/view/par-2021)
 - Reviewer: [Uncertainty & Robustness in Deep Learning workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home)
+- Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 
 [^1]:This is our report for this [CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). The report contains solution approaches from the teams (including ours) that got the top positions.
 [^2]:This paper demonstrates the solution approach our team took to finish as the first runners-up at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team.
