@@ -34,6 +34,7 @@ as well as the blog posts.
 -   [Multimodal entailment](https://keras.io/examples/nlp/multimodal_entailment/)
 -   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
 -   [Near-duplicate image search](https://keras.io/examples/vision/near_dup_search/)
+-   [Large-scale multi-label text classification](https://keras.io/examples/nlp/multi_label_classification/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 
 ## [Datacamp](https://www.datacamp.com/)
 
