@@ -118,12 +118,13 @@ as well as the blog posts.
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^7]
 -   [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
--   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^8]
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
--   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^8]
+-   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^9]
 
 
 
 [^6]:This one won the ML GDE Dev Challenge.
 [^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
-[^8]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
+[^8]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1446611368078086144).
+[^9]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
