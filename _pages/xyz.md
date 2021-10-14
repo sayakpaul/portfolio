@@ -29,6 +29,7 @@ permalink: /xyz/
         following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), and [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20).
     -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
     -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
+    -   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/champions?text=Sayak).
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
