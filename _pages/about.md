@@ -21,6 +21,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 </table>
 
 ## Timeline:
+
 - Machine Learning Engineer, Carted (June 2021 - Present)
 - Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
