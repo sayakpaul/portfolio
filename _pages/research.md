@@ -28,4 +28,4 @@ work was featured by NVIDIA [in this blog post](https://blogs.nvidia.com/blog/20
 - Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 
 [^1]:This is our report for this [CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). The report contains solution approaches from the teams (including ours) that got the top positions.
-[^2]:This paper demonstrates the solution approach our team took to finish as the first runners-up at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team.
+[^2]:This paper demonstrates the solution approach our team took to finish as the first runners-up at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team. It got accepted for oral presentation at the [ESA-ECMWF workshop 2021](https://www.ml4esop.esa.int/agenda).
