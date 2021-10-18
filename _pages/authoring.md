@@ -36,6 +36,7 @@ as well as the blog posts.
 -   [Near-duplicate image search](https://keras.io/examples/vision/near_dup_search/)
 -   [Large-scale multi-label text classification](https://keras.io/examples/nlp/multi_label_classification/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 -   [FixRes: Fixing train-test resolution discrepancy](https://keras.io/examples/vision/fixres/)
+-   [Image classification with ConvMixer](https://keras.io/examples/vision/convmixer/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
