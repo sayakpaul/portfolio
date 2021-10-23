@@ -37,6 +37,7 @@ as well as the blog posts.
 -   [Large-scale multi-label text classification](https://keras.io/examples/nlp/multi_label_classification/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 -   [FixRes: Fixing train-test resolution discrepancy](https://keras.io/examples/vision/fixres/)
 -   [Image classification with ConvMixer](https://keras.io/examples/vision/convmixer/)
+-   [MobileViT: A mobile-friendly Transformer-based model for image classification](https://keras.io/examples/vision/mobilevit/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
