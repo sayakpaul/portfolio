@@ -58,6 +58,7 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 - Spoke on **Key Trends of Computer Vision 2021** (June 09, 2021). Deck is available [here](http://bit.ly/trends-cv). A session recording is available
   [here](https://www.youtube.com/watch?v=KQFJRZgNrDA). A blog post summary by Benedict Neo is available [here](https://medium.com/bitgrit-data-science-publication/5-computer-vision-trends-for-2021-96fd18d5596c). I have also presented this at [Takshak'21](https://takshak.roboism.in/robobuzz), Techfest of ISM Dhanbad.
 - **Vertex AI for Easier Model Deployments** at [Google for Startups Accelerator Class 5](https://india.googleblog.com/2021/08/introducing-class-5-of-google-for.html) (August 28, 2021). Deck is available [here](https://bit.ly/gfsa-vertex). A recording is available [here](https://youtu.be/gzM0lJWtvic).
+- **Enabling Possibilities with Open-Source in Machine Learning** at [DevFest India 2021](https://devfestindia.com/schedule/1012). Deck is available [here](https://docs.google.com/presentation/d/1qXBqjSpNQFDxVAiuormJdDWph_YHs33BBxptsetoj74/edit?usp=sharing). A recording is available [here](https://youtu.be/VsBEFUoESR4?t=3123).
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
