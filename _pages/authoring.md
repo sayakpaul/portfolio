@@ -108,6 +108,13 @@ as well as the blog posts.
 
 [^5]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
+## Google Cloud Platform
+
+- [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
+-   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^8]
+-   Model training as a CI/CD system - [Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i), [Part II](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (joint work with [Chansung Park](https://github.com/deep-diver))
+
 ## Others
 
 -   [Lessons learned from a Deep Learning Hackathon](http://bit.ly/2YfnZhI) 
@@ -119,9 +126,6 @@ as well as the blog posts.
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
 -   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^7]
--   [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
--   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
--   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^8]
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
 -   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^9]
 
