@@ -108,7 +108,7 @@ as well as the blog posts.
 
 [^5]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
-## Google Cloud Platform
+## [Google Cloud Platform](https://cloud.google.com/blog)
 
 - [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
