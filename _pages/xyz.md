@@ -30,6 +30,7 @@ permalink: /xyz/
     -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
     -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
     -   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/champions?text=Sayak).
+    -   Awarded as the top regional contributor from India for TensorFlow. Details are [here](https://discuss.tensorflow.org/t/the-annual-tensorflow-contributor-summit-is-here-join-us-on-nov-9th/5568).
 
 ## Non-tech:
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
