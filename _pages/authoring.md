@@ -39,6 +39,7 @@ as well as the blog posts.
 -   [Image classification with ConvMixer](https://keras.io/examples/vision/convmixer/)
 -   [MobileViT: A mobile-friendly Transformer-based model for image classification](https://keras.io/examples/vision/mobilevit/)
 -   [Point cloud segmentation with PointNet](https://keras.io/examples/vision/pointnet_segmentation/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
+-   [Masked image modeling with Autoencoders](https://keras.io/examples/vision/masked_image_modeling/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 
 ## [Datacamp](https://www.datacamp.com/)
 
