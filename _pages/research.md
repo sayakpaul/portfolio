@@ -20,7 +20,7 @@ My Google Scholar profile is available [here](https://scholar.google.com/citatio
 -   **Sayak Paul**<sup>\*</sup>, and Siddha Ganju<sup>\*</sup>. **"Flood Segmentation on Sentinel-1 SAR Imagery with Semi-Supervised Learning."**[^2] ArXiv:2105.07581 [Cs], July 2021. arXiv.org, [https://arxiv.org/abs/2107.08369](https://arxiv.org/abs/2107.08369). <sup>\*</sup>equal contribution. This
 work was also featured by NVIDIA [in this blog post](https://blogs.nvidia.com/blog/2021/10/12/data-scientists-develop-flood-detection-for-early-warning/). This
 work made it to the following NeurIPS 2021 workshops: AI for Science: Mind the Gaps, Tackling Climate Change with Machine Learning, Women in ML, and Machine Learning and the Physical Sciences. Additionally, we presented this work at [PyTorch Developer Day 2021](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#). The PyTorch team helped us create a beautiful poster for our work which is available [here](https://drive.google.com/file/d/1FGf-Jz42kcicNmhoR1e26Z5MSicChrZr/view?usp=sharing).
--   **Sayak Paul**<sup>\*</sup>, and Pin-Yu Chen<sup>\*</sup>. **"Vision Transformers Are Robust Learners."** ArXiv:2105.07581 [Cs], May 2021. arXiv.org, [https://arxiv.org/abs/2105.07581](https://arxiv.org/abs/2105.07581). <sup>\*</sup>equal contribution.
+-   **Sayak Paul**<sup>\*</sup>, and Pin-Yu Chen<sup>\*</sup>. **"Vision Transformers Are Robust Learners."**, AAAI 2022, [https://arxiv.org/abs/2105.07581](https://arxiv.org/abs/2105.07581). <sup>\*</sup>equal contribution.
 
 
 ## Others
