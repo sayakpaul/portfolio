@@ -114,8 +114,15 @@ as well as the blog posts.
 
 - [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
--   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^8]
+-   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^6]
 -   Model training as a CI/CD system - [Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i), [Part II](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (joint work with [Chansung Park](https://github.com/deep-diver))
+
+## TensorFlow
+
+- [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
+-   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
+-   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^7]
+-   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html)
 
 ## Others
 
@@ -123,18 +130,13 @@ as well as the blog posts.
 -   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
 -   [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   [AMA with Sayak Paul - Hacktoberfest'19](https://fossassam.tech/post/ama-sayak/)
--   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^6]
+-   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^8]
 -   [GDE Journey — Sayak Paul](https://bit.ly/2WVQsLd) 
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
--   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
--   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^7]
--   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
--   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^9]
--   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html)
+-   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with ML-GDEs [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^9]
 
 
-
-[^6]:This one won the ML GDE Dev Challenge.
-[^7]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
-[^8]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1446611368078086144).
-[^9]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
+[^6]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1446611368078086144).
+[^7]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
+[^8]:This one won the ML GDE Dev Challenge.
+[^9]:This project got the [#TFCommunitySpotlight award](https://twitter.com/TensorFlow/status/1351590466068783105).
