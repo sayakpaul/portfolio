@@ -119,10 +119,10 @@ as well as the blog posts.
 
 ## TensorFlow
 
-- [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
+-   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with ML-GDE [Margaret Maynard-Reid](https://twitter.com/margaretmz))
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
 -   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^7]
--   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html)
+-   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## Others
 
