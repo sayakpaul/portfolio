@@ -60,7 +60,9 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 - **Vertex AI for Easier Model Deployments** at [Google for Startups Accelerator Class 5](https://india.googleblog.com/2021/08/introducing-class-5-of-google-for.html) (August 28, 2021). Deck is available [here](https://bit.ly/gfsa-vertex). A recording is available [here](https://youtu.be/gzM0lJWtvic).
 - **Enabling Possibilities with Open-Source in Machine Learning** at [DevFest India 2021](https://devfestindia.com/schedule/1012) (October 24, 2021). My deck is available [here](https://docs.google.com/presentation/d/1qXBqjSpNQFDxVAiuormJdDWph_YHs33BBxptsetoj74/edit?usp=sharing). A recording is available [here](https://youtu.be/VsBEFUoESR4?t=3123).
 - **Citizen Scientists Tackling Devastating Floods and Disaster Relief with Semi-supervised Deep Learning** at [NVIDIA GTC 2021](https://events.rainfocus.com/widget/nvidia/nvidiagtc/scheduler/session/1630006454504001Z8CH) (November 09, 2021). This is based on [our work on
-using semi-supervision for segmenting flood regions](https://arxiv.org/abs/2107.08369). 
+using semi-supervision for segmenting flood regions](https://arxiv.org/abs/2107.08369). This work was also presented as a poster at [PyTorch Developer
+Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#) and the PyTorch team helped us create a
+[beautiful poster](https://drive.google.com/file/d/1FGf-Jz42kcicNmhoR1e26Z5MSicChrZr/view?usp=sharing) for that. 
 
 ### Co-organized by me:
 -   [**DevFest Kolkata**](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
