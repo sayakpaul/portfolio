@@ -194,7 +194,7 @@ window.onload = wrap_img;
 <li>The service should also be very flexible. It must not introduce too much technical debt into our existing pipelines. </li>
 </ul>
 <p>In this post, we are going to consider all of these factors and will implement them using a service called <a href="https://cloud.google.com/ai-platform">AI Platform</a> (provided by GCP) and <a href="https://www.docker.com/">Docker</a>. We will use TensorFlow and Keras to handle <strong>distributed training</strong> to develop an image classification model capable of classifying cats and dogs. Apart from deep learning-related knowledge, a bit of familiarity would be needed to fully understand this post.</p>
-<p>All of the code developed for this post can be found <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">here</a>. We won’t be covering the entire codebase, instead, we will focus on the most important bits.</p>
+<p>All the code presented throughout the post <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">can be found here</a>. We won’t be covering the entire codebase, instead, we will focus on the most important bits.</p>
 <p>If you are like me, who have lost sleep over the very thought of the aforementioned problem, you will likely find this tutorial a good starting point to get around it.</p>
 
 </div>
@@ -252,7 +252,7 @@ gsutil ls -lh gs://<span class="si">${</span><span class="nv">BUCKET_NAME</span>
 <li>We will be training our model inside the <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy">tf.distribute.MirroredStrategy</a> scope for distributed training. This strategy is applicable when we have a single host containing multiple GPUs. We will also be using <a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed-precision training</a> to speed up the process. The code for realizing this is <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">here</a>.  </li>
 </ul>
 <p>The training will take place on a remote machine fully managed by AI Platform.</p>
-<p>So far, we have discussed the utilities for creating TFRecords, loading them, and building and training our model. Here’s how the code is structured in the GitHub repository mentioned at the beginning of the post:</p>
+<p>So far, we have discussed the utilities for creating TFRecords, loading them, and building and training our model. Here’s how the code is structured in the <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">GitHub repository</a> mentioned at the beginning of the post:</p>
 <div class="highlight"><pre><span></span>├── Dockerfile
 ├── README.md
 ├── config.yaml
