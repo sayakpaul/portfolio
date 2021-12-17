@@ -40,7 +40,7 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
     following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20), [Tweet 4](https://twitter.com/TensorFlow/status/1460321709488152579), and [Tweet 5](https://twitter.com/TensorFlow/status/1469019016782041095?s=20).
 -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
--   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/champions?text=Sayak).
+-   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/innovator?profileId=114302939543313329085).
 -   Awarded as the Top Regional Contributor from India for TensorFlow, 2021. [Blog post](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) and [Tweet](https://twitter.com/TensorFlow/status/1465369133873250307?s=20) from TensorFlow.
 -   Received [NeurIPS 2021 AI4Science Workshop Travel Grant](https://ai4sciencecommunity.github.io/) for [this
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
