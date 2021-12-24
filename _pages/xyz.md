@@ -33,15 +33,15 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 
 ## Awards and recognition
 
--   Recipient of the Google Open Source Peer Bonus Award ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) and [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
+-   Recipient of the **Google Open Source Peer Bonus Award** ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) and [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 -   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
--   Finished 2nd (with Siddha Ganju) at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team ([Certificate](https://drive.google.com/file/d/1U4JTAYChV6PHwDA87gd2FJ04843YA6bN/view?usp=sharing)).
+-   Finished 2nd (with [Siddha Ganju](https://sidgan.github.io/siddhaganju)) at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team ([Certificate](https://drive.google.com/file/d/1U4JTAYChV6PHwDA87gd2FJ04843YA6bN/view?usp=sharing)).
 -   Received (sometimes jointly) the [#TFCommunitySpotlight award](https://blog.tensorflow.org/2020/11/tensorflow-community-spotlight-program-update.html) five times for projects with varying use-cases, tooling, and motivation. Details in the
     following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20), [Tweet 4](https://twitter.com/TensorFlow/status/1460321709488152579), and [Tweet 5](https://twitter.com/TensorFlow/status/1469019016782041095?s=20).
 -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 -   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/innovator?profileId=114302939543313329085).
--   Awarded as the Top Regional Contributor from India for TensorFlow, 2021. [Blog post](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) and [Tweet](https://twitter.com/TensorFlow/status/1465369133873250307?s=20) from TensorFlow.
+-   Awarded as the **Top Regional Contributor** from India for TensorFlow, 2021. [Blog post](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) and [Tweet](https://twitter.com/TensorFlow/status/1465369133873250307?s=20) from TensorFlow.
 -   Received [NeurIPS 2021 AI4Science Workshop Travel Grant](https://ai4sciencecommunity.github.io/) for [this
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
 
