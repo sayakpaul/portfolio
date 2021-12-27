@@ -28,7 +28,7 @@ work made it to the following NeurIPS 2021 workshops: [_AI for Science: Mind the
 ## Others
 
 - Tutorial organizer and presenter: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR 2021)](https://sites.google.com/view/par-2021)
-- Reviewer: [Uncertainty & Robustness in Deep Learning workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home)
+- Reviewer: [Uncertainty & Robustness in Deep Learning workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP 2021](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence).
 - Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 
 [^1]:This is our report for this [CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). The report contains solution approaches from the teams (including ours) that got the top positions.
