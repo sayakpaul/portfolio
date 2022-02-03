@@ -13,11 +13,11 @@
 <link rel="canonical" href="https://sayak.dev/convnext-tfhub/" />
 <meta property="og:url" content="https://sayak.dev/convnext-tfhub/" />
 <meta property="og:site_name" content="Sayak Paul" />
-<meta property="og:image" content="https://sayak.dev/images/convnext_tfhub/convnext_block.png" />
+<meta property="og:image" content="https://sayak.dev/images/convnext_tfhub/convnext_header.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-02-03T00:00:00-06:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.","@type":"BlogPosting","headline":"Publishing ConvNeXt Models on TensorFlow Hub","dateModified":"2022-02-03T00:00:00-06:00","datePublished":"2022-02-03T00:00:00-06:00","url":"https://sayak.dev/convnext-tfhub/","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/convnext-tfhub/"},"image":"https://sayak.dev/images/convnext_tfhub/convnext_block.png","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.","@type":"BlogPosting","headline":"Publishing ConvNeXt Models on TensorFlow Hub","dateModified":"2022-02-03T00:00:00-06:00","datePublished":"2022-02-03T00:00:00-06:00","url":"https://sayak.dev/convnext-tfhub/","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/convnext-tfhub/"},"image":"https://sayak.dev/images/convnext_tfhub/convnext_header.png","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://sayak.dev/feed.xml" title="Sayak Paul" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
@@ -36,11 +36,11 @@
 <link rel="canonical" href="https://sayak.dev/convnext-tfhub/" />
 <meta property="og:url" content="https://sayak.dev/convnext-tfhub/" />
 <meta property="og:site_name" content="Sayak Paul" />
-<meta property="og:image" content="https://sayak.dev/images/convnext_tfhub/convnext_block.png" />
+<meta property="og:image" content="https://sayak.dev/images/convnext_tfhub/convnext_header.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-02-03T00:00:00-06:00" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.","@type":"BlogPosting","headline":"Publishing ConvNeXt Models on TensorFlow Hub","dateModified":"2022-02-03T00:00:00-06:00","datePublished":"2022-02-03T00:00:00-06:00","url":"https://sayak.dev/convnext-tfhub/","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/convnext-tfhub/"},"image":"https://sayak.dev/images/convnext_tfhub/convnext_block.png","@context":"https://schema.org"}</script>
+{"author":{"@type":"Person","name":"Sayak Paul"},"description":"Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.","@type":"BlogPosting","headline":"Publishing ConvNeXt Models on TensorFlow Hub","dateModified":"2022-02-03T00:00:00-06:00","datePublished":"2022-02-03T00:00:00-06:00","url":"https://sayak.dev/convnext-tfhub/","mainEntityOfPage":{"@type":"WebPage","@id":"https://sayak.dev/convnext-tfhub/"},"image":"https://sayak.dev/images/convnext_tfhub/convnext_header.png","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
@@ -214,7 +214,7 @@ window.onload = wrap_img;
 </center>
 <p>The skip connection is controlled with <a href="https://arxiv.org/abs/1603.09382">Stochastic Depth</a> to induce regularization <em>during</em> training. Different ConvNeXt variants correspond to different depths along with different channels used in each of the stages. For example, the tiny variant uses the following setup:</p>
 <div class="highlight"><pre><span></span><span class="n">depths</span> <span class="o">=</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-<span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">96</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">384</span><span class="p">,</span> <span class="mi">768</span><span class="p">]</span><span class="o">|</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">96</span><span class="p">,</span> <span class="mi">192</span><span class="p">,</span> <span class="mi">384</span><span class="p">,</span> <span class="mi">768</span><span class="p">]</span>
 </pre></div>
 <p>If you plan to populate the implemented models with the original parameters then it helps to align the architecture implementation with the official one as much as possible. Since I went with this approach I tried closely following <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext.py">the official implementation</a>. My final implementation is available in <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/models/convnext_tf.py">this script</a>. Note that, it does not yet include the <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext_isotropic.py">isotropic ConvNeXt models</a>.</p>
 <p>Coming to the weight porting part, this is usually the most interesting part because there’s no standard recipe that’d work for all the models. You’ll need to think about how to best align the original model parameters with your implementation.</p>
@@ -244,80 +244,88 @@ window.onload = wrap_img;
 </h1>
 <p>To be more certain, it’s also important to check the evaluation metrics of the converted models on the datasets used during training. In this case, we need to use the top-1 accuracy of the models on the ImageNet-1k dataset (validation set).</p>
 <p>To set up this evaluation, I developed <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/i1k_eval/eval.ipynb">this notebook</a> where I closely followed <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/datasets.py">the preprocessing used in the official codebase</a> for inference. The following table reflects the top-1 accuracies of the converted models along with the original scores reported <a href="https://github.com/facebookresearch/ConvNeXt/#results-and-pre-trained-models">here</a>.</p>
-<table>
+<p><style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
+</style></p>
+<table class="tg">
 <thead>
-<tr>
-<th style="text-align:center">Name</th>
-<th style="text-align:center">Original acc@1</th>
-<th style="text-align:center">Keras acc@1</th>
-</tr>
+  <tr>
+    <th class="tg-c3ow"><span style="font-weight:bold">Name</span></th>
+    <th class="tg-c3ow"><span style="font-weight:bold">Original acc@1</span></th>
+    <th class="tg-c3ow"><span style="font-weight:bold">Keras acc@1</span></th>
+  </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:center">convnext_tiny_1k_224</td>
-<td style="text-align:center">82.1</td>
-<td style="text-align:center">81.312</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_small_1k_224</td>
-<td style="text-align:center">83.1</td>
-<td style="text-align:center">82.392</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_base_1k_224</td>
-<td style="text-align:center">83.8</td>
-<td style="text-align:center">83.28</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_base_1k_384</td>
-<td style="text-align:center">85.1</td>
-<td style="text-align:center">84.876</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_large_1k_224</td>
-<td style="text-align:center">84.3</td>
-<td style="text-align:center">83.844</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_large_1k_384</td>
-<td style="text-align:center">85.5</td>
-<td style="text-align:center">85.376</td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_base_21k_1k_224</td>
-<td style="text-align:center">85.8</td>
-<td style="text-align:center">85.364</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_base_21k_1k_384</td>
-<td style="text-align:center">86.8</td>
-<td style="text-align:center">86.79</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_large_21k_1k_224</td>
-<td style="text-align:center">86.6</td>
-<td style="text-align:center">86.36</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_large_21k_1k_384</td>
-<td style="text-align:center">87.5</td>
-<td style="text-align:center">87.504</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_xlarge_21k_1k_224</td>
-<td style="text-align:center">87.0</td>
-<td style="text-align:center">86.732</td>
-</tr>
-<tr>
-<td style="text-align:center">convnext_xlarge_21k_1k_384</td>
-<td style="text-align:center">87.8</td>
-<td style="text-align:center">87.68</td>
-</tr>
+  <tr>
+    <td class="tg-c3ow">convnext_tiny_1k_224</td>
+    <td class="tg-c3ow">82.1</td>
+    <td class="tg-c3ow">81.312</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_small_1k_224</td>
+    <td class="tg-c3ow">83.1</td>
+    <td class="tg-c3ow">82.392</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_base_1k_224</td>
+    <td class="tg-c3ow">83.8</td>
+    <td class="tg-c3ow">83.28</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_base_1k_384</td>
+    <td class="tg-c3ow">85.1</td>
+    <td class="tg-c3ow">84.876</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_large_1k_224</td>
+    <td class="tg-c3ow">84.3</td>
+    <td class="tg-c3ow">83.844</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_large_1k_384</td>
+    <td class="tg-c3ow">85.5</td>
+    <td class="tg-c3ow">85.376</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"></td>
+    <td class="tg-c3ow"></td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_base_21k_1k_224</td>
+    <td class="tg-c3ow">85.8</td>
+    <td class="tg-c3ow">85.364</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_base_21k_1k_384</td>
+    <td class="tg-c3ow">86.8</td>
+    <td class="tg-c3ow">86.79</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_large_21k_1k_224</td>
+    <td class="tg-c3ow">86.6</td>
+    <td class="tg-c3ow">86.36</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_large_21k_1k_384</td>
+    <td class="tg-c3ow">87.5</td>
+    <td class="tg-c3ow">87.504</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_xlarge_21k_1k_224</td>
+    <td class="tg-c3ow">87.0</td>
+    <td class="tg-c3ow">86.732</td>
+  </tr>
+  <tr>
+    <td class="tg-c3ow">convnext_xlarge_21k_1k_384</td>
+    <td class="tg-c3ow">87.8</td>
+    <td class="tg-c3ow">87.68</td>
+  </tr>
 </tbody>
 </table>
 <p>Differences in the results are primarily because of the differences in the library implementations, especially how image resizing is implemented in PyTorch and TensorFlow. My evaluation logs are available at <a href="https://tensorboard.dev/experiment/odN7OPCqQvGYCRpJP1GhRQ/">this URL</a>. I’d like to thank <a href="https://twitter.com/gusthema">Gus</a> from the TF-Hub team for the productive discussions during this phase.</p>
