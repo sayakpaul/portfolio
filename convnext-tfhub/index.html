@@ -157,7 +157,7 @@ window.onload = wrap_img;
     <ul class="section-nav">
 <li class="toc-entry toc-h1"><a href="#About-ConvNeXt">About ConvNeXt </a></li>
 <li class="toc-entry toc-h1"><a href="#Implementation-and-weight-porting">Implementation and weight porting </a></li>
-<li class="toc-entry toc-h1"><a href="#Validation-of-the-models">Validation of the models </a></li>
+<li class="toc-entry toc-h1"><a href="#Evaluation-of-the-models">Evaluation of the models </a></li>
 <li class="toc-entry toc-h1"><a href="#Publishing-on-TF-Hub">Publishing on TF-Hub </a></li>
 <li class="toc-entry toc-h1"><a href="#Wrapping-up">Wrapping up </a></li>
 <li class="toc-entry toc-h1"><a href="#Acknowledgements">Acknowledgements </a></li>
@@ -229,8 +229,8 @@ window.onload = wrap_img;
         <span class="n">layer</span><span class="o">.</span><span class="n">gamma</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">param_list</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
         <span class="n">layer</span><span class="o">.</span><span class="n">beta</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">param_list</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()))</span>
 </pre></div>
-<p>The most difficult bit was figuring out how to properly populate the weights of the convolutional layers in TensorFlow from PyTorch. In an earlier implementation, I was simply using transpose(). The resulting models were giving poorer performance than expected. <a href="https://in.linkedin.com/in/vasudevgupta7">Vasudev</a> helped me figure out the correct transposition of the weight axes and the models were then coming out as expected. More about the evaluation of these models in a moment.</p>
-<p>Once the weights were ported successfully, the next task was to verify the outputs of the intermediate layers to check if the outputs matched with the original ones. One minor detail to note here is that the outputs of layers are <strong>not</strong> the same as their parameters. So, even if you check if the parameters of your implemented model and the original model are matching, their outputs could still mismatch. This mainly happens because of how certain arguments (<code>use_bias</code> argument in a <a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Conv2D">convolutional layer in Keras</a> for example) of certain layers are initialized in different libraries.</p>
+<p>The most difficult bit was figuring out how to properly populate the weights of the convolutional layers in TensorFlow from PyTorch. In an earlier implementation, I was simply using <code>transpose()</code>. The resulting models were giving poorer performance than expected. <a href="https://in.linkedin.com/in/vasudevgupta7">Vasudev</a> helped me figure out the correct transposition of the weight axes and the models were then coming out as expected. More about the evaluation of these models in a moment.</p>
+<p>Once the weights were ported successfully, the next task was to verify if the outputs of the intermediate layers matched with their original counterparts. One minor detail to note here is that the outputs of layers are <strong>not</strong> the same as their parameters. So, even if you check if the parameters of your implemented model and the original model are matching, their outputs could still mismatch. This mainly happens because of mismatches between the layer configurations of your model and the original one.</p>
 <p>The final model conversion script is available <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/convert.py">here</a>.</p>
 
 </div>
@@ -239,8 +239,8 @@ window.onload = wrap_img;
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Validation-of-the-models">
-<a class="anchor" href="#Validation-of-the-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Validation of the models<a class="anchor-link" href="#Validation-of-the-models"> </a>
+<h1 id="Evaluation-of-the-models">
+<a class="anchor" href="#Evaluation-of-the-models" aria-hidden="true"><span class="octicon octicon-link"></span></a>Evaluation of the models<a class="anchor-link" href="#Evaluation-of-the-models"> </a>
 </h1>
 <p>To be more certain, it’s also important to check the evaluation metrics of the converted models on the datasets used during training. In this case, we need to use the top-1 accuracy of the models on the ImageNet-1k dataset (validation set).</p>
 <p>To set up this evaluation, I developed <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/i1k_eval/eval.ipynb">this notebook</a> where I closely followed <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/datasets.py">the preprocessing used in the official codebase</a> for inference. The following table reflects the top-1 accuracies of the converted models along with the original scores reported <a href="https://github.com/facebookresearch/ConvNeXt/#results-and-pre-trained-models">here</a>.</p>
@@ -328,7 +328,7 @@ window.onload = wrap_img;
   </tr>
 </tbody>
 </table>
-<p>Differences in the results are primarily because of the differences in the library implementations, especially how image resizing is implemented in PyTorch and TensorFlow. My evaluation logs are available at <a href="https://tensorboard.dev/experiment/odN7OPCqQvGYCRpJP1GhRQ/">this URL</a>. I’d like to thank <a href="https://twitter.com/gusthema">Gus</a> from the TF-Hub team for the productive discussions during this phase.</p>
+<p><code>Keras acc@1</code> refers to the scores of my implementation. Differences in the results are primarily because of the differences in the library implementations, especially how image resizing is implemented in PyTorch and TensorFlow. My evaluation logs are available at <a href="https://tensorboard.dev/experiment/odN7OPCqQvGYCRpJP1GhRQ/">this URL</a>. I’d like to thank <a href="https://twitter.com/gusthema">Gus</a> from the TF-Hub team for the productive discussions during this phase.</p>
 
 </div>
 </div>
