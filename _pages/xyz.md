@@ -44,6 +44,7 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 -   Awarded as the **Top Regional Contributor** from India for TensorFlow, 2021. [Blog post](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) and [Tweet](https://twitter.com/TensorFlow/status/1465369133873250307?s=20) from TensorFlow.
 -   Received [NeurIPS 2021 AI4Science Workshop Travel Grant](https://ai4sciencecommunity.github.io/) for [this
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
+-   Received the [Google OSS Expert Prize (Feb, 2022)](https://www.kaggle.com/general/310354) with [Soumik Rakshit](https://www.kaggle.com/soumikrakshit) for [this     work](https://www.kaggle.com/soumikrakshit/gaugan-keras/). 
 
 ## Non-tech
 
