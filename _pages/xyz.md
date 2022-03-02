@@ -31,6 +31,8 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 -   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
 -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
 
+More details are available [here](https://sayak.dev/research/#others).
+
 ## Awards and recognition
 
 -   Recipient of the **Google Open Source Peer Bonus Award** ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) and [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
