@@ -47,7 +47,7 @@ More details are available [here](https://sayak.dev/research/#others).
 -   Received [NeurIPS 2021 AI4Science Workshop Travel Grant](https://ai4sciencecommunity.github.io/) for [this
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
 -   Received the [Google OSS Expert Prize (February, 2022)](https://www.kaggle.com/general/310354) with [Soumik Rakshit](https://www.kaggle.com/soumikrakshit) for [this work](https://www.kaggle.com/soumikrakshit/gaugan-keras/). 
--   -   Received the [Google OSS Expert Prize (March, 2022)](https://www.kaggle.com/general/310354) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
+-   Received the [Google OSS Expert Prize (March, 2022)](https://www.kaggle.com/general/310354) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
 
 ## Non-tech
 
