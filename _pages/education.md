@@ -20,3 +20,4 @@ permalink: /education/
     -   [TensorFlow Developer Certification](https://www.credential.net/76305e02-01c7-4240-9612-09143a17e3b8#gs.oxvgq4)
     -   [Mathematics for Machine Learning (Coursera)](https://www.coursera.org/account/accomplishments/specialization/certificate/ENKE8EHF4UUJ)
     -   [Machine Learning Engineering for Production (MLOps) (Coursera)](https://www.coursera.org/account/accomplishments/specialization/39NHJ9FGN3TF)
+    -   [Professional Machine Learning Engineer (Google CLoud)](https://www.credential.net/dfb08300-0d91-4866-9409-908de346e658#gs.wchgzh)
