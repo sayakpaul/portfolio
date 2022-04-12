@@ -42,6 +42,7 @@ as well as the blog posts.
 -   [Masked image modeling with Autoencoders](https://keras.io/examples/vision/masked_image_modeling/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [Learning to tokenize in Vision Transformers](https://keras.io/examples/vision/token_learner/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [GauGAN for conditional image generation](https://keras.io/examples/generative/gaugan/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
+-   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
