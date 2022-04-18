@@ -43,6 +43,7 @@ as well as the blog posts.
 -   [Learning to tokenize in Vision Transformers](https://keras.io/examples/vision/token_learner/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [GauGAN for conditional image generation](https://keras.io/examples/generative/gaugan/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 -   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/)
+-   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 
 ## [Datacamp](https://www.datacamp.com/)
 
