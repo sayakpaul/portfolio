@@ -38,8 +38,8 @@ More details are available [here](https://sayak.dev/research/#others).
 -   Recipient of the **Google Open Source Peer Bonus Award** ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html) and [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
 -   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
 -   Finished 2nd (with [Siddha Ganju](https://sidgan.github.io/siddhaganju)) at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team ([Certificate](https://drive.google.com/file/d/1U4JTAYChV6PHwDA87gd2FJ04843YA6bN/view?usp=sharing)).
--   Received (sometimes jointly) the [#TFCommunitySpotlight award](https://blog.tensorflow.org/2020/11/tensorflow-community-spotlight-program-update.html) five times for projects with varying use-cases, tooling, and motivation. Details in the
-    following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20), [Tweet 4](https://twitter.com/TensorFlow/status/1460321709488152579), and [Tweet 5](https://twitter.com/TensorFlow/status/1469019016782041095?s=20).
+-   Received (sometimes jointly) the [#TFCommunitySpotlight award](https://blog.tensorflow.org/2020/11/tensorflow-community-spotlight-program-update.html) six times for projects with varying use-cases, tooling, and motivation. Details in the
+    following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20), [Tweet 4](https://twitter.com/TensorFlow/status/1460321709488152579), [Tweet 5](https://twitter.com/TensorFlow/status/1469019016782041095?s=20), and [Tweet 6](https://twitter.com/TensorFlow/status/1516869315517198337).
 -   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 -   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/innovator?profileId=114302939543313329085).
@@ -52,4 +52,4 @@ More details are available [here](https://sayak.dev/research/#others).
 ## Non-tech
 
 - I love listening to all genres of music. A guitar player myself. Have played in a band  [**Behest**](https://www.google.com/url?q=https%3A%2F%2Fwww.facebook.com%2Fbehestmusic%2F%3Fref%3Dbr_rs&sa=D&sntz=1&usg=AFQjCNGVtpjfBDP7p17lrvefzoNuoXDg9w)  from 2013 to 2017. 
-- I love watching TV serials also (Narcos, Suits, Downton Abbey, Seal Team, Ozark being all-time favorites). 
+- I love watching TV serials also (Narcos, Suits, Downton Abbey, Breaking Bad, Ozark being all-time favorites). 
