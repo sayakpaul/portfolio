@@ -42,15 +42,15 @@ as well as the blog posts.
 -   [Masked image modeling with Autoencoders](https://keras.io/examples/vision/masked_image_modeling/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [Learning to tokenize in Vision Transformers](https://keras.io/examples/vision/token_learner/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [GauGAN for conditional image generation](https://keras.io/examples/generative/gaugan/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
--   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/)
+-   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/) [^3]
 -   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 
 ## [Datacamp](https://www.datacamp.com/)
 
 -   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
--   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^3]
--   [Turning Machine Learning Models into APIs in Python](https://goo.gl/vwzqtA) [^4]
--   [Essentials of Linear Regression in Python](https://goo.gl/5nuVmt) [^5]
+-   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^4]
+-   [Turning Machine Learning Models into APIs in Python](https://goo.gl/vwzqtA) [^5]
+-   [Essentials of Linear Regression in Python](https://goo.gl/5nuVmt) [^6]
 -   [Simplifying Sentiment Analysis in Python](https://goo.gl/62mEJo)
 -   [Introduction to Indexing in SQL](https://goo.gl/7dcnE7) 
 -   [Understanding Recursive Functions in Python](https://goo.gl/u1U2eH) 
@@ -75,9 +75,10 @@ as well as the blog posts.
 
 [^1]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1428433434972618754).
 [^2]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1460321709488152579).
-[^3]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Oct 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.mybridge.co%2Fpython-top-10-articles-for-the-past-month-v-oct-2018-81a2f7658945&sa=D&sntz=1&usg=AFQjCNGqyttyLfVu3E41k0oCPaGOUfwtaA)" and secured a rank of 4.
-[^4]:This article got featured in "[Machine Learning Top 10 Articles for the Past Month (v.Nov 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.mybridge.co%2Fmachine-learning-top-10-articles-for-the-past-month-v-nov-2018-35f1fd88cb49&sa=D&sntz=1&usg=AFQjCNFfndNPZXPMj2Snv5RF7LBaemoFMQ)" and secured a rank of 9.
-[^5]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Dec 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2F%40Mybridge%2Fpython-top-10-articles-for-the-past-month-v-dec-2018-6c4c7a10b61e&sa=D&sntz=1&usg=AFQjCNF0tvByWxbRdliqPPHzdLXVWeKpTw)" and secured a rank of 10.
+[^3]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1516869315517198337).
+[^4]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Oct 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.mybridge.co%2Fpython-top-10-articles-for-the-past-month-v-oct-2018-81a2f7658945&sa=D&sntz=1&usg=AFQjCNGqyttyLfVu3E41k0oCPaGOUfwtaA)" and secured a rank of 4.
+[^5]:This article got featured in "[Machine Learning Top 10 Articles for the Past Month (v.Nov 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.mybridge.co%2Fmachine-learning-top-10-articles-for-the-past-month-v-nov-2018-35f1fd88cb49&sa=D&sntz=1&usg=AFQjCNFfndNPZXPMj2Snv5RF7LBaemoFMQ)" and secured a rank of 9.
+[^6]:This article got featured in "[Python Top 10 Articles for the Past Month (v.Dec 2018)](https://www.google.com/url?q=https%3A%2F%2Fmedium.com%2F%40Mybridge%2Fpython-top-10-articles-for-the-past-month-v-dec-2018-6c4c7a10b61e&sa=D&sntz=1&usg=AFQjCNF0tvByWxbRdliqPPHzdLXVWeKpTw)" and secured a rank of 10.
 
 ## [FloydHub](https://www.floydhub.com/)
 
@@ -85,10 +86,10 @@ as well as the blog posts.
 -   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://bit.ly/2IZev5a)
 -   [An introduction to Q-Learning: Reinforcement Learning](http://bit.ly/2HxuVzo)
 -   [How to plan and execute your ML and DL projects](http://bit.ly/2XtMCeh)
--   [Becoming One With the Data](http://bit.ly/30N3bPA) [^6]
+-   [Becoming One With the Data](http://bit.ly/30N3bPA) [^7]
 -   [Training Neural Nets: a Hacker’s Perspective](http://bit.ly/training-neural-nets)
 
-[^6]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
+[^7]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
 
 ## [Weights and Biases](https://www.wandb.com/)
 
@@ -110,25 +111,25 @@ as well as the blog posts.
 -   [Improving Image Classifiers with Supervised Contrastive Learning](https://bit.ly/2UVZtm7) (joint work with [Sweta Shaw](https://www.linkedin.com/in/sweta-shaw-797540159/))
 -   [Model Pruning in Deep Learning](https://bit.ly/2AJ67W4) 
 -   [Understanding the Effectivity of Ensembles in Deep Learning](https://bit.ly/deep-ensembles) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
--   [An Introduction to Adversarial Examples in Deep Learning](https://bit.ly/3b2zss2) [^7]
+-   [An Introduction to Adversarial Examples in Deep Learning](https://bit.ly/3b2zss2) [^8]
 -   [Unsupervised Visual Representation Learning with SwAV](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   [Distilling Knowledge in Neural Networks](https://bit.ly/3mvsbGn)
 
-[^7]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
+[^8]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
 ## [Google Cloud Platform](https://cloud.google.com/blog)
 
 - [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
 -   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
--   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^8]
+-   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^9]
 -   Model training as a CI/CD system - [Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i), [Part II](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## TensorFlow
 
 -   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz))
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
--   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^9]
--   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^10]
+-   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^10]
+-   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^11]
 
 ## Others
 
@@ -136,14 +137,14 @@ as well as the blog posts.
 -   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
 -   [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   [AMA with Sayak Paul - Hacktoberfest'19](https://fossassam.tech/post/ama-sayak/)
--   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^11]
+-   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^12]
 -   [GDE Journey — Sayak Paul](https://bit.ly/2WVQsLd) 
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
--   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^12]
+-   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^13]
 
 
-[^8]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
-[^9]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
-[^10]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1469019016782041095).
-[^11]:This one won the ML GDE Dev Challenge.
-[^12]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1351590466068783105).
+[^9]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
+[^10]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
+[^11]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1469019016782041095).
+[^12]:This one won the ML GDE Dev Challenge.
+[^13]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1351590466068783105).
