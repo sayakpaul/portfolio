@@ -27,9 +27,9 @@ work made it to the following NeurIPS 2021 workshops: [_AI for Science: Mind the
 
 ## Others
 
-- Tutorial organizer and presenter: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR 2021)](https://sites.google.com/view/par-2021)
+- Tutorial organizer and presenter: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR 2021)](https://sites.google.com/view/par-2021).
 - Reviewer: [Uncertainty & Robustness in Deep Learning workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP 2021](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
-- Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
+- Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345)).
 
 [^1]:This is our report for this [CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). The report contains solution approaches from the teams (including ours) that got the top positions.
 [^2]:This paper demonstrates the solution approach our team took to finish as the first runners-up at [this competition](https://nasa-impact.github.io/etci2021/) organized by the NASA Impact team. It got accepted for an oral presentation at the [ESA-ECMWF workshop 2021](https://www.ml4esop.esa.int/agenda). 
