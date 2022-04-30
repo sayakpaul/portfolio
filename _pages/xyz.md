@@ -48,6 +48,7 @@ More details are available [here](https://sayak.dev/research/#others).
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
 -   Received the [Google OSS Expert Prize (February, 2022)](https://www.kaggle.com/general/310354) with [Soumik Rakshit](https://www.kaggle.com/soumikrakshit) for [this work](https://www.kaggle.com/soumikrakshit/gaugan-keras/). 
 -   Received the [Google OSS Expert Prize (March, 2022)](https://www.kaggle.com/general/316181) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
+-   Received the [Google OSS Expert Prize (April, 2022)](https://www.kaggle.com/discussions/general/322041) for [this work](https://www.kaggle.com/code/spsayakpaul/distilling-vision-transformers). 
 
 ## Non-tech
 
