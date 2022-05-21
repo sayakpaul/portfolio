@@ -64,6 +64,7 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 using semi-supervision for segmenting flood regions](https://arxiv.org/abs/2107.08369). This work was also presented as a poster at [PyTorch Developer
 Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#) and the PyTorch team helped us create a
 [beautiful poster](https://drive.google.com/file/d/1FGf-Jz42kcicNmhoR1e26Z5MSicChrZr/view?usp=sharing) for that. 
+- [**Improving Dataflow pipelines for text data at scale**](https://www.youtube.com/watch?v=MWnxoF2CEd0) (with Nilabhra Roy Chowdhury) at Innovators Hive from Google Cloud (March 30, 2022). 
 
 ### Co-organized by me:
 
