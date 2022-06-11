@@ -50,6 +50,7 @@ More details are available [here](https://sayak.dev/research/#others).
 -   Received the [Google OSS Expert Prize (March, 2022)](https://www.kaggle.com/general/316181) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
 -   Received the [Google OSS Expert Prize (April, 2022)](https://www.kaggle.com/discussions/general/322041) for [this work](https://www.kaggle.com/code/spsayakpaul/distilling-vision-transformers). 
 -   Received the [Google OSS Expert Prize (May, 2022)](https://www.kaggle.com/discussions/general/328914) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/aritrag/probing-vits). 
+-   Awarded as a Top Contributor to [Papers With Code](https://paperswithcode.com/). Award link is [here](https://github.com/sayakpaul/portfolio/blob/master/images/pwc_award.jpg).
 
 ## Non-tech
 
