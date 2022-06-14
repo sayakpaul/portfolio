@@ -9,7 +9,7 @@ I am interested in a number of topics pertaining to Deep Learning:
 * Model robustness
 * Model optimization
 
-Please refer to my Google Scholar profile (available [here](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#)) for details
+Please refer to my [Google Scholar profile](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#) for details
 on the publications I have been a part of. 
 
 ## Misc
