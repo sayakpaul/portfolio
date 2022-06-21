@@ -23,8 +23,12 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 - [**Google Code-in**](https://codein.withgoogle.com/) for TensorFlow through December, 2019 - January 2020 ([Certificate](https://drive.google.com/file/d/1DcTS7ogACmuvnvGJWw5-3yL9xp06IJPc/view?usp=sharing))
 - [**Build For Digital India**](https://events.withgoogle.com/buildfordigitalindia/) Bootcamps through January 2020 - February 2020 ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1225747137616498690&sa=D&sntz=1&usg=AFQjCNHOArwPGTqTx17LLJvq9KHI_KQueA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 - [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
-- Mentored at [**Google for Startups India Accelerator 2020, 2021**](https://twitter.com/GoogleDevsIN/status/1302932126019411970)
+- **Google for Startups MENA Accelerator 2020**
+- [**Google for Startups India Accelerator 2020, 2021**](https://twitter.com/GoogleDevsIN/status/1302932126019411970) (this was formerly known as Launchpad)
 - Mentored for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/). Students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2). [Here's](https://blog.tensorflow.org/2021/09/tensorflow-hubs-experience-with-gsoc-2021.html) a related blog post from TensorFlow.
+- Currently mentoring for TensorFlow at GSoC 2022. Students: [Aditya Kane](https://summerofcode.withgoogle.com/programs/2022/projects/hkRbtWVD), [Sayan Nath](https://summerofcode.withgoogle.com/programs/2022/projects/pzWz8XQD), and [Mohammad Shoaib](https://summerofcode.withgoogle.com/programs/2022/projects/g0hpWlQ1).
+
+Apart from the occasions mentioned above, I have mentored individual students, students belonging to [Google Developer Student Clubs]((https://gdsc.community.dev/)), etc. But I don't have any recorded documents for these. I enjoy sharing my learnings with those in need and, in turn, learning from them.
 
 ## Community services
 
