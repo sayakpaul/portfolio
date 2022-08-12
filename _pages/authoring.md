@@ -133,9 +133,9 @@ and for blog posts.
 -   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^12]
 -   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 
-## [Hugging Face](https://huggingface.co/blog)
+## [Hugging Face 🤗](https://huggingface.co/blog)
 
-**Series on the deployment of TF Vision models in Hugging Face**
+**Series on the deployment of TF vision models in 🤗:**
 
 - [Deploying TensorFlow Vision Models in Hugging Face with TF Serving](https://huggingface.co/blog/tf-serving-vision)
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
