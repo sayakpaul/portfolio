@@ -15,7 +15,7 @@ on the publications I have been a part of.
 ## Misc
 
 - Tutorial organizer and presenter: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR 2021)](https://sites.google.com/view/par-2021).
-- Reviewer: [UDL workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP 2021](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
+- Reviewer: [AAAI'23](https://aaai.org/Conferences/AAAI-23/), [UDL workshop (ICML 2021)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP 2021](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
 - Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345)).
 - Tutorial organizer and speaker: [Foundational Robustness of Foundation Models (NeurIPS (2022)](https://sites.google.com/view/neurips2022-frfm-turotial/).
 
