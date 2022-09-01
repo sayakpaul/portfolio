@@ -33,6 +33,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 
 ## Community services
 
+-   Program committe member, AAAI 2023
 -   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
 -   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
 
