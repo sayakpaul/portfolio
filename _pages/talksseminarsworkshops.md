@@ -66,14 +66,14 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [**Kolkata Kreate**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [**TFUG India Summit**](http://tfug.in/), September 3 - 6, 2020.
 
-### [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ)
+### [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ):
 
 I used to appear on one of the most popular podcasts in machine learning called the **ML Street Talk**. Below are the episodes where I have made  appearances. 
 
--   Spoke to Tim Scarfe, Connor Shorten, and Yannic Kilcher: [https://bit.ly/ml-st-sayak](https://bit.ly/ml-st-sayak).
--   Spoke to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher: [http://bit.ly/mlst-mathilde](http://bit.ly/mlst-mathilde).
--   Spoke to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher: [bit.ly/sara_mlst](http://bit.ly/sara_mlst).
--   Spoke to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake: [bit.ly/sanyam_mlst](http://bit.ly/sanyam_mlst).
+-   [Spoke](https://bit.ly/ml-st-sayak) to Tim Scarfe, Connor Shorten, and Yannic Kilcher.
+-   [Spoke](http://bit.ly/mlst-mathilde) to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher.
+-   [Spoke](http://bit.ly/sara_mlst) to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher.
+-   [Spoke](http://bit.ly/sanyam_mlst) to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake.
 -   [Spoke](https://youtu.be/1EqJyMy0LnE) to **Simon Kornblith** (Google Brain) with Tim Scarfe and Yannic Kilcher.
 -   [Spoke](https://youtu.be/Q0kN_ZHHDQY) to **Lena Voita** (University of Edinburgh and University of Amsterdam) with Tim Scarfe and Yannic Kilcher.
 -   [Spoke](https://www.youtube.com/watch?v=_eHRICHlg1k) to **Hadi Salman** (MIT) with Tim Scarfe and Yannic Kilcher.
