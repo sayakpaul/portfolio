@@ -41,21 +41,13 @@ I love to attend developer meetups, conferences, workshops and learn from them a
 -   Participated in an ML fire-side chat hosted by [Aniedi](https://twitter.com/aniediudo) to speak to the developers of African regions. Recording is available [here](https://www.youtube.com/watch?v=y1mwuxWvd8w) (May 30, 2020). 
 -   Spoke at Pie and AI Kolkata on **Becoming One with the Data**. Deck [here](https://bit.ly/one-data) & session recording [here](https://bit.ly/dlailive) (May 31, 2020).
 -   Spoke on **Model Optimization 101** for [TFUG Thrissur](https://www.meetup.com/tfug-thrissur/photos/30888563/490730360/). Deck [here](http://bit.ly/mo-101) (June 07, 2020). A recording on the same topic from a different event is available [here](https://youtu.be/u5_JorytAcI). I have also presented this at Google for Startups Accelerator India ([GoogleDevsIN tweet](https://twitter.com/GoogleDevsIN/status/1302932126019411970)). A recording of that session is available [here](https://youtu.be/plSkz8Eqnlo). 
--   Spoke to Tim Scarfe, Connor Shorten, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [https://bit.ly/ml-st-sayak](https://bit.ly/ml-st-sayak).
 -   Spoke on **A few good stuff in TensorFlow Lite** for [GDG Berlin](https://www.meetup.com/gdg-berlin/events/271458374/) (July 16, 2020). Deck is available [here](http://bit.ly/stuff-tflite) and a recording is available [here](https://www.youtube.com/watch?v=Ly4s0fsG93c). 
--   Spoke to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [http://bit.ly/mlst-mathilde](http://bit.ly/mlst-mathilde).
 -   Spoke on **GitHub Actions for Machine Learning** at Global AI On Tour Mumbai (September 27, 2020). Deck is available [here](http://bit.ly/ga-ml).
 -   Spoke on **The Maker Philosophy with ML APIs** at [Mindhack Summit](https://www.mindhacksummit.com/) (October 12, 2020). Deck is available [here](https://bit.ly/maker-api). 
 -   Spoke on **Adversarial Examples in Deep Learning** at [DevFest UK & Ireland 2020](https://www.devfest-uki.com/speakers-more-details) (October 17, 2020). Deck is available [here](http://bit.ly/ia-101).
--   Spoke to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [bit.ly/sara_mlst](http://bit.ly/sara_mlst).
--   Spoke to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake at the [Machine Learning Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ): [bit.ly/sanyam_mlst](http://bit.ly/sanyam_mlst).
 -   Took a workshop on **Adversarial Robustness in Deep Learning** with [Dipanjan Sarkar](https://www.linkedin.com/in/dipanzan/) at [Deep Learning DevCon 2020](https://dldc.adasci.org/) (October 29, 2020). The materials are available here - [bit.ly/adv_learn](http://bit.ly/adv_learn). We presented this at Kshitij 2021 as well and [here's the recording](https://youtu.be/RV7nerh_8gw). 
 -   Spoke on **Demystifying Self-Supervised Learning for Visual Recognition** at [SciPy Japan 2020](https://www.scipyjapan.scipy.org/schedule) (October 30, 2020). Deck is available here - [bit.ly/scipy-sp](http://bit.ly/scipy-sp). Session recording is available [here](https://www.youtube.com/watch?v=3686AJmoDTA).
 -   Spoke to Santosh on **Demystifying ML and AI for beginners** at his podcast [Tech Talks With Santosh](https://www.youtube.com/channel/UChvYTafHRgXKb0VbYGeG0nw): [https://youtu.be/BhLQN-XIO04](https://youtu.be/BhLQN-XIO04) (November 07, 2020). 
-- Spoke with **Simon Kornblith** (Google Brain) at the [Machine Learning Street Talk](https://youtu.be/1EqJyMy0LnE) (with Tim Scarfe and Yannic Kilcher).
-- Spoke with **Lena Voita** (University of Edinburgh and University of Amsterdam) at the [Machine Learning Street Talk](https://youtu.be/Q0kN_ZHHDQY) (with Tim Scarfe and Yannic Kilcher).
-- Spoke with **Hadi Salman** (MIT) at the [Machine Learning Street Talk](https://www.youtube.com/watch?v=_eHRICHlg1k) (with Tim Scarfe and Yannic Kilcher).
-- Spoke with **Ishan Misra** (Facebook AI Research) at the [Machine Learning Street Talk](https://www.youtube.com/watch?v=EXJmodhu4_4) (with Tim Scarfe and Yannic Kilcher).
 - Spoke on **Key Trends of Computer Vision 2021** (June 09, 2021). Deck is available [here](http://bit.ly/trends-cv). A session recording is available
   [here](https://www.youtube.com/watch?v=KQFJRZgNrDA). A blog post summarizing the content (by Benedict Neo) is available [here](https://medium.com/bitgrit-data-science-publication/5-computer-vision-trends-for-2021-96fd18d5596c). I have also presented this at [Takshak'21](https://takshak.roboism.in/robobuzz), Techfest of ISM Dhanbad.
 - **Vertex AI for Easier Model Deployments** at [Google for Startups Accelerator Class 5](https://india.googleblog.com/2021/08/introducing-class-5-of-google-for.html) (August 28, 2021). Deck is available [here](https://bit.ly/gfsa-vertex). A recording is available [here](https://youtu.be/gzM0lJWtvic).
@@ -73,5 +65,18 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [**Let's Build**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F266991860%2F&sa=D&sntz=1&usg=AFQjCNFRNPDLbylmxjuz85soM3VfkJ4YPA), January 4, 2020.
 -   [**Kolkata Kreate**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [**TFUG India Summit**](http://tfug.in/), September 3 - 6, 2020.
+
+### [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ)
+
+I used to appear on one of the most popular podcasts in machine learning called the **ML Street Talk**. Below are the episodes where I have made  appearances. 
+
+-   Spoke to Tim Scarfe, Connor Shorten, and Yannic Kilcher: [https://bit.ly/ml-st-sayak](https://bit.ly/ml-st-sayak).
+-   Spoke to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher: [http://bit.ly/mlst-mathilde](http://bit.ly/mlst-mathilde).
+-   Spoke to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher: [bit.ly/sara_mlst](http://bit.ly/sara_mlst).
+-   Spoke to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake: [bit.ly/sanyam_mlst](http://bit.ly/sanyam_mlst).
+-   [Spoke](https://youtu.be/1EqJyMy0LnE) to **Simon Kornblith** (Google Brain) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://youtu.be/Q0kN_ZHHDQY) to **Lena Voita** (University of Edinburgh and University of Amsterdam) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://www.youtube.com/watch?v=_eHRICHlg1k) to **Hadi Salman** (MIT) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://www.youtube.com/watch?v=EXJmodhu4_4) to **Ishan Misra** (Facebook AI Research) with Tim Scarfe and Yannic Kilcher.
 
 **Note:** If you are interested to invite me as a speaker for your event, please get in touch by dropping an email at [spsayakpaul@gmail.com](mailto:spsayakpaul@gmail.com). If you are interested in having me submit a CFP first, that is absolutely fine! Please don't hesitate to ask that.
