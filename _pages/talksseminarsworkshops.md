@@ -66,7 +66,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [**Kolkata Kreate**](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [**TFUG India Summit**](http://tfug.in/), September 3 - 6, 2020.
 
-### [ML Street Talk]:
+### ML Street Talk:
 
 I used to appear on one of the most popular podcasts in machine learning called the [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ). Below are the episodes where I have made  appearances. 
 
