@@ -57,7 +57,7 @@ using semi-supervision for segmenting flood regions](https://arxiv.org/abs/2107.
 Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#) and the PyTorch team helped us create a
 [beautiful poster](https://drive.google.com/file/d/1FGf-Jz42kcicNmhoR1e26Z5MSicChrZr/view?usp=sharing) for that. 
 - [**Improving Dataflow pipelines for text data at scale**](https://www.youtube.com/watch?v=MWnxoF2CEd0) (with Nilabhra Roy Chowdhury) at [Innovators Hive from Google Cloud](https://cloud.google.com/innovators/hive2022) (March 30, 2022). We also presented this at the [Beam Summit 2022](https://2022.beamsummit.org/sessions/improving-beam-dataflow-pipelines-for-text-data-processing/). Slide deck is available [here](https://docs.google.com/presentation/d/1EAn4_pNZzt0_8mz_VAuccSySU3DpNoYN5X04amvkbC0/edit?usp=sharing). A video presentation is available [here](https://youtu.be/dkR-Sl7WHq8).
-- **Building a Mobile-optimized Image Recognition Model** at DevFest Bangalore 2022 (September 18, 2022). Slides are [here](https://docs.google.com/presentation/d/120CeL_V5hcSSJv3Lktnh45H3XKlIu9LQ_jnAlTrah08/edit?usp=sharing).
+- **Building a Mobile-optimized Image Recognition Model** at [DevFest Bangalore 2022](https://gdg.community.dev/events/details/google-gdg-bangalore-presents-devfest-bangalore-2022/) (September 18, 2022). Slides are [here](https://docs.google.com/presentation/d/120CeL_V5hcSSJv3Lktnh45H3XKlIu9LQ_jnAlTrah08/edit?usp=sharing).
 
 ### Co-organized by me:
 
