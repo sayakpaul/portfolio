@@ -44,6 +44,7 @@ and for blog posts.
 -   [GauGAN for conditional image generation](https://keras.io/examples/generative/gaugan/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 -   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/) [^3]
 -   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498)) [^4]
+-   [Class Attention Image Transformers with LayerScale](https://keras.io/examples/vision/cait/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
