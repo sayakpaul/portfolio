@@ -145,15 +145,14 @@ and for blog posts.
 
 ## [Carted](https://www.carted.com/blog)
 
+The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.linkedin.com/in/nilabhraroychowdhury). 
+
 - [Improving Dataflow Pipelines for Text Data Processing](https://www.carted.com/blog/improving-dataflow-pipelines-for-text-data-processing/)
 - Variable-Length Sequences in TensorFlow
   - [Part I](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-1/)
   - [Part II](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-2/)
   - [Part III](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-3/)
 - [Building an Efficient Machine Learning API](https://www.carted.com/blog/building-an-efficient-machine-learning-api/)
-  
-  All the above posts were co-authored with [Nilabhra Roy Chowdhury](https://www.linkedin.com/in/nilabhraroychowdhury). 
-  
 - [Better Hardware Provisioning for ML Experiments](https://www.carted.com/blog/better-hardware-provisioning-for-ml-experiments)
 
 
