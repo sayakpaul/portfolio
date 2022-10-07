@@ -151,6 +151,9 @@ and for blog posts.
   - [Part II](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-2/)
   - [Part III](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-3/)
 - [Building an Efficient Machine Learning API](https://www.carted.com/blog/building-an-efficient-machine-learning-api/)
+  
+  All the above posts were co-authored with [Nilabhra Roy Chowdhury](https://www.linkedin.com/in/nilabhraroychowdhury). 
+  
 - [Better Hardware Provisioning for ML Experiments](https://www.carted.com/blog/better-hardware-provisioning-for-ml-experiments)
 
 
