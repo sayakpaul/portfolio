@@ -59,6 +59,7 @@ More details are available [here](https://sayak.dev/research/#others).
 -   Received the [Google OSS Expert Prize (May, 2022)](https://www.kaggle.com/discussions/general/328914) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/aritrag/probing-vits). 
 -   Awarded as a Top Contributor to [Papers With Code](https://paperswithcode.com/). Award link is [here](https://github.com/sayakpaul/portfolio/blob/master/images/pwc_award.jpg).
 -   Accepted to the [Oxford ML Summer School (2022)](https://www.oxfordml.school/) for the healthcare track. Certificate link is [here](https://drive.google.com/file/d/14DKioe8HRjKkXEeRXAhmclqUP8cvv9Z0/view?usp=sharing).
+-   Received the [Kaggle ML Research Spotlight Prize (September, 2022)](https://www.kaggle.com/discussions/general/358450) for [this work](https://www.kaggle.com/code/spsayakpaul/cait-tf). 
 
 ## Non-tech
 
