@@ -22,7 +22,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Timeline:
 
-- Machine Learning Engineer, Carted (June 2021 - Present)
+- Machine Learning Engineer, Carted (June 2021 - October 2022)
 - Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
 - Software Engineer, TCS Research and Innovation (January 2018 - August 2018)
@@ -31,7 +31,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Badges I proudly endorse:
 
-![]({{site.baseurl}}/images/badges.png)
+![](https://raw.githubusercontent.com/sayakpaul/portfolio/master/images/badges.jpeg)
 
 ## An honour to be their son 🙂
 
