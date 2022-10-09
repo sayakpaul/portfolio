@@ -8,37 +8,29 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 
 ## Misc
 
--   Taught under-privileged children and managed operations for a TCS-CSR initiative called **H20 (Helping Hand Organization)**
--   [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [**Campus Commune**](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ)
--   Book reviewer for **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)**
+-   Taught under-privileged children and managed operations for a TCS-CSR initiative called **H20 (Helping Hand Organization)** (2017)
+-   [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [**Campus Commune**](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ) (Jan, 2018 - August, 2018)
+-   Book reviewer for **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)** (2019 - )
 -   Co-organizer of **[GDG Kolkata](https://www.meetup.com/GDG-Kolkata/)** (2019 - 2021)
 -   Organizer of **[TensorFlow User Group Kolkata](https://tfugkol.github.io/)** (2020 - 2021)
 
 ## Mentorship
 
-- [**Launchpad Women Entrepreneurs**](https://photos.app.goo.gl/TGoyxJRz6sDrY91x7)
-- [**Explore ML Academy, Hyderabad**](https://events.withgoogle.com/explore-ml-in/)
-- **[AI Hack Tunisia](https://www.google.com/url?q=https%3A%2F%2Fwww.ai-hack-tunisia.com&sa=D&sntz=1&usg=AFQjCNHR8mJv6TwI1_Jmfss0xaG8ivBlJg)**
+- [**Launchpad Women Entrepreneurs**](https://photos.app.goo.gl/TGoyxJRz6sDrY91x7) (2019)
+- [**Explore ML Academy, Hyderabad**](https://events.withgoogle.com/explore-ml-in/) (2019)
+- **[AI Hack Tunisia](https://www.google.com/url?q=https%3A%2F%2Fwww.ai-hack-tunisia.com&sa=D&sntz=1&usg=AFQjCNHR8mJv6TwI1_Jmfss0xaG8ivBlJg)** (2019)
 - [**Class III (2019) of Launchpad Accelerator India**](https://india.googleblog.com/2019/08/inviting-applications-for-class-3-of.html)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1184417773457309696&sa=D&sntz=1&usg=AFQjCNGNkB4cfH6TAYH8r01D2BtpeyozJA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 - [**Google Code-in**](https://codein.withgoogle.com/) for TensorFlow through December, 2019 - January 2020 ([Certificate](https://drive.google.com/file/d/1DcTS7ogACmuvnvGJWw5-3yL9xp06IJPc/view?usp=sharing))
 - [**Build For Digital India**](https://events.withgoogle.com/buildfordigitalindia/) Bootcamps through January 2020 - February 2020 ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1225747137616498690&sa=D&sntz=1&usg=AFQjCNHOArwPGTqTx17LLJvq9KHI_KQueA) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
-- [**Explore ML Bootcamp, Hyderabad**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
-- **Google for Startups MENA Accelerator 2020**
-- [**Google for Startups India Accelerator 2020, 2021**](https://twitter.com/GoogleDevsIN/status/1302932126019411970) (this was formerly known as Launchpad)
+- [**Explore ML Bootcamp, Hyderabad (2020)**](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
+- [**Google for Startups MENA Accelerator 2020**](https://startup.google.com/accelerator/middle-east-north-africa/) (this was formerly known as Launchpad)
+- [**Google for Startups India Accelerator 2020, 2021**](https://twitter.com/GoogleDevsIN/status/1302932126019411970) 
 - Mentored for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/). Students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2). [Here's](https://blog.tensorflow.org/2021/09/tensorflow-hubs-experience-with-gsoc-2021.html) a related blog post from TensorFlow.
-- [Deep Learning Indaba](https://deeplearningindaba.com/). Various university students from Africa since the mentorship program is Africa-focused.
+- [Deep Learning Indaba](https://deeplearningindaba.com/). Various university students from Africa since the mentorship program is Africa-focused (2021- 2022).
 - Currently mentoring for TensorFlow at GSoC 2022. Students: [Aditya Kane](https://adityakane2001.github.io/opensource/gsoc2022report), [Sayan Nath](https://summerofcode.withgoogle.com/programs/2022/projects/pzWz8XQD), and [Mohammad Shoaib](https://summerofcode.withgoogle.com/programs/2022/projects/g0hpWlQ1).
 - [Google for Startups India Women Founders Accelerator (2022)](https://rsvp.withgoogle.com/events/google-for-startups-accelerator-india-women-founders/home).
 
 Apart from the occasions mentioned above, I have mentored individual students, students belonging to [Google Developer Student Clubs]((https://gdsc.community.dev/)), etc. But I don't have any recorded documents for these. I enjoy sharing my learnings with those in need and, in turn, learning from them.
-
-## Community services
-
--   Program committe member, AAAI 2023
--   Program committe member, [**Uncertainty & Robustness in Deep Learning Workshop**](https://sites.google.com/view/udlworkshop2021/home) (ICML 2021)
--   Program committe member, [**ML Conf EU 2020**](https://mlconf.eu/#program-committee)
-
-More details are available [here](https://sayak.dev/research/#others).
 
 ## Awards and recognition
 
