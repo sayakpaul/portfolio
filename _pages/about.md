@@ -31,7 +31,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Badges I proudly endorse:
 
-![]({{site.baseurl}}/images/badges.jpeg)
+![]({{site.baseurl}}/images/badges.png)
 
 ## An honour to be their son 🙂
 
