@@ -60,6 +60,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Building a Mobile-optimized Image Recognition Model** at [DevFest Bangalore 2022](https://gdg.community.dev/events/details/google-gdg-bangalore-presents-devfest-bangalore-2022/) (September 18, 2022). Slides are [here](https://docs.google.com/presentation/d/120CeL_V5hcSSJv3Lktnh45H3XKlIu9LQ_jnAlTrah08/edit?usp=sharing). A recording is [here](https://youtu.be/OL1t7OlX3z4?t=5720).
 - **Fantastic ML Deployments & How to do them with Vertex AI** at [Cloud Community Days Ahmedabad 2022](https://gdg.community.dev/events/details/google-gdg-cloud-ahmedabad-presents-google-cloud-community-day-ahmedabad-2022/) (September 24, 2022). Slides are [here](https://bit.ly/ccd-ahm-deck).
 - **Better Hardware Provisioning for ML Experiments on GCP** at [Cloud Next 2022](https://inthecloud.withgoogle.com/bengaluru-innovators-hive-next-22-13oct/register.html) (October 13, 2022). All the materials are [here](https://github.com/carted/cloud-next-22-terraform).
+- **Being a Maker with ML APIs** at [DevFest Jalandhar 2022](https://gdg.community.dev/events/details/google-gdg-jalandhar-presents-devfest-jalandhar-2022/) (October 16, 2022). All the materials are [here](https://bit.ly/jal-22).
 
 ### Co-organized by me:
 
