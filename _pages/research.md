@@ -16,8 +16,8 @@ on the publications I have been a part of.
 
 ### Tutorials
 
-- Tutorial organizer and speaker: [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR'21)](https://sites.google.com/view/par-2021).
-- Tutorial organizer and speaker: [Foundational Robustness of Foundation Models (NeurIPS'22)](https://sites.google.com/view/neurips2022-frfm-turotial/).
+- [Practical Adversarial Robustness in Deep Learning: Problems and Solutions (CVPR'21)](https://sites.google.com/view/par-2021)
+- [Foundational Robustness of Foundation Models (NeurIPS'22)](https://sites.google.com/view/neurips2022-frfm-turotial/)
 
 ### Reviewing
 
