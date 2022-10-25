@@ -5,7 +5,7 @@ permalink: /about/
 ---
 I am generally interested in the area of representation learning. More specifically, I am interested in the following areas: semi-supervision, self-supervision, and model robustness.  I work at [Hugging Face](https://huggingface.co) as a Developer Advocate Engineer focusing on democratizing Machine Learning (ML) tooling. For more details on my work experience, check out my [LinkedIn profile](https://www.linkedin.com/in/sayak-paul/).
 
- I enjoy implementing research ideas, sometimes incorporating them in practical applications, and communicating my implementation details through [articles](https://sayak.dev/authoring/). I advocate for highly readable and self-contained code. I primarily use Python for programming. I am proficient in TensorFlow and a beginner in PyTorch. 
+ I enjoy implementing research ideas, sometimes incorporating them in practical applications, and communicating my implementation details through [articles](https://sayak.dev/authoring/). I advocate for highly readable and self-contained code. I primarily use Python for programming. I am proficient in TensorFlow and an intermediate learner in PyTorch. 
 
 I have a flair for open-source initiatives. In particular, I have made contributions to <a href="https://github.com/keras-team/keras/commits?author=sayakpaul"><font color="#d00000">Keras</font></a>, [KerasCV](https://github.com/keras-team/keras-cv/commits?author=sayakpaul), [🤗 Transformers](https://github.com/huggingface/transformers/commits?author=sayakpaul), <a href="https://tfhub.dev/s?publisher=sayakpaul"><font color="#FF6F00">TensorFlow Hub</font></a>, <a href="https://github.com/keras-team/keras-io/commits?author=sayakpaul"><font color="#d00000">Keras Examples</font></a>, [TensorFlow Addons](https://git.io/JuUOr), and [Neural Structured Learning](https://git.io/JuUOd). Off the work, I like writing technical articles, working on applied ML ideas, and giving talks at developer conferences.
 
@@ -22,7 +22,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Timeline:
 
-- Incoming Developer Advocate Engineer, Hugging Face 🤗 (October 2022 - Present)
+- Developer Advocate Engineer, Hugging Face 🤗 (October 2022 - Present)
 - Machine Learning Engineer, Carted (June 2021 - October 2022)
 - Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
