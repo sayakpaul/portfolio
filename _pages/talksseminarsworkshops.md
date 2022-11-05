@@ -61,6 +61,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Fantastic ML Deployments & How to do them with Vertex AI** at [Cloud Community Days Ahmedabad 2022](https://gdg.community.dev/events/details/google-gdg-cloud-ahmedabad-presents-google-cloud-community-day-ahmedabad-2022/) (September 24, 2022). Slides are [here](https://bit.ly/ccd-ahm-deck).
 - **Better Hardware Provisioning for ML Experiments on GCP** at [Cloud Next 2022](https://inthecloud.withgoogle.com/bengaluru-innovators-hive-next-22-13oct/register.html) (October 13, 2022). All the materials are [here](https://github.com/carted/cloud-next-22-terraform). A video recording is available [here](https://youtu.be/Q6BqBlUN8Lc).
 - **Being a Maker with ML APIs** at [DevFest Jalandhar 2022](https://gdg.community.dev/events/details/google-gdg-jalandhar-presents-devfest-jalandhar-2022/) (October 16, 2022). All the materials are [here](https://bit.ly/jal-22).
+- **Anatomy of Capstone ML Projects** at [DevFest Nagpur 2022](https://gdg.community.dev/events/details/google-gdg-nagpur-presents-devfest-nagpur-2022/) (November 5, 2022). Slides are [here](https://bit.ly/nagpur-22).
 
 ### Co-organized by me:
 
