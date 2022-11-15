@@ -32,7 +32,9 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Badges I proudly endorse:
 
-![](https://raw.githubusercontent.com/sayakpaul/portfolio/master/images/badges.png)
+* Google Developer Expert in Machine Learning and Google Cloud Platform ([bit.ly/expert-sp](https://bit.ly/expert-sp))
+* Google for Startups Mentor ([bit.ly/gfs-sp](https://bit.ly/gfs-sp))
+* Intel Software Innovator ([bit.ly/isi-sp](https://bit.ly/isi-sp))
 
 ## An honour to be their son 🙂
 
