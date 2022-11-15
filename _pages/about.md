@@ -32,7 +32,7 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Badges I proudly endorse:
 
-![](https://raw.githubusercontent.com/sayakpaul/portfolio/master/images/badges.jpeg)
+![](https://raw.githubusercontent.com/sayakpaul/portfolio/master/images/badges.png)
 
 ## An honour to be their son 🙂
 
