@@ -63,6 +63,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Being a Maker with ML APIs** at [DevFest Jalandhar 2022](https://gdg.community.dev/events/details/google-gdg-jalandhar-presents-devfest-jalandhar-2022/) (October 16, 2022). All the materials are [here](https://bit.ly/jal-22).
 - **Anatomy of Capstone ML Projects** at [DevFest Nagpur 2022](https://gdg.community.dev/events/details/google-gdg-nagpur-presents-devfest-nagpur-2022/)     (November 5, 2022). Slides are [here](https://bit.ly/nagpur-22).
 - **Improving as an ML Practitioner** at [DevFest Kolkata 2022](https://gdg.community.dev/events/details/google-gdg-kolkata-presents-gdg-devfest-kolkata-2022/) (November 13, 2022). Slides are [here](https://bit.ly/kolkata-22).
+- **Bringing ML Models to Life with Hugging Face Spaces** at [DevFest Gandhinagar 2022](https://gdg.community.dev/events/details/google-gdg-gandhinagar-presents-devfest-gandhinagar-2022/)  (November 21, 2022). 
 
 ### Co-organized by me:
 
