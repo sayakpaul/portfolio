@@ -143,6 +143,10 @@ and for blog posts.
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
 - [Deploying 🤗 ViT on Vertex AI](https://huggingface.co/blog/deploy-vertex-ai) (with [Chansung Park](https://github.com/deep-diver))
 
+**Notebooks**
+
+- [Fine-tuning VideoMAE for Video Classification](https://github.com/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
+
 ## [Carted](https://www.carted.com/blog)
 
 The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.linkedin.com/in/nilabhraroychowdhury). 
