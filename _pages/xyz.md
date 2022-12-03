@@ -52,6 +52,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 -   Awarded as a Top Contributor to [Papers With Code](https://paperswithcode.com/). Award link is [here](https://github.com/sayakpaul/portfolio/blob/master/images/pwc_award.jpg).
 -   Accepted to the [Oxford ML Summer School (2022)](https://www.oxfordml.school/) for the healthcare track. Certificate link is [here](https://drive.google.com/file/d/14DKioe8HRjKkXEeRXAhmclqUP8cvv9Z0/view?usp=sharing).
 -   Received the [Kaggle ML Research Spotlight Prize (September, 2022)](https://www.kaggle.com/discussions/general/358450) for [this work](https://www.kaggle.com/code/spsayakpaul/cait-tf). 
+-   Received the [Kaggle ML Research Spotlight Prize (November, 2022)](https://www.kaggle.com/discussions/general/370095) for [this work](https://www.kaggle.com/code/spsayakpaul/robustness-vit/notebook). 
 
 ## Non-tech
 
