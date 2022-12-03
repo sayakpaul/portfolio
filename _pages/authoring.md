@@ -145,7 +145,12 @@ and for blog posts.
 
 **Notebooks**
 
-- [Fine-tuning VideoMAE for Video Classification](https://github.com/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
+- [Fine-tuning VideoMAE for Video Classification](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
+- [Fine-tuning TF SegFormer for Semantic Segmentation](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/semantic_segmentation-tf.ipynb)
+
+**Guides**
+
+- [Semantic segmentation dataset preparation guide](https://huggingface.co/docs/datasets/semantic_segmentation)
 
 ## [Carted](https://www.carted.com/blog)
 
