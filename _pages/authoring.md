@@ -135,7 +135,7 @@ and for blog posts.
 -   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Automated Deployment of TensorFlow Models with TensorFlow Serving and GitHub Actions](https://blog.tensorflow.org/2022/09/automated-deployment-of-tensorflow-models-with-tensorflow-serving-and-github-actions.html) (joint work with [Chansung Park](https://github.com/deep-diver)) 
 
-## [Hugging Face 🤗](https://huggingface.co/blog)
+## Hugging Face 🤗
 
 **Series on the deployment of TF vision models in 🤗:**
 
