@@ -21,7 +21,7 @@ on the publications I have been a part of.
 
 ### Teaching assistance
 
-Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackdeeplearning.com/course/2022/cohort/).
+Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackdeeplearning.com/course/2022/#teaching-assistants).
 
 ### Reviewing
 
