@@ -64,7 +64,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Anatomy of Capstone ML Projects** at [DevFest Nagpur 2022](https://gdg.community.dev/events/details/google-gdg-nagpur-presents-devfest-nagpur-2022/)     (November 5, 2022). Slides are [here](https://bit.ly/nagpur-22). Presented this at [DevFest Tashkent 2022](https://gdg.community.dev/events/details/google-gdg-tashkent-presents-devfest-tashkent-22/) as well. 
 - **Improving as an ML Practitioner** at [DevFest Kolkata 2022](https://gdg.community.dev/events/details/google-gdg-kolkata-presents-gdg-devfest-kolkata-2022/) (November 13, 2022). Slides are [here](https://bit.ly/kolkata-22). Presented this at [DevFest Indore 2022](https://gdg.community.dev/events/details/google-gdg-indore-presents-devfest-indore-2022/) as well. 
 - **Bringing ML Models to Life with Hugging Face Spaces** at [DevFest Gandhinagar 2022](https://gdg.community.dev/events/details/google-gdg-gandhinagar-presents-devfest-gandhinagar-2022/)  (November 21, 2022). 
-- **ML Problems: Formulation and Adoption** at Google Developers Startup Bootcamp (University Edition), Gurugram | India (December 06, 2022). [Tweet](https://twitter.com/GoogleDevsIN/status/1600136189478326273) by GoogleDevsIN. Deck is [here](https://docs.google.com/presentation/d/1owGLGDHMsLEwPta9XigZw3KNXLqlgGIs13PpDjwDek4/edit?usp=sharing). 
+- **ML Problems: Formulation and Adoption** at Google Developers Startup Bootcamp (University Edition); Gurugram, India (December 06, 2022). [Tweet](https://twitter.com/GoogleDevsIN/status/1600136189478326273) by GoogleDevsIN. Deck is [here](https://docs.google.com/presentation/d/1owGLGDHMsLEwPta9XigZw3KNXLqlgGIs13PpDjwDek4/edit?usp=sharing). 
 
 ### Co-organized by me:
 
