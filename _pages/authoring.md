@@ -151,6 +151,7 @@ and for blog posts.
 **Guides**
 
 - [Semantic segmentation dataset preparation guide](https://huggingface.co/docs/datasets/semantic_segmentation)
+- [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
 
 ## [Carted](https://www.carted.com/blog)
 
