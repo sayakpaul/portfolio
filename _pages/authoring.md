@@ -45,6 +45,7 @@ and for blog posts.
 -   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/) [^3]
 -   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498)) [^4]
 -   [Class Attention Image Transformers with LayerScale](https://keras.io/examples/vision/cait/)
+-   [Fine-tuning Stable Diffusion](https://keras.io/examples/generative/finetune_stable_diffusion/) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## [Datacamp](https://www.datacamp.com/)
 
