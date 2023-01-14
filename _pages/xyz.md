@@ -34,7 +34,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 
 ## Awards and recognition
 
--   Recipient of the **Google Open Source Peer Bonus Award** ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html), [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html), and [2022](https://opensource.googleblog.com/2022/09/announcing-the-second-group-of-open-source-peer-bonus-winners-in-2022.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor.
+-   Recipient of the **Google Open Source Peer Bonus Award** ([2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html), [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html), and [2022](https://opensource.googleblog.com/2022/09/announcing-the-second-group-of-open-source-peer-bonus-winners-in-2022.html)). [Here's a related blog post](https://opensource.googleblog.com/2020/10/peer-bonus-experiences-building-tiny.html) (from the official Google Open Source Blog) jotting down the experiences that led to this honor (2020).
 -   Led our team at PyImageSearch to Top 10 at [this CVPR 2021 competition](https://competitions.codalab.org/competitions/28113). 
 -   Finished 2nd (with [Siddha Ganju](https://sidgan.github.io/siddhaganju)) at [this competition](https://nasa-impact.github.io/etci2021/) (2021) organized by the NASA Impact team ([Certificate](https://drive.google.com/file/d/1U4JTAYChV6PHwDA87gd2FJ04843YA6bN/view?usp=sharing)).
 -   Received (sometimes jointly) the [#TFCommunitySpotlight award](https://blog.tensorflow.org/2020/11/tensorflow-community-spotlight-program-update.html) multiple times for projects with varying use-cases, tooling, and motivation. Details in the
@@ -53,6 +53,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 -   Accepted to the [Oxford ML Summer School (2022)](https://www.oxfordml.school/) for the healthcare track. Certificate link is [here](https://drive.google.com/file/d/14DKioe8HRjKkXEeRXAhmclqUP8cvv9Z0/view?usp=sharing).
 -   Received the [Kaggle ML Research Spotlight Prize (September, 2022)](https://www.kaggle.com/discussions/general/358450) for [this work](https://www.kaggle.com/code/spsayakpaul/cait-tf). 
 -   Received the [Kaggle ML Research Spotlight Prize (November, 2022)](https://www.kaggle.com/discussions/general/370095) for [this work](https://www.kaggle.com/code/spsayakpaul/robustness-vit/notebook). 
+-   [Secured 2nd place](https://discuss.tensorflow.org/t/announcing-the-keras-community-prize-first-edition/13148/29) in the first ever Keras Community Prize competition organized for [this project](https://github.com/sayakpaul/stable-diffusion-keras-ft) with [Chansung Park](https://twitter.com/algo_diver). 
 
 ## Non-tech
 
