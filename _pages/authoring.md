@@ -154,6 +154,7 @@ and for blog posts.
 - [Semantic segmentation dataset preparation guide](https://huggingface.co/docs/datasets/semantic_segmentation)
 - [Depth estimation dataset preparation guide](https://huggingface.co/docs/datasets/main/en/depth_estimation)
 - [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
+- [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
 
 ## [Carted](https://www.carted.com/blog)
 
