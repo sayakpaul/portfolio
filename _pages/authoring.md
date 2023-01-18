@@ -135,6 +135,7 @@ and for blog posts.
 -   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^12]
 -   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Automated Deployment of TensorFlow Models with TensorFlow Serving and GitHub Actions](https://blog.tensorflow.org/2022/09/automated-deployment-of-tensorflow-models-with-tensorflow-serving-and-github-actions.html) (joint work with [Chansung Park](https://github.com/deep-diver)) 
+-   [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## Hugging Face 🤗
 
