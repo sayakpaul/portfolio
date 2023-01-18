@@ -139,7 +139,7 @@ and for blog posts.
 
 ## Hugging Face 🤗
 
-**Series on the deployment of TF vision models in 🤗:**
+**Series on the deployment of TF vision models in 🤗**
 
 - [Deploying TensorFlow Vision Models in Hugging Face with TF Serving](https://huggingface.co/blog/tf-serving-vision)
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
