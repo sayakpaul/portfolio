@@ -157,6 +157,10 @@ and for blog posts.
 - [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
 
+**Blogs**
+
+- [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
+
 ## [Carted](https://www.carted.com/blog)
 
 The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.linkedin.com/in/nilabhraroychowdhury). 
