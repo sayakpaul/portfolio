@@ -156,6 +156,7 @@ and for blog posts.
 - [Depth estimation dataset preparation guide](https://huggingface.co/docs/datasets/main/en/depth_estimation)
 - [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
+- [LoRA support in diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
 
 **Blogs**
 
