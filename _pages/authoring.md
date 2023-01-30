@@ -161,6 +161,7 @@ and for blog posts.
 **Blogs**
 
 - [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
+- [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
 
 ## [Carted](https://www.carted.com/blog)
 
