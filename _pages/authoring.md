@@ -46,6 +46,7 @@ and for blog posts.
 -   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498)) [^4]
 -   [Class Attention Image Transformers with LayerScale](https://keras.io/examples/vision/cait/)
 -   [Fine-tuning Stable Diffusion](https://keras.io/examples/generative/finetune_stable_diffusion/) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [Semantic segmentation with SegFormer and Hugging Face Transformers](https://keras.io/examples/vision/segformer/)
 
 ## [Datacamp](https://www.datacamp.com/)
 
@@ -157,6 +158,7 @@ and for blog posts.
 - [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
 - [LoRA support in diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
+- [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/kerascv)
 
 **Blogs**
 
