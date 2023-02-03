@@ -164,6 +164,7 @@ and for blog posts.
 
 - [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
 - [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
+- [A Dive into Vision-Language Models](https://huggingface.co/blog/vision_language_pretraining) (with [Alara Dirik](https://huggingface.co/adirik))
 
 ## [Carted](https://www.carted.com/blog)
 
