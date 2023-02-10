@@ -146,10 +146,11 @@ and for blog posts.
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
 - [Deploying 🤗 ViT on Vertex AI](https://huggingface.co/blog/deploy-vertex-ai) (with [Chansung Park](https://github.com/deep-diver))
 
-**Notebooks**
+**Notebooks and Scripts**
 
 - [Fine-tuning VideoMAE for Video Classification](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
 - [Fine-tuning TF SegFormer for Semantic Segmentation](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/semantic_segmentation-tf.ipynb)
+- [Fine-tuning Stable Diffusion on Text2Image with LoRA](https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image_lora.py)
 - [Fine-tuning a ViT for Image Classification with LoRA](https://github.com/huggingface/peft/blob/main/examples/image_classification/image_classification_peft_lora.ipynb)
 - [Fine-tuning a SegFormer for Semantic Segmentation with LoRA](https://github.com/huggingface/peft/blob/main/examples/semantic_segmentation/semantic_segmentation_peft_lora.ipynb)
 
