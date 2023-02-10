@@ -150,6 +150,8 @@ and for blog posts.
 
 - [Fine-tuning VideoMAE for Video Classification](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
 - [Fine-tuning TF SegFormer for Semantic Segmentation](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/semantic_segmentation-tf.ipynb)
+- [Fine-tuning a ViT for Image Classification with LoRA](https://github.com/huggingface/peft/blob/main/examples/image_classification/image_classification_peft_lora.ipynb)
+- [Fine-tuning a SegFormer for Semantic Segmentation with LoRA](https://github.com/huggingface/peft/blob/main/examples/semantic_segmentation/semantic_segmentation_peft_lora.ipynb)
 
 **Guides**
 
@@ -165,6 +167,7 @@ and for blog posts.
 - [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
 - [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
 - [A Dive into Vision-Language Models](https://huggingface.co/blog/vision_language_pretraining) (with [Alara Dirik](https://huggingface.co/adirik))
+- [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft)
 
 ## [Carted](https://www.carted.com/blog)
 
