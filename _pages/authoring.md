@@ -47,6 +47,7 @@ and for blog posts.
 -   [Class Attention Image Transformers with LayerScale](https://keras.io/examples/vision/cait/)
 -   [Fine-tuning Stable Diffusion](https://keras.io/examples/generative/finetune_stable_diffusion/) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Semantic segmentation with SegFormer and Hugging Face Transformers](https://keras.io/examples/vision/segformer/)
+-   [DreamBooth](https://keras.io/examples/generative/dreambooth/) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## [Datacamp](https://www.datacamp.com/)
 
