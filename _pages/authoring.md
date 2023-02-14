@@ -162,7 +162,7 @@ and for blog posts.
 - [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
 - [Image captioning task guide](https://huggingface.co/docs/transformers/main/en/tasks/image_captioning)
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
-- [LoRA support in diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
+- [LoRA support in Diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
 - [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/kerascv)
 
 **Blogs**
@@ -170,7 +170,7 @@ and for blog posts.
 - [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
 - [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
 - [A Dive into Vision-Language Models](https://huggingface.co/blog/vision_language_pretraining) (with [Alara Dirik](https://huggingface.co/adirik))
-- [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft)
+- [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft) (with [Sourab Mangrulkar](https://twitter.com/sourab_m))
 
 ## [Carted](https://www.carted.com/blog)
 
