@@ -137,7 +137,7 @@ and for blog posts.
 -   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^12]
 -   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Automated Deployment of TensorFlow Models with TensorFlow Serving and GitHub Actions](https://blog.tensorflow.org/2022/09/automated-deployment-of-tensorflow-models-with-tensorflow-serving-and-github-actions.html) (joint work with [Chansung Park](https://github.com/deep-diver)) 
--   [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^13]
 
 ## Hugging Face 🤗
 
@@ -191,16 +191,17 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 -   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
 -   [Your First Machine Learning Project: Q and A with Sayak Paul, Google Developer Expert (GDE) in Machine Learning (Ep. 4)](https://blog.phcschoolofai.org/your-first-machine-learning-project-q-and-a-with-sayak-paul-google-developer-expert-gde-in-machine-learning-ep-4-ck91vpv4e02lm7us1swnwvsof)
 -   [AMA with Sayak Paul - Hacktoberfest'19](https://fossassam.tech/post/ama-sayak/)
--   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^13]
+-   [Predicting the publisher’s name from an article: A case study](http://bit.ly/2K9TpS8) [^14]
 -   [GDE Journey — Sayak Paul](https://bit.ly/2WVQsLd) 
 -   Multi-part tutorial series on **Selfie2Anime with TFLite** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz)) - [Part I](https://bit.ly/selfie2anime-1), [Part II](https://bit.ly/selfie2anime-2), [Part III](https://bit.ly/selfie2anime-3)
--   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^14]
--   [Load-testing TensorFlow Serving and FastAPI on GKE](https://medium.com/google-developer-experts/load-testing-tensorflow-serving-and-fastapi-on-gke-411bc14d96b2) (with [Chansung Park](https://github.com/deep-diver)) [^15]
+-   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^15]
+-   [Load-testing TensorFlow Serving and FastAPI on GKE](https://medium.com/google-developer-experts/load-testing-tensorflow-serving-and-fastapi-on-gke-411bc14d96b2) (with [Chansung Park](https://github.com/deep-diver)) [^16]
 
 
 [^10]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
 [^11]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
 [^12]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1469019016782041095).
-[^13]:This one won the ML GDE Dev Challenge.
-[^14]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1351590466068783105).
-[^15]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1545115276152389636).
+[^13]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1626629821022208020).
+[^14]:This one won the ML GDE Dev Challenge.
+[^15]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1351590466068783105).
+[^16]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1545115276152389636).
