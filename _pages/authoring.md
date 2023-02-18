@@ -164,6 +164,7 @@ and for blog posts.
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
 - [LoRA support in Diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
 - [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/kerascv)
+- [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
 
 **Blogs**
 
