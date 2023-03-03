@@ -172,6 +172,7 @@ and for blog posts.
 - [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
 - [A Dive into Vision-Language Models](https://huggingface.co/blog/vision_language_pretraining) (with [Alara Dirik](https://huggingface.co/adirik))
 - [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft) (with [Sourab Mangrulkar](https://twitter.com/sourab_m))
+- [ControlNet in 🧨 Diffusers](https://huggingface.co/blog/controlnet) (with [YiYiXu](https://huggingface.co/YiYiXu) and [Patrick von Platen](https://huggingface.co/patrickvonplaten))
 
 ## [Carted](https://www.carted.com/blog)
 
