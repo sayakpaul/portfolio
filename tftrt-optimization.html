@@ -125,7 +125,7 @@ window.onload = wrap_img;
        • <span class="read-time" title="Estimated read time">
     
     
-      8 min read
+      9 min read
     
 </span></p>
 
@@ -476,6 +476,18 @@ average(sec):0.03,fps:31.67
 <div class="cell border-box-sizing text_cell rendered">
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<p></p>
+<div class="flash flash-warn">
+    <svg class="octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <strong>Important: </strong>The above code snippet won’t work in Colab or with any TensorFlow version that doesn’t ship a correctly compiled TensorRT (<a href="https://github.com/tensorflow/tensorflow/issues/57671">discussion</a>). Therefore, it’s recommended to use an NVIDIA Docker container for this purpose. <a href="https://huggingface.co/spaces/sayakpaul/tensorrt-tf">This resource</a> can be useful in this regard.
+</div>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="Running-inference-with-the-optimized-model">
 <a class="anchor" href="#Running-inference-with-the-optimized-model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running inference with the optimized model<a class="anchor-link" href="#Running-inference-with-the-optimized-model"> </a>
 </h1>
@@ -807,7 +819,7 @@ average(sec):0.00,fps:219.98
 <p>In real-life situations, as a machine learning practitioner, you will often have to make trade-offs between memory footprints, performance both in terms of accuracy and inference time. So having the knowledge of employing the right tools at the right moment will help you a long way. So, if you are looking for reducing the memory footprint of the model as well as accelerating the inference time, TensorFlow Lite is a good choice. In the bonus section of the post, we are going to discuss it. 
 </p>
 <div class="flash flash-warn">
-    <svg class="octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <svg class="octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>TensorFlow has now introduced a <code>tf.experimental.tensorrt.Converter</code> API with better support for TensorRT. 
 </div>
 

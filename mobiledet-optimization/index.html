@@ -193,7 +193,7 @@ window.onload = wrap_img;
 <p>The code discussed throughout this post is available <a href="https://colab.research.google.com/github/sayakpaul/Adventures-in-TensorFlow-Lite/blob/master/MobileDet_Conversion_TFLite.ipynb">here as a Colab Notebook</a>. 
 </p>
 <div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>If you want to train MobileDet models on your own dataset you may find <a href="https://github.com/sayakpaul/E2E-Object-Detection-in-TFLite/tree/master/colab_training">these notebooks</a> useful. They show you how to prepare the dataset, fine-tune a MobileDet model with the dataset, and optimize the fine-tuned model with TFLite. 
 </div>
 
@@ -223,7 +223,7 @@ window.onload = wrap_img;
 <p>Before we build our way toward the fun stuff, let’s start with the conversions that won’t cost us a night’s sleep. Conversions based on <a href="https://www.tensorflow.org/lite/performance/post_training_quant"><span class="underline">dynamic-range</span></a> and <a href="https://www.tensorflow.org/lite/performance/post_training_float16_quant">float16</a> quantization would come under this category.
 </p>
 <div class="flash flash-warn">
-    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
+    <svg class="octicon octicon-zap octicon octicon-zap octicon octicon-zap octicon octicon-zap" viewbox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 7H6l3-7-9 9h4l-3 7 9-9z"></path></svg>
     <strong>Important: </strong>The EdgeTPU and DSP variants of MobileDet are meant to run on the respective hardware accelerators. These accelerators need a model to be in full integer precision. So converting the EdgeTPU and DSP variants with dynamic-range and <code>float16</code> quantization does not have any practical usage.
 </div>
 <p>So, for dynamic-range and <code>float16</code> quantization based conversions, we will be using the CPU variant only. This variant is available <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md#mobile-models">here</a> as <code>ssd_mobiledet_cpu_coco</code>. Once the model bundle is untar’d we get the following files -</p>
