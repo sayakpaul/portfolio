@@ -65,6 +65,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Improving as an ML Practitioner** at [DevFest Kolkata 2022](https://gdg.community.dev/events/details/google-gdg-kolkata-presents-gdg-devfest-kolkata-2022/) (November 13, 2022). Slides are [here](https://bit.ly/kolkata-22). Presented this at [DevFest Indore 2022](https://gdg.community.dev/events/details/google-gdg-indore-presents-devfest-indore-2022/) as well. 
 - **Bringing ML Models to Life with Hugging Face Spaces** at [DevFest Gandhinagar 2022](https://gdg.community.dev/events/details/google-gdg-gandhinagar-presents-devfest-gandhinagar-2022/)  (November 21, 2022). 
 - **ML Problems: Formulation and Adoption** at Google Developers Startup Bootcamp (University Edition); Gurugram, India (December 06, 2022). [Tweet](https://twitter.com/GoogleDevsIN/status/1600136189478326273) by GoogleDevsIN. Deck is [here](https://docs.google.com/presentation/d/1owGLGDHMsLEwPta9XigZw3KNXLqlgGIs13PpDjwDek4/edit?usp=sharing). 
+- **You Don't Know TensorFlow** at TFUG Kolkata (March 19, 2022). Materials are [here](https://github.com/sayakpaul/you-dont-know-tensorflow/). A recording of the talk can be found [here](https://youtu.be/CjkmHNhzhQg).
 
 ### Co-organized by me:
 
