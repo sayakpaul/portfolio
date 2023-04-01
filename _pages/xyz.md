@@ -10,7 +10,7 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 
 -   Taught under-privileged children and managed operations for a TCS-CSR initiative called **H20 (Helping Hand Organization)** (2017)
 -   [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [**Campus Commune**](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ) (Jan, 2018 - August, 2018)
--   Book reviewer for **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)** (2019 - )
+-   Book reviewer for **[Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw)** (2019 - 2022)
 -   Co-organizer of **[GDG Kolkata](https://www.meetup.com/GDG-Kolkata/)** (2019 - 2021)
 -   Organizer of **[TensorFlow User Group Kolkata](https://tfugkol.github.io/)** (2020 - 2021)
 
@@ -29,6 +29,7 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 - [Deep Learning Indaba](https://deeplearningindaba.com/). Various university students from Africa since the mentorship program is Africa-focused (2021- 2022).
 - Mentored for TensorFlow at GSoC 2022. Students: [Aditya Kane](https://adityakane2001.github.io/opensource/gsoc2022report), [Sayan Nath](https://sayannath.github.io/MobileViT-GSoC/), and [Mohammad Shoaib](https://github.com/shoaib6174/GSOC-22-Video-Swin-Transformers/blob/main/assets/final_report.md). My mentorship certificate is [here](https://drive.google.com/file/d/1300UqW59N98d5No_LYhGAWdBaPVQwyfc/view?usp=share_link).
 - [Google for Startups India Women Founders Accelerator (2022)](https://rsvp.withgoogle.com/events/google-for-startups-accelerator-india-women-founders/home).
+- [KaggleX BIPOC 2023 mentor](https://www.kaggle.com/kagglex-bipoc-mentorship-program). [Here](https://drive.google.com/file/d/1QicXwcU4g9VUX290yvjg-VqHDh-fQ8xe/view?usp=share_link) is my certificate.
 
 Apart from the occasions mentioned above, I have mentored individual students, students belonging to [Google Developer Student Clubs]((https://gdsc.community.dev/)), etc. But I don't have any recorded documents for these. I enjoy sharing my learnings with those in need and, in turn, learning from them.
 
