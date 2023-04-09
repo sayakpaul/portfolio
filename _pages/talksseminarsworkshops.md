@@ -67,6 +67,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **ML Problems: Formulation and Adoption** at Google Developers Startup Bootcamp (University Edition); Gurugram, India (December 06, 2022). [Tweet](https://twitter.com/GoogleDevsIN/status/1600136189478326273) by GoogleDevsIN. Deck is [here](https://docs.google.com/presentation/d/1owGLGDHMsLEwPta9XigZw3KNXLqlgGIs13PpDjwDek4/edit?usp=sharing). 
 - **You Don't Know TensorFlow** at TFUG Kolkata (March 19, 2023). Materials are [here](https://github.com/sayakpaul/you-dont-know-tensorflow/). A recording of the talk can be found [here](https://youtu.be/CjkmHNhzhQg).
 - **Open and Collaborative MLOps**, invited lecture at [HKUST](https://hkust.edu.hk/) (March 31, 2023). My slides are [here](https://bit.ly/hf-hkust).
+- **Building DALL-E 2 like Systems in Minutes** at [NIT Silchar](https://mlclubnits.com/) (April 8, 2023). Slides are [here](https://docs.google.com/presentation/u/1/d/16GWo_do9oqD832JkbxEcmPP1ZBDMiQsgoIldlqHSzh0/edit?usp=sharing).
 
 ### Co-organized by me:
 
