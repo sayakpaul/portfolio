@@ -168,6 +168,7 @@ and for blog posts.
 - [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
 - [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
 - [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
+- [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
 
 **Blogs**
 
