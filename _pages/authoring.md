@@ -155,6 +155,7 @@ and for blog posts.
 - [Fine-tuning a ViT for Image Classification with LoRA](https://github.com/huggingface/peft/blob/main/examples/image_classification/image_classification_peft_lora.ipynb)
 - [Fine-tuning a SegFormer for Semantic Segmentation with LoRA](https://github.com/huggingface/peft/blob/main/examples/semantic_segmentation/semantic_segmentation_peft_lora.ipynb)
 - [InstructPix2Pix training](https://huggingface.co/docs/diffusers/main/en/training/instructpix2pix)
+- Training a language model with 🤗 Transformers using TensorFlow and TPUs - [code](https://github.com/huggingface/transformers/tree/main/examples/tensorflow/language-modeling-tpu), [blog](https://huggingface.co/blog/tf_tpu) (with [Matthew Carrigan](https://twitter.com/carrigmat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor))
 
 **Guides**
 
