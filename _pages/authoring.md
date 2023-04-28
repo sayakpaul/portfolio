@@ -138,6 +138,7 @@ and for blog posts.
 -   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Automated Deployment of TensorFlow Models with TensorFlow Serving and GitHub Actions](https://blog.tensorflow.org/2022/09/automated-deployment-of-tensorflow-models-with-tensorflow-serving-and-github-actions.html) (joint work with [Chansung Park](https://github.com/deep-diver)) 
 -   [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^13]
+-   [Serving With TF and GKE: Stable Diffusion](https://blog.tensorflow.org/2023/04/serving-with-tf-and-gke-stable-diffusion.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ## Hugging Face 🤗
 
@@ -155,6 +156,7 @@ and for blog posts.
 - [Fine-tuning a ViT for Image Classification with LoRA](https://github.com/huggingface/peft/blob/main/examples/image_classification/image_classification_peft_lora.ipynb)
 - [Fine-tuning a SegFormer for Semantic Segmentation with LoRA](https://github.com/huggingface/peft/blob/main/examples/semantic_segmentation/semantic_segmentation_peft_lora.ipynb)
 - [InstructPix2Pix training](https://huggingface.co/docs/diffusers/main/en/training/instructpix2pix)
+- [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
 - Training a language model with 🤗 Transformers using TensorFlow and TPUs - [code](https://github.com/huggingface/transformers/tree/main/examples/tensorflow/language-modeling-tpu), [blog](https://huggingface.co/blog/tf_tpu) (with [Matthew Carrigan](https://twitter.com/carrigmat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor))
 
 **Guides**
@@ -168,7 +170,6 @@ and for blog posts.
 - [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/kerascv)
 - [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
 - [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
-- [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
 - [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
 
 **Blogs**
