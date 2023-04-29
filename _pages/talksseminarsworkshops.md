@@ -76,6 +76,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [Let's Build](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F266991860%2F&sa=D&sntz=1&usg=AFQjCNFRNPDLbylmxjuz85soM3VfkJ4YPA), January 4, 2020.
 -   [Kolkata Kreate](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [TFUG India Summit](http://tfug.in/), September 3 - 6, 2020.
+-   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023. 
 
 ### ML Street Talk:
 
