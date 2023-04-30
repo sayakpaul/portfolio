@@ -68,7 +68,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **You Don't Know TensorFlow** at TFUG Kolkata (March 19, 2023). Materials are [here](https://github.com/sayakpaul/you-dont-know-tensorflow/). A recording of the talk can be found [here](https://youtu.be/CjkmHNhzhQg).
 - **Open and Collaborative MLOps**, invited lecture at [HKUST](https://hkust.edu.hk/) (March 31, 2023). My slides are [here](https://bit.ly/hf-hkust).
 - **Building DALL-E 2 like Systems in Minutes** at [NIT Silchar](https://mlclubnits.com/) (April 8, 2023). Presented on the same topic at [IIT Guwahati](https://www.instagram.com/p/CrS6pCnyvoi/?hl=en) (April 22, 2023). Slides are [here](https://docs.google.com/presentation/u/1/d/16GWo_do9oqD832JkbxEcmPP1ZBDMiQsgoIldlqHSzh0/edit?usp=sharing). 
-
+- **Democratizing Generative Models with 🧨 diffusers** at the [NVIDIA-HF meetup](https://sites.google.com/huggingface.co/generative-ai-meetup) (April 29, 2023) (with Suraj Patil). Slides are [here](https://docs.google.com/presentation/d/1cbcP-wpeb3jMS4-20cEKFmNJAObg13Q_JNbl0YV6qyU/edit?usp=sharing).  
 ### Co-organized by me:
 
 -   [DevFest Kolkata](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
