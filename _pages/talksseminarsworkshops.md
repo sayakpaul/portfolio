@@ -69,14 +69,17 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Open and Collaborative MLOps**, invited lecture at [HKUST](https://hkust.edu.hk/) (March 31, 2023). My slides are [here](https://bit.ly/hf-hkust).
 - **Building DALL-E 2 like Systems in Minutes** at [NIT Silchar](https://mlclubnits.com/) (April 8, 2023). Presented on the same topic at [IIT Guwahati](https://www.instagram.com/p/CrS6pCnyvoi/?hl=en) (April 22, 2023). Slides are [here](https://docs.google.com/presentation/u/1/d/16GWo_do9oqD832JkbxEcmPP1ZBDMiQsgoIldlqHSzh0/edit?usp=sharing). 
 - **Democratizing Generative Models with 🧨 diffusers** at the [NVIDIA-HF meetup](https://sites.google.com/huggingface.co/generative-ai-meetup) (April 29, 2023) (with Suraj Patil). Slides are [here](https://docs.google.com/presentation/d/1cbcP-wpeb3jMS4-20cEKFmNJAObg13Q_JNbl0YV6qyU/edit?usp=sharing).  
+- **Ship Faster TensorFlow Models with** at [Google Cloud Community Days, Kolkata](https://gdgcloud.kolkata.dev/ccd2023/) (May 7, 2023). Slides are [here](https://bit.ly/tensorflow-xla).  
+
 ### Co-organized by me:
 
--   [DevFest Kolkata](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w)**,**  August 3, 2019.
+-   [DevFest Kolkata](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w), August 3, 2019.
 -   [TensorFlow All-Around Kolkata](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F264055077%2F&sa=D&sntz=1&usg=AFQjCNEDVmgkSk8TwBTH7owjE0usWFzLYg), August 31, 2019.
 -   [Let's Build](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F266991860%2F&sa=D&sntz=1&usg=AFQjCNFRNPDLbylmxjuz85soM3VfkJ4YPA), January 4, 2020.
 -   [Kolkata Kreate](https://www.google.com/url?q=https%3A%2F%2Fwww.meetup.com%2FGDG-Kolkata%2Fevents%2F268635758%2F&sa=D&sntz=1&usg=AFQjCNEfaOS5hu7zqcZcCOSijr02RZd-Lg), February 29, 2020.
 -   [TFUG India Summit](http://tfug.in/), September 3 - 6, 2020.
--   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023. 
+-   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023.
+-   [JAX/Diffusers Sprint](https://github.com/huggingface/community-events/edit/main/jax-controlnet-sprint/), March 29 - May 08, 2023. 
 
 ### ML Street Talk:
 
