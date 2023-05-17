@@ -69,7 +69,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Open and Collaborative MLOps**, invited lecture at [HKUST](https://hkust.edu.hk/) (March 31, 2023). My slides are [here](https://bit.ly/hf-hkust).
 - **Building DALL-E 2 like Systems in Minutes** at [NIT Silchar](https://mlclubnits.com/) (April 8, 2023). Presented on the same topic at [IIT Guwahati](https://www.instagram.com/p/CrS6pCnyvoi/?hl=en) (April 22, 2023). Slides are [here](https://docs.google.com/presentation/u/1/d/16GWo_do9oqD832JkbxEcmPP1ZBDMiQsgoIldlqHSzh0/edit?usp=sharing). 
 - **Democratizing Generative Models with 🧨 diffusers** at the [NVIDIA-HF meetup](https://sites.google.com/huggingface.co/generative-ai-meetup) (April 29, 2023) (with Suraj Patil). Slides are [here](https://docs.google.com/presentation/d/1cbcP-wpeb3jMS4-20cEKFmNJAObg13Q_JNbl0YV6qyU/edit?usp=sharing).  
-- **Ship Faster TensorFlow Models with** at [Google Cloud Community Days, Kolkata](https://gdgcloud.kolkata.dev/ccd2023/) (May 7, 2023). Slides are [here](https://bit.ly/tensorflow-xla).  
+- **Ship Faster TensorFlow Models with XLA** at [Google Cloud Community Days, Kolkata](https://gdgcloud.kolkata.dev/ccd2023/) (May 7, 2023). Slides are [here](https://bit.ly/tensorflow-xla).  
 
 ### Co-organized by me:
 
