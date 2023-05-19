@@ -70,6 +70,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Building DALL-E 2 like Systems in Minutes** at [NIT Silchar](https://mlclubnits.com/) (April 8, 2023). Presented on the same topic at [IIT Guwahati](https://www.instagram.com/p/CrS6pCnyvoi/?hl=en) (April 22, 2023). Slides are [here](https://docs.google.com/presentation/u/1/d/16GWo_do9oqD832JkbxEcmPP1ZBDMiQsgoIldlqHSzh0/edit?usp=sharing). 
 - **Democratizing Generative Models with 🧨 diffusers** at the [NVIDIA-HF meetup](https://sites.google.com/huggingface.co/generative-ai-meetup) (April 29, 2023) (with Suraj Patil). Slides are [here](https://docs.google.com/presentation/d/1cbcP-wpeb3jMS4-20cEKFmNJAObg13Q_JNbl0YV6qyU/edit?usp=sharing).  
 - **Ship Faster TensorFlow Models with XLA** at [Google Cloud Community Days, Kolkata](https://gdgcloud.kolkata.dev/ccd2023/) (May 7, 2023). Slides are [here](https://bit.ly/tensorflow-xla).  
+- **Generating Photorealistic Images using AI with Diffusers in Python** at [DataCamp](https://www.datacamp.com/webinars/Generating-photorealistic-images-using-ai-with-diffusers-python) (May 16, 2023). Materials are [here](https://github.com/huggingface/workshops/tree/main/datacamp-webinar). A recording of the session is [here](https://www.youtube.com/live/izFV5hbOXMw?feature=share). 
 
 ### Co-organized by me:
 
