@@ -48,6 +48,7 @@ and for blog posts.
 -   [Fine-tuning Stable Diffusion](https://keras.io/examples/generative/finetune_stable_diffusion/) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Semantic segmentation with SegFormer and Hugging Face Transformers](https://keras.io/examples/vision/segformer/)
 -   [DreamBooth](https://keras.io/examples/generative/dreambooth/) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [Training a language model from scratch with 🤗 Transformers and TPUs](https://keras.io/examples/nlp/mlm_training_tpus/) (joint work with [Matthew Carrigan](https://twitter.com/carrigmat))
 
 ## [Datacamp](https://www.datacamp.com/)
 
