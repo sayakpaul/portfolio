@@ -29,3 +29,4 @@ Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackd
 ## Misc
 
 - Released a dataset for [large-scale multi-label text classification](https://github.com/soumik12345/multi-label-text-classification) (joint work with [Soumik Rakshit](https://github.com/soumik12345)).
+- Exploration on [instruction-tuning Stable Diffusion](https://huggingface.co/blog/instruction-tuning-sd).
