@@ -181,6 +181,7 @@ and for blog posts.
 - [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft) (with [Sourab Mangrulkar](https://twitter.com/sourab_m))
 - [ControlNet in 🧨 Diffusers](https://huggingface.co/blog/controlnet) (with [YiYiXu](https://huggingface.co/YiYiXu) and [Patrick von Platen](https://huggingface.co/patrickvonplaten))
 - [Instruction-tuning Stable Diffusion with InstructPix2Pix](https://huggingface.co/blog/instruction-tuning-sd)
+- [Optimizing Stable Diffusion for Intel CPUs with NNCF and 🤗 Optimum](https://huggingface.co/blog/train-optimize-sd-intel)
 
 ## [Carted](https://www.carted.com/blog)
 
