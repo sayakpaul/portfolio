@@ -81,6 +81,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [TFUG India Summit](http://tfug.in/), September 3 - 6, 2020.
 -   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023.
 -   [JAX/Diffusers Sprint](https://github.com/huggingface/community-events/edit/main/jax-controlnet-sprint/), March 29 - May 08, 2023. 
+-   [Deploying Generative AI Models](https://lu.ma/ijcugt4n), June 10, 2023. 
 
 ### ML Street Talk:
 
