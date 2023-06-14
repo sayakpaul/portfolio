@@ -208,6 +208,7 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^15]
 -   [Load-testing TensorFlow Serving and FastAPI on GKE](https://medium.com/google-developer-experts/load-testing-tensorflow-serving-and-fastapi-on-gke-411bc14d96b2) (with [Chansung Park](https://github.com/deep-diver)) [^16]
 -   [[ML Story] DreamBoothing Your Way into Greatness](https://medium.com/google-developer-experts/ml-story-dreamboothing-your-way-into-greatness-d087608e6119)
+-   [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with [Merve Noyan](https://twitter.com/mervenoyann)) (Tweet from [Google OSS](https://twitter.com/GoogleOSS/status/1669016116872486912))
 
 
 [^10]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
