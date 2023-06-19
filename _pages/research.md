@@ -16,7 +16,7 @@ on the publications I have been a part of.
 
 - [Practical Adversarial Robustness in Deep Learning: Problems and Solutions](https://sites.google.com/view/par-2021) (CVPR'21)
 - [Foundational Robustness of Foundation Models](https://sites.google.com/view/neurips2022-frfm-turotial/) (NeurIPS'22)
-- Upcoming: [All Things ViTs: Understanding and Interpreting Attention in Vision](https://all-things-vits.github.io/atv/) (CVPR'23)
+- [All Things ViTs: Understanding and Interpreting Attention in Vision](https://all-things-vits.github.io/atv/) (CVPR'23)
 
 ## Teaching assistance
 
