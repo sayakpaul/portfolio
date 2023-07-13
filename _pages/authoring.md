@@ -159,6 +159,7 @@ and for blog posts.
 - [InstructPix2Pix training](https://huggingface.co/docs/diffusers/main/en/training/instructpix2pix)
 - [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
 - Training a language model with 🤗 Transformers using TensorFlow and TPUs - [code](https://github.com/huggingface/transformers/tree/main/examples/tensorflow/language-modeling-tpu), [blog](https://huggingface.co/blog/tf_tpu) (with [Matthew Carrigan](https://twitter.com/carrigmat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor))
+- Fine-tuning Stable Diffuson XL with DreamBooth and LoRA - [code](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_sdxl.py), [guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md). 
 
 **Guides**
 
@@ -168,7 +169,7 @@ and for blog posts.
 - [Image captioning task guide](https://huggingface.co/docs/transformers/main/en/tasks/image_captioning)
 - [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
 - [LoRA support in Diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
-- [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/kerascv)
+- [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/other-formats#keras-pb-or-h5)
 - [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
 - [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
 - [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
@@ -181,7 +182,9 @@ and for blog posts.
 - [🤗 PEFT: Parameter-Efficient Fine-Tuning of Billion-Scale Models on Low-Resource Hardware](https://huggingface.co/blog/peft) (with [Sourab Mangrulkar](https://twitter.com/sourab_m))
 - [ControlNet in 🧨 Diffusers](https://huggingface.co/blog/controlnet) (with [YiYiXu](https://huggingface.co/YiYiXu) and [Patrick von Platen](https://huggingface.co/patrickvonplaten))
 - [Instruction-tuning Stable Diffusion with InstructPix2Pix](https://huggingface.co/blog/instruction-tuning-sd)
-- [Optimizing Stable Diffusion for Intel CPUs with NNCF and 🤗 Optimum](https://huggingface.co/blog/train-optimize-sd-intel)
+- [Optimizing Stable Diffusion for Intel CPUs with NNCF and 🤗 Optimum](https://huggingface.co/blog/train-optimize-sd-intel) (in collaboration with the Intel team)
+- [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with [Merve Noyan](https://twitter.com/mervenoyann)) (Tweet from [Google OSS](https://twitter.com/GoogleOSS/status/1669016116872486912))
+- [Accelerated Diffusers with PyTorch 2.0](https://pytorch.org/blog/accelerated-diffusers-pt-20/) (with [Pedro Cuenca](https://twitter.com/pcuenq?lang=en), [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123), and [Suraj Patil](https://twitter.com/psuraj28)) 
 
 ## [Carted](https://www.carted.com/blog)
 
@@ -208,7 +211,6 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^15]
 -   [Load-testing TensorFlow Serving and FastAPI on GKE](https://medium.com/google-developer-experts/load-testing-tensorflow-serving-and-fastapi-on-gke-411bc14d96b2) (with [Chansung Park](https://github.com/deep-diver)) [^16]
 -   [[ML Story] DreamBoothing Your Way into Greatness](https://medium.com/google-developer-experts/ml-story-dreamboothing-your-way-into-greatness-d087608e6119)
--   [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with [Merve Noyan](https://twitter.com/mervenoyann)) (Tweet from [Google OSS](https://twitter.com/GoogleOSS/status/1669016116872486912))
 
 
 [^10]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
