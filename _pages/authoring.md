@@ -120,6 +120,7 @@ and for blog posts.
 -   [An Introduction to Adversarial Examples in Deep Learning](https://bit.ly/3b2zss2) [^9]
 -   [Unsupervised Visual Representation Learning with SwAV](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   [Distilling Knowledge in Neural Networks](https://bit.ly/3mvsbGn)
+-   [Keras XLA Benchmarks](http://wandb.me/keras-xla-benchmark) (in collaboration with [Soumik Rakshit](https://in.linkedin.com/in/soumikrakshit) and [Ayush Thakur](https://in.linkedin.com/in/ayush-thakur-731914149))
 
 [^9]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
