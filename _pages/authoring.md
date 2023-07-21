@@ -160,7 +160,9 @@ and for blog posts.
 - [InstructPix2Pix training](https://huggingface.co/docs/diffusers/main/en/training/instructpix2pix)
 - [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
 - Training a language model with 🤗 Transformers using TensorFlow and TPUs - [code](https://github.com/huggingface/transformers/tree/main/examples/tensorflow/language-modeling-tpu), [blog](https://huggingface.co/blog/tf_tpu) (with [Matthew Carrigan](https://twitter.com/carrigmat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor))
-- Fine-tuning Stable Diffuson XL with DreamBooth and LoRA - [code](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_sdxl.py), [guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md). 
+- Fine-tuning Stable Diffuson XL with DreamBooth and LoRA - [code](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_sdxl.py), [guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md).
+- [Stable Diffusion XL + DreamBooth + LoRA](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md)
+- [Stable Diffusion XL + ControlNet](https://github.com/huggingface/diffusers/blob/main/examples/controlnet/README_sdxl.md)
 
 **Guides**
 
