@@ -22,7 +22,8 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Timeline:
 
-- Developer Advocate Engineer, Hugging Face 🤗 (October 2022 - Present)
+- Machine Learning Engineer, Hugging Face 🤗 (July 2023 - Present)
+- Developer Advocate Engineer, Hugging Face 🤗 (October 2022 - July 2023)
 - (First) Machine Learning Engineer, Carted (June 2021 - October 2022)
 - Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
 - Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
