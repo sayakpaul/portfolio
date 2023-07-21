@@ -185,7 +185,8 @@ and for blog posts.
 - [Instruction-tuning Stable Diffusion with InstructPix2Pix](https://huggingface.co/blog/instruction-tuning-sd)
 - [Optimizing Stable Diffusion for Intel CPUs with NNCF and 🤗 Optimum](https://huggingface.co/blog/train-optimize-sd-intel) (in collaboration with the Intel team)
 - [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with [Merve Noyan](https://twitter.com/mervenoyann)) (Tweet from [Google OSS](https://twitter.com/GoogleOSS/status/1669016116872486912))
-- [Accelerated Diffusers with PyTorch 2.0](https://pytorch.org/blog/accelerated-diffusers-pt-20/) (with [Pedro Cuenca](https://twitter.com/pcuenq?lang=en), [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123), and [Suraj Patil](https://twitter.com/psuraj28)) 
+- [Accelerated Diffusers with PyTorch 2.0](https://pytorch.org/blog/accelerated-diffusers-pt-20/) (with [Pedro Cuenca](https://twitter.com/pcuenq?lang=en), [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123), and [Suraj Patil](https://twitter.com/psuraj28))
+- [Happy 1st anniversary 🤗 Diffusers!](https://huggingface.co/blog/diffusers-turns-1) (with [Steven Liu](https://twitter.com/stevhliu?lang=en) and [Pedro Cuenca](https://twitter.com/pcuenq?lang=en))
 
 ## [Carted](https://www.carted.com/blog)
 
