@@ -73,6 +73,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Generating Photorealistic Images using AI with Diffusers in Python** at [DataCamp](https://www.datacamp.com/webinars/Generating-photorealistic-images-using-ai-with-diffusers-python) (May 16, 2023). Materials are [here](https://github.com/huggingface/workshops/tree/main/datacamp-webinar). A recording of the session is [here](https://www.youtube.com/live/izFV5hbOXMw?feature=share). 
 - **🧨 diffusers for research** at VAL, Indian Institute of Science (IISc) (June 12, 2023). Slides are available [here](https://docs.google.com/presentation/d/1xBfs8yPVC4jeHJR4ShV0YIjpgC6glS4R6xD6BrxaU10/edit?usp=sharing).
 - Appeared on a podcast discussing my ML journey and other related things: [Hugging Face's ML Revolution](https://youtu.be/69F-ZpFj2PM).
+- [Making Keras Models go brrr with XLA](https://docs.google.com/presentation/d/1mM8LeQDpOOLWsMQffRhuDuPPFx4TL-cV848EZtCN_8k/edit?usp=sharing)
 
 ### Co-organized by me:
 
