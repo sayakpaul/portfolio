@@ -18,6 +18,11 @@ on the publications I have been a part of.
 - [Foundational Robustness of Foundation Models](https://sites.google.com/view/neurips2022-frfm-turotial/) (NeurIPS'22)
 - [All Things ViTs: Understanding and Interpreting Attention in Vision](https://all-things-vits.github.io/atv/) (CVPR'23)
 
+## Invited talks, demos, etc.
+
+- Controlling Text-to-Image Diffusion Models, [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) (October 02, 2023). Slides are [here](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p).
+- Demo of 🧨 diffusers at [ICCV 2023](https://iccv2023.thecvf.com/demos-111.php) ([Tweet](https://x.com/RisingSayak/status/1709495863700025363?s=20)).
+
 ## Teaching assistance
 
 Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackdeeplearning.com/course/2022/#teaching-assistants).
