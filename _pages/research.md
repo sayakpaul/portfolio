@@ -20,7 +20,7 @@ on the publications I have been a part of.
 
 ## Invited talks, demos, etc.
 
-- Controlling Text-to-Image Diffusion Models, [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) (October 02, 2023). Slides are [here](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p).
+- Controlling Text-to-Image Diffusion Models, [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) (October 02, 2023). Slides are [here](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p). Recording is [here](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s).
 - Demo of 🧨 diffusers at [ICCV 2023](https://iccv2023.thecvf.com/demos-111.php) ([Tweet](https://x.com/RisingSayak/status/1709495863700025363?s=20)).
 
 ## Teaching assistance
