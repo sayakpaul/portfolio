@@ -3,7 +3,7 @@ layout: page
 title: About Me
 permalink: /about/
 ---
-I am generally interested in the area of representation learning. More specifically, I am interested in the following areas: semi-supervision, self-supervision, and model robustness.  I work on diffusion models] at [Hugging Face](https://huggingface.co). My day-to-day includes contributing features to [🧨 diffusers](https://github.com/huggingface/diffusers), maintaining it, training and babysitting diffusion models, documenting them, and sometimes mudding up the social media with emojis (kidding 😂). For more details on my work experience, check out my [LinkedIn profile](https://www.linkedin.com/in/sayak-paul/).
+I am generally interested in the area of representation learning. More specifically, I am interested in the following areas: semi-supervision, self-supervision, and model robustness.  I work on diffusion models at [Hugging Face](https://huggingface.co). My day-to-day includes contributing features to [🧨 diffusers](https://github.com/huggingface/diffusers), maintaining it, training and babysitting diffusion models, documenting them, and sometimes mudding up the social media with emojis (kidding 😂). For more details on my work experience, check out my [LinkedIn profile](https://www.linkedin.com/in/sayak-paul/).
 
 I enjoy implementing research ideas, sometimes incorporating them into practical applications, and communicating my implementation details through [articles](https://sayak.dev/authoring/). I advocate for highly readable and self-contained code. I primarily use Python for programming. 
 
