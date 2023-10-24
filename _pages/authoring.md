@@ -177,6 +177,7 @@ and for blog posts.
 - [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
 - [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
 - [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
+- [Inference with PEFT](https://huggingface.co/docs/diffusers/main/en/tutorials/using_peft_for_inference) (with [Sourab Mangrulkar](https://in.linkedin.com/in/sourab-m) and [Younes Belkada](https://fr.linkedin.com/in/younes-belkada-b1a903145/en))
 
 **Blogs**
 
