@@ -194,7 +194,7 @@ and for blog posts.
 - [Efficient Controllable Generation for SDXL with T2I-Adapters](https://huggingface.co/blog/t2i-sdxl-adapters) (with [Chong Mou](https://scholar.google.com/citations?user=SYQoDk0AAAAJ&hl=zh-CN), [Suraj Patil](https://twitter.com/psuraj28?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor), [Xintao Wang](https://xinntao.github.io/), and [Toshihiro Hayashi](https://twitter.com/hysts12321)).
 - [Introducing Würstchen: Fast Diffusion for Image Generation](https://huggingface.co/blog/wuertschen) (with [Dominic Rampas](https://huggingface.co/dome272), [Pablo Pernías](https://huggingface.co/babbleberns), [Kashif Rasul](https://huggingface.co/kashif), and [Pedro Cuenca](https://huggingface.co/pcuenq))
 - [Finetune Stable Diffusion Models with DDPO via TRL](https://huggingface.co/blog/trl-ddpo) (with [Luke Meyers](https://huggingface.co/metric-space), [Kashif Rasul](https://huggingface.co/kashif), and [Leandro von Werra](https://twitter.com/lvwerra))
-- [Exploring simple optimizations for SDXL](https://huggingface.co/blog/simple_sdxl_optimizations) (with [Steven Liu](https://twitter.com/stevhliu?lang=en)
+- [Exploring simple optimizations for SDXL](https://huggingface.co/blog/simple_sdxl_optimizations) (with [Steven Liu](https://twitter.com/stevhliu?lang=en))
 
 ## [Carted](https://www.carted.com/blog)
 
