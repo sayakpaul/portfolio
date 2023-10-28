@@ -195,6 +195,7 @@ and for blog posts.
 - [Introducing Würstchen: Fast Diffusion for Image Generation](https://huggingface.co/blog/wuertschen) (with [Dominic Rampas](https://huggingface.co/dome272), [Pablo Pernías](https://huggingface.co/babbleberns), [Kashif Rasul](https://huggingface.co/kashif), and [Pedro Cuenca](https://huggingface.co/pcuenq))
 - [Finetune Stable Diffusion Models with DDPO via TRL](https://huggingface.co/blog/trl-ddpo) (with [Luke Meyers](https://huggingface.co/metric-space), [Kashif Rasul](https://huggingface.co/kashif), and [Leandro von Werra](https://twitter.com/lvwerra))
 - [Exploring simple optimizations for SDXL](https://huggingface.co/blog/simple_sdxl_optimizations) (with [Steven Liu](https://twitter.com/stevhliu?lang=en))
+- [Personal Copilot: Train Your Own Coding Assistant](https://huggingface.co/blog/personal-copilot) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en))
 
 ## [Carted](https://www.carted.com/blog)
 
