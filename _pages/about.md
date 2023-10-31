@@ -41,7 +41,7 @@ For my community contributions and innovative projects, the Intel Software Innov
             <td>October 2022 - July 2023</td>
         </tr>
         <tr>
-            <td>Machine Learning Engineer</td>
+            <td>(Founding) Machine Learning Engineer</td>
             <td>Carted</td>
             <td>June 2021 - October 2022</td>
         </tr>
