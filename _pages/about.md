@@ -22,16 +22,58 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ## Timeline:
 
-- Machine Learning Engineer, Hugging Face 🤗 (July 2023 - Present)
-- Developer Advocate Engineer, Hugging Face 🤗 (October 2022 - July 2023)
-- (First) Machine Learning Engineer, Carted (June 2021 - October 2022)
-- Deep Learning Associate, PyImageSearch (June 2019 - June 2021)
-- Data Science Instructor, DataCamp (August 2018 - June 2019) (on contract)
-- Software Engineer, TCS Research and Innovation (January 2018 - August 2018)
-- Software Engineer, Tata Consultancy Services Limited (July 2017 - January 2018)
-- Intern, CareerIn (Dec, 2016 - Feb, 2017) 
+<table border="1" style="text-align:center;">
+    <thead>
+        <tr>
+            <th>Position</th>
+            <th>Company</th>
+            <th>Duration</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Machine Learning Engineer</td>
+            <td rowspan="2">Hugging Face 🤗</td>
+            <td>July 2023 - Present</td>
+        </tr>
+        <tr>
+            <td>Developer Advocate Engineer</td>
+            <td>October 2022 - July 2023</td>
+        </tr>
+        <tr>
+            <td>Machine Learning Engineer</td>
+            <td>Carted</td>
+            <td>June 2021 - October 2022</td>
+        </tr>
+        <tr>
+            <td>Deep Learning Associate</td>
+            <td>PyImageSearch</td>
+            <td>June 2019 - June 2021</td>
+        </tr>
+        <tr>
+            <td>Data Science Instructor (on contract)</td>
+            <td>DataCamp</td>
+            <td>August 2018 - June 2019</td>
+        </tr>
+        <tr>
+            <td>Software Engineer</td>
+            <td>TCS Research and Innovation</td>
+            <td>January 2018 - August 2018</td>
+        </tr>
+        <tr>
+            <td>Software Engineer</td>
+            <td>Tata Consultancy Services Limited</td>
+            <td>July 2017 - January 2018</td>
+        </tr>
+        <tr>
+            <td>Intern</td>
+            <td>CareerIn</td>
+            <td>Dec 2016 - Feb 2017</td>
+        </tr>
+    </tbody>
+</table>
 
-## Badges I proudly endorse:
+## Some stuff
 
 * Google Developer Expert in Machine Learning and Google Cloud Platform ([bit.ly/expert-sp](https://bit.ly/expert-sp))
 * Google for Startups Mentor ([bit.ly/gfs-sp](https://bit.ly/gfs-sp))
