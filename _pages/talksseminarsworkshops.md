@@ -78,7 +78,8 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Controlling Text-to-Image Diffusion Models**, [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) (October 02, 2023). Slides are [here](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p). Recording is [here](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s).
 - **Bringing SoTA Diffusion Models to the Masses with 🧨 diffusers**, IBM Research (October 17, 2023). Slides are [here](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing). Recording is [here](https://youtu.be/HNXNKPKfCs4).
 - **People of AI podcast (Google)**, spoke to Ashley Oldacre and Luiz Gustavo Martins from Google. Episode recording is [here](https://peopleofai.libsyn.com/sayak-paul-getting-started-with-community-contributions-diffusion-models-and-more).
-- **End-to-End Pipeline for Segmentation with TFX, GCP, & 🤗** (with Chansung Park), [ML Community Summit 2023](https://x.com/ksoonson/status/1727107370201895233?s=20) (November 23, 2023). Slides are [here](https://docs.google.com/presentation/d/1bnURFQHr98A8NkDhsD5q3WnghIltR1JMONrtLEelQ5A/edit?usp=sharing). 
+- **End-to-End Pipeline for Segmentation with TFX, GCP, & 🤗** (with Chansung Park), [ML Community Summit 2023](https://x.com/ksoonson/status/1727107370201895233?s=20) (November 23, 2023). Slides are [here](https://docs.google.com/presentation/d/1bnURFQHr98A8NkDhsD5q3WnghIltR1JMONrtLEelQ5A/edit?usp=sharing).
+- **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 
 ### Co-organized by me:
 
