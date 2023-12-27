@@ -164,6 +164,8 @@ and for blog posts.
 - Fine-tuning Stable Diffuson XL with DreamBooth and LoRA - [code](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_sdxl.py), [guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md).
 - [Stable Diffusion XL + DreamBooth + LoRA](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md)
 - [Stable Diffusion XL + ControlNet](https://github.com/huggingface/diffusers/blob/main/examples/controlnet/README_sdxl.md)
+- [LCM LoRA SDXL](https://github.com/huggingface/diffusers/blob/main/examples/consistency_distillation/README_sdxl.md)
+- Faster text-to-image diffusion models in pure PyTorch ([code](https://github.com/huggingface/diffusion-fast)).
 
 **Guides**
 
