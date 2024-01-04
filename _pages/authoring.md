@@ -200,6 +200,7 @@ and for blog posts.
 - [Personal Copilot: Train Your Own Coding Assistant](https://huggingface.co/blog/personal-copilot) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en))
 - [SDXL in 4 steps with Latent Consistency LoRAs](https://huggingface.co/blog/lcm_lora) (multiple authors; please refer to the blog post to know more)
 - [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
+- [Welcome aMUSEd: Efficient Text-to-Image Generation](https://huggingface.co/blog/amused) (multiple authors; please refer to the blog post to know more).
 
 ## [Carted](https://www.carted.com/blog)
 
