@@ -199,6 +199,7 @@ and for blog posts.
 - [Exploring simple optimizations for SDXL](https://huggingface.co/blog/simple_sdxl_optimizations) (with [Steven Liu](https://twitter.com/stevhliu?lang=en))
 - [Personal Copilot: Train Your Own Coding Assistant](https://huggingface.co/blog/personal-copilot) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en))
 - [SDXL in 4 steps with Latent Consistency LoRAs](https://huggingface.co/blog/lcm_lora) (multiple authors; please refer to the blog post to know more)
+- [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
 
 ## [Carted](https://www.carted.com/blog)
 
