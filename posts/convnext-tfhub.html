@@ -115,9 +115,9 @@ ga('send', {
 <meta name="twitter:description" content="Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.">
 <meta name="twitter:image" content="https://sayak.dev/posts/convnext_tfhub/convnext_header.png">
 <meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:card" content="summary">
 <meta name="twitter:image-height" content="515">
 <meta name="twitter:image-width" content="798">
-<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed">
@@ -244,7 +244,7 @@ ga('send', {
 <section id="about-convnext" class="level1">
 <h1>About ConvNeXt</h1>
 <p>ConvNeXt models were proposed by Liu et al.&nbsp;in <a href="https://arxiv.org/abs/2201.03545">A ConvNet for the 2020s</a>. ConvNeXt models are composed of standard layers such as depthwise convolutions, layer normalization, etc., and use standard network topologies. They don’t use self-attention or any hybrid approaches, unlike the recent architectures such as <a href="https://arxiv.org/abs/2010.11929">Vision Transformers</a>, <a href="https://arxiv.org/abs/2106.04803">CoAtNet</a>, etc. The authors start with a base architecture and gradually refine it to match some of the design choices of <a href="https://arxiv.org/abs/2103.14030">Swin Transformers</a>. In the process, they developed a family of models named ConvNeXt achieving performance on the <a href="https://www.image-net.org/">ImageNet-1k dataset</a> with efficiency. For details, check out the <a href="https://arxiv.org/abs/2201.03545">original paper</a>.</p>
-<img src="https://github.com/sayakpaul/portfolio/raw/master/images/convnext_tfhub/convnext.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext.png" class="img-fluid">
 <center>
 <b>Figure 1</b>: ConvNeXt performance (source: original paper).
 </center>
@@ -253,8 +253,10 @@ ga('send', {
 <h1>Implementation and weight porting</h1>
 <p>The ConvNeXt models are fairly easy to implement especially with the <a href="https://github.com/facebookresearch/ConvNeXt">official PyTorch codebase available</a> for reference. As mentioned before, these models can be implemented using the standard components provided in most of the major deep learning frameworks such as JAX, PyTorch, and TensorFlow.</p>
 <p>ConvNeXt models use the following block structure with layer scaling as introduced in <a href="https://arxiv.org/abs/2103.17239">Going deeper with image transformers</a> by Touvron et al.</p>
-<img src="https://github.com/sayakpaul/portfolio/raw/master/images/convnext_tfhub/convnext_block.png" class="img-fluid">
 <center>
+<figure class="figure">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext_block.png" class="figure-img">
+</figure>
 <b>Figure 2</b>: ConvNeXt block (source: original paper).
 </center>
 <p>The skip connection is controlled with <a href="https://arxiv.org/abs/1603.09382">Stochastic Depth</a> to induce regularization <em>during</em> training. Different ConvNeXt variants correspond to different depths along with different channels used in each of the stages. For example, the “tiny” variant uses the following setup:</p>

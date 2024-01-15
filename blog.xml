@@ -179,7 +179,7 @@
 <section id="about-convnext" class="level1">
 <h1>About ConvNeXt</h1>
 <p>ConvNeXt models were proposed by Liu et al.&nbsp;in <a href="https://arxiv.org/abs/2201.03545">A ConvNet for the 2020s</a>. ConvNeXt models are composed of standard layers such as depthwise convolutions, layer normalization, etc., and use standard network topologies. They don’t use self-attention or any hybrid approaches, unlike the recent architectures such as <a href="https://arxiv.org/abs/2010.11929">Vision Transformers</a>, <a href="https://arxiv.org/abs/2106.04803">CoAtNet</a>, etc. The authors start with a base architecture and gradually refine it to match some of the design choices of <a href="https://arxiv.org/abs/2103.14030">Swin Transformers</a>. In the process, they developed a family of models named ConvNeXt achieving performance on the <a href="https://www.image-net.org/">ImageNet-1k dataset</a> with efficiency. For details, check out the <a href="https://arxiv.org/abs/2201.03545">original paper</a>.</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/convnext_tfhub/convnext.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext.png" class="img-fluid">
 <center>
 <b>Figure 1</b>: ConvNeXt performance (source: original paper).
 </center>
@@ -188,8 +188,10 @@
 <h1>Implementation and weight porting</h1>
 <p>The ConvNeXt models are fairly easy to implement especially with the <a href="https://github.com/facebookresearch/ConvNeXt">official PyTorch codebase available</a> for reference. As mentioned before, these models can be implemented using the standard components provided in most of the major deep learning frameworks such as JAX, PyTorch, and TensorFlow.</p>
 <p>ConvNeXt models use the following block structure with layer scaling as introduced in <a href="https://arxiv.org/abs/2103.17239">Going deeper with image transformers</a> by Touvron et al.</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/convnext_tfhub/convnext_block.png" class="img-fluid">
 <center>
+<figure class="figure">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext_block.png" class="figure-img">
+</figure>
 <b>Figure 2</b>: ConvNeXt block (source: original paper).
 </center>
 <p>The skip connection is controlled with <a href="https://arxiv.org/abs/1603.09382">Stochastic Depth</a> to induce regularization <em>during</em> training. Different ConvNeXt variants correspond to different depths along with different channels used in each of the stages. For example, the “tiny” variant uses the following setup:</p>
@@ -530,7 +532,7 @@ Note
 <p>For setting up our data pipeline, we will first create shards of TFRecords from the original dataset. Each of the shards will contain batches of preprocessed images and their labels. This has an advantage. When we would load these shards back for training, we won’t need to do any preprocessing giving us a slight performance boost. Figure 1 demonstrates our TFRecords’ creation workflow.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/data.png" class="img-fluid figure-img"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/data.png" class="img-fluid figure-img"></p>
 <figcaption class="figure-caption">Figure 1: Schematics of our TFRecord’s creation process.</figcaption>
 </figure>
 </div>
@@ -539,7 +541,7 @@ Note
 </center>
 <p>As you might have already noticed that we have also thrown in another component in the mix – a GCS Bucket. We would need to store our data on a Google Cloud Storage (GCS) Bucket since the training code won’t be executed locally. We could have used other bucket services (like <a href="https://aws.amazon.com/s3/">AWS S3</a>) here but TensorFlow has very unified integrations with GCS Buckets, hence. We will be using the same GCS Bucket to store our trained model and also TensorBoard logs. The total <a href="https://cloud.google.com/storage/pricing">cost</a> to store all of these will be about <strong>$1.20</strong>.</p>
 <p>You are welcome to check out the corresponding code <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/create_tfrecords.py">here</a>. In order to streamline the TFRecords’ creation and upload process we will make use of a little <a href="https://www.shellscript.sh/">shell script</a>:</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="bu" style="color: null;
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">echo</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -585,7 +587,7 @@ font-style: inherit;">${BUCKET_NAME}</span></span></code></pre></div>
 <p>As for the training pipeline, we will follow the steps below: - Load the TFRecords from GCS using CPU in a parallelized way using <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset">tf.data.Dataset.map()</a> and feed batches of data to our model. For performance, we will also <a href="https://www.tensorflow.org/guide/data_performance#prefetching">prefetch</a> several future batches of data so that our model does not have to wait for the data to consume. Our data loader is present here in <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/data_loader.py">this script</a>. - We will be using a pre-trained model to unleash the power of <a href="https://ruder.io/transfer-learning/">transfer learning</a>. In particular, we will be using the <a href="https://arxiv.org/pdf/1608.06993">DenseNet121</a> model that is available inside <a href="https://www.tensorflow.org/api_docs/python/tf/keras/applications">tf.keras.applications</a>. - We will be training our model inside the <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy">tf.distribute.MirroredStrategy</a> scope for distributed training. This strategy is applicable when we have a single host containing multiple GPUs. We will also be using <a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed-precision training</a> to speed up the process. The code for realizing this is <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">here</a>.</p>
 <p>The training will take place on a remote machine fully managed by AI Platform.</p>
 <p>So far, we have discussed the utilities for creating TFRecords, loading them, and building and training our model. Here’s how the code is structured in the <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">GitHub repository</a> mentioned at the beginning of the post:</p>
-<pre class="shell"><code>├── Dockerfile
+<pre class="bashell"><code>├── Dockerfile
 ├── README.md
 ├── config.yaml
 ├── scripts
@@ -606,7 +608,7 @@ font-style: inherit;">${BUCKET_NAME}</span></span></code></pre></div>
 <h1>Fitting in Docker</h1>
 <p>To submit custom training jobs to AI Platform, we need to package our code inside a Docker image. So, let’s start with that.</p>
 <p>To build a Docker image, we first need to define a <code>Dockerfile</code> specifying how it should itself up. <a href="https://cloud.google.com/container-registry">Google Container Registry (GCR)</a> provides CUDA-configured TensorFlow containers that we can use to build custom ones. In our case, we extend one such container. Our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/Dockerfile"><code>Dockerfile</code></a> looks like so:</p>
-<pre class="shell"><code># Use an existing CUDA-configured TensorFlow container
+<pre class="bashell"><code># Use an existing CUDA-configured TensorFlow container
 FROM gcr.io/deeplearning-platform-release/tf2-gpu.2-4
 WORKDIR /root
 
@@ -631,21 +633,21 @@ CMD ["trainer/task.py"]</code></pre>
 <p>We will be using GCR to manage the lifecycle of our container. To build a Docker container, one must provide a correct Image URI (Uniform Resource Identifier) and it depends on the platform you are using for managing your container. In our case, that is GCR.</p>
 <p>For GCR, the format of the image goes like the following: <code>gcr.io/${PROJECT_ID}/${IMAGE_REPO_NAME}:${IMAGE_TAG}</code>, where <code>PROJECT_ID</code> is the ID of your GCP project and <code>IMAGE_REPO_NAME</code> and <code>IMAGE_TAG</code> are identifiers.</p>
 <p>We then build our image and locally run it:</p>
-<pre class="shell"><code>$ docker build -f Dockerfile -t ${IMAGE_URI} ./
+<pre class="bashell"><code>$ docker build -f Dockerfile -t ${IMAGE_URI} ./
 $ docker run ${IMAGE_URI} \
     trainer/task.py --bucket ${BUCKET_NAME} \
     --train-pattern ${TRAIN_FILES} \
     --valid-pattern ${VALIDATION_FILES}</code></pre>
 <p>To make the process cleaner, we can create a shell script and put all the instructions inside it. You can follow <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/scripts/train_local.sh">this one</a> to get an idea.</p>
 <p>The first time it’s run, it’s going to take a while. But after that, all the consequent runs will use the cached resources to speed up the build. The local Docker daemon (<code>dockerd</code>) will first read our <code>Dockerfile</code> and after getting to the entry point, it will parse all the command-line arguments we provided to <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/task.py"><code>task.py</code></a>. <code>task.py</code> just takes all the command-line arguments and starts the model training. <code>TRAIN_FILES</code> and <code>VALIDATION_FILES</code> are patterns to the TFRecords residing inside a GCS Bucket and they look like so -</p>
-<pre class="shell"><code>TRAIN_FILES=gs://${BUCKET_NAME}/train_tfr/*.tfrec
+<pre class="bashell"><code>TRAIN_FILES=gs://${BUCKET_NAME}/train_tfr/*.tfrec
 VALIDATION_FILES=gs://${BUCKET_NAME}/validation_tfr/*.tfrec</code></pre>
 <p>If everything goes well, then, after a while, you should be able to see that our model has started training:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/docker_build.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/docker_build.png" class="img-fluid">
 <center>
 <b>Figure 2</b>: Docker build.
 </center>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/local_run.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/local_run.png" class="img-fluid">
 <center>
 <b>Figure 3</b>: Local training logs.
 </center>
@@ -655,7 +657,7 @@ VALIDATION_FILES=gs://${BUCKET_NAME}/validation_tfr/*.tfrec</code></pre>
 <h1>Submitting a training job</h1>
 <p>For this step, we need to add two more lines of code: * After building our Docker image, we need to push it to GCR so that AI Platform can pull it to run model training. * Submit a training job to AI Platform.</p>
 <p>So, let’s put these pieces together:</p>
-<pre class="shell"><code># Build and push the docker image
+<pre class="bashell"><code># Build and push the docker image
 $ docker build -f Dockerfile -t ${IMAGE_URI} ./
 $ docker push ${IMAGE_URI}
 
@@ -753,22 +755,22 @@ Important
 </div>
 <p><br></p>
 <p>We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_list.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_list.png" class="img-fluid">
 <center>
 <b>Figure 4</b>: AI Platform training job list.
 </center>
 <p>On the extreme right, you would notice an option called <strong>View Logs</strong> that lets us monitor our training. It’s incredibly useful to have all of your training logs stored somewhere safe <em>without</em> making any effort. Logging for an AI Platform <code>training</code> job is managed by <a href="https://cloud.google.com/logging">Cloud Logging</a>. Here’s how mine looks like:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/logs_viewer.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/logs_viewer.png" class="img-fluid">
 <center>
 <b>Figure 5</b>: Training logs. Notice the neat search filter query.
 </center>
 <p>After training is complete, we can verify if all the necessary artifacts were stored inside our GCS Bucket:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gcs_files.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gcs_files.png" class="img-fluid">
 <center>
 <b>Figure 6</b>: SavedModel file and TensorBoard logs.
 </center>
 <p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/AWPrJesPSxyCX0GSmJMk1A/">here online on tensorboard.dev</a>. Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/tensorboard.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/tensorboard.png" class="img-fluid">
 <center>
 <b>Figure 7</b>: Accuracy plot.
 </center>
@@ -778,7 +780,7 @@ Important
 <h1>Delving deep into training costs and resource utilization</h1>
 <p>AI Platform provides a number of useful metrics for the <code>training</code> jobs. Each job has a separate dashboard that makes it super easy to keep track of its statistics such as total training time, average resource utilization, etc.</p>
 <p>First, we have high-level information about the job:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_high_level.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_high_level.png" class="img-fluid">
 <center>
 <b>Figure 8</b>: High-level information about a training job.
 </center>
@@ -786,17 +788,17 @@ Important
 <p><strong>1.79</strong> (Consumed ML units) <img src="https://latex.codecogs.com/png.latex?%5Ctimes"> <strong>USD 0.49</strong> = <strong>USD 0.8771</strong></p>
 <p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing#ml-units">this document</a> that details the cost calculation scheme. GCP also provides a handy estimated cost calculator that you can find <a href="https://cloud.google.com/products/calculator">here</a>.</p>
 <p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 0.8771</strong> (<code>training</code> job) = <strong>USD 2.2181</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as the one we used for training:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/notebook_pricing.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/notebook_pricing.png" class="img-fluid">
 <center>
 <b>Figure 9</b>: Cost for an AI Platform Notebook with 2 V100 GPUs with n1-standard-8.
 </center>
 <p>Coming to CPU utilization, we have some room for improvement it seems:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/cpu_util.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/cpu_util.png" class="img-fluid">
 <center>
 <b>Figure 10</b>: CPU utilization of our training resources.
 </center>
 <p>The overall GPU utilization has a few spikes which might need some more inspections in the future:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gpu_util.png" class="img-fluid">
+<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gpu_util.png" class="img-fluid">
 <center>
 <b>Figure 11</b>: GPU utilization of our training resources.
 </center>
@@ -1988,9 +1990,9 @@ Note
 <p>twitter: https://twitter.com/colinraffel/status/1289315020199743488?s=20</p>
 </blockquote>
 <p>BYOL [6] and SwAV have even beaten SimCLR -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/byol_swav.png" title="We see that training frameworks like BYOL and SwAV have already beaten SimCLR and all of this (including the SimCLR) has happened in 2020 itself! (Sources: BYOL and SwAV papers respectively [6][5])" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/byol_swav.png" title="We see that training frameworks like BYOL and SwAV have already beaten SimCLR and all of this (including the SimCLR) has happened in 2020 itself! (Sources: BYOL and SwAV papers respectively [6][5])" class="img-fluid"></p>
 <p>One could argue that this is in comparison with SimCLR but not SimCLRv2. Well, that is because SimCLRv2 is not just about self-supervised learning, it is more than that -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/simclr_v2.png" title="Source: SimCLRv2 [4]" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/simclr_v2.png" title="Source: SimCLRv2 [4]" class="img-fluid"></p>
 <p>This blog post, however, would only focus on the SimCLR part i.e.&nbsp;the left-most part of the figure above. If you are interested to know more about SimCLRv2, feel free to watch <a href="https://www.youtube.com/watch?v=2lkUNDZld-4&amp;lc">this video</a> by Yannic Kilcher.</p>
 </section>
 <section id="why-simclrv2" class="level1">
@@ -2021,14 +2023,14 @@ Note
 <section id="labels-contrastive-loss-win-win" class="level2">
 <h2 class="anchored" data-anchor-id="labels-contrastive-loss-win-win">Labels + contrastive loss = win-win</h2>
 <p>Supervised Contrastive Learning addresses a very important point about the self-supervised learning frameworks like SimCLR. In SimCLR, the positive pairs are generated by taking different views of the same image and the negative pairs are then randomly sampled from the other images present in a batch.</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/positive_pairs.png" title="Examples of positive pairs (Source: Exploring SimCLR [9])" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/positive_pairs.png" title="Examples of positive pairs (Source: Exploring SimCLR [9])" class="img-fluid"></p>
 <p>Here are some examples of negative pairs -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/negative_pairs.png" title="Source: Exploring SimCLR [9]" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/negative_pairs.png" title="Source: Exploring SimCLR [9]" class="img-fluid"></p>
 <p>As discussed in the Supervised Contrastive Learning paper, this method of contrasting two different views of the same image can result in false negatives i.e.&nbsp;the samples belonging to the same class might get mapped differently in the embedding space. There’s no way for us to properly mitigate this issue without having access to the original labels. Hence, I mentioned if you have loads of labeled images, it’s better to use Supervised Contrastive Learning to capture meaningful representations.</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/scl_embeddings.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/scl_embeddings.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
 <p>Supervised Contrastive Learning extends how we train supervised models by introducing a two stage training framework. In the first stage, it uses the label information in the contrastive loss to learn to map the encoded representations effectively. In the second stage, it train a linear model on top of these encoded representations for the given supervised training objective.</p>
 <p>In practice this works quite well -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/scl_results.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/scl_results.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
 <p>You might be feeling very tempted to try out this on your labeled dataset. Truth be told - Supervised Contrastive Learning is also compute-intensive even for relatively small datasets. So, if you don’t have the training budget you might need to reconsider this option.</p>
 <p>Maybe you have a relatively smaller labeled dataset and you just want to be able to fine-tune a good enough architecture which is still very useful for many practical scenarios. This is where BigTransfer can really shine.</p>
 </section>
@@ -2036,10 +2038,10 @@ Note
 <section id="returning-to-supervised-transfer-learning" class="level1">
 <h1>Returning to supervised transfer learning</h1>
 <p>BigTransfer is from the family of classic supervised pre-training and transfer the learned representations to downstream tasks. ImageNet has been the choice for this kind of pre-training for a long time. But in BigTransfer, the authors use larger datasets such as ImageNet-21k, JFT along with ImageNet. In order to facilitate these larger datasets they scale up the model architectures along with longer pre-training. Their result speaks for itself -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/images/bit_results.png" title="Source: BigTransfer blog post [10]" class="img-fluid"></p>
+<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/bit_results.png" title="Source: BigTransfer blog post [10]" class="img-fluid"></p>
 <p>To eliminate the dependence on batch statistics the authors make use of Group Normalization and Weight Standardization. Personally, I really liked this recipe because using overall large batch sizes to train larger models at scale is a common choice and using Batch Normalization there could have easily affected the performance of the models during the downstream tasks.</p>
 <p>For fine-tuning, the authors propose a heuristics-based BiT-HyperRule which provides instructions on what augmentation policy to use, how many steps to train for, what learning rate schedule to use, etc.</p>
-<p>[](https://github.com/sayakpaul/portfolio/raw/master/images/bit_hyperrule.png ” BiT Hyper-rule (Source: BigTransfer blog post [10])“)</p>
+<p>[](https://github.com/sayakpaul/portfolio/raw/master/posts/bit_hyperrule.png ” BiT Hyper-rule (Source: BigTransfer blog post [10])“)</p>
 <p>I found this strategy to be simple enough to be implemented and practised.</p>
 </section>
 <section id="resources" class="level1">
