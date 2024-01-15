@@ -10,7 +10,26 @@
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
 <generator>quarto-1.3.450</generator>
-<lastBuildDate>Fri, 27 May 2022 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Mon, 15 Jan 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Another Migration Guide from fastpages to Quarto</title>
+  <link>https://sayak.dev/posts/migrate-to-quarto.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+
+ ]]></description>
+  <category>blogging</category>
+  <category>technical-writing</category>
+  <category>quarto</category>
+  <category>migration</category>
+  <guid>https://sayak.dev/posts/migrate-to-quarto.html</guid>
+  <pubDate>Mon, 15 Jan 2024 00:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Practicing ML in a Non-ML Job</title>
   <link>https://sayak.dev/posts/ml-practice.html</link>

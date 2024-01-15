@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2024-01-15">
+<meta name="description" content="Migrate from fastpages to Quarto (an extension to Hamel’s post).">
 
-<title>Sayak Paul</title>
+<title>Sayak Paul - Another Migration Guide from fastpages to Quarto</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,21 +25,21 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./posts/favicon.ico" rel="icon">
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -68,16 +70,14 @@ ga('send', {
 </script>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Sayak Paul">
-<meta property="og:description" content="">
-<meta property="og:image" content="https://sayak.dev/posts/carted_headshot.jpg">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sayak Paul - Another Migration Guide from fastpages to Quarto">
+<meta property="og:description" content="Migrate from fastpages to Quarto (an extension to Hamel’s post).">
 <meta property="og:site-name" content="Sayak Paul">
-<meta name="twitter:title" content="Sayak Paul">
-<meta name="twitter:description" content="">
-<meta name="twitter:image" content="https://sayak.dev/posts/carted_headshot.jpg">
+<meta name="twitter:title" content="Sayak Paul - Another Migration Guide from fastpages to Quarto">
+<meta name="twitter:description" content="Migrate from fastpages to Quarto (an extension to Hamel’s post).">
 <meta name="twitter:creator" content="@RisingSayak">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -87,7 +87,7 @@ ga('send', {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
   </div>
@@ -97,23 +97,23 @@ ga('send', {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/about.html" rel="" target="">
+    <a class="nav-link" href="../pages/about.html" rel="" target="">
  <span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/authoring.html" rel="" target="">
+    <a class="nav-link" href="../pages/authoring.html" rel="" target="">
  <span class="menu-text">Authoring</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog.html" rel="" target="">
+    <a class="nav-link" href="../blog.html" rel="" target="">
  <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/research.html" rel="" target="">
+    <a class="nav-link" href="../pages/research.html" rel="" target="">
  <span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/resources.html" rel="" target="">
+    <a class="nav-link" href="../pages/resources.html" rel="" target="">
  <span class="menu-text">Resources</span></a>
   </li>  
 </ul>
@@ -142,52 +142,51 @@ ga('send', {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Another Migration Guide from fastpages to Quarto</h1>
+                  <div>
+        <div class="description">
+          Migrate from fastpages to Quarto (an extension to Hamel’s post).
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">blogging</div>
+                <div class="quarto-category">technical-writing</div>
+                <div class="quarto-category">quarto</div>
+                <div class="quarto-category">migration</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 15, 2024</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Sayak Paul</h1>
-</div>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-</header>
-
-<p>Hi there 👋. I am Sayak Paul (সায়ক পাল). I work on <a href="https://hf.co/docs/diffusers">🧨 diffusion models</a> at <a href="https://hf.co">Hugging Face</a>. Know more about me from <a href="https://sayak.dev/about">here</a>. I maintain a Google Doc answering some FAQs at length. You can check it out <a href="https://bit.ly/sayak-faqs">here</a>.</p>
-<p>My external articles and other publishing engagements (like books, liveProjects, etc.) are listed <a href="./pages/authoring.html">here</a>. Decks from my speaking engagements are listed <a href="./pages/talksseminarsworkshops.html">here</a>. A detailed account of the things that are not directly available from top navbar can be found <a href="./pages/resources.html">here</a>.</p>
-<p>The structure of this website is inspired by <a href="https://osanseviero.github.io/hackerllama/">Omar’s site</a>.</p>
-<center>
-<figure class="figure">
-<img src="posts/carted_headshot.jpg" width="350/" class="figure-img">
-</figure>
-</center>
-<section id="news" class="level3">
-<h3 class="anchored" data-anchor-id="news">News</h3>
-<ul>
-<li><a href="https://hila-chefer.github.io/">Hila Chefer</a> and I presented our tutorial <strong>All Things ViTs: Understanding and Interpreting Attention in Vision</strong> at CVPR 2023. Check out the <a href="https://all-things-vits.github.io/atv/">website</a> for a recording, code samples, slides, and more.</li>
-<li>New work on accelerating SDXL by 3x with pure PyTorch: <a href="https://github.com/huggingface/diffusion-fast">Accelerate inference of text-to-image diffusion models</a>. Post is <a href="https://pytorch.org/blog/accelerating-generative-ai-3/">live on the PyTorch blog</a> too.</li>
-<li>New podcast with Varun Mayya: <a href="https://www.youtube.com/watch?v=IlIhykPDesE">Conversation with a Hugging Face developer</a>.</li>
-<li>New paper with Segmind: <a href="https://arxiv.org/abs/2401.02677">Progressive Knowledge Distillation Of Stable Diffusion XL Using Layer Level Loss</a>.</li>
-<li>New paper in collaboration with Junsong Chen, Yue Wu, Simian Luo, Enze Xie, Ping Luo, Hang Zhao, and Zhenguo Li: <a href="https://arxiv.org/abs/2401.05252">PIXART-δ: Fast and Controllable Image Generation with Latent Consistency Models</a>.</li>
-</ul>
-<p>To know about my projects, please refer to <a href="https://github.com/sayakpaul">my GitHub profile</a>.</p>
-<p>Apart from the blogs <a href="./blog.html">here</a>, I try to contribute to other platforms in the form of writing. Please refer <a href="https://sayak.dev/authoring">here</a> for more details.</p>
 
 
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -538,8 +537,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<script src="https://utteranc.es/client.js" repo="sayakpaul/portfolio" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
 </div> <!-- /content -->
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sayakpaul/portfolio/edit/master/index.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/transition-to-quarto.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
