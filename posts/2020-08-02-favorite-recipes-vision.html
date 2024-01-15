@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2020-08-02">
+<meta name="description" content="This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).">
+
+<title>Sayak Paul - A few favorite recipes in computer vision &amp; deep learning</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sayak Paul - A few favorite recipes in computer vision &amp; deep learning">
+<meta property="og:description" content="This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).">
+<meta property="og:image" content="https://sayak.dev/posts/montage_vrl.png">
+<meta property="og:site-name" content="Sayak Paul">
+<meta property="og:image:height" content="663">
+<meta property="og:image:width" content="896">
+<meta name="twitter:title" content="Sayak Paul - A few favorite recipes in computer vision &amp; deep learning">
+<meta name="twitter:description" content="This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).">
+<meta name="twitter:image" content="https://sayak.dev/posts/montage_vrl.png">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:image-height" content="663">
+<meta name="twitter:image-width" content="896">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html" rel="" target="">
+ <span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html" rel="" target="">
+ <span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html" rel="" target="">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">A few favorite recipes in computer vision &amp; deep learning</h1>
+                  <div>
+        <div class="description">
+          This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">visual-representation-learning</div>
+                <div class="quarto-category">self-supervised-learning</div>
+                <div class="quarto-category">computer-vision</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 2, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#so-why-self-supervised-learning-anyway" id="toc-so-why-self-supervised-learning-anyway" class="nav-link active" data-scroll-target="#so-why-self-supervised-learning-anyway">So, why self-supervised learning anyway?</a></li>
+  <li><a href="#why-simclrv2" id="toc-why-simclrv2" class="nav-link" data-scroll-target="#why-simclrv2">Why SimCLR(v2)?</a></li>
+  <li><a href="#returning-to-supervised-learning" id="toc-returning-to-supervised-learning" class="nav-link" data-scroll-target="#returning-to-supervised-learning">Returning to supervised learning</a>
+  <ul class="collapse">
+  <li><a href="#labels-contrastive-loss-win-win" id="toc-labels-contrastive-loss-win-win" class="nav-link" data-scroll-target="#labels-contrastive-loss-win-win">Labels + contrastive loss = win-win</a></li>
+  </ul></li>
+  <li><a href="#returning-to-supervised-transfer-learning" id="toc-returning-to-supervised-transfer-learning" class="nav-link" data-scroll-target="#returning-to-supervised-transfer-learning">Returning to supervised transfer learning</a></li>
+  <li><a href="#resources" id="toc-resources" class="nav-link" data-scroll-target="#resources">Resources</a></li>
+  <li><a href="#acknowledgments" id="toc-acknowledgments" class="nav-link" data-scroll-target="#acknowledgments">Acknowledgments</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-08-02-favorite-recipes-vision.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>A few days ago from the time of writing this blog post I tweeted -</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/RisingSayak/status/1285866356592635904?s=20</p>
+</blockquote>
+<p><br></p>
+<p>In this blog post, I will expand on this tweet to convey why these are my favorite recipes among other things.</p>
+<p>The training frameworks I mentioned can be classified into two broad categories -</p>
+<ul>
+<li><strong>supervised learning</strong> (Supervised Contrastive Learning [1] and BigTransfer [2])</li>
+<li><strong>self-supervised learning</strong> (SimCLRv2 [only the <em>SimCLR</em> part]).</li>
+</ul>
+<p><br></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>that SimCLR [3] and SimCLRv2 [4] are two separate works.</p>
+</div>
+</div>
+<section id="so-why-self-supervised-learning-anyway" class="level1">
+<h1>So, why self-supervised learning anyway?</h1>
+<p>The field of self-supervised visual representation learning is progressing pretty fast. With recent advancements, the deep learning community has started to consider it as an alternative to the fully supervised models for tasks like image classification, object detection, image segmentation, etc. If you are unfamiliar with self-supervised learning check out <a href="https://www.fast.ai/2020/01/13/self_supervised/">this blog post</a> by Jeremy Howard. So, <strong><em>why all the fuss around self-supervised visual representation learning?</em></strong></p>
+<p>This is because a self-supervised learning framework can benefit from <strong><em>unlabeled data</em></strong>. Essentially, you would frame a supervised learning task from a large unlabeled corpus and then train a model to learn that task. You see we are <strong><em>not</em></strong> using any explicit label information here. Instead, we are using the given data to form a supervised learning task, this is why it is self-supervised. You would then take the representations from the model (preferably from the encoder part of the model) and use them for downstream tasks. Representations learned using self-supervised learning frameworks like SimCLRv2, SwAV [5] transfer quite well to downstream (vision) tasks even with very less labeled data.</p>
+<p><a href="https://colinraffel.com/">Colin Raffel</a> beautifully summed up the recent progress in the field of self-supervised learning for computer vision -</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/colinraffel/status/1289315020199743488?s=20</p>
+</blockquote>
+<p>BYOL [6] and SwAV have even beaten SimCLR -</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/byol_swav.png" title="We see that training frameworks like BYOL and SwAV have already beaten SimCLR and all of this (including the SimCLR) has happened in 2020 itself! (Sources: BYOL and SwAV papers respectively [6][5])" class="img-fluid"></p>
+<p>One could argue that this is in comparison with SimCLR but not SimCLRv2. Well, that is because SimCLRv2 is not just about self-supervised learning, it is more than that -</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/simclr_v2.png" title="Source: SimCLRv2 [4]" class="img-fluid"></p>
+<p>This blog post, however, would only focus on the SimCLR part i.e.&nbsp;the left-most part of the figure above. If you are interested to know more about SimCLRv2, feel free to watch <a href="https://www.youtube.com/watch?v=2lkUNDZld-4&amp;lc">this video</a> by Yannic Kilcher.</p>
+</section>
+<section id="why-simclrv2" class="level1">
+<h1>Why SimCLR(v2)?</h1>
+<p>Among all of the techniques that have been mentioned in the post so far, SimCLR is by far the most favorite of mine. This is because of its simplicity and the promise to shine more as one would scale up the base architecture and introduce more (unlabeled data). Moreover, framework wise SimCLR is very consistent with the recipes I would want to see in an effective visual representation learning framework. One of these primary recipes is to maximize the agreement between the semantically similar images. SwAV is also capable of doing this, in fact, it is currently the state-of-the-art (as of August 2020) in this domain. But simplicity wise SimCLR beats SwAV big time.</p>
+<p>At a very high-level, SimCLR takes two different views of the same image and tries to maximize the agreement between these two views while minimizing the agreement between the views coming from other images. These different views are obtained by applying augmentation operations like random-resized crops, horizontal flips, color distortions, etc. Representations learned using this framework (and any self-supervised visual representation learning framework in general) can be used in different flavors -</p>
+<ul>
+<li>You may have loads of unlabeled data and limited labeled data for your problem. You could use the unlabeled data and incorporate SimCLR for obtaining effective representations and use them to a downstream task where the limited labeled data might be required.</li>
+<li>Representations obtained from datasets like ImageNet using SimCLR can be used in regular transfer learning settings.</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/d92c0e914af70fe618cf3ea555e2da1737d84bc4/68747470733a2f2f312e62702e626c6f6773706f742e636f6d2f2d2d764834504b704539596f2f586f3461324259657276492f414141414141414146704d2f766146447750584f79416f6b4143385868383532447a4f67457332324e68625877434c63424741735948512f73313630302f696d616765342e676966.png" title="Source: SimCLR blog post [7]" class="img-fluid"></p>
+<p>As we can see in SimCLR, the loss function (normalized temperature-scaled cross-entropy loss) operates directly on the features computed by the projection head (MLP part). This makes SimCLR a compute-intensive framework.</p>
+<p>On the other hand, SwAV operates by assigning the encoded representations of different views of the same image to clusters. The clusters are being assigned by keeping a <strong><em>differentiable</em></strong> codebook for the prototypes of the different types of images present in the given dataset. Training wise, SwAV tries to maximize the agreement between the clusters of semantically similar images. Operating on the clusters rather than the encoded representations is a lesser compute-intensive task.</p>
+<p><img src="https://camo.githubusercontent.com/a6d39dcc04416c84bd23f5e2ae87dceb40c6ef8b/68747470733a2f2f646c2e666261697075626c696366696c65732e636f6d2f64656570636c75737465722f616e696d617465642e676966.png" title="Source: GitHub repository of SwAV" class="img-fluid"></p>
+<p>SwAV might appear as a simpler framework than SimCLR but there are a number of different pieces to look after here:</p>
+<ul>
+<li>Maintaining a differentiable prototype bank</li>
+<li>Optimal transportation of the representations to form soft codes using the <a href="https://en.wikipedia.org/wiki/Sinkhorn%27s_theorem">Sinkhorn-Knopp algorithm</a></li>
+<li>Multi-crop data augmentation policy</li>
+<li>Swapped prediction problem</li>
+</ul>
+<p>When working in practical scenarios we often need to maintain a trade-off between technical feasibility and performance. To me, SimCLR cuts it through in terms of technical feasibility.</p>
+<p><strong>Update</strong>: Along with <a href="https://twitter.com/ayushthakur0">Ayush</a> and generous amount of help from Mathilde Caron (first author of SwAV) we were finally able to <a href="https://wandb.ai/authors/swav-tf/reports/Unsupervised-visual-representation-learning-with-SwAV--VmlldzoyMjg3Mzg">minimally implement SwAV</a> after realizing the improvements it brings to the table.</p>
+</section>
+<section id="returning-to-supervised-learning" class="level1">
+<h1>Returning to supervised learning</h1>
+<p>Given the almightly prowess of the self-supervised learning frameworks why even bother about supervised regimes?</p>
+<section id="labels-contrastive-loss-win-win" class="level2">
+<h2 class="anchored" data-anchor-id="labels-contrastive-loss-win-win">Labels + contrastive loss = win-win</h2>
+<p>Supervised Contrastive Learning addresses a very important point about the self-supervised learning frameworks like SimCLR. In SimCLR, the positive pairs are generated by taking different views of the same image and the negative pairs are then randomly sampled from the other images present in a batch.</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/positive_pairs.png" title="Examples of positive pairs (Source: Exploring SimCLR [9])" class="img-fluid"></p>
+<p>Here are some examples of negative pairs -</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/negative_pairs.png" title="Source: Exploring SimCLR [9]" class="img-fluid"></p>
+<p>As discussed in the Supervised Contrastive Learning paper, this method of contrasting two different views of the same image can result in false negatives i.e.&nbsp;the samples belonging to the same class might get mapped differently in the embedding space. There’s no way for us to properly mitigate this issue without having access to the original labels. Hence, I mentioned if you have loads of labeled images, it’s better to use Supervised Contrastive Learning to capture meaningful representations.</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/scl_embeddings.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p>Supervised Contrastive Learning extends how we train supervised models by introducing a two stage training framework. In the first stage, it uses the label information in the contrastive loss to learn to map the encoded representations effectively. In the second stage, it train a linear model on top of these encoded representations for the given supervised training objective.</p>
+<p>In practice this works quite well -</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/scl_results.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p>You might be feeling very tempted to try out this on your labeled dataset. Truth be told - Supervised Contrastive Learning is also compute-intensive even for relatively small datasets. So, if you don’t have the training budget you might need to reconsider this option.</p>
+<p>Maybe you have a relatively smaller labeled dataset and you just want to be able to fine-tune a good enough architecture which is still very useful for many practical scenarios. This is where BigTransfer can really shine.</p>
+</section>
+</section>
+<section id="returning-to-supervised-transfer-learning" class="level1">
+<h1>Returning to supervised transfer learning</h1>
+<p>BigTransfer is from the family of classic supervised pre-training and transfer the learned representations to downstream tasks. ImageNet has been the choice for this kind of pre-training for a long time. But in BigTransfer, the authors use larger datasets such as ImageNet-21k, JFT along with ImageNet. In order to facilitate these larger datasets they scale up the model architectures along with longer pre-training. Their result speaks for itself -</p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/bit_results.png" title="Source: BigTransfer blog post [10]" class="img-fluid"></p>
+<p>To eliminate the dependence on batch statistics the authors make use of Group Normalization and Weight Standardization. Personally, I really liked this recipe because using overall large batch sizes to train larger models at scale is a common choice and using Batch Normalization there could have easily affected the performance of the models during the downstream tasks.</p>
+<p>For fine-tuning, the authors propose a heuristics-based BiT-HyperRule which provides instructions on what augmentation policy to use, how many steps to train for, what learning rate schedule to use, etc.</p>
+<p>[](https://github.com/sayakpaul/portfolio/raw/master/images/bit_hyperrule.png ” BiT Hyper-rule (Source: BigTransfer blog post [10])“)</p>
+<p>I found this strategy to be simple enough to be implemented and practised.</p>
+</section>
+<section id="resources" class="level1">
+<h1>Resources</h1>
+<p>If you are interested to apply these techniques in your own works you may find the following resources to be helpful -</p>
+<ul>
+<li><a href="https://colab.research.google.com/github/google-research/simclr/blob/master/colabs/finetuning.ipynb">A Colab Notebook</a> by the authors of SimCLRv2 that shows how to fine-tune with SimCLRv2.</li>
+<li><a href="https://bit.ly/2UVZtm7">A report</a> by Sweta Shaw and myself that walks through Supervised Contrastive Learning along with Colab Notebooks.</li>
+<li><a href="https://blog.tensorflow.org/2020/05/bigtransfer-bit-state-of-art-transfer-learning-computer-vision.html">A tutorial</a> on BigTransfer by the authors of BigTransfer.</li>
+</ul>
+<p>Here is a list of some other interesting works on transfer learning for computer vision -</p>
+<blockquote class="blockquote">
+<p>twitter: https://twitter.com/RisingSayak/status/1285119290895548417</p>
+</blockquote>
+</section>
+<section id="acknowledgments" class="level1">
+<h1>Acknowledgments</h1>
+<p>Amit’s <a href="https://amitness.com/2020/03/illustrated-simclr/">visual guide on SimCLR</a> and <a href="https://sthalles.github.io/simple-self-supervised-learning/">Thalles’s exploratory analysis on SimCLR</a> helped me in developing a thorough understanding of SimCLR.</p>
+<p>Thanks to Yannic Kilcher for his explanation videos on <a href="https://www.youtube.com/watch?v=2lkUNDZld-4&amp;lc">SimCLRv2</a> and <a href="https://www.youtube.com/watch?v=MpdbFLXOOIw">Supervised Contrastive Learning</a>. Those made the learning process smoother.</p>
+<p>Thanks to Ting Chen (SimCLR author) for providing me with additional pointers on self-supervised learning in general.</p>
+<p>Thanks to Jeremy Howard for his <a href="http://fast.ai">fast.ai</a> lectures that continue to help me in approaching deep learning recipes with more common sense and practicality.</p>
+</section>
+<section id="references" class="level1">
+<h1>References</h1>
+<ol type="1">
+<li>Khosla, Prannay, et al.&nbsp;“Supervised Contrastive Learning.” ArXiv:2004.11362 [Cs, Stat], Apr.&nbsp;2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/2004.11362">http://arxiv.org/abs/2004.11362</a>.</li>
+<li>Kolesnikov, Alexander, et al.&nbsp;“Big Transfer (BiT): General Visual Representation Learning.” ArXiv:1912.11370 [Cs], May 2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/1912.11370">http://arxiv.org/abs/1912.11370</a>.</li>
+<li>Chen, Ting, Simon Kornblith, Mohammad Norouzi, et al.&nbsp;“A Simple Framework for Contrastive Learning of Visual Representations.” ArXiv:2002.05709 [Cs, Stat], June 2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/2002.05709">http://arxiv.org/abs/2002.05709</a>.</li>
+<li>Chen, Ting, Simon Kornblith, Kevin Swersky, et al.&nbsp;“Big Self-Supervised Models Are Strong Semi-Supervised Learners.” ArXiv:2006.10029 [Cs, Stat], June 2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/2006.10029">http://arxiv.org/abs/2006.10029</a>.</li>
+<li>Caron, Mathilde, et al.&nbsp;“Unsupervised Learning of Visual Features by Contrasting Cluster Assignments.” ArXiv:2006.09882 [Cs], July 2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/2006.09882">http://arxiv.org/abs/2006.09882</a>.</li>
+<li>Grill, Jean-Bastien, et al.&nbsp;“Bootstrap Your Own Latent: A New Approach to Self-Supervised Learning.” ArXiv:2006.07733 [Cs, Stat], June 2020. <a href="http://arxiv.org/">arXiv.org</a>, <a href="http://arxiv.org/abs/2006.07733">http://arxiv.org/abs/2006.07733</a>.</li>
+<li>“Advancing Self-Supervised and Semi-Supervised Learning with SimCLR.” Google AI Blog, http://ai.googleblog.com/2020/04/advancing-self-supervised-and-semi.html.</li>
+<li>Facebookresearch/Swav. 2020. Facebook Research, 2020. GitHub, https://github.com/facebookresearch/swav.</li>
+<li>Exploring SimCLR: A Simple Framework for Contrastive Learning of Visual Representations - Thalles’ Blog. https://sthalles.github.io/simple-self-supervised-learning/.</li>
+<li>BigTransfer (BiT): State-of-the-Art Transfer Learning for Computer Vision. https://blog.tensorflow.org/2020/05/bigtransfer-bit-state-of-art-transfer-learning-computer-vision.html.</li>
+</ol>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="sayakpaul/portfolio" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

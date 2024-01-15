@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2021-04-06">
+<meta name="description" content="Training a model using distributed training with AI Platform and Docker.">
+
+<title>Sayak Paul - Distributed Training in TensorFlow with AI Platform &amp; Docker</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sayak Paul - Distributed Training in TensorFlow with AI Platform &amp; Docker">
+<meta property="og:description" content="Training a model using distributed training with AI Platform and Docker.">
+<meta property="og:image" content="https://sayak.dev/posts/distributed_training.png">
+<meta property="og:site-name" content="Sayak Paul">
+<meta property="og:image:height" content="181">
+<meta property="og:image:width" content="231">
+<meta name="twitter:title" content="Sayak Paul - Distributed Training in TensorFlow with AI Platform &amp; Docker">
+<meta name="twitter:description" content="Training a model using distributed training with AI Platform and Docker.">
+<meta name="twitter:image" content="https://sayak.dev/posts/distributed_training.png">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:image-height" content="181">
+<meta name="twitter:image-width" content="231">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html" rel="" target="">
+ <span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html" rel="" target="">
+ <span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html" rel="" target="">
+ <span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html" rel="" target="">
+ <span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html" rel="" target="">
+ <span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak" rel="" target=""><i class="bi bi-twitter" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Distributed Training in TensorFlow with AI Platform &amp; Docker</h1>
+                  <div>
+        <div class="description">
+          Training a model using distributed training with AI Platform and Docker.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">tensorflow</div>
+                <div class="quarto-category">keras</div>
+                <div class="quarto-category">distributed-training</div>
+                <div class="quarto-category">ai-platform</div>
+                <div class="quarto-category">docker</div>
+                <div class="quarto-category">mlops</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 6, 2021</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#environment-setup" id="toc-environment-setup" class="nav-link active" data-scroll-target="#environment-setup">Environment setup</a></li>
+  <li><a href="#notes-on-the-task-data-pipeline-and-training" id="toc-notes-on-the-task-data-pipeline-and-training" class="nav-link" data-scroll-target="#notes-on-the-task-data-pipeline-and-training">Notes on the task, data pipeline, and training</a></li>
+  <li><a href="#fitting-in-docker" id="toc-fitting-in-docker" class="nav-link" data-scroll-target="#fitting-in-docker">Fitting in Docker</a></li>
+  <li><a href="#building-and-locally-running-our-container" id="toc-building-and-locally-running-our-container" class="nav-link" data-scroll-target="#building-and-locally-running-our-container">Building and locally running our container</a></li>
+  <li><a href="#submitting-a-training-job" id="toc-submitting-a-training-job" class="nav-link" data-scroll-target="#submitting-a-training-job">Submitting a training job</a></li>
+  <li><a href="#delving-deep-into-training-costs-and-resource-utilization" id="toc-delving-deep-into-training-costs-and-resource-utilization" class="nav-link" data-scroll-target="#delving-deep-into-training-costs-and-resource-utilization">Delving deep into training costs and resource utilization</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#acknowledgements" id="toc-acknowledgements" class="nav-link" data-scroll-target="#acknowledgements">Acknowledgements</a></li>
+  </ul>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2021-04-06-distributed-training-ai-platform.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>Jupyter Notebooks are a great way to present your code offering a good level of interactivity, transparency, and reproducibility. However, operating with a Jupyter Notebook environment can get very challenging if you are working your way through large-scale training workflows as is common in deep learning.</p>
+<p>If you are conducting large-scale training it is likely that you are using a powerful remote machine via SSH access. So, even if you are not using Jupyter Notebooks, problems like SSH pipe breakage, network teardown, etc. can easily occur. Consider using a powerful virtual machine on Cloud as your remote. The problem gets far worse when there’s a connection loss but you somehow forget to turn off that virtual machine to stop consuming its resources. You get billed for practically <em>nothing</em> when the breakdown happens until and unless you have set up some amount of alerts and fault tolerance.</p>
+<p>To resolve these kinds of problems, we would want to have the following things in the pipeline:</p>
+<ul>
+<li>A training workflow that is fully managed by a secure and reliable service with high availability.</li>
+<li>The service should automatically provision and de-provision the resources we would ask it to configure allowing us to only get charged for what’s been truly consumed.</li>
+<li>The service should also be very flexible. It must not introduce too much technical debt into our existing pipelines.</li>
+</ul>
+<p>In this post, we are going to consider all of these factors and will implement them using a service called <a href="https://cloud.google.com/ai-platform">AI Platform</a> (provided by GCP) and <a href="https://www.docker.com/">Docker</a>. We will use TensorFlow and Keras to handle <strong>distributed training</strong> to develop an image classification model capable of classifying cats and dogs. Apart from deep learning-related knowledge, a bit of familiarity would be needed to fully understand this post.</p>
+<p>All the code presented throughout the post <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">can be found here</a>. We won’t be covering the entire codebase, instead, we will focus on the most important bits.</p>
+<p>If you are like me, who have lost sleep over the very thought of the aforementioned problem, you will likely find this tutorial a good starting point to get around it.</p>
+<section id="environment-setup" class="level1">
+<h1>Environment setup</h1>
+<p>You will need to have Docker, command-line GCP (Google Cloud Platform) tools like <code>gcloud</code>, and TensorFlow (2.x) installed if you are on a local machine. But if you have a <a href="https://cloud.google.com/billing/docs/how-to/modify-project">billing-enabled GCP project</a> it’s possible to get started <em>without</em> any significant setup.</p>
+<p>We will use a cheap <a href="https://cloud.google.com/ai-platform-notebooks">AI Platform Notebook</a> instance as our staging machine which we will use to build our custom Docker image, push it to <a href="https://cloud.google.com/container-registry">Google Container Registry (GCR)</a>, and submit a <code>training</code> job to AI Platform. Additionally, we will use this instance to create <a href="https://www.tensorflow.org/tutorials/load_data/tfrecord">TensorFlow Records</a> (TFRecords) from the original dataset (<a href="https://www.tensorflow.org/datasets/catalog/cats_vs_dogs">Cats vs.&nbsp;Dogs</a> in this case) and upload them to a GCS Bucket. AI Platform notebooks come pre-configured with many useful Python libraries, Linux packages like <code>docker</code>, and also the command-line GCP tools like <code>gcloud</code>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I used an <code>n1-standard-4</code> instance with TensorFlow 2.4 as the base image which costs <strong>$0.141 hourly</strong>.</p>
+</div>
+</div>
+</section>
+<section id="notes-on-the-task-data-pipeline-and-training" class="level1">
+<h1>Notes on the task, data pipeline, and training</h1>
+<p><strong>Task</strong></p>
+<p>As mentioned earlier, we will be training an image classification model on the Cats vs.&nbsp;Dogs dataset which is a moderate-sized dataset. The learning problem is a <a href="https://developers.google.com/machine-learning/glossary#binary_classification">binary classification</a> task.</p>
+<p><strong>Data pipeline</strong></p>
+<p>For setting up our data pipeline, we will first create shards of TFRecords from the original dataset. Each of the shards will contain batches of preprocessed images and their labels. This has an advantage. When we would load these shards back for training, we won’t need to do any preprocessing giving us a slight performance boost. Figure 1 demonstrates our TFRecords’ creation workflow.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/data.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure 1: Schematics of our TFRecord’s creation process.</figcaption>
+</figure>
+</div>
+<center>
+<b>Figure 1</b>: Schematics of our TFRecord’s creation process.
+</center>
+<p>As you might have already noticed that we have also thrown in another component in the mix – a GCS Bucket. We would need to store our data on a Google Cloud Storage (GCS) Bucket since the training code won’t be executed locally. We could have used other bucket services (like <a href="https://aws.amazon.com/s3/">AWS S3</a>) here but TensorFlow has very unified integrations with GCS Buckets, hence. We will be using the same GCS Bucket to store our trained model and also TensorBoard logs. The total <a href="https://cloud.google.com/storage/pricing">cost</a> to store all of these will be about <strong>$1.20</strong>.</p>
+<p>You are welcome to check out the corresponding code <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/create_tfrecords.py">here</a>. In order to streamline the TFRecords’ creation and upload process we will make use of a little <a href="https://www.shellscript.sh/">shell script</a>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Uploading TFRecords to Storage Bucket..."</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> gs://<span class="va">${BUCKET_NAME}</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> ../trainer/create_tfrecords.py</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> <span class="at">-m</span> cp <span class="at">-r</span> train_tfr gs://<span class="va">${BUCKET_NAME}</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> <span class="at">-m</span> cp <span class="at">-r</span> validation_tfr gs://<span class="va">${BUCKET_NAME}</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> ls <span class="at">-lh</span> gs://<span class="va">${BUCKET_NAME}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After creating the TFRecords we simply copy them over to a previously created GCS Bucket. You can create one by executing the following: <code>gsutil mb ${BUCKET_NAME}</code>.</p>
+<p><strong>Training</strong></p>
+<p>As for the training pipeline, we will follow the steps below: - Load the TFRecords from GCS using CPU in a parallelized way using <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset">tf.data.Dataset.map()</a> and feed batches of data to our model. For performance, we will also <a href="https://www.tensorflow.org/guide/data_performance#prefetching">prefetch</a> several future batches of data so that our model does not have to wait for the data to consume. Our data loader is present here in <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/data_loader.py">this script</a>. - We will be using a pre-trained model to unleash the power of <a href="https://ruder.io/transfer-learning/">transfer learning</a>. In particular, we will be using the <a href="https://arxiv.org/pdf/1608.06993">DenseNet121</a> model that is available inside <a href="https://www.tensorflow.org/api_docs/python/tf/keras/applications">tf.keras.applications</a>. - We will be training our model inside the <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy">tf.distribute.MirroredStrategy</a> scope for distributed training. This strategy is applicable when we have a single host containing multiple GPUs. We will also be using <a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed-precision training</a> to speed up the process. The code for realizing this is <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">here</a>.</p>
+<p>The training will take place on a remote machine fully managed by AI Platform.</p>
+<p>So far, we have discussed the utilities for creating TFRecords, loading them, and building and training our model. Here’s how the code is structured in the <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">GitHub repository</a> mentioned at the beginning of the post:</p>
+<pre class="shell"><code>├── Dockerfile
+├── README.md
+├── config.yaml
+├── scripts
+│   ├── train_cloud.sh
+│   ├── train_local.sh
+│   └── upload_tfr.sh
+└── trainer
+    ├── config.py
+    ├── create_tfrecords.py
+    ├── data_loader.py
+    ├── model_training.py
+    ├── model_utils.py
+    ├── task.py
+    └── tfr_utils.py</code></pre>
+<p>Next, we will be reviewing how Docker fits into all these. From there on, we will have all the recipes set up to kickstart model training.</p>
+</section>
+<section id="fitting-in-docker" class="level1">
+<h1>Fitting in Docker</h1>
+<p>To submit custom training jobs to AI Platform, we need to package our code inside a Docker image. So, let’s start with that.</p>
+<p>To build a Docker image, we first need to define a <code>Dockerfile</code> specifying how it should itself up. <a href="https://cloud.google.com/container-registry">Google Container Registry (GCR)</a> provides CUDA-configured TensorFlow containers that we can use to build custom ones. In our case, we extend one such container. Our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/Dockerfile"><code>Dockerfile</code></a> looks like so:</p>
+<pre class="shell"><code># Use an existing CUDA-configured TensorFlow container
+FROM gcr.io/deeplearning-platform-release/tf2-gpu.2-4
+WORKDIR /root
+
+# Update TensorFlow to the latest version (2.4.1 at the
+# time of writing).
+RUN pip install -U tensorflow
+
+# Copies the trainer code to the docker image.
+COPY trainer/config.py ./trainer/config.py
+COPY trainer/data_loader.py ./trainer/data_loader.py
+COPY trainer/model_utils.py ./trainer/model_utils.py
+COPY trainer/model_training.py ./trainer/model_training.py
+COPY trainer/task.py ./trainer/task.py
+
+# Set up the entry point to invoke the trainer.
+ENTRYPOINT ["python"]
+CMD ["trainer/task.py"]</code></pre>
+<p>After we have defined the <code>Dockerfile</code>, we can proceed to build it and do a round of model training by locally running it.</p>
+</section>
+<section id="building-and-locally-running-our-container" class="level1">
+<h1>Building and locally running our container</h1>
+<p>We will be using GCR to manage the lifecycle of our container. To build a Docker container, one must provide a correct Image URI (Uniform Resource Identifier) and it depends on the platform you are using for managing your container. In our case, that is GCR.</p>
+<p>For GCR, the format of the image goes like the following: <code>gcr.io/${PROJECT_ID}/${IMAGE_REPO_NAME}:${IMAGE_TAG}</code>, where <code>PROJECT_ID</code> is the ID of your GCP project and <code>IMAGE_REPO_NAME</code> and <code>IMAGE_TAG</code> are identifiers.</p>
+<p>We then build our image and locally run it:</p>
+<pre class="shell"><code>$ docker build -f Dockerfile -t ${IMAGE_URI} ./
+$ docker run ${IMAGE_URI} \
+    trainer/task.py --bucket ${BUCKET_NAME} \
+    --train-pattern ${TRAIN_FILES} \
+    --valid-pattern ${VALIDATION_FILES}</code></pre>
+<p>To make the process cleaner, we can create a shell script and put all the instructions inside it. You can follow <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/scripts/train_local.sh">this one</a> to get an idea.</p>
+<p>The first time it’s run, it’s going to take a while. But after that, all the consequent runs will use the cached resources to speed up the build. The local Docker daemon (<code>dockerd</code>) will first read our <code>Dockerfile</code> and after getting to the entry point, it will parse all the command-line arguments we provided to <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/task.py"><code>task.py</code></a>. <code>task.py</code> just takes all the command-line arguments and starts the model training. <code>TRAIN_FILES</code> and <code>VALIDATION_FILES</code> are patterns to the TFRecords residing inside a GCS Bucket and they look like so -</p>
+<pre class="shell"><code>TRAIN_FILES=gs://${BUCKET_NAME}/train_tfr/*.tfrec
+VALIDATION_FILES=gs://${BUCKET_NAME}/validation_tfr/*.tfrec</code></pre>
+<p>If everything goes well, then, after a while, you should be able to see that our model has started training:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/docker_build.png" class="img-fluid">
+<center>
+<b>Figure 2</b>: Docker build.
+</center>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/local_run.png" class="img-fluid">
+<center>
+<b>Figure 3</b>: Local training logs.
+</center>
+<p>The local Docker run is a way for us to ensure our code is running fine without any hiccups. So, it’s advisable to stop the local run after you have ensured the model is able to start training. With this, we are now ready to push our custom Docker image to GCR, and submit a training job to AI Platform.</p>
+</section>
+<section id="submitting-a-training-job" class="level1">
+<h1>Submitting a training job</h1>
+<p>For this step, we need to add two more lines of code: * After building our Docker image, we need to push it to GCR so that AI Platform can pull it to run model training. * Submit a training job to AI Platform.</p>
+<p>So, let’s put these pieces together:</p>
+<pre class="shell"><code># Build and push the docker image
+$ docker build -f Dockerfile -t ${IMAGE_URI} ./
+$ docker push ${IMAGE_URI}
+
+# Submit job
+$ gcloud ai-platform jobs submit training ${JOB_NAME} \
+    --region ${REGION} \
+    --master-image-uri ${IMAGE_URI} \
+    --config ./config.yaml \
+    -- \
+    trainer/task.py --bucket ${BUCKET_NAME} \
+    --train-pattern ${TRAIN_FILES} \
+    --valid-pattern ${VALIDATION_FILES}</code></pre>
+<p>Reviewing what’s going on with the <code>gcloud</code> command, we have:</p>
+<ul>
+<li><p><code>region</code>, that informs AI Platform about the region to be used for the training process. This very region is also going to be used to provision resources such as GPUs. If GPUs are to be used then it’s important to pass a region that has that support. You can know the regions that have this support from <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-regions">here</a>.</p></li>
+<li><p><code>master-image-uri</code> is the URI of our custom Docker image.</p></li>
+<li><p>Via <code>config</code>, we provide a specification of the kind of machine we want to use for training. This specification is provided using a <a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML</a> file and ours looks like so:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">trainingInput</span><span class="kw">:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">scaleTier</span><span class="kw">:</span><span class="at"> CUSTOM</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">  # Configure a master worker with 2 V100 GPUs</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">masterType</span><span class="kw">:</span><span class="at"> n1-standard-8</span><span class="co"> # Specify the base machine type</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">masterConfig</span><span class="kw">:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">acceleratorConfig</span><span class="kw">:</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">count</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> NVIDIA_TESLA_V100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform.</p></li>
+</ul>
+<p><br></p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>We are using V100 GPUs because they come with Tensor cores and that is a must-have to take the advantage of mixed-precision training. We could have used other GPUs like T4, A100 as well that fit this criterion.</p>
+</div>
+</div>
+<p><br></p>
+<p>We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_list.png" class="img-fluid">
+<center>
+<b>Figure 4</b>: AI Platform training job list.
+</center>
+<p>On the extreme right, you would notice an option called <strong>View Logs</strong> that lets us monitor our training. It’s incredibly useful to have all of your training logs stored somewhere safe <em>without</em> making any effort. Logging for an AI Platform <code>training</code> job is managed by <a href="https://cloud.google.com/logging">Cloud Logging</a>. Here’s how mine looks like:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/logs_viewer.png" class="img-fluid">
+<center>
+<b>Figure 5</b>: Training logs. Notice the neat search filter query.
+</center>
+<p>After training is complete, we can verify if all the necessary artifacts were stored inside our GCS Bucket:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gcs_files.png" class="img-fluid">
+<center>
+<b>Figure 6</b>: SavedModel file and TensorBoard logs.
+</center>
+<p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/AWPrJesPSxyCX0GSmJMk1A/">here online on tensorboard.dev</a>. Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/tensorboard.png" class="img-fluid">
+<center>
+<b>Figure 7</b>: Accuracy plot.
+</center>
+<p>As an effective practitioner, It’s important to be aware of the costs and ensure maximization of resource utilization. Now that we were able to successfully complete our model training, let’s discuss these aspects in the next and final section of the post.</p>
+</section>
+<section id="delving-deep-into-training-costs-and-resource-utilization" class="level1">
+<h1>Delving deep into training costs and resource utilization</h1>
+<p>AI Platform provides a number of useful metrics for the <code>training</code> jobs. Each job has a separate dashboard that makes it super easy to keep track of its statistics such as total training time, average resource utilization, etc.</p>
+<p>First, we have high-level information about the job:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/job_high_level.png" class="img-fluid">
+<center>
+<b>Figure 8</b>: High-level information about a training job.
+</center>
+<p>We can see that the job takes about 22 minutes to complete, and this includes the provisioning of resources, completing the model training, and de-provisioning the resources. We then see the total ML units consumed to run our job. The cost for this translates to:</p>
+<p><strong>1.79</strong> (Consumed ML units) <span class="math inline">\(\times\)</span> <strong>USD 0.49</strong> = <strong>USD 0.8771</strong></p>
+<p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing#ml-units">this document</a> that details the cost calculation scheme. GCP also provides a handy estimated cost calculator that you can find <a href="https://cloud.google.com/products/calculator">here</a>.</p>
+<p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 0.8771</strong> (<code>training</code> job) = <strong>USD 2.2181</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as the one we used for training:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/notebook_pricing.png" class="img-fluid">
+<center>
+<b>Figure 9</b>: Cost for an AI Platform Notebook with 2 V100 GPUs with n1-standard-8.
+</center>
+<p>Coming to CPU utilization, we have some room for improvement it seems:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/cpu_util.png" class="img-fluid">
+<center>
+<b>Figure 10</b>: CPU utilization of our training resources.
+</center>
+<p>The overall GPU utilization has a few spikes which might need some more inspections in the future:</p>
+<img src="https://github.com/sayakpaul/portfolio/raw/master/images/distributed_training/gpu_util.png" class="img-fluid">
+<center>
+<b>Figure 11</b>: GPU utilization of our training resources.
+</center>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>We have covered quite a lot of ground in this post. I hope by now you have an idea of how to combine tools like Docker, AI Platform to manage your large-scale training workflows in a more cost-effective and scalable way. As a next step, you could take the trained model from AI Platform and deploy the model using it. AI Platform <a href="https://cloud.google.com/ai-platform/prediction/docs"><code>predict</code> jobs</a> make it easier to expose models via REST API-like services that are fully managed by AI Platform offering things like autoscaling, authorization, monitoring, etc. If you’d like to try it out yourself, I encourage you to check out the code of this post on <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform">GitHub</a>. You are also welcome to checkout <a href="https://github.com/tensorflow/cloud">TensorFlow Cloud</a> that provides a set of tools making it easier to perform large-scale training with GCP.</p>
+</section>
+<section id="acknowledgements" class="level1">
+<h1>Acknowledgements</h1>
+<p>I am thankful to <a href="https://twitter.com/kweinmeister?lang=en">Karl Weinmeister</a> for his comments on the initial draft of this post. Also, thanks to the <a href="https://developers.google.com/community/experts">ML-GDE program</a> for providing generous GCP support without which I couldn’t have executed the experiments.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  let localAlternateSentinel = 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="sayakpaul/portfolio" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

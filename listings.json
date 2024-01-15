@@ -1,0 +1,20 @@
+[
+  {
+    "listing": "/blog.html",
+    "items": [
+      "/posts/ml-practice.html",
+      "/posts/gsoc-faqs.html",
+      "/posts/convnext-tfhub.html",
+      "/posts/distributed-training.html",
+      "/posts/install-opencv-m1.html",
+      "/posts/optimizing-text-detectors.html",
+      "/posts/mobiledet-optimization.html",
+      "/posts/mlapis-maker.html",
+      "/posts/2020-08-02-favorite-recipes-vision.html",
+      "/posts/tftrt-optimization.html",
+      "/posts/augmentation-recipes.html",
+      "/posts/sharing-work.html",
+      "/posts/2020-04-13-embedding-image-preprocessing-functions.html"
+    ]
+  }
+]
