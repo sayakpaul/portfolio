@@ -17,6 +17,7 @@ website:
   search: false
   twitter-card:
     creator: "@RisingSayak"
+    card-style: summary
   open-graph: true
   repo-actions: [edit, issue]
   repo-branch: "master"
