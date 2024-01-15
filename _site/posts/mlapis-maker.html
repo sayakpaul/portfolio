@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.542">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2020-09-25">
+<meta name="description" content="Practising being a maker with Google Cloud Platform’s ML APIs.">
+
+<title>Sayak Paul - The Maker Philosophy with ML APIs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Sayak Paul - The Maker Philosophy with ML APIs">
+<meta property="og:description" content="Practising being a maker with Google Cloud Platform’s ML APIs.">
+<meta property="og:site_name" content="Sayak Paul">
+<meta name="twitter:title" content="Sayak Paul - The Maker Philosophy with ML APIs">
+<meta name="twitter:description" content="Practising being a maker with Google Cloud Platform’s ML APIs.">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">The Maker Philosophy with ML APIs</h1>
+                  <div>
+        <div class="description">
+          Practising being a maker with Google Cloud Platform’s ML APIs.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">gcp</div>
+                <div class="quarto-category">vision</div>
+                <div class="quarto-category">apis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">September 25, 2020</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-ideation-phase" id="toc-the-ideation-phase" class="nav-link active" data-scroll-target="#the-ideation-phase">The ideation phase</a></li>
+  <li><a href="#the-mental-model" id="toc-the-mental-model" class="nav-link" data-scroll-target="#the-mental-model">The mental model</a></li>
+  <li><a href="#building-a-short-video-descriptor" id="toc-building-a-short-video-descriptor" class="nav-link" data-scroll-target="#building-a-short-video-descriptor">Building a short video descriptor</a></li>
+  <li><a href="#detecting-cropping-and-reading-an-arxiv-summary" id="toc-detecting-cropping-and-reading-an-arxiv-summary" class="nav-link" data-scroll-target="#detecting-cropping-and-reading-an-arxiv-summary">Detecting, cropping, and reading an arXiv summary</a></li>
+  <li><a href="#final-thoughts" id="toc-final-thoughts" class="nav-link" data-scroll-target="#final-thoughts">Final thoughts</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-09-25-maker-ml-apis.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<p>In this post, I discuss how I used several Google Cloud Platform (GCP) APIs to turn two ideas into small prototypes. It includes my thought process, the problems I ran into while developing the prototypes, and my approach toward tackling them. All the code discussed in the post is available in <a href="https://github.com/sayakpaul/GCP-ML-API-Demos"><u>this repository</u></a>.</p>
+<p>As a Machine Learning (ML) Practitioner, I advocate for having an understanding of the underlying principles of the models and other stuff that I use. This understanding has many extents. Sometimes, it involves minimally implementing models, and sometimes it may not involve the from-scratch implementation. When it does not involve the implementation part and when the model is readily available, I prefer to put such models directly to use and get a sense of their broader capabilities.</p>
+<p>With libraries like TensorFlow, PyTorch, and Scikit-Learn, realizing this usage has never been easier. As all of these libraries are open-source, you could easily get access to the low-level primitives of their model APIs whenever you’d like. It may require you to have a sufficient amount of experience with the library you’d use. But as a Machine Learning Practitioner, one cannot skip this practice. It’s important to have a good grip over a particular Machine Learning library given the domain of choice (structured tabular dataset, images, texts, audios, for example).</p>
+<p>On the other hand, APIs that offer ML as a service, allow non-ML folks to incorporate the power of Machine Learning in their applications very easily. This way developers can prototype ideas faster than ever. Some would argue that <a href="https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/"><u>leaky abstractions</u></a> can hit sooner than expected and it can be particularly <a href="https://karpathy.github.io/2019/04/25/recipe/"><u>very miserable in Machine Learning</u></a>. Nonetheless, if you are more on the applied side of things and don’t want to worry about this aspect, that’s perfectly fine.</p>
+<p>I wanted to revisit this idea through the lens of an ML Practitioner. More precisely, I wanted to build a series of short demos utilizing the <a href="https://cloud.google.com/products/ai"><u>Cloud ML APIs offered by Google Cloud Platform</u></a>. The premise here is if I have an idea for an ML project, I wanted to see how quickly I can develop a <a href="https://en.wikipedia.org/wiki/Proof_of_concept"><u>PoC</u></a> around it.</p>
+<section id="the-ideation-phase" class="level1">
+<h1>The ideation phase</h1>
+<p>Let me quote <strong>Emil Wallner</strong> from <a href="https://blog.floydhub.com/emils-story-as-a-self-taught-ai-researcher/"><u>this interview</u></a> -</p>
+<blockquote class="blockquote">
+<p><em>It’s important to collect objective evidence that you can apply machine learning.</em></p>
+</blockquote>
+<p>With regard to successful ML practice, this statement couldn’t have been more appropriate. Machine Learning has affected almost every industry in some way, it has changed the way we develop and perceive software. Coming up with an ML application idea that’s not already there or implemented is actually pretty hard.</p>
+<p>So, I ideated the prototypes drawing inspiration from what is already available. For example, <a href="https://twitter.com/dalequark"><u>Dale</u></a> and <a href="https://twitter.com/kazunori_279"><u>Kaz</u></a> of Google built <a href="https://www.linkedin.com/feed/update/urn:li:activity:6706930343590584320/"><u>this uber-cool demo</u></a> that lets you transform a PDF into an audiobook. I really wanted to build something similar but in a more minimal capacity – something that could solely run on a Colab Notebook.</p>
+<p>I decided to revisit some of the GCP ML APIs that I already knew, <a href="https://cloud.google.com/vision"><u>Vision</u></a>, <a href="https://cloud.google.com/text-to-speech"><u>Text-to-Speech</u></a> APIs, for example. As someone that is already working in the field of Computer Vision, I was inclined to do something that involves it. So here are some initial ideas that came to mind after spending a considerable amount of time with the different API documentation available on GCP:</p>
+<ul>
+<li><p>A pipeline that takes a short video clip, detects the entities present in the video and generates an audio clip dictating detected entity labels. This allowed me to spend some time with GCP’s <a href="https://cloud.google.com/video-intelligence"><u>Video Intelligence API</u></a>.</p></li>
+<li><p>A pipeline that takes an <a href="https://arxiv.org/"><u>arXiv paper</u></a> and generates an audio clip of the paper abstract. This was inspired by the demo that Dale and Kaz had already built.</p></li>
+</ul>
+<p>Note that if you are already experienced with the Vision and Text-to-Speech APIs then these may seem very trivial.</p>
+</section>
+<section id="the-mental-model" class="level1">
+<h1>The mental model</h1>
+<p>After these ideas, I designed a bunch of visual workflows demonstrating the steps required to realize these ideas along with the right tooling. Here’s an example -</p>
+<p><img src="https://i.ibb.co/64Kw8wW/workflow-1.png" class="img-fluid"></p>
+<p>I also like to refer to these workflows as <em>mental models</em>. Additionally, it helps me to figure out the major dependencies and steps that may be required for the work so that I can plan accordingly. I discuss the importance of developing mental models in <a href="https://blog.floydhub.com/structuring-and-planning-your-machine-learning-project/#building-a-mental-image-of-the-execution-flow"><u>this blog post</u></a>.</p>
+<p>(You might have noticed that the above model is a bit different from the first initial idea - I added a logo detection block in there as well.)</p>
+<p>Here is another workflow I developed for the second idea I mentioned above:</p>
+<p><img src="https://i.ibb.co/6P5Sjnx/workflow-2.png" class="img-fluid"></p>
+<p>This is slightly different from the initial idea I had. In fact, it does not even incorporate anything related to the Vision API. If I only wanted to deal with arXiv papers, I thought using the <a href="https://arxiv.org/help/api"><u>arXiv API</u></a> (I used the <a href="https://pypi.org/project/arxiv/"><u>arXiv Python library</u></a>) would be a far more reasonable option here since it already provides important information about an arXiv paper such as its categories, abstract, last updated date, and so on.</p>
+<p>Finally, I wanted to combine the Vision and Text-to-Speech APIs for the second idea I had. In their demos, Dale and Kaz used <a href="https://cloud.google.com/automl-tables"><u>AutoML Tables</u></a> to train a model capable of classifying a paragraph of text into the following categories - “body”, “header”, “caption” and “others”. But I wanted to see if I can bypass this additional training step <em>to filter out the abstract block of a paper and perform optical character recognition (OCR) locally.</em> So, I came up with the following workflow -</p>
+<p><img src="https://i.ibb.co/VgwV9v9/workflow-3.png" class="img-fluid"></p>
+<p>As we can see I am using two Python libraries additionally -</p>
+<ul>
+<li><p><code>pdf2image</code> - as the name suggests, it is for converting a PDF file to PNG.</p></li>
+<li><p><code>pytesseract</code> - this is for performing OCR locally on an image.</p></li>
+</ul>
+<p>In the next sections, I’ll discuss the problems I faced while implementing these workflows in code, and how I went about approaching the solutions.</p>
+</section>
+<section id="building-a-short-video-descriptor" class="level1">
+<h1>Building a short video descriptor</h1>
+<p>In the following texts, we will go over the main ingredients that turned out to be important while developing the prototypes. This will include some code along with the motivation to justify their inclusion.</p>
+<p>For the first two workflows, it was mostly about reading the documentation carefully and figuring out the right APIs to use. GCP provides first-class documentation for these APIs with bindings available in many different languages as you can see in the figure below -</p>
+<p><img src="https://i.ibb.co/CMRMwMS/image2.png" title="Source: https://cloud.google.com/video-intelligence/docs/analyze-labels" class="img-fluid"></p>
+<p>I repurposed these code snippets for the workflows. The <a href="https://googleapis.dev/python/videointelligence/latest/index.html"><u>Python binding</u></a> of the Video Intelligence API is simple to use -</p>
+<p>You first instantiate the client and instruct what all you are interested in performing -</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>video_client <span class="op">=</span> videointelligence.VideoIntelligenceServiceClient()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [videointelligence.enums.Feature.LABEL_DETECTION]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>It provides a bag of different features like entity detection, logo recognition, text recognition, object tracking, and so on. Here I am only interested in performing entity detection on a per-segment basis. A user usually specifies segments if they are interested to only analyze a part of their videos. I didn’t specify any segments, and in that case, the Video Intelligence API handles the entire video as a segment. The API also allows you to perform label detection on more granular levels, i.e.&nbsp;on both shot and frame levels.</p>
+<p>After the initialization, it was only a matter of a few keystrokes till I made my first video annotation request -</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the mode in which label detection is to be performed</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mode <span class="op">=</span> videointelligence.enums.LabelDetectionMode.SHOT_AND_FRAME_MODE</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> videointelligence.types.LabelDetectionConfig(label_detection_mode<span class="op">=</span>mode)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> videointelligence.types.VideoContext(label_detection_config<span class="op">=</span>config)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the request</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>operation <span class="op">=</span> video_client.annotate_video(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    input_uri<span class="op">=</span>gcs_path, features<span class="op">=</span>features, video_context<span class="op">=</span>context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Here I am supplying a GCS bucket path of the video I wanted to infer on. Processing the results of the operation is also straightforward -</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process video/segment level label annotations</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first response, since we sent only one video.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>segment_labels <span class="op">=</span> operation.result.annotation_results[<span class="dv">0</span>].segment_label_annotations</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>video_labels <span class="op">=</span> []</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, segment_label) <span class="kw">in</span> <span class="bu">enumerate</span>(segment_labels):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Video label description: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(segment_label.entity.description))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    video_labels.append(segment_label.entity.description)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>After I got the entity labels on the entire video the next task was to use the Text-to-Speech API to generate an audio clip. For that, I simply followed the <a href="https://cloud.google.com/text-to-speech/docs/ssml-tutorial"><u>official tutorial</u></a> and reused the code.</p>
+<p>The logo detection pipeline is almost similar with some very minor changes. In case you want to catch all the details please follow this <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Video_Intelligence_TTS.ipynb"><u>Colab Notebook</u></a>.</p>
+<p>I tested the entire workflow on the following video and you can see the outputs right below it -</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/8mUIvDtxS_s" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Processing</span> video for label annotations:</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Finished</span> processing.</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Video</span> label description: sidewalk</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="ex">Video</span> label description: street</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="ex">Video</span> label description: public space</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="ex">Video</span> label description: pedestrian</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Processing</span> video for logo detection:</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Finished</span> processing.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>As for the audio clip, it got came out pretty nice -</p>
+<audio controls="">
+<source src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/labels.mp3" type="audio/mpeg">
+</audio>
+<p>Speed-wise the entire pipeline executed pretty quickly.</p>
+<p>I had some previous experience working with videos, so I was able to get an idea of what was going under the hood for the video-related activities but for speech, I plan to get to that probably in the next summer (?)</p>
+<p>A potential extension of this demo could be developed to aid blind people to navigate their ways when they are outside. I developed this demo keeping this mind, hence you won’t see any visual results.</p>
+</section>
+<section id="detecting-cropping-and-reading-an-arxiv-summary" class="level1">
+<h1>Detecting, cropping, and reading an arXiv summary</h1>
+<p>I presented with two different workflows for the second idea i.e.&nbsp;get the abstract of an arXiv paper and generate an audio clip of it. The workflow involving the arxiv Python library wasn’t problematic at all, so I am not going to discuss it in detail. You can always check out <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Parser.ipynb"><u>this fully worked out Colab Notebook</u></a> in case you are interested.</p>
+<p>The other workflow is a bit more involved. In there, I wanted to take an arXiv paper in PDF format, use the Vision API to get blocks of texts from it, and then locate the abstract from there like so -</p>
+<p><img src="https://i.ibb.co/QkCGCxm/image1.png" class="img-fluid"></p>
+<p>But that’s not it. I also wanted to perform OCR locally on the text blocks. This essentially allowed me to reduce the number of calls to the Vision API and thereby saving me some $. The final piece of the puzzle was to take the local OCR results and generate an audio clip. If you saw the <a href="https://cloud.google.com/text-to-speech/docs"><u>Text-to-Speech documentation</u></a>, you probably noticed that it is really not a big deal.</p>
+<p>So, to realize this workflow here’s what I did (<a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Locator_Reader.ipynb"><u>Colab Notebook</u></a>) -</p>
+<ul>
+<li><p>As I am only interested in dealing with the abstract of a paper, I first converted the entire PDF-formatted paper to PNG and serialized only the first page. I used the <code>pdf2png</code> library for this.</p></li>
+<li><p>Next, I used the Vision API to make a <code>document_text_detection()</code> request for getting the dense text blocks. The code for this is again, very straightforward -</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> vision.ImageAnnotatorClient()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> []</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> io.<span class="bu">open</span>(image_file, <span class="st">'rb'</span>) <span class="im">as</span> image_file:</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    content <span class="op">=</span> image_file.read()</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> types.Image(content<span class="op">=</span>content)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>response <span class="op">=</span> client.document_text_detection(image<span class="op">=</span>image)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>document <span class="op">=</span> response.full_text_annotation</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Segregate the blocks</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> document.pages:</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> page.blocks:</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        bounds.append(block.bounding_box)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<li><p>Then I used the example presented <a href="https://cloud.google.com/vision/docs/fulltext-annotations"><u>here</u></a> to draw the bounding boxes on the input image which we saw earlier. I also reused these bounding boxes to segregate different blocks as inferred by the Vision API.</p></li>
+<li><p>I am not going to get into the gory details of how I did the segregation. The catch here is for dense text block detection, Vision API returns <em>polygon coordinates</em> and <em>not</em> rectangular coordinates. So, I had to take polygon crops to segregate the different text blocks. (Thanks to <a href="https://stackoverflow.com/questions/22588074/polygon-crop-clip-using-python-pil"><u>this StackOverflow thread</u></a>.)</p></li>
+<li><p>After the segregation part, I used <code>pytesseract</code> to perform OCR on the segregated text blocks. In <code>pytesseract</code> it’s literally doable with <code>text = pytesseract.image_to_string(image_block)</code>.</p></li>
+<li><p>Now, an abstract cannot be just a single character (if the OCR was performed correctly). So I only considered those OCR’d texts where the character length is greater than 1000.</p></li>
+<li><p>Even with this kind of thresholding, you’d end up with multiple text blocks where this criterion holds. To counter this, I first sorted the OCR’d text blocks with respect to their character lengths and checked if a text block contained only one or no reference to citations. If this criterion was matched then the text block is returned as the abstract.</p>
+<p>Here’s how I coded it up:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>texts_sorted <span class="op">=</span> <span class="bu">sorted</span>(texts, key<span class="op">=</span><span class="bu">len</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> text <span class="kw">in</span> texts_sorted:</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> text.split()[<span class="dv">0</span>].isupper() <span class="op">&amp;</span> text.count(<span class="st">"["</span>) <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        abstract <span class="op">=</span> text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The upper case criterion is there to ensure an abstract always starts with an uppercase letter.</p>
+<p>I am aware that these handcrafted rules can get broken for many instances. But I wanted to explore this possibility anyway.</p></li>
+<li><p>To make sure the Text-to-Speech API does not account for any citation I filtered out the raw text to escape them - <code>raw_lines = re.sub("[[\s*\d*\,*]*]", "", raw_lines)</code>.</p></li>
+</ul>
+<p>And that’s it! After a number of trial and error rounds, I was able to get a decent output.</p>
+<p><img src="https://i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" class="img-fluid"></p>
+<audio controls="">
+<source src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/resnet_abstract.mp3" type="audio/mpeg">
+</audio>
+</section>
+<section id="final-thoughts" class="level1">
+<h1>Final thoughts</h1>
+<p>Throughout this post, we went over two different ideas that are good prototype candidates for Machine Learning. We saw how easy it is to see these ideas in actions with different ML APIs. We saw how to make these different APIs work together to solve a given problem. Now, if you are feeling excited enough, you can dive deeper into the different ML tasks we saw: <strong>detection</strong> and <strong>classification</strong>, for example. Also note that even if one is using these APIs, it’s important to be able to process the API responses properly for the project at hand.</p>
+<p>I would like to leave you with <a href="https://cloud.google.com/solutions/"><u>this amazing resource</u></a> provided by GCP. It includes detailed solution walkthroughs of real-world problem scenarios across a wide range of different industry verticals. They also show how to make the best use of different GCP services.</p>
+<p><em>I would like to thank <a href="https://twitter.com/kweinmeister?lang=en"><u>Karl Weinmeister</u></a> for reviewing this post and for sharing his valuable feedback. Also, thanks to the <a href="https://developers.google.com/programs/experts/"><u>GDE program</u></a> for providing the GCP credit support which made these demos possible.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<script src="https://utteranc.es/client.js" repo="sayakpaul/portfolio" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
+</script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-09-25-maker-ml-apis.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
