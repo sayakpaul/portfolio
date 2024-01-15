@@ -2,7 +2,6 @@
   {
     "listing": "/blog.html",
     "items": [
-      "/posts/migrate-to-quarto.html",
       "/posts/ml-practice.html",
       "/posts/gsoc-faqs.html",
       "/posts/convnext-tfhub.html",
