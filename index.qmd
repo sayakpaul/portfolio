@@ -8,7 +8,7 @@ from [here](https://sayak.dev/about). I maintain a Google Doc answering some FAQ
 
 My external articles and other publishing engagements (like books, liveProjects, etc.) are listed [here](pages/authoring.qmd). Decks
 from my speaking engagements are listed [here](pages/talksseminarsworkshops.qmd). A detailed account of the things that are not
-directly available from top navbar can be found [here](pages/resources.qmd).
+directly available from the top navbar (interviews, talks etc.) can be found [here](pages/resources.qmd).
 
 The structure of this website is inspired by [Omar's site](https://osanseviero.github.io/hackerllama/).
 
