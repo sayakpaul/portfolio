@@ -1,0 +1,46 @@
+---
+title: "About Me"
+aliases:
+  - /about
+toc: false
+---
+I am generally interested in the area of representation learning. More specifically, I am interested in the following areas: semi-supervision, self-supervision, and model robustness.  I work on diffusion models at [Hugging Face](https://huggingface.co). My day-to-day includes contributing features to [🧨 diffusers](https://github.com/huggingface/diffusers), maintaining it, training and babysitting diffusion models, documenting them, and sometimes mudding up the social media with emojis (kidding 😂). For more details on my work experience, check out my [LinkedIn profile](https://www.linkedin.com/in/sayak-paul/).
+
+I enjoy implementing research ideas, sometimes incorporating them into practical applications, and communicating my implementation details through [articles](https://sayak.dev/authoring/). I advocate for highly readable and self-contained code. I primarily use Python for programming. 
+
+I have a flair for open-source initiatives. In particular, I have contributed to <a href="https://github.com/keras-team/keras/commits?author=sayakpaul"><font color="#d00000">Keras</font></a>, [KerasCV](https://github.com/keras-team/keras-cv/commits?author=sayakpaul), [🤗 Transformers](https://github.com/huggingface/transformers/commits?author=sayakpaul), <a href="https://tfhub.dev/s?publisher=sayakpaul"><font color="#FF6F00">TensorFlow Hub</font></a>, <a href="https://github.com/keras-team/keras-io/commits?author=sayakpaul"><font color="#d00000">Keras Examples</font></a>, [TensorFlow Addons](https://git.io/JuUOr), and [Neural Structured Learning](https://git.io/JuUOd). Thanks to my job, I get to do open-source full-time now! Off the work, I like writing technical articles, working on applied ML ideas, and giving talks at developer conferences.
+
+For my community contributions and innovative projects, the Intel Software Innovator Program recognized me as one of [their top innovators in 2019](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0). For my open-source contributions, I received the Google Open Source Peer Bonus Award in [2020](https://opensource.googleblog.com/2020/10/announcing-latest-google-open-source.html), [2021](https://opensource.googleblog.com/2021/09/announcing-latest-open-source-peer-bonus-winners.html), and [2022](https://opensource.googleblog.com/2022/09/announcing-the-second-group-of-open-source-peer-bonus-winners-in-2022.html), and [TensorFlow Top Contributor Award](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) in 2021. A detailed account of the awards and recognitions is available [here](https://sayak.dev/xyz/#awards-and-recognition).
+
+<table>
+  <tr>
+    <td><a href="https://github.com/sayakpaul"><img src="https://img.shields.io/github/followers/sayakpaul.svg?label=GitHub&style=social" alt="GitHub"></a></td>
+    <td><a href="https://twitter.com/RisingSayak"><img src="https://img.shields.io/twitter/follow/RisingSayak?label=Twitter&style=social" alt="Twitter"></a></td>
+    <td><a href="https://www.linkedin.com/in/sayak-paul"><img src="https://img.shields.io/badge/LinkedIn--_.svg?style=social&logo=linkedin" alt="LinkedIn"></a></td>
+    <td><a href="mailto:spsayakpaul@gmail.com"><img src="https://img.shields.io/badge/Gmail--_.svg?style=social&logo=gmail" alt="Gmail"></a></td>
+  </tr>
+</table>
+
+### Timeline
+
+| Position                               | Company                           | Duration                |
+|:--------------------------------------:|:---------------------------------:|:-----------------------:|
+| ML Engineer              | Hugging Face 🤗                   | July 2023 - Present     |
+| Developer Advocate Engineer            |                                   | October 2022 - July 2023|
+| (Founding) ML Engineer   | Carted                            | June 2021 - October 2022|
+| DL Associate                | PyImageSearch                     | June 2019 - June 2021   |
+| Data Science Instructor (on contract)  | DataCamp                          | August 2018 - June 2019 |
+| Software Engineer                      | TCS Research and Innovation       | January 2018 - August 2018|
+| Software Engineer                      | Tata Consultancy Services Limited | July 2017 - January 2018|
+| Intern                                 | CareerIn                          | Dec 2016 - Feb 2017     |
+
+### Some stuff
+
+* Google Developer Expert in Machine Learning and Google Cloud Platform ([bit.ly/expert-sp](https://bit.ly/expert-sp))
+* Google for Startups Mentor ([bit.ly/gfs-sp](https://bit.ly/gfs-sp))
+* Intel Software Innovator ([bit.ly/isi-sp](https://bit.ly/isi-sp))
+
+### An honour to be their son 🙂
+
+- Tapas Kumar Paul
+- Baby Paul

@@ -1,0 +1,9 @@
+---
+title: "Blog"
+listing:
+  sort: "date desc"
+  contents: "posts"
+  categories: false
+  feed: true
+# page-layout: full
+---

@@ -1,0 +1,48 @@
+project:
+  type: website
+  output-dir: docs
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+    css: styles.css
+    toc: true
+
+website:
+  title: "Sayak Paul"
+  site-url: "https://sayakpaul.github.io/quarto-blog/"
+  description: "Personal site of Sayak Paul."
+  favicon: posts/favicon.ico
+  search: false
+  twitter-card:
+    creator: "@RisingSayak"
+  open-graph: true
+  repo-actions: [edit, issue]
+  repo-branch: "master"
+  repo-url: "https://github.com/sayakpaul/portfolio"
+  google-analytics: "UA-163448909-1"
+  navbar:
+    background: primary
+    left:
+      - text: "About Me"
+        href: pages/about.qmd
+      - text: "Authoring"
+        href: pages/authoring.qmd
+      - text: "Blog"
+        href: blog.qmd
+      - text: "Research"
+        href: pages/research.qmd
+      - text: "Resources"
+        href: pages/resources.qmd
+    right:
+      - icon: twitter
+        href: https://twitter.com/RisingSayak
+      - icon: linkedin
+        href: https://www.linkedin.com/in/sayak-paul/
+      - icon: github
+        href: https://github.com/sayakpaul
+
+execute:
+  freeze: auto

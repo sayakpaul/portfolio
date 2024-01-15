@@ -1,0 +1,13 @@
+---
+title: "Resources"
+aliases: 
+  - /resources
+toc: false
+---
+
+This page enlists the talks I have given, the podcasts I have appeared on and co-hosted, and other misc things.
+
+* [Talks / podcasts / events](talksseminarsworkshops.qmd)
+* [Mentorship / Awards / Etc.](xyz.qmd)
+* [Interviews](interviews.qmd)
+* [A bit about my formal education](education.qmd)
