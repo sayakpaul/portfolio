@@ -12,7 +12,7 @@ format:
 
 website:
   title: "Sayak Paul"
-  site-url: "https://sayakpaul.github.io/quarto-blog/"
+  site-url: "https://sayak.dev/"
   description: "Personal site of Sayak Paul."
   favicon: posts/favicon.ico
   search: false
