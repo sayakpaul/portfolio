@@ -45,3 +45,6 @@ website:
 
 execute:
   freeze: auto
+
+resources:
+  - CNAME
