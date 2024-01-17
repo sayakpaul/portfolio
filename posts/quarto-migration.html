@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="dcterms.date" content="2024-01-17">
-<meta name="description" content="Thoughts on learning and exercising ML skills.">
+<meta name="description" content="Some tidbits of migrating from fastpages to Quarto.">
 
 <title>Sayak Paul - Another Quarto Migration Guide for fastpages Users</title>
 <style>
@@ -106,10 +106,10 @@ ga('send', {
 
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Sayak Paul - Another Quarto Migration Guide for fastpages Users">
-<meta property="og:description" content="Thoughts on learning and exercising ML skills.">
+<meta property="og:description" content="Some tidbits of migrating from fastpages to Quarto.">
 <meta property="og:site-name" content="Sayak Paul">
 <meta name="twitter:title" content="Sayak Paul - Another Quarto Migration Guide for fastpages Users">
-<meta name="twitter:description" content="Thoughts on learning and exercising ML skills.">
+<meta name="twitter:description" content="Some tidbits of migrating from fastpages to Quarto.">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
 </head>
@@ -182,7 +182,7 @@ ga('send', {
       <h1 class="title">Another Quarto Migration Guide for fastpages Users</h1>
                   <div>
         <div class="description">
-          Thoughts on learning and exercising ML skills.
+          Some tidbits of migrating from fastpages to Quarto.
         </div>
       </div>
                           <div class="quarto-categories">
@@ -254,7 +254,7 @@ ga('send', {
 <p>When you’re satisfied with the migrated content, you may wish to copy over all the elements in the original repository. Some things I found to be useful to keep in mind while performing this step (assuming both the backup and original repositories are locally cloned):</p>
 <ul>
 <li>Clear out the original repository contents, first: <code>rm -rf * .gitignore .github</code>. This will remove all the files and folders along with the <code>.gitignore</code> file. You can add any other hidden files to the mix as needed. But don’t accidentally delete the <code>.git</code> file.</li>
-<li>Copy over the contents from your backup repository: <code>cp -r backup_repo/* original_repo/ &amp;&amp; cp -r backup_repo/.github original_repo/ &amp;&amp; cp backup_repo/.gitignore original_repo/</code>. You can copy any additional hidden file as needed, but not the <code>.git</code> file.</li>
+<li>Copy over the contents from your backup repository: <code>cp -r backup_repo/* original_repo/ &amp;&amp; cp -r backup_repo/.github original_repo/</code>. Finally, copy the <code>.gitignore</code> file: <code>cp backup_repo/.gitignore original_repo/</code>. You can copy any additional hidden file as needed, but not the <code>.git</code> file.</li>
 </ul>
 <p>I know that this step is slightly involved and can potentially be made simpler.</p>
 </section>
@@ -262,6 +262,7 @@ ga('send', {
 <h3 class="anchored" data-anchor-id="bit-6-configuring-a-custom-domain">Bit 6: Configuring a custom domain</h3>
 <p><em>(Only applicable if you’re serving from a custom domain)</em></p>
 <p>I struggled with this step a little. After setting up the CNAME on my repository <a href="https://github.com/sayakpaul/portfolio/blob/master/CNAME">here</a> and configuring the GitHub Pages section as shown <a href="https://huggingface.co/datasets/sayakpaul/sample-datasets/blob/main/github_pages_sayak.png">here</a>, my site was not getting rendered at “sayak.dev”, yielding 404 errors. After some Google searches, I stumbled upon <a href="https://github.com/quarto-dev/quarto-cli/discussions/3249#discussioncomment-4090518">this thread</a>, and it solved the problem!</p>
+<p>And that’s it! I found the Quarto resources to be reall self-sufficient and the migration process was way smoother than expected, thanks to the amazing resources.</p>
 
 
 </section>
@@ -614,8 +615,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script>
-<script src="https://utteranc.es/client.js" repo="sayakpaul/portfolio" issue-term="pathname" theme="github-light" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 
