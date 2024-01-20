@@ -46,6 +46,6 @@ For my community contributions and innovative projects, the Intel Software Innov
 - Tapas Kumar Paul
 - Baby Paul
 
-[^1] [Building an Efficient Machine Learning API](https://www.carted.com/blog/building-an-efficient-machine-learning-api/)
-[^2] [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver))
+[^1]:[Building an Efficient Machine Learning API](https://www.carted.com/blog/building-an-efficient-machine-learning-api/)
+[^2]:[End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 
