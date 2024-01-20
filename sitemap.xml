@@ -2,98 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://sayak.dev/posts/optimizing-text-detectors.html</loc>
-    <lastmod>2024-01-18T04:44:44.564Z</lastmod>
+    <lastmod>2024-01-20T05:17:23.226Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/tftrt-optimization.html</loc>
-    <lastmod>2024-01-18T04:44:43.352Z</lastmod>
+    <lastmod>2024-01-20T05:17:21.914Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/2020-08-02-favorite-recipes-vision.html</loc>
-    <lastmod>2024-01-18T04:44:42.012Z</lastmod>
+    <lastmod>2024-01-20T05:17:20.494Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/augmentation-recipes.html</loc>
-    <lastmod>2024-01-18T04:44:40.832Z</lastmod>
+    <lastmod>2024-01-20T05:17:19.230Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/ml-practice.html</loc>
-    <lastmod>2024-01-18T04:44:39.872Z</lastmod>
+    <lastmod>2024-01-20T05:17:18.214Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions.html</loc>
-    <lastmod>2024-01-18T04:44:38.988Z</lastmod>
+    <lastmod>2024-01-20T05:17:17.270Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/gsoc-faqs.html</loc>
-    <lastmod>2024-01-18T04:44:37.828Z</lastmod>
+    <lastmod>2024-01-20T05:17:16.026Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/interviews.html</loc>
-    <lastmod>2024-01-18T04:44:37.024Z</lastmod>
+    <lastmod>2024-01-20T05:17:15.162Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/authoring.html</loc>
-    <lastmod>2024-01-18T04:44:36.360Z</lastmod>
+    <lastmod>2024-01-20T05:17:14.454Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/research.html</loc>
-    <lastmod>2024-01-18T04:44:34.836Z</lastmod>
+    <lastmod>2024-01-20T05:17:12.830Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/about.html</loc>
-    <lastmod>2024-01-18T04:44:34.224Z</lastmod>
+    <lastmod>2024-01-20T05:17:12.182Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/index.html</loc>
-    <lastmod>2024-01-18T04:44:33.436Z</lastmod>
+    <lastmod>2024-01-20T05:17:11.354Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/blog.html</loc>
-    <lastmod>2024-01-18T04:44:32.544Z</lastmod>
+    <lastmod>2024-01-20T05:17:10.414Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/xyz.html</loc>
-    <lastmod>2024-01-18T04:44:33.864Z</lastmod>
+    <lastmod>2024-01-20T05:17:11.802Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/education.html</loc>
-    <lastmod>2024-01-18T04:44:34.540Z</lastmod>
+    <lastmod>2024-01-20T05:17:12.522Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/talksseminarsworkshops.html</loc>
-    <lastmod>2024-01-18T04:44:35.588Z</lastmod>
+    <lastmod>2024-01-20T05:17:13.634Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/pages/resources.html</loc>
-    <lastmod>2024-01-18T04:44:36.628Z</lastmod>
+    <lastmod>2024-01-20T05:17:14.746Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/quarto-migration.html</loc>
-    <lastmod>2024-01-18T04:44:37.408Z</lastmod>
+    <lastmod>2024-01-20T05:17:15.606Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/mlapis-maker.html</loc>
-    <lastmod>2024-01-18T04:44:38.432Z</lastmod>
+    <lastmod>2024-01-20T05:17:16.678Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/install-opencv-m1.html</loc>
-    <lastmod>2024-01-18T04:44:39.388Z</lastmod>
+    <lastmod>2024-01-20T05:17:17.694Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/sharing-work.html</loc>
-    <lastmod>2024-01-18T04:44:40.244Z</lastmod>
+    <lastmod>2024-01-20T05:17:18.614Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/mobiledet-optimization.html</loc>
-    <lastmod>2024-01-18T04:44:41.480Z</lastmod>
+    <lastmod>2024-01-20T05:17:19.910Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/distributed-training.html</loc>
-    <lastmod>2024-01-18T04:44:42.848Z</lastmod>
+    <lastmod>2024-01-20T05:17:21.382Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/convnext-tfhub.html</loc>
-    <lastmod>2024-01-18T04:44:44.024Z</lastmod>
+    <lastmod>2024-01-20T05:17:22.654Z</lastmod>
   </url>
 </urlset>
