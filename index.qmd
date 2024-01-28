@@ -12,9 +12,9 @@ directly available from the top navbar (interviews, talks etc.) can be found [he
 
 The structure of this website is inspired by [Omar's site](https://osanseviero.github.io/hackerllama/).
 
-<center>
-<figure><img src="posts/carted_headshot.jpg" width=350/></figure>
-</center>
+<div align="center">
+<img src="posts/carted_headshot.jpg" width=350/>
+</div>
 
 ### News
 
