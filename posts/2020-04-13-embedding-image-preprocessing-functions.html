@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -24,7 +24,7 @@ ul.task-list li input[type="checkbox"] {
 }
 /* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -83,6 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -107,26 +108,20 @@ ga('send', {
 <link rel="stylesheet" href="../styles.css">
 <meta property="og:title" content="Sayak Paul - Embedding an image preprocessing function in a tf.keras model">
 <meta property="og:description" content="Learn how to embed an image preprocessing function in a tf.keras model.">
-<meta property="og:image" content="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png">
-<meta property="og:site-name" content="Sayak Paul">
-<meta property="og:image:height" content="572">
-<meta property="og:image:width" content="573">
+<meta property="og:site_name" content="Sayak Paul">
 <meta name="twitter:title" content="Sayak Paul - Embedding an image preprocessing function in a tf.keras model">
 <meta name="twitter:description" content="Learn how to embed an image preprocessing function in a tf.keras model.">
-<meta name="twitter:image" content="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image-height" content="572">
-<meta name="twitter:image-width" content="573">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -137,47 +132,47 @@ ga('send', {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="../pages/about.html" rel="" target="">
- <span class="menu-text">About Me</span></a>
+    <a class="nav-link" href="../pages/about.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/authoring.html" rel="" target="">
- <span class="menu-text">Authoring</span></a>
+    <a class="nav-link" href="../pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../blog.html" rel="" target="">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/research.html" rel="" target="">
- <span class="menu-text">Research</span></a>
+    <a class="nav-link" href="../pages/research.html"> 
+<span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../pages/resources.html" rel="" target="">
- <span class="menu-text">Resources</span></a>
+    <a class="nav-link" href="../pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/RisingSayak" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/sayakpaul" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -233,10 +228,11 @@ ga('send', {
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-04-13-embedding-image-preprocessing-functions.ipynb" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-04-13-embedding-image-preprocessing-functions.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
+
 
 
 
@@ -262,16 +258,16 @@ Data loading, <strike>preprocessing</strike>, and visualization
 <blockquote class="blockquote">
 <p>We are <strong>not</strong> going to preprocess the images before hand. We will let the model do it.</p>
 </blockquote>
-<div class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>(x_train, y_train), (x_test, y_test) <span class="op">=</span> tf.keras.datasets.fashion_mnist.load_data()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Class labels (don't change the order)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>CLASSES <span class="op">=</span> [<span class="st">"T-shirt/top"</span>, <span class="st">"Trouser"</span>, <span class="st">"Pullover"</span>, <span class="st">"Dress"</span>, <span class="st">"Coat"</span>,</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Sandal"</span>, <span class="st">"Shirt"</span>, <span class="st">"Sneaker"</span>, <span class="st">"Bag"</span>, <span class="st">"Ankle boot"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="184b8098-f227-492d-cb8d-65e50f832bdf">
+<div id="cell-8" class="cell" data-outputid="184b8098-f227-492d-cb8d-65e50f832bdf">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show a few examples from the train set</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">10</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">25</span>):</span>
@@ -283,14 +279,18 @@ Data loading, <strike>preprocessing</strike>, and visualization
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(CLASSES[y_train[i]])</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="model-building-and-training" class="level2">
 <h2 class="anchored" data-anchor-id="model-building-and-training">Model building and training</h2>
 <p>We are good to proceed towards building and training a neural network. We will first define a simple preprocessing function to scale the pixel values and then we will embed it into the model using a <a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Lambda"><code>Lambda</code> layer</a>. You can replace this anything fancy you would want.</p>
 <p>We will use a shallow network architecture so that we can train it quickly.</p>
-<div class="cell">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the preprocessing function</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># We will embed it in the model later</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> preprocess_image(image_pixels):</span>
@@ -317,15 +317,19 @@ Data loading, <strike>preprocessing</strike>, and visualization
 <span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        </span>
 <span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="5ceb1291-0c2f-45bc-9faf-4cd29bbabdcd">
+<div id="cell-12" class="cell" data-outputid="5ceb1291-0c2f-45bc-9faf-4cd29bbabdcd">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Topology of the model</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>tf.keras.utils.plot_model(get_training_model(), show_shapes<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The <code>Lambda</code> layer is our preprocessing layer.</p>
-<div class="cell" data-outputid="e2150e7d-15c2-46d5-c386-259c91b8f980">
+<div id="cell-14" class="cell" data-outputid="e2150e7d-15c2-46d5-c386-259c91b8f980">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model for 10 epochs</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>apparel_model <span class="op">=</span> get_training_model()</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> apparel_model.fit(x_train, y_train, </span>
@@ -364,7 +368,7 @@ Epoch 10/10
 <p>Let’s go.</p>
 <section id="step-1-serializing-a-randomly-selected-image-from-the-test-set" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-serializing-a-randomly-selected-image-from-the-test-set">Step 1: Serializing a randomly selected image from the test set</h3>
-<div class="cell" data-outputid="60b5fec1-21de-4482-da04-23d71532b2a9">
+<div id="cell-19" class="cell" data-outputid="60b5fec1-21de-4482-da04-23d71532b2a9">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select a random image from the test set for serialization</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sampe_test_img_id <span class="op">=</span> np.random.choice(x_test.shape[<span class="dv">0</span>], <span class="dv">1</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>sampe_test_img <span class="op">=</span> x_test[sampe_test_img_id].squeeze() <span class="co"># Remove the batch dimension</span></span>
@@ -378,24 +382,28 @@ Epoch 10/10
 (28, 28)</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="a6284755-df1a-42ee-b68b-00549b695662">
+<div id="cell-20" class="cell" data-outputid="a6284755-df1a-42ee-b68b-00549b695662">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Serialize the image</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cv2.imwrite(<span class="st">"sample_image.png"</span>, sampe_test_img)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that while writing a grayscale image, <a href="https://stackoverflow.com/questions/18870603/in-opencv-python-why-am-i-getting-3-channel-images-from-a-grayscale-image">OpenCV adds the channel dimension of 3 to it</a>. We will need to handle carefully.</p>
-<div class="cell" data-outputid="1ffde99a-9854-4db1-dfe4-f42a756dc4dc">
+<div id="cell-22" class="cell" data-outputid="1ffde99a-9854-4db1-dfe4-f42a756dc4dc">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make sure the serialized image is good to go</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>plt.imshow(plt.imread(<span class="st">"sample_image.png"</span>), cmap<span class="op">=</span>plt.cm.binary)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="step-2-model-exporting-and-parsing-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-model-exporting-and-parsing-predictions">Step 2: Model exporting and parsing predictions</h3>
 <p>Let’s first serialize our model and load it.</p>
-<div class="cell" data-outputid="41ad14a0-c94c-4362-8552-32c109559ce9">
+<div id="cell-25" class="cell" data-outputid="41ad14a0-c94c-4362-8552-32c109559ce9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Serialize the model and load it</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>apparel_model.save(<span class="st">"apparel_model.h5"</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>restored_model <span class="op">=</span> tf.keras.models.load_model(<span class="st">"apparel_model.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -404,16 +412,16 @@ Epoch 10/10
 </div>
 </div>
 <p>This warning is not desirable. When the optimizer is loaded with a fresh state, the model predictions can be erroneous. So, to resolve this problem we will only be serializing the weights of the model with the <code>save_weights()</code> function. There can be other nuances like this when you work with <code>Lambda</code> layers and you can check <a href="https://blog.paperspace.com/working-with-the-lambda-layer-in-keras/#saving-and-loading-a-model-with-a-lambda-layer">this article</a> out to know about them.</p>
-<div class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>apparel_model.save_weights(<span class="st">"apparel_model.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We will now initialize a dummy model with the same architecture as the one we trained and we will then load the weights of our trained model into it.</p>
-<div class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>restored_model <span class="op">=</span> get_training_model()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>restored_model.load_weights(<span class="st">"apparel_model.h5"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we should be good to go with the predictions part. First, let’s load the image we serialized in step 1. As mentioned before, OpenCV adds 3-channels to grayscale images while saving them. We can take care of this issue with <code>cv2.cvtColor(image_pixels, cv2.COLOR_BGR2GRAY)</code>.</p>
-<div class="cell" data-outputid="d2655f40-476e-4765-d579-7a472410d5c8">
+<div id="cell-31" class="cell" data-outputid="d2655f40-476e-4765-d579-7a472410d5c8">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the image</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>image_pixels <span class="op">=</span> cv2.imread(<span class="st">"sample_image.png"</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>image_pixels <span class="op">=</span> cv2.cvtColor(image_pixels, cv2.COLOR_BGR2GRAY)</span>
@@ -422,10 +430,14 @@ Epoch 10/10
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plt.imshow(image_pixels, cmap<span class="op">=</span>plt.cm.binary)</span>
 <span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-outputid="9ca64126-87b3-4a01-9ce6-0f8d21a23aa2">
+</div>
+<div id="cell-32" class="cell" data-outputid="9ca64126-87b3-4a01-9ce6-0f8d21a23aa2">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference and parse the prediction</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>class_probabilities <span class="op">=</span> restored_model.predict(np.expand_dims(image_pixels, <span class="dv">0</span>))[<span class="dv">0</span>]</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predicted "</span>,CLASSES[np.argmax(class_probabilities)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -434,7 +446,7 @@ Epoch 10/10
 </div>
 </div>
 <p>We can see that it is working as expected.</p>
-<div class="cell">
+<div id="cell-34" class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and *preprocess* data</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>(x_train, y_train), (x_test, y_test) <span class="op">=</span> tf.keras.datasets.fashion_mnist.load_data()</span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>x_train <span class="op">=</span> x_train <span class="op">/</span> <span class="dv">255</span></span>
@@ -448,7 +460,7 @@ Epoch 10/10
 <p>In this section, let’s see how can we do the same i.e.&nbsp;embed a preprocessing function inside a model so that it can be serialized in the <code>SavedModel</code> format.</p>
 <section id="step-1-create-a-sequential-model-without-any-preprocessing-layer" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-create-a-sequential-model-without-any-preprocessing-layer">Step 1: Create a sequential model <em>without</em> any preprocessing layer</h3>
-<div class="cell">
+<div id="cell-38" class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_training_model_v2():</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Construct the model using the Functional API</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    input_layer <span class="op">=</span> tf.keras.layers.Input(shape<span class="op">=</span>(<span class="dv">28</span>, <span class="dv">28</span>), name<span class="op">=</span><span class="st">"input_layer"</span>)</span>
@@ -470,7 +482,7 @@ Epoch 10/10
 </section>
 <section id="step-2-train-it" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-train-it">Step 2: Train it!</h3>
-<div class="cell" data-outputid="b40b564c-d345-493a-ba2b-5f86635c7d10">
+<div id="cell-40" class="cell" data-outputid="b40b564c-d345-493a-ba2b-5f86635c7d10">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model for 10 epochs</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>apparel_model_v2 <span class="op">=</span> get_training_model_v2()</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> apparel_model_v2.fit(x_train, y_train, </span>
@@ -504,7 +516,7 @@ Epoch 10/10
 <section id="step-3-savedmodel-plunge" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-savedmodel-plunge">Step 3: <code>SavedModel</code> plunge</h3>
 <p>Okay! Now we are ready to the crux of the section. We will first create a custom model class (inherited from <code>tf.keras.Model</code>) and it will contain two things: - A model that is loaded with the weights of a trained model - A <em>serving function</em> that will contain the preprocessing function along with the necessary signature.</p>
-<div class="cell">
+<div id="cell-43" class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A custom class for serving</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExportModel(tf.keras.Model):</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, model):</span>
@@ -525,7 +537,7 @@ Epoch 10/10
 </section>
 <section id="step-4-instantiate-a-dummy-model-and-set-its-weights" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-instantiate-a-dummy-model-and-set-its-weights">Step 4: Instantiate a dummy model and set its weights</h3>
-<div class="cell">
+<div id="cell-46" class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the weights of this dummy model to the weights of the model we trained</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>restored_model <span class="op">=</span> get_training_model_v2()</span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>restored_model.set_weights(apparel_model_v2.get_weights()) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -534,7 +546,7 @@ Epoch 10/10
 <section id="step-5-export-the-model-and-run-inference" class="level3">
 <h3 class="anchored" data-anchor-id="step-5-export-the-model-and-run-inference">Step 5: Export the model and run inference</h3>
 <p>Now, to serialize the model in the <code>SavedModel</code> format we will make use of <a href="https://www.tensorflow.org/api_docs/python/tf/saved_model/save"><code>tf.saved_model.save</code></a>. It can automatically determine which input signature to use for serving for most of the models <em>if the details are available</em>. However, in our case, it won’t be able to do so. So, we will need to explicitly indicate which function to use as the signature while serving.</p>
-<div class="cell" data-outputid="08bc2798-9874-4596-bac6-1375e72ad5e8">
+<div id="cell-49" class="cell" data-outputid="08bc2798-9874-4596-bac6-1375e72ad5e8">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>export_path <span class="op">=</span> <span class="st">"/content/saved_model/1/"</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>tf.keras.backend.set_learning_phase(<span class="dv">0</span>) <span class="co"># Make sure no weight update happens</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>serving_model <span class="op">=</span> ExportModel(restored_model) <span class="co"># Instantiate a model with the preprocessing function</span></span>
@@ -548,7 +560,7 @@ INFO:tensorflow:Assets written to: /content/saved_model/1/assets</code></pre>
 </div>
 </div>
 <p>By specifying <code>'serving_default': serving_model.my_serve</code> we instructed <code>tf.saved_model.save</code> about which signature to use for serving. Now if we inspect what all were saved, things should seem consistent. For this we are going to use the <a href="https://www.tensorflow.org/guide/saved_model#saved_model_cli"><code>saved_model_cli</code></a> command-line interpreter.</p>
-<div class="cell" data-outputid="d26a3550-47c1-477b-bb0f-0ea34c6929b4">
+<div id="cell-51" class="cell" data-outputid="d26a3550-47c1-477b-bb0f-0ea34c6929b4">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>saved_model_cli show <span class="op">--</span><span class="bu">dir</span> <span class="op">/</span>content<span class="op">/</span>saved_model<span class="op">/</span><span class="dv">1</span> <span class="op">--</span>tag_set serve <span class="op">--</span>signature_def serving_default</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>The given SavedModel SignatureDef contains the following input(s):
@@ -566,14 +578,14 @@ Method name is: tensorflow/serving/predict</code></pre>
 </div>
 <p>So, we can see that the configuration that is expected from the inputs and the outputs of the serialized model is consistent with what we had instructed. We returned the outputs in form a dictionary (namely <code>class_index</code>) in <code>my_serve</code> and we can see that as well.</p>
 <p>We can also do the inspection in Pythonic ways.</p>
-<div class="cell" data-outputid="c8112735-8804-4ae7-815f-1afd6336f4be">
+<div id="cell-53" class="cell" data-outputid="c8112735-8804-4ae7-815f-1afd6336f4be">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>loaded <span class="op">=</span> tf.saved_model.load(<span class="st">"/content/saved_model/1/"</span>)</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="bu">list</span>(loaded.signatures.keys())) <span class="co"># This signature will be used while serving</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>['serving_default']</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="90e5e33c-dc7e-4cfa-c440-20e22a15da33">
+<div id="cell-54" class="cell" data-outputid="90e5e33c-dc7e-4cfa-c440-20e22a15da33">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Output configuration</span></span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>infer <span class="op">=</span> loaded.signatures[<span class="st">"serving_default"</span>]</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(infer.structured_outputs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -582,12 +594,12 @@ Method name is: tensorflow/serving/predict</code></pre>
 </div>
 </div>
 <p>Let’s finally run the inference!</p>
-<div class="cell">
+<div id="cell-56" class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the sample image</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>image_pixels <span class="op">=</span> cv2.imread(<span class="st">"sample_image.png"</span>)</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>image_pixels <span class="op">=</span> cv2.cvtColor(image_pixels, cv2.COLOR_BGR2GRAY)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell" data-outputid="3d29ef57-803c-4b96-aa37-b712982a822f">
+<div id="cell-57" class="cell" data-outputid="3d29ef57-803c-4b96-aa37-b712982a822f">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference</span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>CLASSES[infer(tf.constant(image_pixels))[<span class="st">"class_index"</span>].numpy()[<span class="dv">0</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="38">
@@ -650,6 +662,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -718,13 +757,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -803,10 +844,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -816,8 +856,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -830,6 +879,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -873,6 +1041,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -898,6 +1067,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -963,4 +1158,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/2020-04-13-embedding-image-preprocessing-functions.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

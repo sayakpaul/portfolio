@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.549">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -49,6 +49,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -101,27 +102,48 @@ ga('send', {
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
 <link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Sayak Paul" href="blog.xml"><meta property="og:title" content="Sayak Paul - Blog">
-<meta property="og:image" content="https://sayak.dev/posts/convnext_tfhub/convnext_header.png">
-<meta property="og:site-name" content="Sayak Paul">
-<meta property="og:image:height" content="515">
-<meta property="og:image:width" content="798">
+<link rel="alternate" type="application/rss+xml" title="Sayak Paul" href="blog.xml" data-external="1"><meta property="og:title" content="Sayak Paul - Blog">
+<meta property="og:site_name" content="Sayak Paul">
 <meta name="twitter:title" content="Sayak Paul - Blog">
-<meta name="twitter:image" content="https://sayak.dev/posts/convnext_tfhub/convnext_header.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image-height" content="515">
-<meta name="twitter:image-width" content="798">
 </head>
 
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -132,47 +154,47 @@ ga('send', {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/about.html" rel="" target="">
- <span class="menu-text">About Me</span></a>
+    <a class="nav-link" href="./pages/about.html"> 
+<span class="menu-text">About Me</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/authoring.html" rel="" target="">
- <span class="menu-text">Authoring</span></a>
+    <a class="nav-link" href="./pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" rel="" target="" aria-current="page">
- <span class="menu-text">Blog</span></a>
+    <a class="nav-link active" href="./blog.html" aria-current="page"> 
+<span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/research.html" rel="" target="">
- <span class="menu-text">Research</span></a>
+    <a class="nav-link" href="./pages/research.html"> 
+<span class="menu-text">Research</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./pages/resources.html" rel="" target="">
- <span class="menu-text">Resources</span></a>
+    <a class="nav-link" href="./pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/RisingSayak" rel="" target=""><i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/" rel="" target=""><i class="bi bi-linkedin" role="img">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/sayakpaul" rel="" target=""><i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
 </i> 
- <span class="menu-text"></span></a>
+<span class="menu-text"></span></a>
   </li>  
 </ul>
-            <div class="quarto-navbar-tools">
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
-          </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
 </header>
@@ -201,7 +223,9 @@ ga('send', {
   </div>
   
 
+
 </header>
+
 
 
 
@@ -209,175 +233,175 @@ ga('send', {
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="quarto,blogging,fastpages" data-listing-date-sort="1705449600000" data-listing-file-modified-sort="1705728426118" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="0" data-categories="quarto,blogging,fastpages" data-listing-date-sort="1705449600000" data-listing-file-modified-sort="1706417080581" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="711">
 <div class="thumbnail">
-<p><a href="./posts/quarto-migration.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+<p><a href="./posts/quarto-migration.html" class="no-external"></a></p><a href="./posts/quarto-migration.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/quarto-migration.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/quarto-migration.html">
 <h3 class="no-anchor listing-title">
-Another Quarto Migration Guide for fastpages Users
+<a href="./posts/quarto-migration.html" class="no-external">Another Quarto Migration Guide for fastpages Users</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/quarto-migration.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Some tidbits of migrating from fastpages to Quarto.</p>
+<a href="./posts/quarto-migration.html" class="no-external">Some tidbits of migrating from fastpages to Quarto.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/quarto-migration.html">
+<a href="./posts/quarto-migration.html" class="no-external">
 <div class="listing-date">
 Jan 17, 2024
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="ml-practice,jobs" data-listing-date-sort="1653609600000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="1" data-categories="ml-practice,jobs" data-listing-date-sort="1653609600000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1739">
 <div class="thumbnail">
-<p><a href="./posts/ml-practice.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+<p><a href="./posts/ml-practice.html" class="no-external"></a></p><a href="./posts/ml-practice.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/ml-practice.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/ml-practice.html">
 <h3 class="no-anchor listing-title">
-Practicing ML in a Non-ML Job
+<a href="./posts/ml-practice.html" class="no-external">Practicing ML in a Non-ML Job</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/ml-practice.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Thoughts on learning and exercising ML skills.</p>
+<a href="./posts/ml-practice.html" class="no-external">Thoughts on learning and exercising ML skills.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/ml-practice.html">
+<a href="./posts/ml-practice.html" class="no-external">
 <div class="listing-date">
 May 27, 2022
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="gsoc,open-source" data-listing-date-sort="1647129600000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="2" data-categories="gsoc,open-source" data-listing-date-sort="1647129600000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="892">
 <div class="thumbnail">
-<p><a href="./posts/gsoc-faqs.html"> <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div> </a></p>
+<p><a href="./posts/gsoc-faqs.html" class="no-external"></a></p><a href="./posts/gsoc-faqs.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/gsoc-faqs.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/gsoc-faqs.html">
 <h3 class="no-anchor listing-title">
-First Steps in GSoC
+<a href="./posts/gsoc-faqs.html" class="no-external">First Steps in GSoC</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/gsoc-faqs.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Sharing my perspective on two primary questions related to Google Summer of Code.</p>
+<a href="./posts/gsoc-faqs.html" class="no-external">Sharing my perspective on two primary questions related to Google Summer of Code.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/gsoc-faqs.html">
+<a href="./posts/gsoc-faqs.html" class="no-external">
 <div class="listing-date">
 Mar 13, 2022
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-categories="tensorflow,keras,cnns,imagenet-1k,convnext" data-listing-date-sort="1643846400000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="3" data-categories="tensorflow,keras,cnns,imagenet-1k,convnext" data-listing-date-sort="1643846400000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1445">
 <div class="thumbnail">
-<p><a href="./posts/convnext-tfhub.html"> <img src="./posts/convnext_tfhub/convnext_header.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/convnext-tfhub.html" class="no-external"></a></p><a href="./posts/convnext-tfhub.html" class="no-external">
+<p><img src="./posts/convnext_tfhub/convnext_header.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/convnext-tfhub.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/convnext-tfhub.html">
 <h3 class="no-anchor listing-title">
-Publishing ConvNeXt Models on TensorFlow Hub
+<a href="./posts/convnext-tfhub.html" class="no-external">Publishing ConvNeXt Models on TensorFlow Hub</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/convnext-tfhub.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.</p>
+<a href="./posts/convnext-tfhub.html" class="no-external">Converting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/convnext-tfhub.html">
+<a href="./posts/convnext-tfhub.html" class="no-external">
 <div class="listing-date">
 Feb 3, 2022
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="tensorflow,keras,distributed-training,ai-platform,docker,mlops" data-listing-date-sort="1617667200000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13">
+<div class="quarto-post image-right" data-index="4" data-categories="tensorflow,keras,distributed-training,ai-platform,docker,mlops" data-listing-date-sort="1617667200000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2577">
 <div class="thumbnail">
-<p><a href="./posts/distributed-training.html"> <img src="./posts/distributed_training.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/distributed-training.html" class="no-external"></a></p><a href="./posts/distributed-training.html" class="no-external">
+<p><img src="./posts/distributed_training.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/distributed-training.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/distributed-training.html">
 <h3 class="no-anchor listing-title">
-Distributed Training in TensorFlow with AI Platform &amp; Docker
+<a href="./posts/distributed-training.html" class="no-external">Distributed Training in TensorFlow with AI Platform &amp; Docker</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/distributed-training.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Training a model using distributed training with AI Platform and Docker.</p>
+<a href="./posts/distributed-training.html" class="no-external">Training a model using distributed training with AI Platform and Docker.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/distributed-training.html">
+<a href="./posts/distributed-training.html" class="no-external">
 <div class="listing-date">
 Apr 6, 2021
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1609459200000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5">
+<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1609459200000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="826">
 <div class="thumbnail">
-<p><a href="./posts/install-opencv-m1.html"> <img src="./posts/opencv_m1.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/install-opencv-m1.html" class="no-external"></a></p><a href="./posts/install-opencv-m1.html" class="no-external">
+<p><img src="./posts/opencv_m1.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/install-opencv-m1.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/install-opencv-m1.html">
 <h3 class="no-anchor listing-title">
-Building and Installing OpenCV 4.5.0 on an M1 Mac
+<a href="./posts/install-opencv-m1.html" class="no-external">Building and Installing OpenCV 4.5.0 on an M1 Mac</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/install-opencv-m1.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>This post shows how to build and install OpenCV 4.5.0 on a MacBook Pro that comes with an M1 chip.</p>
+<a href="./posts/install-opencv-m1.html" class="no-external">This post shows how to build and install OpenCV 4.5.0 on a MacBook Pro that comes with an M1 chip.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/install-opencv-m1.html">
+<a href="./posts/install-opencv-m1.html" class="no-external">
 <div class="listing-date">
 Jan 1, 2021
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1606435200000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8">
+<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1606435200000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
 <div class="thumbnail">
-<p><a href="./posts/optimizing-text-detectors.html"> <img src="./posts/text_detector_benchmark.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/optimizing-text-detectors.html" class="no-external"></a></p><a href="./posts/optimizing-text-detectors.html" class="no-external">
+<p><img src="./posts/text_detector_benchmark.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/optimizing-text-detectors.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/optimizing-text-detectors.html">
 <h3 class="no-anchor listing-title">
-A Battle of Text Detectors for Mobile Deployments: CRAFT vs.&nbsp;EAST
+<a href="./posts/optimizing-text-detectors.html" class="no-external">A Battle of Text Detectors for Mobile Deployments: CRAFT vs.&nbsp;EAST</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/optimizing-text-detectors.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>This post compares two Deep Learning-based text detectors CRAFT and EAST with respect to deployment-specific requirements.</p>
+<a href="./posts/optimizing-text-detectors.html" class="no-external">This post compares two Deep Learning-based text detectors CRAFT and EAST with respect to deployment-specific requirements.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/optimizing-text-detectors.html">
+<a href="./posts/optimizing-text-detectors.html" class="no-external">
 <div class="listing-date">
 Nov 27, 2020
 </div>
@@ -387,175 +411,175 @@ Sayak Paul, Tulasi Ram Laghumavarapu
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="7" data-categories="tflite,model-optimization,mobiledet" data-listing-date-sort="1601337600000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
+<div class="quarto-post image-right" data-index="7" data-categories="tflite,model-optimization,mobiledet" data-listing-date-sort="1601337600000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2395">
 <div class="thumbnail">
-<p><a href="./posts/mobiledet-optimization.html"> <img src="./posts/benchmark.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/mobiledet-optimization.html" class="no-external"></a></p><a href="./posts/mobiledet-optimization.html" class="no-external">
+<p><img src="./posts/benchmark.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/mobiledet-optimization.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/mobiledet-optimization.html">
 <h3 class="no-anchor listing-title">
-Optimizing MobileDet for Mobile Deployments
+<a href="./posts/mobiledet-optimization.html" class="no-external">Optimizing MobileDet for Mobile Deployments</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/mobiledet-optimization.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Learn about the criticalities of effectively optimizing MobileDet object detectors for mobile deployments.</p>
+<a href="./posts/mobiledet-optimization.html" class="no-external">Learn about the criticalities of effectively optimizing MobileDet object detectors for mobile deployments.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/mobiledet-optimization.html">
+<a href="./posts/mobiledet-optimization.html" class="no-external">
 <div class="listing-date">
 Sep 29, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-categories="gcp,vision,apis" data-listing-date-sort="1600992000000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12">
+<div class="quarto-post image-right" data-index="8" data-categories="gcp,vision,apis" data-listing-date-sort="1600992000000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2340">
 <div class="thumbnail">
-<p><a href="./posts/mlapis-maker.html"> <p class="card-img-top"><img src="https://i.ibb.co/64Kw8wW/workflow-1.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/mlapis-maker.html" class="no-external"></a></p><a href="./posts/mlapis-maker.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/mlapis-maker.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/mlapis-maker.html">
 <h3 class="no-anchor listing-title">
-The Maker Philosophy with ML APIs
+<a href="./posts/mlapis-maker.html" class="no-external">The Maker Philosophy with ML APIs</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/mlapis-maker.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Practising being a maker with Google Cloud Platform’s ML APIs.</p>
+<a href="./posts/mlapis-maker.html" class="no-external">Practising being a maker with Google Cloud Platform’s ML APIs.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/mlapis-maker.html">
+<a href="./posts/mlapis-maker.html" class="no-external">
 <div class="listing-date">
 Sep 25, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="visual-representation-learning,self-supervised-learning,computer-vision" data-listing-date-sort="1596326400000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9">
+<div class="quarto-post image-right" data-index="9" data-categories="visual-representation-learning,self-supervised-learning,computer-vision" data-listing-date-sort="1596326400000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1689">
 <div class="thumbnail">
-<p><a href="./posts/2020-08-02-favorite-recipes-vision.html"> <img src="./posts/montage_vrl.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external"></a></p><a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">
+<p><img src="./posts/montage_vrl.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-08-02-favorite-recipes-vision.html">
 <h3 class="no-anchor listing-title">
-A few favorite recipes in computer vision &amp; deep learning
+<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">A few favorite recipes in computer vision &amp; deep learning</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).</p>
+<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-08-02-favorite-recipes-vision.html">
+<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">
 <div class="listing-date">
 Aug 2, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="tf.keras,tensorrt,tensorflow" data-listing-date-sort="1593561600000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="10" data-categories="tf.keras,tensorrt,tensorflow" data-listing-date-sort="1593561600000" data-listing-file-modified-sort="1706417080537" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1358">
 <div class="thumbnail">
-<p><a href="./posts/tftrt-optimization.html"> <img src="./posts/speed.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/tftrt-optimization.html" class="no-external"></a></p><a href="./posts/tftrt-optimization.html" class="no-external">
+<p><img src="./posts/speed.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/tftrt-optimization.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/tftrt-optimization.html">
 <h3 class="no-anchor listing-title">
-Using TensorRT for accelerated deep learning inference
+<a href="./posts/tftrt-optimization.html" class="no-external">Using TensorRT for accelerated deep learning inference</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/tftrt-optimization.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Accelerating inference of TensorFlow models using TensorRT.</p>
+<a href="./posts/tftrt-optimization.html" class="no-external">Accelerating inference of TensorFlow models using TensorRT.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/tftrt-optimization.html">
+<a href="./posts/tftrt-optimization.html" class="no-external">
 <div class="listing-date">
 Jul 1, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="11" data-categories="tf.keras,data_augmentation,image" data-listing-date-sort="1589068800000" data-listing-file-modified-sort="1705728426074" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7">
+<div class="quarto-post image-right" data-index="11" data-categories="tf.keras,data_augmentation,image" data-listing-date-sort="1589068800000" data-listing-file-modified-sort="1706417080533" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1312">
 <div class="thumbnail">
-<p><a href="./posts/augmentation-recipes.html"> <img src="./posts/augmentation.png" class="thumbnail-image"> </a></p>
+<p><a href="./posts/augmentation-recipes.html" class="no-external"></a></p><a href="./posts/augmentation-recipes.html" class="no-external">
+<p><img src="./posts/augmentation.png" class="thumbnail-image"></p>
+</a><p><a href="./posts/augmentation-recipes.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/augmentation-recipes.html">
 <h3 class="no-anchor listing-title">
-Different data augmentation recipes in <code>tf.keras</code> for image classification
+<a href="./posts/augmentation-recipes.html" class="no-external">Different data augmentation recipes in <code>tf.keras</code> for image classification</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/augmentation-recipes.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Learn about different ways of doing data augmentation when training an image classifier in <code>tf.keras</code>.</p>
+<a href="./posts/augmentation-recipes.html" class="no-external">Learn about different ways of doing data augmentation when training an image classifier in <code>tf.keras</code>.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/augmentation-recipes.html">
+<a href="./posts/augmentation-recipes.html" class="no-external">
 <div class="listing-date">
 May 10, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="12" data-categories="blogs,sharing" data-listing-date-sort="1587340800000" data-listing-file-modified-sort="1705728426058" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4">
+<div class="quarto-post image-right" data-index="12" data-categories="blogs,sharing" data-listing-date-sort="1587340800000" data-listing-file-modified-sort="1706417080517" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="725">
 <div class="thumbnail">
-<p><a href="./posts/sharing-work.html"> <p class="card-img-top"><img src="https://github.com/sayakpaul/portfolio/blob/master/images/blog_matters.png?raw=true"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/sharing-work.html" class="no-external"></a></p><a href="./posts/sharing-work.html" class="no-external">
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</a><p><a href="./posts/sharing-work.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/sharing-work.html">
 <h3 class="no-anchor listing-title">
-Sharing your work online effectively
+<a href="./posts/sharing-work.html" class="no-external">Sharing your work online effectively</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/sharing-work.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>A few tips on sharing your work online effectively.</p>
+<a href="./posts/sharing-work.html" class="no-external">A few tips on sharing your work online effectively.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/sharing-work.html">
+<a href="./posts/sharing-work.html" class="no-external">
 <div class="listing-date">
 Apr 20, 2020
 </div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="13" data-listing-date-sort="1586736000000" data-listing-file-modified-sort="1705728426058" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6">
+<div class="quarto-post image-right" data-index="13" data-listing-date-sort="1586736000000" data-listing-file-modified-sort="1706417080517" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1048">
 <div class="thumbnail">
-<p><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html"> <p class="card-img-top"><img src="posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p> </a></p>
+<p><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external"></a></p><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">
+<p class="card-img-top"><img src="posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p>
+</a><p><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external"></a></p>
 </div>
 <div class="body">
-<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html">
 <h3 class="no-anchor listing-title">
-Embedding an image preprocessing function in a <code>tf.keras</code> model
+<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">Embedding an image preprocessing function in a <code>tf.keras</code> model</a>
 </h3>
 <div class="listing-subtitle">
-
+<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external"></a>
 </div>
 <div class="listing-description">
-<p>Learn how to embed an image preprocessing function in a <code>tf.keras</code> model.</p>
+<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">Learn how to embed an image preprocessing function in a <code>tf.keras</code> model.</a>
 </div>
-</a>
 </div>
 <div class="metadata">
-<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html">
+<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">
 <div class="listing-date">
 Apr 13, 2020
 </div>
@@ -608,6 +632,33 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       } else {
         el.classList.add('notransition');
       }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
     }
   }
   const toggleColorMode = (alternate) => {
@@ -676,13 +727,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return localAlternateSentinel;
     }
   }
-  let localAlternateSentinel = 'default';
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
   // Dark / light mode switch
   window.quartoToggleColorScheme = () => {
     // Read the current dark / light value 
     let toAlternate = !hasAlternateSentinel();
     toggleColorMode(toAlternate);
     setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
   };
   // Ensure there is a toggle, if there isn't float one in the top right
   if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
@@ -761,10 +814,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -774,8 +826,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -788,6 +849,125 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
       return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -831,6 +1011,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -856,6 +1037,32 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       // Attach click handler to the DT
       const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
       for (const annoteDlNode of annoteDls) {
@@ -919,4 +1126,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/sayakpaul/portfolio/edit/master/blog.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action">Report an issue</a></p></div></div></div></div></footer></body></html>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/blog.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

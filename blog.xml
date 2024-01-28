@@ -9,12 +9,13 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.3.450</generator>
+<generator>quarto-1.4.549</generator>
 <lastBuildDate>Wed, 17 Jan 2024 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Another Quarto Migration Guide for fastpages Users</title>
   <link>https://sayak.dev/posts/quarto-migration.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -81,6 +82,7 @@ font-style: inherit;">pip</span> install git+https://github.com/fastai/nbdev</sp
   <title>Practicing ML in a Non-ML Job</title>
   <link>https://sayak.dev/posts/ml-practice.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -178,6 +180,7 @@ font-style: inherit;">pip</span> install git+https://github.com/fastai/nbdev</sp
 
 
 
+
 <p>In this post, I discuss my perspective on two primary questions pertaining to the <a href="https://summerofcode.withgoogle.com/">Google Summer of Code (GSoC) program</a>. Even though my work is centered around Machine Learning (ML), I believe these pointers are domain-agnostic. This is based on <a href="https://blog.tensorflow.org/2021/09/tensorflow-hubs-experience-with-gsoc-2021.html">my experience of mentoring for TensorFlow at GSoC 2021</a>. Please note that these thoughts are of my own and may not reflect what anyone else (including the program organizers and my employer) thinks.</p>
 <section id="how-should-i-get-started" class="level2">
 <h2 class="anchored" data-anchor-id="how-should-i-get-started">How should I get started?</h2>
@@ -240,12 +243,13 @@ font-style: inherit;">pip</span> install git+https://github.com/fastai/nbdev</sp
 
 
 
+
 <p>I recently added 15 different variants of the <a href="https://arxiv.org/abs/2201.03545">ConvNeXt architecture</a> to <a href="https://tfhub.dev/sayakpaul/collections/convnext/1">TensorFlow Hub</a> (TF-Hub). This post is a reflection of what had to be done to get to that point. First, we’ll discuss the implementation of ConvNeXt in Keras and how the original pre-trained parameters were ported into these models. We’ll then talk about TF-Hub’s ConvNeXt collection and what it offers.</p>
 <p>I hope this post is useful for anyone willing to contribute models to TF-Hub as doing it the right way can be a good amount of work.</p>
 <section id="about-convnext" class="level1">
 <h1>About ConvNeXt</h1>
 <p>ConvNeXt models were proposed by Liu et al.&nbsp;in <a href="https://arxiv.org/abs/2201.03545">A ConvNet for the 2020s</a>. ConvNeXt models are composed of standard layers such as depthwise convolutions, layer normalization, etc., and use standard network topologies. They don’t use self-attention or any hybrid approaches, unlike the recent architectures such as <a href="https://arxiv.org/abs/2010.11929">Vision Transformers</a>, <a href="https://arxiv.org/abs/2106.04803">CoAtNet</a>, etc. The authors start with a base architecture and gradually refine it to match some of the design choices of <a href="https://arxiv.org/abs/2103.14030">Swin Transformers</a>. In the process, they developed a family of models named ConvNeXt achieving performance on the <a href="https://www.image-net.org/">ImageNet-1k dataset</a> with efficiency. For details, check out the <a href="https://arxiv.org/abs/2201.03545">original paper</a>.</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext.png" class="img-fluid">
 <center>
 <b>Figure 1</b>: ConvNeXt performance (source: original paper).
 </center>
@@ -256,7 +260,7 @@ font-style: inherit;">pip</span> install git+https://github.com/fastai/nbdev</sp
 <p>ConvNeXt models use the following block structure with layer scaling as introduced in <a href="https://arxiv.org/abs/2103.17239">Going deeper with image transformers</a> by Touvron et al.</p>
 <center>
 <figure class="figure">
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext_block.png" class="figure-img">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/convnext_tfhub/convnext_block.png" class="figure-img">
 </figure>
 </center>
 <center>
@@ -341,7 +345,6 @@ font-style: inherit;">3</span>].numpy()))</span></code></pre></div>
   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
 .tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
 </style>
-
 <table class="tg">
 <thead>
 <tr>
@@ -498,7 +501,6 @@ convnext_xlarge_21k_1k_384
 </td>
 </tr>
 </tbody>
-
 </table>
 <p><code>Keras acc@1</code> refers to the scores of my implementation. Differences in the results are primarily because of the differences in the library implementations, especially how image resizing is implemented in PyTorch and TensorFlow. My evaluation logs are available at <a href="https://tensorboard.dev/experiment/odN7OPCqQvGYCRpJP1GhRQ/">this URL</a>. I’d like to thank <a href="https://twitter.com/gusthema">Gus</a> from the TF-Hub team for the productive discussions during this phase.</p>
 </section>
@@ -563,6 +565,7 @@ font-style: inherit;">True</span>))</span></code></pre></div>
 
 
 
+
 <p>Jupyter Notebooks are a great way to present your code offering a good level of interactivity, transparency, and reproducibility. However, operating with a Jupyter Notebook environment can get very challenging if you are working your way through large-scale training workflows as is common in deep learning.</p>
 <p>If you are conducting large-scale training it is likely that you are using a powerful remote machine via SSH access. So, even if you are not using Jupyter Notebooks, problems like SSH pipe breakage, network teardown, etc. can easily occur. Consider using a powerful virtual machine on Cloud as your remote. The problem gets far worse when there’s a connection loss but you somehow forget to turn off that virtual machine to stop consuming its resources. You get billed for practically <em>nothing</em> when the breakdown happens until and unless you have set up some amount of alerts and fault tolerance.</p>
 <p>To resolve these kinds of problems, we would want to have the following things in the pipeline:</p>
@@ -600,8 +603,8 @@ Note
 <p>For setting up our data pipeline, we will first create shards of TFRecords from the original dataset. Each of the shards will contain batches of preprocessed images and their labels. This has an advantage. When we would load these shards back for training, we won’t need to do any preprocessing giving us a slight performance boost. Figure 1 demonstrates our TFRecords’ creation workflow.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/data.png" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure 1: Schematics of our TFRecord’s creation process.</figcaption>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/data.png" class="img-fluid figure-img"></p>
+<figcaption>Figure 1: Schematics of our TFRecord’s creation process.</figcaption>
 </figure>
 </div>
 <center>
@@ -711,11 +714,11 @@ $ docker run ${IMAGE_URI} \
 <pre class="bashell"><code>TRAIN_FILES=gs://${BUCKET_NAME}/train_tfr/*.tfrec
 VALIDATION_FILES=gs://${BUCKET_NAME}/validation_tfr/*.tfrec</code></pre>
 <p>If everything goes well, then, after a while, you should be able to see that our model has started training:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/docker_build.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/docker_build.png" class="img-fluid">
 <center>
 <b>Figure 2</b>: Docker build.
 </center>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/local_run.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/local_run.png" class="img-fluid">
 <center>
 <b>Figure 3</b>: Local training logs.
 </center>
@@ -823,22 +826,22 @@ Important
 </div>
 <p><br></p>
 <p>We have already discussed the part that follows <code>config</code> so we will not be reviewing that here. If the job submission is successful you should see an entry for it on the <a href="https://console.cloud.google.com/ai-platform/jobs">GCP console</a>:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_list.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_list.png" class="img-fluid">
 <center>
 <b>Figure 4</b>: AI Platform training job list.
 </center>
 <p>On the extreme right, you would notice an option called <strong>View Logs</strong> that lets us monitor our training. It’s incredibly useful to have all of your training logs stored somewhere safe <em>without</em> making any effort. Logging for an AI Platform <code>training</code> job is managed by <a href="https://cloud.google.com/logging">Cloud Logging</a>. Here’s how mine looks like:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/logs_viewer.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/logs_viewer.png" class="img-fluid">
 <center>
 <b>Figure 5</b>: Training logs. Notice the neat search filter query.
 </center>
 <p>After training is complete, we can verify if all the necessary artifacts were stored inside our GCS Bucket:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gcs_files.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gcs_files.png" class="img-fluid">
 <center>
 <b>Figure 6</b>: SavedModel file and TensorBoard logs.
 </center>
 <p>In our <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">training script</a>, we had set up the TensorBoard callback to keep track of the training progress. You can check one such log <a href="https://tensorboard.dev/experiment/AWPrJesPSxyCX0GSmJMk1A/">here online on tensorboard.dev</a>. Inspecting into it, we can see that our model’s been trained well, as the validation accuracy has stabilized:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/tensorboard.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/tensorboard.png" class="img-fluid">
 <center>
 <b>Figure 7</b>: Accuracy plot.
 </center>
@@ -848,7 +851,7 @@ Important
 <h1>Delving deep into training costs and resource utilization</h1>
 <p>AI Platform provides a number of useful metrics for the <code>training</code> jobs. Each job has a separate dashboard that makes it super easy to keep track of its statistics such as total training time, average resource utilization, etc.</p>
 <p>First, we have high-level information about the job:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_high_level.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/job_high_level.png" class="img-fluid">
 <center>
 <b>Figure 8</b>: High-level information about a training job.
 </center>
@@ -856,17 +859,17 @@ Important
 <p><strong>1.79</strong> (Consumed ML units) <img src="https://latex.codecogs.com/png.latex?%5Ctimes"> <strong>USD 0.49</strong> = <strong>USD 0.8771</strong></p>
 <p>You can refer to <a href="https://cloud.google.com/ai-platform/training/pricing#ml-units">this document</a> that details the cost calculation scheme. GCP also provides a handy estimated cost calculator that you can find <a href="https://cloud.google.com/products/calculator">here</a>.</p>
 <p>So far our costs are: <strong>USD 0.141</strong> (AI Platform Notebook) + <strong>USD 1.20 (GCS)</strong> + <strong>USD 0.8771</strong> (<code>training</code> job) = <strong>USD 2.2181</strong>. Let’s compare this to an AI Platform Notebook instance equipped with the similar configurations as the one we used for training:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/notebook_pricing.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/notebook_pricing.png" class="img-fluid">
 <center>
 <b>Figure 9</b>: Cost for an AI Platform Notebook with 2 V100 GPUs with n1-standard-8.
 </center>
 <p>Coming to CPU utilization, we have some room for improvement it seems:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/cpu_util.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/cpu_util.png" class="img-fluid">
 <center>
 <b>Figure 10</b>: CPU utilization of our training resources.
 </center>
 <p>The overall GPU utilization has a few spikes which might need some more inspections in the future:</p>
-<img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gpu_util.png" class="img-fluid">
+<img src="https://github.com/sayakpaul/portfolio/raw/master/posts/distributed_training/gpu_util.png" class="img-fluid">
 <center>
 <b>Figure 11</b>: GPU utilization of our training resources.
 </center>
@@ -901,9 +904,10 @@ Important
 
 
 
+
 <p>This post shows how to build and install OpenCV 4.5.0 on a MacBook Pro that comes with an <a href="https://www.apple.com/in/mac/m1/">M1 chip</a>. Yes, you guessed it right - as of <strong>January 01, 2021</strong>, there’s no pre-compiled OpenCV binary compatible with this MacBook Pro variant. So, open up a terminal and get started!</p>
 <p>Here’s a brief summary of the configuration of my MacBook -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/XDZZQ4t/image.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/XDZZQ4t/image.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -1084,11 +1088,11 @@ background-color: null;
 font-style: inherit;">-D</span> BUILD_EXAMPLES=ON ..</span></code></pre></div>
 <p>As per <a href="https://github.com/opencv/opencv/issues/18049#issuecomment-671878454">this issue comment</a>, <code>DCMAKE_SYSTEM_PROCESSOR</code>, <code>DCMAKE_OSX_ARCHITECTURES</code>, <code>DWITH_OPENJPEG</code>, and <code>DWITH_IPP</code> are needed to be set during the compilation step. Also, please pay attention to the following arguments - <code>OPENCV_EXTRA_MODULES_PATH</code> and <code>PYTHON3_EXECUTABLE</code>. For these two arguments, you would want to first determine the paths and then supply them accordingly.</p>
 <p>Now, before you run the above <code>cmake</code> command, activate the conda environment you created in an earlier step (<code>conda activate &lt;environment_name&gt;</code>) if you haven’t already. The compilation took <em>~3 minutes</em> for me and it should produce outputs like so -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/YdpBSh0/image.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/YdpBSh0/image.png" class="img-fluid"></p>
 <p>Next, we launch the make command - <code>make -j8</code>. With all the eight cores (<code>j8</code> stands for eight cores here) chugging along, this step took <em>~8 minutes</em> for me. You can adjust the <code>j</code> option with respect to the hardware available. After it’s done you should get an output like so -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/yFJq4jJ/image.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/yFJq4jJ/image.png" class="img-fluid"></p>
 <p>The final step here is to execute - <code>sudo make install</code>. It should take just a few seconds to complete execution. Upon successful completion, you should get an output like so -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/Pzzmxy4/image.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/Pzzmxy4/image.png" class="img-fluid"></p>
 </section>
 <section id="sym-link-opencv-4-on-macos-to-virtual-environment-site-packages" class="level2">
 <h2 class="anchored" data-anchor-id="sym-link-opencv-4-on-macos-to-virtual-environment-site-packages">Sym-link OpenCV 4 on macOS to virtual environment <code>site-packages</code></h2>
@@ -1168,6 +1172,7 @@ font-style: inherit;">&gt;&gt;&gt; cv2.__version__</span></span></code></pre></d
 
 
 
+
 <p>In the <a href="https://tulasi.dev/craft-in-tflite">previous post</a>, we saw how to convert the pre-trained <a href="https://arxiv.org/pdf/1904.01941">CRAFT</a> model from PyTorch to TensorFlow Lite (TFLite) and run inference with the converted TFLite model. In this post, we will be comparing the TFLite variants of the CRAFT model to another text detection model - <a href="https://arxiv.org/abs/1704.03155">EAST</a>. The objective of this post is to provide a comparative study between these two models with respect to various deployment-specific pointers such as inference latency, model size, performance on dense text regions, and so on. Text detection continues to be a very important use-case across many verticals. So we hope this post will serve as a systematic guide for developers that are interested to explore on-device text detection models.</p>
 <p>Precisely, we will be comparing the two models on the basis of the following pointers which we think are very crucial when it comes to deploying them out in the wild -</p>
 <ul>
@@ -1197,7 +1202,7 @@ Important
 <section id="visual-inspection-of-performance" class="level2">
 <h2 class="anchored" data-anchor-id="visual-inspection-of-performance">Visual Inspection of Performance</h2>
 <p>In this setting, we run both of the models and their different variants (dynamic-range and float16 quantized) on a sample image that has dense text regions, and then we visualize the results. We observed that both of these models perform fairly well on images having lighter text regions. Here’s the sample image we used for the purpose -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/KVKnnct/image.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/KVKnnct/image.png" class="img-fluid"></p>
 <center>
 <small>Image is taken from the <a href="https://rrc.cvc.uab.es/?ch=13">SROIE dataset</a>.</small><br>
 </center>
@@ -1205,7 +1210,7 @@ Important
 <section id="craft---320x320-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="craft---320x320-dynamic-range-float16">CRAFT - 320x320 Dynamic-Range &amp; float16</h3>
 <p>In the dynamic-range quantization setting, we can see the model misses out on some text blocks.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/RBX8XDn/image-w-593-h-442-rev-1-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/RBX8XDn/image-w-593-h-442-rev-1-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 320x320 dynamic-range and float16 quantized CRAFT models.</small><br>
 </center>
@@ -1215,7 +1220,7 @@ Important
 <section id="east---320x320-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="east---320x320-dynamic-range-float16">EAST - 320x320 Dynamic-Range &amp; float16</h3>
 <p>EAST apparently performs better than CRAFT under dynamic-range quantization. If we look closely, it appears that the CRAFT model produces far fewer overlaps in the detections compared to EAST. On the other hand, the EAST model is able to detect more text blocks. When developing practical applications with text detectors, it often becomes a classic case of <em>precision-recall</em> trade-offs like the one we are currently seeing. So, you would want to consider the application-specific needs in order to decide the level of trade-off to be achieved there.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/qsCMC5N/image-w-624-h-520-rev-37-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/qsCMC5N/image-w-624-h-520-rev-37-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 320x320 dynamic-range and float16 quantized EAST models.</small><br>
 </center>
@@ -1225,7 +1230,7 @@ Important
 <section id="craft---640x416-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="craft---640x416-dynamic-range-float16">CRAFT - 640x416 Dynamic-Range &amp; float16</h3>
 <p>On an increased resolution, the CRAFT model performs pretty well -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/VxbyWch/image-w-624-h-568-rev-38-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/VxbyWch/image-w-624-h-568-rev-38-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 640x416 dynamic-range and float16 quantized CRAFT models.</small><br>
 </center>
@@ -1234,7 +1239,7 @@ Important
 <section id="east---640x416-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="east---640x416-dynamic-range-float16">EAST - 640x416 Dynamic-Range &amp; float16</h3>
 <p>The performance of the EAST model under these settings are very equivalent to CRAFT -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/ynBbrFZ/image-w-597-h-612-rev-36-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/ynBbrFZ/image-w-597-h-612-rev-36-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 640x416 dynamic-range and float16 quantized EAST models.</small><br>
 </center>
@@ -1244,7 +1249,7 @@ Important
 <section id="craft---1280x800-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="craft---1280x800-dynamic-range-float16">CRAFT - 1280x800 Dynamic-Range &amp; float16</h3>
 <p>Under dynamic-range quantization, the results look okayish. The model misses out on a number of text blocks but the only ones that it detects appear to be neat.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/QMDpH9M/image-w-624-h-453-rev-34-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/QMDpH9M/image-w-624-h-453-rev-34-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 1280x800 dynamic-range and float16 quantized CRAFT models.</small><br>
 </center>
@@ -1253,7 +1258,7 @@ Important
 <section id="east---1280x800-dynamic-range-float16" class="level3">
 <h3 class="anchored" data-anchor-id="east---1280x800-dynamic-range-float16">EAST - 1280x800 Dynamic-Range &amp; float16</h3>
 <p>At this resolution, the EAST model seems to be performing well too -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/xYHfXXn/image-w-624-h-483-rev-29-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/xYHfXXn/image-w-624-h-483-rev-29-ac-1-parent-19-Qb-WABWc-E3n-SLPE6zqm-Tw6b-Vxkxee-YUw-Om-KTDn-Dz8k-Q.png" class="img-fluid"></p>
 <center>
 <small>Inference results from the 1280x800 dynamic-range and float16 quantized EAST models.</small><br>
 </center>
@@ -1265,7 +1270,7 @@ Important
 <p>When it comes to deploying models to mobile devices model size becomes a really important factor. You may not want to have a heavy model that would, in turn, make your mobile application bulky. Moreover, <a href="https://support.google.com/googleplay/android-developer/answer/113469#apk">Playstore</a> and <a href="https://developer.apple.com/forums/thread/12455">AppStore</a> also have size restrictions on the applications one can host there.</p>
 <p>On the other hand, heavier models tend to be slower. If your application cannot have increased inference latency then you would want to have the model size as low as possible.</p>
 <p>The following figure shows the size of the CRAFT and EAST models -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/tX7bknk/nyrm-wh-z-itikr9-cnyl6-z1-fq3.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/tX7bknk/nyrm-wh-z-itikr9-cnyl6-z1-fq3.png" class="img-fluid"></p>
 <center>
 <small>Model (TFLite variants) sizes of CRAFT and EAST.</small><br>
 </center>
@@ -1275,11 +1280,11 @@ Important
 <h2 class="anchored" data-anchor-id="inference-latency">Inference Latency</h2>
 <p>Inference latency is also one of the major factors for mobile-based deployments especially when your applications might require instantaneous predictions. We are going to show a comparison between all the settings we considered in the visual inspection section.</p>
 <p>To reiterate we performed the benchmarks for this section on a Redmi K20 Pro using 4 threads. In the following figures, we present inference latency of different variants of the CRAFT and EAST models.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/1GyPgR6/ylz3-vh2l-ownf4av-amai-w0j-oz.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/1GyPgR6/ylz3-vh2l-ownf4av-amai-w0j-oz.png" class="img-fluid"></p>
 <center>
 <small>Inference latency of different variants of the CRAFT model.</small><br>
 </center>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/ySBsQvs/z-q-o-zf7cl-hu-tfh-ou-a7-yscgm.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/ySBsQvs/z-q-o-zf7cl-hu-tfh-ou-a7-yscgm.png" class="img-fluid"></p>
 <center>
 <small>Inference latency of different variants of the EAST model.</small><br>
 </center>
@@ -1292,11 +1297,11 @@ Important
 <h2 class="anchored" data-anchor-id="memory-usage">Memory Usage</h2>
 <p>In section, we shed light on the total memory allocated for the models while running the TensorFlow Lite Benchmark tool. Knowing about the memory usage of these models helps us plan application releases accordingly as not all the mobile phones may support extensive memory requirements. So based on this information, you may want to set some device requirements for your application using these models. On the other hand, if you would want your application to be as device-agnostic as possible then you may want to maintain separate models according to their size and memory usage.</p>
 <p>In this case, also, we are going to consider all the settings we had considered in the previous sections. The following figures give us a sense of the memory footprint left behind by the models -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/TrnZ9vX/webp-net-resizeimage.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/TrnZ9vX/webp-net-resizeimage.png" class="img-fluid"></p>
 <center>
 <small>Memory footprint of different variants of the CRAFT model.</small><br>
 </center>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/3szkpK0/hfp-jmc4-nej-lloj-bc2-q-nz515y.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/3szkpK0/hfp-jmc4-nej-lloj-bc2-q-nz515y.png" class="img-fluid"></p>
 <center>
 <small>Memory footprint of different variants of the EAST model.</small><br>
 </center>
@@ -1336,6 +1341,7 @@ Important
   <title>Optimizing MobileDet for Mobile Deployments</title>
   <link>https://sayak.dev/posts/mobiledet-optimization.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -1514,7 +1520,7 @@ font-style: inherit;">=</span> converter.convert()</span></code></pre></div>
 <ul>
 <li><p><code>model_to_be_quantized</code> corresponds to the frozen graph file.</p></li>
 <li><p><code>input_arrays</code> and <code>input_shapes</code> are set accordingly with respect to the frozen graph file. As we can see in the figure below that these values have been set correctly.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/F4xGRJB/image2.png" class="img-fluid"></p></li>
+<p><img src="https://i.ibb.co/F4xGRJB/image2.png" class="img-fluid"></p></li>
 <li><p><code>output_arrays</code> is set according to the instructions provided in <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/export_tflite_ssd_graph.py"><u>this guide</u></a>. Those operations represent four arrays: <code>detection_boxes</code>, <code>detection_classes</code>, <code>detection_scores</code>, and <code>num_detections</code>, usually a mandate for any object detector out there.</p></li>
 </ul>
 <p>The rest of the parts in the code listing should be familiar to you if you already know about the typical post-training quantization process in TFLite. For <code>float16</code> quantization, all the things would remain the same; we just need to add this line before calling <code>convert()</code> - <code>converter.target_spec.supported_types = [tf.float16]</code>.</p>
@@ -1576,7 +1582,7 @@ font-style: inherit;">yield</span> [resized_img]</span></code></pre></div>
 <section id="dealing-with-fake-quantization-nodes-during-conversion" class="level3">
 <h3 class="anchored" data-anchor-id="dealing-with-fake-quantization-nodes-during-conversion">Dealing with fake quantization nodes during conversion</h3>
 <p>The figure below represents a portion of the <code>uint8</code> EdgeTPU model computation graph. The nodes highlighted in red are inserted by the QAT mechanism. You would notice the same kind of nodes in the <code>uint8</code> DSP model computation graph as well.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/B2qXzsf/image1.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/B2qXzsf/image1.png" class="img-fluid"></p>
 <p>Now, these nodes have some important implications that we need to consider during the conversion process -</p>
 <ul>
 <li>During QAT the activation ranges are already approximated i.e.&nbsp;QAT resembles post-training quantization during training and adjusts the activation ranges accordingly. So, we don’t need to provide a representative dataset for a full integer quantization based conversion.</li>
@@ -1683,7 +1689,7 @@ font-style: inherit;">=</span> [tf.lite.Optimize.DEFAULT]</span></code></pre></d
 <section id="show-me-some-results" class="level2">
 <h2 class="anchored" data-anchor-id="show-me-some-results">Show me some results</h2>
 <p>For the CPU variant model, its <code>float16</code> quantized TFLite provided decent results -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/k6c93CC/image3.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/k6c93CC/image3.png" class="img-fluid"></p>
 <p>On Colab, the inference time is about <strong>92.36 ms</strong> for this particular model. I experimented with different threshold values for filtering out the weak predictions and a threshold of <strong>0.3</strong> yielded the best results. These results are pretty consistent across the several different models we talked about.</p>
 <p>A major point to note here for the EdgeTPU and DSP variants, their converted counterparts would be much slower on Colab since they were specifically optimized for different hardware accelerators.</p>
 <p>You are encouraged to play with the different converted models using the Colab Notebook mentioned above and see these results for yourself.</p>
@@ -1692,13 +1698,13 @@ font-style: inherit;">=</span> [tf.lite.Optimize.DEFAULT]</span></code></pre></d
 <h2 class="anchored" data-anchor-id="model-benchmarks">Model benchmarks</h2>
 <p>In this section, we’ll address the question - “So, how do I choose one among these many models?” Well, you could manually try them all out and see which performs the best on the runtime of your choice. But a more practical approach to this would be to first benchmark these models on a set of devices using the <a href="https://www.tensorflow.org/lite/performance/measurement"><u>TFLite Benchmark Tool</u></a> and then decide accordingly.</p>
 <p>The following table provides a comprehensive summary of the important statistics about the runtime of different TFLite MobileDet models. These results were generated using the TFLite Benchmark Tool mentioned above.</p>
-<img src="https://sayak.dev/posts/https:/i.ibb.co/jrKshwB/image.png" class="img-fluid">
+<img src="https://i.ibb.co/jrKshwB/image.png" class="img-fluid">
 <center>
 <small>* Device used - Pixel 4 (Inference timings are reported in milliseconds)</small><br> <small>** As reported <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md">here</a></small>
 </center>
 <p>We can see that with the proper hardware accelerators, the DSP EdgeTPU variants can really shine. For the CPU variant, on a GPU accelerated runtime the <code>float16</code> quantized TFLite model can bring in additional speed boosts.</p>
 <p>A catch here is Pixel devices don’t allow third-party applications to use the Hexagon DSP therefore even if we instruct the Benchmark Tool to make use of that the model would fall back to the CPU for execution. This is why for fair benchmarking results for the DSP variants we should consider running the Benchmark Tool on a device (such as Samsung Galaxy S9+) that has Hexagon DSP and also allows third-party applications to use it.</p>
-<img src="https://sayak.dev/posts/https:/i.ibb.co/mHkyfpd/image.png" class="img-fluid">
+<img src="https://i.ibb.co/mHkyfpd/image.png" class="img-fluid">
 <center>
 <small>* Device used - Samsung Galaxy S9+ (Inference timings are reported in milliseconds)</small>
 </center>
@@ -1740,6 +1746,7 @@ Note
 
 
 
+
 <p>In this post, I discuss how I used several Google Cloud Platform (GCP) APIs to turn two ideas into small prototypes. It includes my thought process, the problems I ran into while developing the prototypes, and my approach toward tackling them. All the code discussed in the post is available in <a href="https://github.com/sayakpaul/GCP-ML-API-Demos"><u>this repository</u></a>.</p>
 <p>As a Machine Learning (ML) Practitioner, I advocate for having an understanding of the underlying principles of the models and other stuff that I use. This understanding has many extents. Sometimes, it involves minimally implementing models, and sometimes it may not involve the from-scratch implementation. When it does not involve the implementation part and when the model is readily available, I prefer to put such models directly to use and get a sense of their broader capabilities.</p>
 <p>With libraries like TensorFlow, PyTorch, and Scikit-Learn, realizing this usage has never been easier. As all of these libraries are open-source, you could easily get access to the low-level primitives of their model APIs whenever you’d like. It may require you to have a sufficient amount of experience with the library you’d use. But as a Machine Learning Practitioner, one cannot skip this practice. It’s important to have a good grip over a particular Machine Learning library given the domain of choice (structured tabular dataset, images, texts, audios, for example).</p>
@@ -1763,14 +1770,14 @@ Note
 <section id="the-mental-model" class="level1">
 <h1>The mental model</h1>
 <p>After these ideas, I designed a bunch of visual workflows demonstrating the steps required to realize these ideas along with the right tooling. Here’s an example -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/64Kw8wW/workflow-1.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/64Kw8wW/workflow-1.png" class="img-fluid"></p>
 <p>I also like to refer to these workflows as <em>mental models</em>. Additionally, it helps me to figure out the major dependencies and steps that may be required for the work so that I can plan accordingly. I discuss the importance of developing mental models in <a href="https://blog.floydhub.com/structuring-and-planning-your-machine-learning-project/#building-a-mental-image-of-the-execution-flow"><u>this blog post</u></a>.</p>
 <p>(You might have noticed that the above model is a bit different from the first initial idea - I added a logo detection block in there as well.)</p>
 <p>Here is another workflow I developed for the second idea I mentioned above:</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/6P5Sjnx/workflow-2.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/6P5Sjnx/workflow-2.png" class="img-fluid"></p>
 <p>This is slightly different from the initial idea I had. In fact, it does not even incorporate anything related to the Vision API. If I only wanted to deal with arXiv papers, I thought using the <a href="https://arxiv.org/help/api"><u>arXiv API</u></a> (I used the <a href="https://pypi.org/project/arxiv/"><u>arXiv Python library</u></a>) would be a far more reasonable option here since it already provides important information about an arXiv paper such as its categories, abstract, last updated date, and so on.</p>
 <p>Finally, I wanted to combine the Vision and Text-to-Speech APIs for the second idea I had. In their demos, Dale and Kaz used <a href="https://cloud.google.com/automl-tables"><u>AutoML Tables</u></a> to train a model capable of classifying a paragraph of text into the following categories - “body”, “header”, “caption” and “others”. But I wanted to see if I can bypass this additional training step <em>to filter out the abstract block of a paper and perform optical character recognition (OCR) locally.</em> So, I came up with the following workflow -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/VgwV9v9/workflow-3.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/VgwV9v9/workflow-3.png" class="img-fluid"></p>
 <p>As we can see I am using two Python libraries additionally -</p>
 <ul>
 <li><p><code>pdf2image</code> - as the name suggests, it is for converting a PDF file to PNG.</p></li>
@@ -1782,7 +1789,7 @@ Note
 <h1>Building a short video descriptor</h1>
 <p>In the following texts, we will go over the main ingredients that turned out to be important while developing the prototypes. This will include some code along with the motivation to justify their inclusion.</p>
 <p>For the first two workflows, it was mostly about reading the documentation carefully and figuring out the right APIs to use. GCP provides first-class documentation for these APIs with bindings available in many different languages as you can see in the figure below -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/CMRMwMS/image2.png" title="Source: https://cloud.google.com/video-intelligence/docs/analyze-labels" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/CMRMwMS/image2.png" title="Source: https://cloud.google.com/video-intelligence/docs/analyze-labels" class="img-fluid"></p>
 <p>I repurposed these code snippets for the workflows. The <a href="https://googleapis.dev/python/videointelligence/latest/index.html"><u>Python binding</u></a> of the Video Intelligence API is simple to use -</p>
 <p>You first instantiate the client and instruct what all you are interested in performing -</p>
 <div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">video_client <span class="op" style="color: #5E5E5E;
@@ -1900,7 +1907,7 @@ font-style: inherit;">Finished</span> processing.</span></code></pre></div>
 <h1>Detecting, cropping, and reading an arXiv summary</h1>
 <p>I presented with two different workflows for the second idea i.e.&nbsp;get the abstract of an arXiv paper and generate an audio clip of it. The workflow involving the arxiv Python library wasn’t problematic at all, so I am not going to discuss it in detail. You can always check out <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Parser.ipynb"><u>this fully worked out Colab Notebook</u></a> in case you are interested.</p>
 <p>The other workflow is a bit more involved. In there, I wanted to take an arXiv paper in PDF format, use the Vision API to get blocks of texts from it, and then locate the abstract from there like so -</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/QkCGCxm/image1.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/QkCGCxm/image1.png" class="img-fluid"></p>
 <p>But that’s not it. I also wanted to perform OCR locally on the text blocks. This essentially allowed me to reduce the number of calls to the Vision API and thereby saving me some $. The final piece of the puzzle was to take the local OCR results and generate an audio clip. If you saw the <a href="https://cloud.google.com/text-to-speech/docs"><u>Text-to-Speech documentation</u></a>, you probably noticed that it is really not a big deal.</p>
 <p>So, to realize this workflow here’s what I did (<a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Abstract_Locator_Reader.ipynb"><u>Colab Notebook</u></a>) -</p>
 <ul>
@@ -1995,7 +2002,7 @@ font-style: inherit;">=</span> text</span></code></pre></div>
 <li><p>To make sure the Text-to-Speech API does not account for any citation I filtered out the raw text to escape them - <code>raw_lines = re.sub("[[\s*\d*\,*]*]", "", raw_lines)</code>.</p></li>
 </ul>
 <p>And that’s it! After a number of trial and error rounds, I was able to get a decent output.</p>
-<p><img src="https://sayak.dev/posts/https:/i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" class="img-fluid"></p>
+<p><img src="https://i.ibb.co/cQpHY9h/Screen-Shot-2020-09-25-at-10-18-11-AM.png" class="img-fluid"></p>
 <audio controls="">
 <source src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/resnet_abstract.mp3" type="audio/mpeg">
 </audio>
@@ -2020,6 +2027,7 @@ font-style: inherit;">=</span> text</span></code></pre></div>
   <title>A few favorite recipes in computer vision &amp; deep learning</title>
   <link>https://sayak.dev/posts/2020-08-02-favorite-recipes-vision.html</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2058,9 +2066,9 @@ Note
 <p>twitter: https://twitter.com/colinraffel/status/1289315020199743488?s=20</p>
 </blockquote>
 <p>BYOL [6] and SwAV have even beaten SimCLR -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/byol_swav.png" title="We see that training frameworks like BYOL and SwAV have already beaten SimCLR and all of this (including the SimCLR) has happened in 2020 itself! (Sources: BYOL and SwAV papers respectively [6][5])" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/byol_swav.png" title="We see that training frameworks like BYOL and SwAV have already beaten SimCLR and all of this (including the SimCLR) has happened in 2020 itself! (Sources: BYOL and SwAV papers respectively [6][5])" class="img-fluid"></p>
 <p>One could argue that this is in comparison with SimCLR but not SimCLRv2. Well, that is because SimCLRv2 is not just about self-supervised learning, it is more than that -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/simclr_v2.png" title="Source: SimCLRv2 [4]" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/simclr_v2.png" title="Source: SimCLRv2 [4]" class="img-fluid"></p>
 <p>This blog post, however, would only focus on the SimCLR part i.e.&nbsp;the left-most part of the figure above. If you are interested to know more about SimCLRv2, feel free to watch <a href="https://www.youtube.com/watch?v=2lkUNDZld-4&amp;lc">this video</a> by Yannic Kilcher.</p>
 </section>
 <section id="why-simclrv2" class="level1">
@@ -2071,10 +2079,10 @@ Note
 <li>You may have loads of unlabeled data and limited labeled data for your problem. You could use the unlabeled data and incorporate SimCLR for obtaining effective representations and use them to a downstream task where the limited labeled data might be required.</li>
 <li>Representations obtained from datasets like ImageNet using SimCLR can be used in regular transfer learning settings.</li>
 </ul>
-<p><img src="https://sayak.dev/posts/https:/camo.githubusercontent.com/d92c0e914af70fe618cf3ea555e2da1737d84bc4/68747470733a2f2f312e62702e626c6f6773706f742e636f6d2f2d2d764834504b704539596f2f586f3461324259657276492f414141414141414146704d2f766146447750584f79416f6b4143385868383532447a4f67457332324e68625877434c63424741735948512f73313630302f696d616765342e676966.png" title="Source: SimCLR blog post [7]" class="img-fluid"></p>
+<p><img src="https://camo.githubusercontent.com/d92c0e914af70fe618cf3ea555e2da1737d84bc4/68747470733a2f2f312e62702e626c6f6773706f742e636f6d2f2d2d764834504b704539596f2f586f3461324259657276492f414141414141414146704d2f766146447750584f79416f6b4143385868383532447a4f67457332324e68625877434c63424741735948512f73313630302f696d616765342e676966.png" title="Source: SimCLR blog post [7]" class="img-fluid"></p>
 <p>As we can see in SimCLR, the loss function (normalized temperature-scaled cross-entropy loss) operates directly on the features computed by the projection head (MLP part). This makes SimCLR a compute-intensive framework.</p>
 <p>On the other hand, SwAV operates by assigning the encoded representations of different views of the same image to clusters. The clusters are being assigned by keeping a <strong><em>differentiable</em></strong> codebook for the prototypes of the different types of images present in the given dataset. Training wise, SwAV tries to maximize the agreement between the clusters of semantically similar images. Operating on the clusters rather than the encoded representations is a lesser compute-intensive task.</p>
-<p><img src="https://sayak.dev/posts/https:/camo.githubusercontent.com/a6d39dcc04416c84bd23f5e2ae87dceb40c6ef8b/68747470733a2f2f646c2e666261697075626c696366696c65732e636f6d2f64656570636c75737465722f616e696d617465642e676966.png" title="Source: GitHub repository of SwAV" class="img-fluid"></p>
+<p><img src="https://camo.githubusercontent.com/a6d39dcc04416c84bd23f5e2ae87dceb40c6ef8b/68747470733a2f2f646c2e666261697075626c696366696c65732e636f6d2f64656570636c75737465722f616e696d617465642e676966.png" title="Source: GitHub repository of SwAV" class="img-fluid"></p>
 <p>SwAV might appear as a simpler framework than SimCLR but there are a number of different pieces to look after here:</p>
 <ul>
 <li>Maintaining a differentiable prototype bank</li>
@@ -2091,14 +2099,14 @@ Note
 <section id="labels-contrastive-loss-win-win" class="level2">
 <h2 class="anchored" data-anchor-id="labels-contrastive-loss-win-win">Labels + contrastive loss = win-win</h2>
 <p>Supervised Contrastive Learning addresses a very important point about the self-supervised learning frameworks like SimCLR. In SimCLR, the positive pairs are generated by taking different views of the same image and the negative pairs are then randomly sampled from the other images present in a batch.</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/positive_pairs.png" title="Examples of positive pairs (Source: Exploring SimCLR [9])" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/positive_pairs.png" title="Examples of positive pairs (Source: Exploring SimCLR [9])" class="img-fluid"></p>
 <p>Here are some examples of negative pairs -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/negative_pairs.png" title="Source: Exploring SimCLR [9]" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/negative_pairs.png" title="Source: Exploring SimCLR [9]" class="img-fluid"></p>
 <p>As discussed in the Supervised Contrastive Learning paper, this method of contrasting two different views of the same image can result in false negatives i.e.&nbsp;the samples belonging to the same class might get mapped differently in the embedding space. There’s no way for us to properly mitigate this issue without having access to the original labels. Hence, I mentioned if you have loads of labeled images, it’s better to use Supervised Contrastive Learning to capture meaningful representations.</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/scl_embeddings.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/scl_embeddings.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
 <p>Supervised Contrastive Learning extends how we train supervised models by introducing a two stage training framework. In the first stage, it uses the label information in the contrastive loss to learn to map the encoded representations effectively. In the second stage, it train a linear model on top of these encoded representations for the given supervised training objective.</p>
 <p>In practice this works quite well -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/scl_results.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/scl_results.png" title="Source: Supervised Contrastive Learning [1]" class="img-fluid"></p>
 <p>You might be feeling very tempted to try out this on your labeled dataset. Truth be told - Supervised Contrastive Learning is also compute-intensive even for relatively small datasets. So, if you don’t have the training budget you might need to reconsider this option.</p>
 <p>Maybe you have a relatively smaller labeled dataset and you just want to be able to fine-tune a good enough architecture which is still very useful for many practical scenarios. This is where BigTransfer can really shine.</p>
 </section>
@@ -2106,10 +2114,10 @@ Note
 <section id="returning-to-supervised-transfer-learning" class="level1">
 <h1>Returning to supervised transfer learning</h1>
 <p>BigTransfer is from the family of classic supervised pre-training and transfer the learned representations to downstream tasks. ImageNet has been the choice for this kind of pre-training for a long time. But in BigTransfer, the authors use larger datasets such as ImageNet-21k, JFT along with ImageNet. In order to facilitate these larger datasets they scale up the model architectures along with longer pre-training. Their result speaks for itself -</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/raw/master/posts/bit_results.png" title="Source: BigTransfer blog post [10]" class="img-fluid"></p>
+<p><img src="https://github.com/sayakpaul/portfolio/raw/master/posts/bit_results.png" title="Source: BigTransfer blog post [10]" class="img-fluid"></p>
 <p>To eliminate the dependence on batch statistics the authors make use of Group Normalization and Weight Standardization. Personally, I really liked this recipe because using overall large batch sizes to train larger models at scale is a common choice and using Batch Normalization there could have easily affected the performance of the models during the downstream tasks.</p>
 <p>For fine-tuning, the authors propose a heuristics-based BiT-HyperRule which provides instructions on what augmentation policy to use, how many steps to train for, what learning rate schedule to use, etc.</p>
-<p>[](https://github.com/sayakpaul/portfolio/raw/master/posts/bit_hyperrule.png ” BiT Hyper-rule (Source: BigTransfer blog post [10])“)</p>
+<p>![](https://github.com/sayakpaul/portfolio/raw/master/posts/bit_hyperrule.png ” BiT Hyper-rule (Source: BigTransfer blog post [10])“)</p>
 <p>I found this strategy to be simple enough to be implemented and practised.</p>
 </section>
 <section id="resources" class="level1">
@@ -2166,8 +2174,9 @@ Note
 
 
 
+
 <p>If you see the way deep learning research has progressed over the years, it has always been guided by the need of the hour. If I were to develop a chronology out of it, it would be something like - train better model -&gt; train them faster -&gt; get them good at generalizing well, and so on. With a stern increase in the demand for using deep learning more as just another technology stack, there could not have been a better time to think about how do we make our models <strong><em>infer faster</em></strong>. In this post, we are going to see how to use <strong>TensorRT</strong> to perform accelerated inference with TensorFlow (2) models. After all, making predictions with deep learning models is what makes you real 💰 and we would want to make sure that our bucks burned judiciously.</p>
-<div class="cell" data-outputid="1604876a-056a-441e-fb62-e1944ddf5bdf">
+<div id="cell-5" class="cell" data-outputid="1604876a-056a-441e-fb62-e1944ddf5bdf">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1">mobilenet_v2 <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tf.keras.applications.MobileNetV2(weights<span class="op" style="color: #5E5E5E;
@@ -2189,7 +2198,7 @@ INFO:tensorflow:Assets written to: mobilenet_v2/assets</code></pre>
 </div>
 <p>Here, <code>mobilenet_v2</code> is a directory and when you pass a directory to the save function, it serializes the model in the TensorFlow <a href="https://www.tensorflow.org/guide/saved_model"><u>SavedModel</u></a> format. This format makes it easier for us to be able to use it on different platforms - be it on GCP’s AI Platform, be it on TensorFlow JS, be it on TensorFlow Serving, and so on.</p>
 <p>Now, there are some basic preprocessing steps to be followed before we can actually feed an image to this model -</p>
-<div class="cell">
+<div id="cell-9" class="cell">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Prepare the image for prediction</span></span>
@@ -2219,13 +2228,17 @@ background-color: null;
 font-style: inherit;">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code></pre></div>
 </div>
 <p>Here’s how <code>elephant.jpg</code> looks like in case if anyone’s curious -</p>
-<div class="cell" data-outputid="0bc7f8c6-d75d-4cc2-f6f6-8b73630c59c0">
+<div id="cell-11" class="cell" data-outputid="0bc7f8c6-d75d-4cc2-f6f6-8b73630c59c0">
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-07-01-accelerated-inference-trt_files/figure-html/cell-9-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-07-01-accelerated-inference-trt_files/figure-html/cell-9-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Now, running the prediction and decoding it is just a matter of two lines of code -</p>
-<div class="cell" data-outputid="aec4f524-d843-4426-979b-8c8952005bd9">
+<div id="cell-13" class="cell" data-outputid="aec4f524-d843-4426-979b-8c8952005bd9">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Run inference</span></span>
@@ -2250,7 +2263,7 @@ Predicted: [('n02504013', 'Indian_elephant', 0.70024925), ('n01871265', 'tusker'
 </div>
 </div>
 <p>To find out how much time does this model take to predict a given image? Let’s write a short utility function to handle that -</p>
-<div class="cell">
+<div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">def</span> time_my_model(model, data):</span>
@@ -2305,7 +2318,7 @@ background-color: null;
 font-style: inherit;">format</span>(mean_delta, fps))</span></code></pre></div>
 </div>
 <p>If we <code>run time_my_model</code> fives times the output would look like so -</p>
-<div class="cell" data-outputid="11cdc83b-7e0d-4d7c-d4a8-80e826155aae">
+<div id="cell-17" class="cell" data-outputid="11cdc83b-7e0d-4d7c-d4a8-80e826155aae">
 <div class="cell-output cell-output-stdout">
 <pre><code>average(sec):0.06,fps:15.48
 average(sec):0.03,fps:32.26
@@ -2367,7 +2380,7 @@ Important
 <section id="running-inference-with-the-optimized-model" class="level1">
 <h1>Running inference with the optimized model</h1>
 <p>TensorFlow 2.x provides a convenient function <code>tf.saved_model.load</code> to load the models saved in <code>SavedModel</code>. We are only interested in performing inference with the model so we will load the respective signature from the model as a <a href="https://www.tensorflow.org/guide/concrete_function"><u>concrete function</u></a> -</p>
-<div class="cell">
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Load the particular signature from the TRT graph</span></span>
@@ -2381,14 +2394,14 @@ background-color: null;
 font-style: inherit;">'serving_default'</span>]</span></code></pre></div>
 </div>
 <p>You can inspect the structure of this function by running <code>concrete_func.structured_outputs</code> and the output would be -</p>
-<div class="cell" data-outputid="9b4f0c46-340c-4a3f-e378-114c5314cb48">
+<div id="cell-25" class="cell" data-outputid="9b4f0c46-340c-4a3f-e378-114c5314cb48">
 <div class="cell-output cell-output-display" data-execution_count="18">
 <pre><code>{'predictions': TensorSpec(shape=(None, 1000), dtype=tf.float32, name='predictions')}</code></pre>
 </div>
 </div>
 <p>As we would expect, this function will yield a 1000-d vector which is nothing but probabilities distributed across the 1000 different classes of the ImageNet dataset. Also note the key of the above dictionary, it might not be ‘Logits’ always.</p>
 <p>Now, to be able to run the inference and decode them in a human-interpretable way, we first need to get the ImageNet dataset labels -</p>
-<div class="cell" data-outputid="afe498dc-3d5d-42af-9bc0-c188d7bed3cf">
+<div id="cell-27" class="cell" data-outputid="afe498dc-3d5d-42af-9bc0-c188d7bed3cf">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Gather the ImageNet labels first and prepare them</span></span>
@@ -2406,7 +2419,7 @@ background-color: null;
 font-style: inherit;">open</span>(labels_path).read().splitlines())</span></code></pre></div>
 </div>
 <p>Time for performing the inference -</p>
-<div class="cell" data-outputid="db68e554-02fc-4005-cc03-bd2d4d4c41c7">
+<div id="cell-29" class="cell" data-outputid="db68e554-02fc-4005-cc03-bd2d4d4c41c7">
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Perform inference</span></span>
@@ -2450,7 +2463,7 @@ average(sec):0.03,fps:36.54
 average(sec):0.03,fps:38.93
 average(sec):0.03,fps:37.24</code></pre>
 <p>Now, to time the performance of our optimized model, we will need to make little adjustments to the utility function we previously wrote. This is mainly because now, we will now be using a concrete function which takes a <code>tf.constant</code>.</p>
-<div class="cell">
+<div id="cell-32" class="cell">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">def</span> time_trt_model():</span>
@@ -2537,7 +2550,7 @@ font-style: inherit;">0</span>)</span>
 background-color: null;
 font-style: inherit;">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code></pre></div>
 <p>Let’s now <code>run time_trt_model()</code> for five times -</p>
-<div class="cell" data-outputid="84c921f6-81d5-4625-f02f-d1ef074410e3">
+<div id="cell-35" class="cell" data-outputid="84c921f6-81d5-4625-f02f-d1ef074410e3">
 <div class="cell-output cell-output-stdout">
 <pre><code>average(sec):0.00,fps:227.01
 average(sec):0.00,fps:279.10
@@ -2548,7 +2561,7 @@ average(sec):0.00,fps:219.98</code></pre>
 </div>
 <p>That’s quite a bit of improvement, isn’t it? Note that you may observe slower inference in your first call to <code>time_trt_model()</code>. It may happen because of the additional time a GPU takes to set itself up. When running comparisons like this, it’s a good practice to first warm up the base hardware by running a few test iterations on it and then run the actual iterations for comparison. Depending on the GPU you’re using, these numbers can vary (these experiments were performed a <strong>Tesla P100</strong>).</p>
 <p>Talking about the memory footprints of both the models, for the pre-trained model we have -</p>
-<div class="cell" data-outputid="ec8a1a3d-69bc-4027-9636-046af7c85eff">
+<div id="cell-37" class="cell" data-outputid="ec8a1a3d-69bc-4027-9636-046af7c85eff">
 <div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Size of the model files</span></span>
@@ -2572,7 +2585,7 @@ font-style: inherit;">-</span>h mobilenet_v2</span></code></pre></div>
 </div>
 </div>
 <p>We have a total of <strong>18 MB</strong> here. For the optimized model, we have -</p>
-<div class="cell" data-outputid="2cba2513-1432-41c9-a78e-73ee796d1d34">
+<div id="cell-39" class="cell" data-outputid="2cba2513-1432-41c9-a78e-73ee796d1d34">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">!</span>du <span class="op" style="color: #5E5E5E;
@@ -2631,6 +2644,7 @@ Important
 
 
 
+
 <p>Data augmentation is a favorite recipe among deep learning practitioners especially for the ones working in the field of computer vision. Data augmentation is a technique used for introducing variety in training data thereby helping to mitigate overfitting.</p>
 <p>When using Keras for training image classification models, using the <code>ImageDataGenerator</code> class for handling data augmentation is pretty much a standard choice. However, with TensorFlow, we get a number of different ways we can apply data augmentation to image datasets. In this tutorial, we are going to discuss three such ways. Knowing about these different ways of plugging in data augmentation in your image classification training pipelines will help you decide the best way for a given scenario.</p>
 <p>Here’s a brief overview of the different ways we are going to cover:</p>
@@ -2651,7 +2665,7 @@ Important
 ├── sunflowers [699 entries]
 ├── tulips [799 entries]
 └── LICENSE.txt</code></pre>
-<div class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Get the flowers dataset</span></span>
@@ -2672,7 +2686,7 @@ font-style: inherit;">True</span>)</span></code></pre></div>
 </div>
 <p>Using the standard ImageDataGenerator class For most of the scenarios, the ImageDataGenerator should be good enough. Its flexible API design is really to follow and it makes it easier to work with custom image datasets by providing meaningful high-level abstractions.</p>
 <p>We instantiate the ImageDataGenerator class like so -</p>
-<div class="cell">
+<div id="cell-10" class="cell">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">img_gen <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tf.keras.preprocessing.image.ImageDataGenerator(</span>
@@ -2697,7 +2711,7 @@ background-color: null;
 font-style: inherit;">True</span>)</span></code></pre></div>
 </div>
 <p>We specify two augmentation operations and a pixel rescaling operation in there. <code>ImageDataGenerator</code> comes with a handy <code>flow_from_directory</code> method that allows us to read images from a directory and apply the specified operations on the fly during the time of training. Here’s how to instruct the <code>img_gen</code> object to read images from a directory -</p>
-<div class="cell" data-outputid="821f7d34-ab72-4cfc-9a52-3833df630437">
+<div id="cell-12" class="cell" data-outputid="821f7d34-ab72-4cfc-9a52-3833df630437">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">IMG_SHAPE <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
@@ -2728,7 +2742,7 @@ font-style: inherit;">=</span>(IMG_SHAPE, IMG_SHAPE))</span></code></pre></div>
 </div>
 </div>
 <p>We then verify the images and the labels and they are indeed parsed right -</p>
-<div class="cell" data-outputid="4a3e083a-6a12-49e4-8e29-88e79b0f86d1">
+<div id="cell-14" class="cell" data-outputid="4a3e083a-6a12-49e4-8e29-88e79b0f86d1">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1">images, labels <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
@@ -2742,7 +2756,11 @@ font-style: inherit;">print</span>(images.shape, labels.shape)</span>
 <pre><code>(32, 224, 224, 3) (32, 5)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-9-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-9-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Training with an ImageDataGenerator instance is extremely straight-forward -</p>
@@ -2756,7 +2774,7 @@ font-style: inherit;">=</span> get_training_model()</span>
 <section id="tensorflow-image-ops-with-tf.data-apis" class="level1">
 <h1>TensorFlow image ops with tf.data APIs</h1>
 <p>The blog post I mentioned in the previous section shows the kind of performance boost achievable with <code>tf.data</code> APIs. But it’s important to note that boost comes at the cost of writing boilerplate code which makes the overall process more involved. For example, here’s how you would load and preprocess your images and labels -</p>
-<div class="cell">
+<div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">def</span> parse_images(image_path):</span>
@@ -2802,7 +2820,7 @@ background-color: null;
 font-style: inherit;">return</span> (img, label)</span></code></pre></div>
 </div>
 <p>You would then write a separate augmentation policy with the <a href="https://www.tensorflow.org/api_docs/python/tf/image">TensorFlow Image ops</a> -</p>
-<div class="cell">
+<div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">def</span> augment(image, label):</span>
@@ -2817,7 +2835,7 @@ background-color: null;
 font-style: inherit;">return</span> (img, label)</span></code></pre></div>
 </div>
 <p>To chain the above two together you would first create an initial dataset consisting of only the image paths -</p>
-<div class="cell">
+<div id="cell-21" class="cell">
 <div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">image_paths <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
@@ -2828,7 +2846,7 @@ background-color: null;
 font-style: inherit;">=</span> tf.data.Dataset.from_tensor_slices((image_paths))</span></code></pre></div>
 </div>
 <p>Now, you would read, preprocess, shuffle, augment, and batch your dataset -</p>
-<div class="cell">
+<div id="cell-23" class="cell">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">AUTO <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tf.data.experimental.AUTOTUNE</span>
@@ -2858,7 +2876,7 @@ font-style: inherit;"># augmentation call</span></span>
 </div>
 <p><code>num_parallel_calls</code> allows you to parallelize the mapping function and <code>tf.data.experimental.AUTOTUNE</code> lets TensorFlow decide the level of parallelism to use dynamically (how cool is that?). prefetch allows loading in the next batch of data well before your model finishes the current epoch of training. It is evident that this process is more involved than the previous one.</p>
 <p>Verifying if we constructed the data input pipeline correctly is a vital step before you feed your data to the model -</p>
-<div class="cell" data-outputid="de640bb6-85e6-4905-cce9-4ffa2cf1fa29">
+<div id="cell-25" class="cell" data-outputid="de640bb6-85e6-4905-cce9-4ffa2cf1fa29">
 <div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1">image_batch, label_batch <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
@@ -2878,7 +2896,11 @@ font-style: inherit;">False</span>)</span></code></pre></div>
 <pre><code>(32, 224, 224, 3) (32,)</code></pre>
 </div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The “b”s appear before the class labels because TensorFlow parses the strings as byte-strings. Using train_ds with your model is also just about executing -</p>
@@ -2893,7 +2915,7 @@ font-style: inherit;">=</span> get_training_model()</span>
 <section id="using-kerass-experimental-image-processing-layers" class="level1">
 <h1>Using Keras’s (experimental) image processing layers</h1>
 <p>Just like you would construct an entire model using the <code>Sequential</code> API, you can now construct very flexible data augmentation pipelines using the newly introduced (although experimental at the time of writing this) image processing layers. If we were to convert the data augmentation operations we have been following in the tutorial so far, building a data augmentation pipeline using this approach would be like so -</p>
-<div class="cell">
+<div id="cell-28" class="cell">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1">data_augmentation <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tf.keras.Sequential([</span>
@@ -2906,7 +2928,7 @@ font-style: inherit;">0.3</span>)</span>
 <span id="cb16-4">])</span></code></pre></div>
 </div>
 <p>Before passing your data through this stack of layers <strong>makes sure you haven’t applied any augmentation already</strong>. So, it’s safe to create a separate TensorFlow dataset without mapping the augmentation function like we previously did -</p>
-<div class="cell">
+<div id="cell-30" class="cell">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Create TensorFlow dataset without any augmentation</span></span>
@@ -2927,7 +2949,7 @@ font-style: inherit;">1024</span>)</span>
 <span id="cb17-8">)</span></code></pre></div>
 </div>
 <p>Now, we can see how to examine some of the augmented images that would come out of this mini pipeline -</p>
-<div class="cell" data-outputid="f8f269a9-8bd3-492d-a445-212fbc6897c0">
+<div id="cell-32" class="cell" data-outputid="f8f269a9-8bd3-492d-a445-212fbc6897c0">
 <div class="sourceCode cell-code" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">image_batch, label_batch <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
@@ -2978,7 +3000,11 @@ font-style: inherit;">"utf-8"</span>))</span>
 background-color: null;
 font-style: inherit;">'off'</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-17-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>We can also make use of Python <code>lambda</code>s to map <code>data_augmentation</code> directly to our <code>tf.data</code> pipeline like so:</p>
@@ -3066,7 +3092,7 @@ Note
 <section id="towards-more-complex-augmentation-pipelines" class="level1">
 <h1>Towards more complex augmentation pipelines</h1>
 <p>In this final approach, we will see how to mix and match between the different stock image ops, and stock image processing layers. Let’s first define a class utilizing the stock image ops with a utility function to apply them at random with a pre-defined probability.</p>
-<div class="cell">
+<div id="cell-37" class="cell">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">class</span> CustomAugment(<span class="bu" style="color: null;
@@ -3157,7 +3183,7 @@ background-color: null;
 font-style: inherit;">lambda</span>: x)</span></code></pre></div>
 </div>
 <p><code>_random_apply</code> is taken from the <a href="https://github.com/google-research/simclr">official SimCLR repository</a>. Now, in order to tie it together with the stock image processing layers, we can still use the <code>Sequential</code> API with a <code>Lambda</code> layer -</p>
-<div class="cell">
+<div id="cell-39" class="cell">
 <div class="sourceCode cell-code" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Build the augmentation pipeline</span></span>
@@ -3171,7 +3197,7 @@ font-style: inherit;">0.1</span>)</span>
 <span id="cb22-5">])</span></code></pre></div>
 </div>
 <p>When we verify if it’s indeed correct, we get desired outputs -</p>
-<div class="cell" data-outputid="0fafb233-22ff-4446-fbf1-919d77f34613">
+<div id="cell-41" class="cell" data-outputid="0fafb233-22ff-4446-fbf1-919d77f34613">
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1">image_batch, label_batch <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="bu" style="color: null;
@@ -3222,7 +3248,11 @@ font-style: inherit;">"utf-8"</span>))</span>
 background-color: null;
 font-style: inherit;">'off'</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-21-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-05-10-augmemtation-recipes_files/figure-html/cell-21-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>Training models when using this approach remains the same as the previous one. Keep in mind that performance can get affected when using this approach.</p>
@@ -3255,6 +3285,7 @@ font-style: inherit;">'off'</span>)</span></code></pre></div>
 
 
 
+
 <p>Well, you have put a lot of blood and sweat into writing your latest blog post on Machine Learning. Don’t let your struggle go in vain and let the world know about it. Sharing your blog posts across different channels not only gives you exposure but also may get you tremendous feedback on your work. In my personal experience, the feedback has been super useful for me to improve myself not only as a writer but also as a communicator. There can be times you might have missed out on a super important detail, or you might have unknowingly introduced a snazzy bug in the code listings of your blog – those things could have been caught in the process of feedback interchange.</p>
 <p>In this short article, I am going to enlist a few different ways to share your work and get feedback. Note your work can be anything starting from a crucial GitHub PR, to a weekend project. Although the following platforms and communities are mostly limited to Machine Learning, I hope this guide will be useful for tech bloggers in general.</p>
 <section id="sharing-on-platformscommunities" class="level2">
@@ -3264,7 +3295,7 @@ font-style: inherit;">'off'</span>)</span></code></pre></div>
 <li><p>Link to where the work has been posted.</p></li>
 <li><p>Brief description of the work.</p></li>
 <li><p>Post table:</p>
-<p><img src="https://sayak.dev/posts/https:/github.com/sayakpaul/portfolio/blob/master/images/blog_matters.png?raw=true" class="img-fluid"></p></li>
+<p><img src="https://github.com/sayakpaul/portfolio/blob/master/images/blog_matters.png?raw=true" class="img-fluid"></p></li>
 </ul>
 <p>I generally keep the description to a maximum of <em>280 characters</em> so that I can use it on Twitter as well.</p>
 <p>Now, turning to the platforms and communities, here are some recommendations (in no particular order): - HackerNews (https://news.ycombinator.com/newest) - Made With ML (https://madewithml.com/) - Reddit - <a href="https://www.reddit.com/r/MachineLearning/">r/MachineLearning</a> - <a href="https://www.reddit.com/r/MachinesLearn/">r/MachinesLearn</a> - <a href="https://www.reddit.com/r/learnmachinelearning/">r/learnmachinelearning</a> - <a href="https://www.reddit.com/r/deeplearning/">r/deeplearning</a> - Twitter - Facebook - <a href="https://www.facebook.com/groups/DeepNetGroup/">AIDL</a> - <a href="https://www.facebook.com/groups/MontrealAI/">Montreal AI</a> - <a href="https://www.facebook.com/groups/DeepLearnng/">Deep Learning</a> - Fast.ai Forum (https://forums.fast.ai/) - LinkedIn - Google Groups (depends on the framework used in the work) - discuss@tensorflow.org - tflite@tensorflow.org - tfjs@tensorflow.org - tfx@tensorflow.org</p>
@@ -3295,6 +3326,7 @@ font-style: inherit;">'off'</span>)</span></code></pre></div>
 
 
 
+
 <p>In this tutorial, we are going to see how to embed a simple image preprocessing function within a <em>trained model</em> (<code>tf.keras</code>) while exporting it for serving. This is a useful feature to have because it can help us reduce a lot of boilerplate code needed while using any model for serving purposes. With this capability, you get a lot more flexibility and modularity to your model.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -3316,7 +3348,7 @@ Data loading, <strike>preprocessing</strike>, and visualization
 <blockquote class="blockquote">
 <p>We are <strong>not</strong> going to preprocess the images before hand. We will let the model do it.</p>
 </blockquote>
-<div class="cell">
+<div id="cell-6" class="cell">
 <div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Load data</span></span>
@@ -3324,7 +3356,7 @@ font-style: inherit;"># Load data</span></span>
 background-color: null;
 font-style: inherit;">=</span> tf.keras.datasets.fashion_mnist.load_data()</span></code></pre></div>
 </div>
-<div class="cell">
+<div id="cell-7" class="cell">
 <div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Class labels (don't change the order)</span></span>
@@ -3353,7 +3385,7 @@ font-style: inherit;">"Bag"</span>, <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"Ankle boot"</span>]</span></code></pre></div>
 </div>
-<div class="cell" data-outputid="184b8098-f227-492d-cb8d-65e50f832bdf">
+<div id="cell-8" class="cell" data-outputid="184b8098-f227-492d-cb8d-65e50f832bdf">
 <div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Show a few examples from the train set</span></span>
@@ -3393,14 +3425,18 @@ font-style: inherit;">=</span>plt.cm.binary)</span>
 <span id="cb3-9">    plt.xlabel(CLASSES[y_train[i]])</span>
 <span id="cb3-10">plt.show()</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <section id="model-building-and-training" class="level2">
 <h2 class="anchored" data-anchor-id="model-building-and-training">Model building and training</h2>
 <p>We are good to proceed towards building and training a neural network. We will first define a simple preprocessing function to scale the pixel values and then we will embed it into the model using a <a href="https://www.tensorflow.org/api_docs/python/tf/keras/layers/Lambda"><code>Lambda</code> layer</a>. You can replace this anything fancy you would want.</p>
 <p>We will use a shallow network architecture so that we can train it quickly.</p>
-<div class="cell">
+<div id="cell-11" class="cell">
 <div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Define the preprocessing function</span></span>
@@ -3511,7 +3547,7 @@ font-style: inherit;">'accuracy'</span>])</span>
 background-color: null;
 font-style: inherit;">return</span> model</span></code></pre></div>
 </div>
-<div class="cell" data-outputid="5ceb1291-0c2f-45bc-9faf-4cd29bbabdcd">
+<div id="cell-12" class="cell" data-outputid="5ceb1291-0c2f-45bc-9faf-4cd29bbabdcd">
 <div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Topology of the model</span></span>
@@ -3521,11 +3557,15 @@ font-style: inherit;">=</span><span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">True</span>)</span></code></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
-<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-8-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 <p>The <code>Lambda</code> layer is our preprocessing layer.</p>
-<div class="cell" data-outputid="e2150e7d-15c2-46d5-c386-259c91b8f980">
+<div id="cell-14" class="cell" data-outputid="e2150e7d-15c2-46d5-c386-259c91b8f980">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Train the model for 10 epochs</span></span>
@@ -3580,7 +3620,7 @@ Epoch 10/10
 <p>Let’s go.</p>
 <section id="step-1-serializing-a-randomly-selected-image-from-the-test-set" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-serializing-a-randomly-selected-image-from-the-test-set">Step 1: Serializing a randomly selected image from the test set</h3>
-<div class="cell" data-outputid="60b5fec1-21de-4482-da04-23d71532b2a9">
+<div id="cell-19" class="cell" data-outputid="60b5fec1-21de-4482-da04-23d71532b2a9">
 <div class="sourceCode cell-code" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Select a random image from the test set for serialization</span></span>
@@ -3626,7 +3666,7 @@ font-style: inherit;">print</span>(sampe_test_img.shape)</span></code></pre></di
 (28, 28)</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="a6284755-df1a-42ee-b68b-00549b695662">
+<div id="cell-20" class="cell" data-outputid="a6284755-df1a-42ee-b68b-00549b695662">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Serialize the image</span></span>
@@ -3635,7 +3675,7 @@ background-color: null;
 font-style: inherit;">"sample_image.png"</span>, sampe_test_img)</span></code></pre></div>
 </div>
 <p>Note that while writing a grayscale image, <a href="https://stackoverflow.com/questions/18870603/in-opencv-python-why-am-i-getting-3-channel-images-from-a-grayscale-image">OpenCV adds the channel dimension of 3 to it</a>. We will need to handle carefully.</p>
-<div class="cell" data-outputid="1ffde99a-9854-4db1-dfe4-f42a756dc4dc">
+<div id="cell-22" class="cell" data-outputid="1ffde99a-9854-4db1-dfe4-f42a756dc4dc">
 <div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Make sure the serialized image is good to go</span></span>
@@ -3646,14 +3686,18 @@ background-color: null;
 font-style: inherit;">=</span>plt.cm.binary)</span>
 <span id="cb11-3">plt.show()</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-12-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-12-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="step-2-model-exporting-and-parsing-predictions" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-model-exporting-and-parsing-predictions">Step 2: Model exporting and parsing predictions</h3>
 <p>Let’s first serialize our model and load it.</p>
-<div class="cell" data-outputid="41ad14a0-c94c-4362-8552-32c109559ce9">
+<div id="cell-25" class="cell" data-outputid="41ad14a0-c94c-4362-8552-32c109559ce9">
 <div class="sourceCode cell-code" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Serialize the model and load it</span></span>
@@ -3670,13 +3714,13 @@ font-style: inherit;">"apparel_model.h5"</span>)</span></code></pre></div>
 </div>
 </div>
 <p>This warning is not desirable. When the optimizer is loaded with a fresh state, the model predictions can be erroneous. So, to resolve this problem we will only be serializing the weights of the model with the <code>save_weights()</code> function. There can be other nuances like this when you work with <code>Lambda</code> layers and you can check <a href="https://blog.paperspace.com/working-with-the-lambda-layer-in-keras/#saving-and-loading-a-model-with-a-lambda-layer">this article</a> out to know about them.</p>
-<div class="cell">
+<div id="cell-27" class="cell">
 <div class="sourceCode cell-code" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1">apparel_model.save_weights(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"apparel_model.h5"</span>)</span></code></pre></div>
 </div>
 <p>We will now initialize a dummy model with the same architecture as the one we trained and we will then load the weights of our trained model into it.</p>
-<div class="cell">
+<div id="cell-29" class="cell">
 <div class="sourceCode cell-code" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">restored_model <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> get_training_model()</span>
@@ -3685,7 +3729,7 @@ background-color: null;
 font-style: inherit;">"apparel_model.h5"</span>)</span></code></pre></div>
 </div>
 <p>Now we should be good to go with the predictions part. First, let’s load the image we serialized in step 1. As mentioned before, OpenCV adds 3-channels to grayscale images while saving them. We can take care of this issue with <code>cv2.cvtColor(image_pixels, cv2.COLOR_BGR2GRAY)</code>.</p>
-<div class="cell" data-outputid="d2655f40-476e-4765-d579-7a472410d5c8">
+<div id="cell-31" class="cell" data-outputid="d2655f40-476e-4765-d579-7a472410d5c8">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Load the image</span></span>
@@ -3706,10 +3750,14 @@ background-color: null;
 font-style: inherit;">=</span>plt.cm.binary)</span>
 <span id="cb16-7">plt.show()</span></code></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-16-output-1.png" class="img-fluid"></p>
+<div>
+<figure class="figure">
+<p><img src="https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-16-output-1.png" class="img-fluid figure-img"></p>
+</figure>
 </div>
 </div>
-<div class="cell" data-outputid="9ca64126-87b3-4a01-9ce6-0f8d21a23aa2">
+</div>
+<div id="cell-32" class="cell" data-outputid="9ca64126-87b3-4a01-9ce6-0f8d21a23aa2">
 <div class="sourceCode cell-code" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Run inference and parse the prediction</span></span>
@@ -3730,7 +3778,7 @@ font-style: inherit;">"Predicted "</span>,CLASSES[np.argmax(class_probabilities)
 </div>
 </div>
 <p>We can see that it is working as expected.</p>
-<div class="cell">
+<div id="cell-34" class="cell">
 <div class="sourceCode cell-code" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Load and *preprocess* data</span></span>
@@ -3760,7 +3808,7 @@ font-style: inherit;">255</span></span></code></pre></div>
 <p>In this section, let’s see how can we do the same i.e.&nbsp;embed a preprocessing function inside a model so that it can be serialized in the <code>SavedModel</code> format.</p>
 <section id="step-1-create-a-sequential-model-without-any-preprocessing-layer" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-create-a-sequential-model-without-any-preprocessing-layer">Step 1: Create a sequential model <em>without</em> any preprocessing layer</h3>
-<div class="cell">
+<div id="cell-38" class="cell">
 <div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><span class="kw" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">def</span> get_training_model_v2():</span>
@@ -3842,7 +3890,7 @@ font-style: inherit;">return</span> model</span></code></pre></div>
 </section>
 <section id="step-2-train-it" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-train-it">Step 2: Train it!</h3>
-<div class="cell" data-outputid="b40b564c-d345-493a-ba2b-5f86635c7d10">
+<div id="cell-40" class="cell" data-outputid="b40b564c-d345-493a-ba2b-5f86635c7d10">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Train the model for 10 epochs</span></span>
@@ -3892,7 +3940,7 @@ Epoch 10/10
 <section id="step-3-savedmodel-plunge" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-savedmodel-plunge">Step 3: <code>SavedModel</code> plunge</h3>
 <p>Okay! Now we are ready to the crux of the section. We will first create a custom model class (inherited from <code>tf.keras.Model</code>) and it will contain two things: - A model that is loaded with the weights of a trained model - A <em>serving function</em> that will contain the preprocessing function along with the necessary signature.</p>
-<div class="cell">
+<div id="cell-43" class="cell">
 <div class="sourceCode cell-code" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># A custom class for serving</span></span>
@@ -3975,7 +4023,7 @@ font-style: inherit;">"class_index"</span>: class_index}</span></code></pre></di
 </section>
 <section id="step-4-instantiate-a-dummy-model-and-set-its-weights" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-instantiate-a-dummy-model-and-set-its-weights">Step 4: Instantiate a dummy model and set its weights</h3>
-<div class="cell">
+<div id="cell-46" class="cell">
 <div class="sourceCode cell-code" id="cb24" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Set the weights of this dummy model to the weights of the model we trained</span></span>
@@ -3988,7 +4036,7 @@ font-style: inherit;">=</span> get_training_model_v2()</span>
 <section id="step-5-export-the-model-and-run-inference" class="level3">
 <h3 class="anchored" data-anchor-id="step-5-export-the-model-and-run-inference">Step 5: Export the model and run inference</h3>
 <p>Now, to serialize the model in the <code>SavedModel</code> format we will make use of <a href="https://www.tensorflow.org/api_docs/python/tf/saved_model/save"><code>tf.saved_model.save</code></a>. It can automatically determine which input signature to use for serving for most of the models <em>if the details are available</em>. However, in our case, it won’t be able to do so. So, we will need to explicitly indicate which function to use as the signature while serving.</p>
-<div class="cell" data-outputid="08bc2798-9874-4596-bac6-1375e72ad5e8">
+<div id="cell-49" class="cell" data-outputid="08bc2798-9874-4596-bac6-1375e72ad5e8">
 <div class="sourceCode cell-code" id="cb25" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1">export_path <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
@@ -4018,7 +4066,7 @@ INFO:tensorflow:Assets written to: /content/saved_model/1/assets</code></pre>
 </div>
 </div>
 <p>By specifying <code>'serving_default': serving_model.my_serve</code> we instructed <code>tf.saved_model.save</code> about which signature to use for serving. Now if we inspect what all were saved, things should seem consistent. For this we are going to use the <a href="https://www.tensorflow.org/guide/saved_model#saved_model_cli"><code>saved_model_cli</code></a> command-line interpreter.</p>
-<div class="cell" data-outputid="d26a3550-47c1-477b-bb0f-0ea34c6929b4">
+<div id="cell-51" class="cell" data-outputid="d26a3550-47c1-477b-bb0f-0ea34c6929b4">
 <div class="sourceCode cell-code" id="cb27" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">!</span>saved_model_cli show <span class="op" style="color: #5E5E5E;
@@ -4054,7 +4102,7 @@ Method name is: tensorflow/serving/predict</code></pre>
 </div>
 <p>So, we can see that the configuration that is expected from the inputs and the outputs of the serialized model is consistent with what we had instructed. We returned the outputs in form a dictionary (namely <code>class_index</code>) in <code>my_serve</code> and we can see that as well.</p>
 <p>We can also do the inspection in Pythonic ways.</p>
-<div class="cell" data-outputid="c8112735-8804-4ae7-815f-1afd6336f4be">
+<div id="cell-53" class="cell" data-outputid="c8112735-8804-4ae7-815f-1afd6336f4be">
 <div class="sourceCode cell-code" id="cb29" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1">loaded <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> tf.saved_model.load(<span class="st" style="color: #20794D;
@@ -4071,7 +4119,7 @@ font-style: inherit;"># This signature will be used while serving</span></span><
 <pre><code>['serving_default']</code></pre>
 </div>
 </div>
-<div class="cell" data-outputid="90e5e33c-dc7e-4cfa-c440-20e22a15da33">
+<div id="cell-54" class="cell" data-outputid="90e5e33c-dc7e-4cfa-c440-20e22a15da33">
 <div class="sourceCode cell-code" id="cb31" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Output configuration</span></span>
@@ -4088,7 +4136,7 @@ font-style: inherit;">print</span>(infer.structured_outputs)</span></code></pre>
 </div>
 </div>
 <p>Let’s finally run the inference!</p>
-<div class="cell">
+<div id="cell-56" class="cell">
 <div class="sourceCode cell-code" id="cb33" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Load the sample image</span></span>
@@ -4101,7 +4149,7 @@ font-style: inherit;">"sample_image.png"</span>)</span>
 background-color: null;
 font-style: inherit;">=</span> cv2.cvtColor(image_pixels, cv2.COLOR_BGR2GRAY)</span></code></pre></div>
 </div>
-<div class="cell" data-outputid="3d29ef57-803c-4b96-aa37-b712982a822f">
+<div id="cell-57" class="cell" data-outputid="3d29ef57-803c-4b96-aa37-b712982a822f">
 <div class="sourceCode cell-code" id="cb34" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Run inference</span></span>
