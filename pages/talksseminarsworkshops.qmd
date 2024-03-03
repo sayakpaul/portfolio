@@ -83,6 +83,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 - **Staying relevant as an MLE in the age of GenAI**, DevFest Kolkata 2023 (December 22, 2023). Slides are [here](https://docs.google.com/presentation/d/111mLl9pYS91ApdiBe0p0vsKGeJ33cZm0gBNVDJHKB00/edit?usp=sharing).
 - Appeared on the Overpowered podcast with Varun Mayya. Find it [here](https://www.youtube.com/watch?v=IlIhykPDesE).
+- **Building a Personal Coding Assiatant** (with Sourab Mangrulkar), Build with AI, Bangalore (March 02, 2024). Slides are [here](https://docs.google.com/presentation/d/17gYjRsfNYoG4oyQMx23goHI1viyh15Gdwij-D3ZGNOs/edit?usp=sharing).
 
 ### Co-organized by me
 
