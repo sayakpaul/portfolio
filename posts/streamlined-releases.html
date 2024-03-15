@@ -237,12 +237,7 @@ ga('send', {
 </ol>
 <p>It’s worth noting that the trigger for this kind of workflow should be figured out to suit what’s best for the given project. In the case of Diffusers, we realized that release steps that come after pushing the release tags can be largely automated. Hence, we went with that trigger.</p>
 <p>The workflow file is available <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/pypi_publish.yaml">here</a>. When successfully executed, it appears like so:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/release_graph.png?raw=true" class="img-fluid figure-img"></p>
-<figcaption>release_graph</figcaption>
-</figure>
-</div>
+<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/release_graph.png?raw=true" class="img-fluid"></p>
 <p>You can find the complete details about the action run <a href="https://github.com/huggingface/diffusers/actions/runs/8283556088">here</a>.</p>
 <p><em>(The initial workflow was missing a dependency needed to run the import tests after Test PyPI publishing. This was fixed in <a href="https://github.com/huggingface/diffusers/pull/7339">this PR</a>.)</em></p>
 </section>
@@ -250,12 +245,7 @@ ga('send', {
 <h2 class="anchored" data-anchor-id="publishing-the-release-notes-and-communications">Publishing the release notes and communications</h2>
 <p>The next step in the release process involves publishing the release notes on your repository and tagging it. Once a release is published, team members usually communicate about it internally within an organization and also more broadly with their communities through social media channels.</p>
 <p>On the Diffusers team, we take release notes pretty seriously (<a href="https://github.com/huggingface/diffusers/releases/tag/v0.27.0">example notes</a>). This is why we intentionally keep the process of writing the notes and publishing them purely manual. Once a release is published on the repository, a workflow gets automatically triggered to communicate about it to an internal Slack channel. Successful execution of this workflow makes a bot automatically post the message below to a particular Slack channel:</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/bot.png?raw=true" class="img-fluid figure-img"></p>
-<figcaption>bot</figcaption>
-</figure>
-</div>
+<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/bot.png?raw=true" class="img-fluid"></p>
 <p>This workflow can be found <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/notify_slack_about_release.yml">here</a>.</p>
 <p>Both the above steps were introduced in Diffusers through <a href="https://github.com/huggingface/diffusers/pull/7270">this PR</a>. I recommend readers to go through it if they want to incorporate similar changes in their projects.</p>
 </section>
