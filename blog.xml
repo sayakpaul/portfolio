@@ -10,7 +10,87 @@
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
 <generator>quarto-1.4.551</generator>
-<lastBuildDate>Wed, 17 Jan 2024 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 15 Mar 2024 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Streamlining PyPI Releases: A Case Study with 🧨 Diffusers</title>
+  <link>https://sayak.dev/posts/streamlined-releases.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Releasing a new version of an open-source library is an exhilarating experience. You ship new features, bug fixes, improved documentation, etc., to serve your users and also the mission of your library. Being one of the maintainers of the <a href="https://github.com/huggingface/diffusers/">🧨&nbsp;Diffusers library</a>, I am no exception to this.</p>
+<p>Once a release is finalized, it’s usually published on a software repository for the distribution programming language you’re using. Diffusers is a Python library, so <a href="https://pypi.org/">PyPI</a> is our publishing platform.</p>
+<p>In this post, I share some of what I learned from trying to streamline the entire process of releasing a new version of the library and then publishing it. If you have similar responsibilities at your workplace or for your personal projects, this post might be helpful for you.</p>
+<section id="an-example-release-workflow-manual" class="level2">
+<h2 class="anchored" data-anchor-id="an-example-release-workflow-manual">An example release workflow (manual)</h2>
+<p>Before we proceed to the other sections of the post, it will be helpful to have a schematic of what constitutes a release. Note that this workflow will vary from library to library, but some principles will still apply. I will take the workflow we follow for Diffusers as an example.</p>
+<p>The steps are well laid out in <code>setup.py</code> and can be found <a href="https://github.com/huggingface/diffusers/blob/main/setup.py#L20C1-L78C55">here</a>. Broadly, these are:</p>
+<ol type="1">
+<li>Prepare the release branch and cut it out from the <code>main</code>.</li>
+<li>Run any test on the release branch and wait for them to pass. Fix any failures if needed.</li>
+<li>Tag the release branch and push the tag.</li>
+<li>Build the package source and wheel.<br>
+</li>
+<li>Upload the package distribution to the <a href="https://test.pypi.org/">Test PyPI server</a> and run any tests.</li>
+<li>Finally, upload to the actual <a href="https://pypi.org/">PyPI server</a>.</li>
+</ol>
+<p>We identified that steps 1-3 will always require a bit of human intervention and cannot be automated much (props if that’s not the case for you). But steps 3-6 can indeed be automated. These steps require more attention, too:</p>
+<ul>
+<li>When building the package distribution, one must delete the previous one before starting the build. Otherwise, it can have unintended consequences.</li>
+<li>Managing the credentials for the Test PyPI and PyPI servers.</li>
+<li>Running any tests after publishing them on the Test PyPI server.</li>
+</ul>
+<p>These steps would be better automated in your library’s Continuous Integration suite, greatly reducing the mental burden.</p>
+</section>
+<section id="semi-automating-the-release-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="semi-automating-the-release-workflow">Semi-automating the release workflow</h2>
+<p>Once we identified the above findings, we prepared a GitHub Actions workflow that gets triggered after a release is tagged and the tag is pushed. Additionally, we configured the workflow to be manually triggerable in case any intervention was needed.</p>
+<p>This workflow takes the following steps:</p>
+<ol type="1">
+<li>Find out the release branch so that it can be checked out for the sequential steps.</li>
+<li>Steps 3-6 as outlined in the above section.</li>
+</ol>
+<p>It’s worth noting that the trigger for this kind of workflow should be figured out to suit what’s best for the given project. In the case of Diffusers, we realized that release steps that come after pushing the release tags can be largely automated. Hence, we went with that trigger.</p>
+<p>The workflow file is available <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/pypi_publish.yaml">here</a>. When successfully executed, it appears like so:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/release_graph.png?raw=true" class="img-fluid figure-img"></p>
+<figcaption>release_graph</figcaption>
+</figure>
+</div>
+<p>You can find the complete details about the action run <a href="https://github.com/huggingface/diffusers/actions/runs/8283556088">here</a>.</p>
+<p><em>(The initial workflow was missing a dependency needed to run the import tests after Test PyPI publishing. This was fixed in <a href="https://github.com/huggingface/diffusers/pull/7339">this PR</a>.)</em></p>
+</section>
+<section id="publishing-the-release-notes-and-communications" class="level2">
+<h2 class="anchored" data-anchor-id="publishing-the-release-notes-and-communications">Publishing the release notes and communications</h2>
+<p>The next step in the release process involves publishing the release notes on your repository and tagging it. Once a release is published, team members usually communicate about it internally within an organization and also more broadly with their communities through social media channels.</p>
+<p>On the Diffusers team, we take release notes pretty seriously (<a href="https://github.com/huggingface/diffusers/releases/tag/v0.27.0">example notes</a>). This is why we intentionally keep the process of writing the notes and publishing them purely manual. Once a release is published on the repository, a workflow gets automatically triggered to communicate about it to an internal Slack channel. Successful execution of this workflow makes a bot automatically post the message below to a particular Slack channel:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/bot.png?raw=true" class="img-fluid figure-img"></p>
+<figcaption>bot</figcaption>
+</figure>
+</div>
+<p>This workflow can be found <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/notify_slack_about_release.yml">here</a>.</p>
+<p>Both the above steps were introduced in Diffusers through <a href="https://github.com/huggingface/diffusers/pull/7270">this PR</a>. I recommend readers to go through it if they want to incorporate similar changes in their projects.</p>
+</section>
+<section id="considerations" class="level2">
+<h2 class="anchored" data-anchor-id="considerations">Considerations</h2>
+<p>I played with the workflows rigorously on a <a href="https://github.com/sayakpaul/blossom">dummy repository</a> before introducing them in Diffusers. This is optional but highly recommended to confidently land similar changes in your actual projects.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>pypi-releases</category>
+  <category>github-actions</category>
+  <category>diffusers</category>
+  <guid>https://sayak.dev/posts/streamlined-releases.html</guid>
+  <pubDate>Fri, 15 Mar 2024 00:00:00 GMT</pubDate>
+  <media:content url="https://sayak.dev/posts/pypi-releases-diffusers.png" medium="image" type="image/png" height="72" width="144"/>
+</item>
 <item>
   <title>Another Quarto Migration Guide for fastpages Users</title>
   <link>https://sayak.dev/posts/quarto-migration.html</link>
