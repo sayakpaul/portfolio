@@ -56,7 +56,20 @@
 <p>The workflow file is available <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/pypi_publish.yaml">here</a>. When successfully executed, it appears like so:</p>
 <p><img src="https://github.com/sayakpaul/portfolio/blob/master/posts/release_graph.png?raw=true" class="img-fluid"></p>
 <p>You can find the complete details about the action run <a href="https://github.com/huggingface/diffusers/actions/runs/8283556088">here</a>.</p>
-<p><em>(The initial workflow was missing a dependency needed to run the import tests after Test PyPI publishing. This was fixed in <a href="https://github.com/huggingface/diffusers/pull/7339">this PR</a>.)</em></p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Pay attention to the dependencies
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The initial workflow was missing a dependency that was needed to run the import tests after Test PyPI publishing. This was fixed in <a href="https://github.com/huggingface/diffusers/pull/7339">this PR</a>. So, please double-check any dependency that might be needed to run the tests after your package has been published on the Test PyPI server.</p>
+</div>
+</div>
+<p>The <a href="https://github.com/huggingface/diffusers/blob/main/.github/workflows/pypi_publish.yaml">workflow</a> doesn’t make use of any pre-built actions (such as <a href="https://github.com/pypa/gh-action-pypi-publish"><code>pypa/gh-action-pypi-publish@v1.6.4</code></a>) for publishing on PyPI. Instead, we decided to just follow what we’d do manually, i.e., use <code>twine</code> to manage the process. If you’re looking to use such an action, <a href="https://github.com/philschmid/easyllm/blob/main/.github/workflows/publish.yaml">this</a> can be a handy reference.</p>
 </section>
 <section id="publishing-the-release-notes-and-communications" class="level2">
 <h2 class="anchored" data-anchor-id="publishing-the-release-notes-and-communications">Publishing the release notes and communications</h2>
@@ -69,6 +82,7 @@
 <section id="considerations" class="level2">
 <h2 class="anchored" data-anchor-id="considerations">Considerations</h2>
 <p>I played with the workflows rigorously on a <a href="https://github.com/sayakpaul/blossom">dummy repository</a> before introducing them in Diffusers. This is optional but highly recommended to confidently land similar changes in your actual projects.</p>
+<p>We used incoming webhooks on Slack so that the bot could post messages. If you’re configuring something similar, this <a href="https://api.slack.com/messaging/webhooks">official tutorial</a> can be quite useful.</p>
 
 
 </section>
