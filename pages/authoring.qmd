@@ -91,12 +91,12 @@ and for blog posts.
 
 ### [FloydHub](https://www.floydhub.com/)
 
--   [Introduction to Anomaly Detection in Python](https://bit.ly/2TZLg4d)
--   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://bit.ly/2IZev5a)
--   [An introduction to Q-Learning: Reinforcement Learning](http://bit.ly/2HxuVzo)
--   [How to plan and execute your ML and DL projects](http://bit.ly/2XtMCeh)
--   [Becoming One With the Data](http://bit.ly/30N3bPA) [^8]
--   [Training Neural Nets: a Hacker’s Perspective](http://bit.ly/training-neural-nets)
+-   [Introduction to Anomaly Detection in Python](https://floydhub.ghost.io/introduction-to-anomaly-detection-in-python/)
+-   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://floydhub.ghost.io/introduction-to-k-means-clustering-in-python-with-scikit-learn/)
+-   [An introduction to Q-Learning: Reinforcement Learning](https://floydhub.ghost.io/an-introduction-to-q-learning-reinforcement-learning/)
+-   [How to plan and execute your ML and DL projects](https://floydhub.ghost.io/structuring-and-planning-your-machine-learning-project/)
+-   [Becoming One With the Data](https://floydhub.ghost.io/becoming-one-with-the-data/) [^8]
+-   [Training Neural Nets: a Hacker’s Perspective](https://floydhub.ghost.io/training-neural-nets-a-hackers-perspective/)
 
 [^8]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
 
