@@ -18,13 +18,12 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 
 ### News
 
-- [Hila Chefer](https://hila-chefer.github.io/) and I presented our tutorial **All Things ViTs: Understanding and Interpreting
-Attention in Vision** at CVPR 2023. Check out the [website](https://all-things-vits.github.io/atv/) for a recording, code samples, slides, and more.
 - New work on accelerating SDXL by 3x with pure PyTorch: [Accelerate inference of text-to-image diffusion models](https://github.com/huggingface/diffusion-fast). Post is [live on the PyTorch blog](https://pytorch.org/blog/accelerating-generative-ai-3/) too. 
 - New podcast with Varun Mayya: [Conversation with a Hugging Face developer](https://www.youtube.com/watch?v=IlIhykPDesE).
 - New paper: [Getting it _Right_: Improving Spatial Consistency in Text-to-Image Models](https://spright-t2i.github.io/). It's a mammoth of a collaboration. Please refer to
 the provided link to know the details.
 - New work with Chansung Park: [LLaMADuo](https://github.com/deep-diver/llamaduo).
+- Diffusers 0.28.0 is out. It's a massive release. See details [here](https://x.com/RisingSayak/status/1795083868900311360). 
 
 To know about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
