@@ -31,6 +31,7 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 - Mentored for TensorFlow at GSoC 2022. Students: [Aditya Kane](https://adityakane2001.github.io/opensource/gsoc2022report), [Sayan Nath](https://sayannath.github.io/MobileViT-GSoC/), and [Mohammad Shoaib](https://github.com/shoaib6174/GSOC-22-Video-Swin-Transformers/blob/main/assets/final_report.md). My mentorship certificate is [here](https://drive.google.com/file/d/1300UqW59N98d5No_LYhGAWdBaPVQwyfc/view?usp=share_link).
 - [Google for Startups India Women Founders Accelerator (2022)](https://rsvp.withgoogle.com/events/google-for-startups-accelerator-india-women-founders/home).
 - Mentored at [KaggleX BIPOC 2023](https://www.kaggle.com/kagglex-bipoc-mentorship-program). [Here](https://drive.google.com/file/d/1QicXwcU4g9VUX290yvjg-VqHDh-fQ8xe/view?usp=share_link) is my certificate.
+- Mentored [Yatharth Gupta](https://huggingface.co/Warlord-K) and [Vishnu V. Jaddipal](https://www.linkedin.com/in/vishnu-jaddipal-28b407243) during the development of [SSD-1B](https://huggingface.co/segmind/SSD-1B). 
 
 Apart from the occasions mentioned above, I have mentored individual students, students belonging to [Google Developer Student Clubs]((https://gdsc.community.dev/)), etc. But I don't have any recorded documents for these. I enjoy sharing my learnings with those in need and, in turn, learning from them.
 
