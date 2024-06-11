@@ -87,6 +87,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - Appeared on the Humans of Digital podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
 - **ML Career in 2024**, IIT Indore (April 11, 2024). Slides are [here](https://docs.google.com/presentation/d/1idlAJnLpu5EOREMeWG2wVc23hBjZD20G1XptvvZttUQ/edit?usp=sharing).
 - **A talk on diffusion models**, ETH Zurich (May 06, 2024). Slides are [here](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing).
+- **Controlling Diffusion Models: Assorted Approaches**, Center of AI, UCL (June 10, 2024). Slides are [here](https://docs.google.com/presentation/d/1kzYPcwVCTvwfmlyiix2So6ZVTcPafm0OxL1_NXUqODo/edit?usp=sharing).
 
 ### Co-organized by me
 
