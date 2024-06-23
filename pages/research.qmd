@@ -26,7 +26,7 @@ Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackd
 
 ### Reviewing
 
-[ML Safety Workshop (NeurIPS'22)](https://neurips2022.mlsafety.org/), [AAAI'23](https://aaai.org/Conferences/AAAI-23/), [UDL workshop (ICML'21)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP'21](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
+TMLR, NeurIPS'24, AAAI'23, [UDL workshop (ICML'21)](https://sites.google.com/view/udlworkshop2021/home), [ICASSP'21](https://www.2021.ieeeicassp.org/) (sub-reviewer), [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
 
 ### Misc
 
