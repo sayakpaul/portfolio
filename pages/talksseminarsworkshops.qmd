@@ -73,21 +73,38 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Ship Faster TensorFlow Models with XLA** at [Google Cloud Community Days, Kolkata](https://gdgcloud.kolkata.dev/ccd2023/) (May 7, 2023). Slides are [here](https://bit.ly/tensorflow-xla).  
 - **Generating Photorealistic Images using AI with Diffusers in Python** at [DataCamp](https://www.datacamp.com/webinars/Generating-photorealistic-images-using-ai-with-diffusers-python) (May 16, 2023). Materials are [here](https://github.com/huggingface/workshops/tree/main/datacamp-webinar). A recording of the session is [here](https://www.youtube.com/live/izFV5hbOXMw?feature=share). 
 - **🧨 diffusers for research** at VAL, Indian Institute of Science (IISc) (June 12, 2023). Slides are available [here](https://docs.google.com/presentation/d/1xBfs8yPVC4jeHJR4ShV0YIjpgC6glS4R6xD6BrxaU10/edit?usp=sharing).
-- Appeared on a podcast discussing my ML journey and other related things: [Hugging Face's ML Revolution](https://youtu.be/69F-ZpFj2PM).
 - **Making Keras Models go brrr with XLA** at [Keras Community Day Kolkata](https://www.townscript.com/e/keras-community-day-kolkata-2023), August 27, 2023. Slides are [here](https://docs.google.com/presentation/d/1mM8LeQDpOOLWsMQffRhuDuPPFx4TL-cV848EZtCN_8k/edit?usp=sharing). I have given the same talk at [Keras Community Day Chandigarh](https://gdg.community.dev/events/details/google-gdg-chandigarh-presents-keras-community-day-chandigarh/) too (September 02, 2023).
 - **Bringing SoTA Diffusion Models to the Masses with 🧨 diffusers**, throughout September 2023. Presented this at the following places during my trip to the UK: [The Dyson Robotics Lab](https://www.imperial.ac.uk/dyson-robotics-lab/) at Imperial College of London, Amazon London, and the [Department of Statistics](https://www.stats.ox.ac.uk/) at the University of Oxford. Slides are [here](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing). A recording (Oxford version) is available [here](https://youtu.be/qo5ubQadvfs).
 - **Controlling Text-to-Image Diffusion Models**, [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) (October 02, 2023). Slides are [here](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p). Recording is [here](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s).
 - **Bringing SoTA Diffusion Models to the Masses with 🧨 diffusers**, IBM Research (October 17, 2023). Slides are [here](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing). Recording is [here](https://youtu.be/HNXNKPKfCs4).
-- **People of AI podcast (Google)**, spoke to Ashley Oldacre and Luiz Gustavo Martins from Google. Episode recording is [here](https://peopleofai.libsyn.com/sayak-paul-getting-started-with-community-contributions-diffusion-models-and-more).
 - **End-to-End Pipeline for Segmentation with TFX, GCP, & 🤗** (with Chansung Park), [ML Community Summit 2023](https://x.com/ksoonson/status/1727107370201895233?s=20) (November 23, 2023). Slides are [here](https://docs.google.com/presentation/d/1bnURFQHr98A8NkDhsD5q3WnghIltR1JMONrtLEelQ5A/edit?usp=sharing).
-- **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 - **Staying relevant as an MLE in the age of GenAI**, DevFest Kolkata 2023 (December 22, 2023). Slides are [here](https://docs.google.com/presentation/d/111mLl9pYS91ApdiBe0p0vsKGeJ33cZm0gBNVDJHKB00/edit?usp=sharing).
-- Appeared on the Overpowered podcast with Varun Mayya. Find it [here](https://www.youtube.com/watch?v=IlIhykPDesE).
 - **Building a Personal Coding Assistant** (with Sourab Mangrulkar), Build with AI, Bangalore (March 02, 2024). Slides are [here](https://docs.google.com/presentation/d/17gYjRsfNYoG4oyQMx23goHI1viyh15Gdwij-D3ZGNOs/edit?usp=sharing).
-- Appeared on the Humans of Digital podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
 - **ML Career in 2024**, IIT Indore (April 11, 2024). Slides are [here](https://docs.google.com/presentation/d/1idlAJnLpu5EOREMeWG2wVc23hBjZD20G1XptvvZttUQ/edit?usp=sharing).
 - **A talk on diffusion models**, ETH Zurich (May 06, 2024). Slides are [here](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing).
 - **Controlling Diffusion Models: Assorted Approaches**, Center of AI, UCL (June 10, 2024). Slides are [here](https://docs.google.com/presentation/d/1kzYPcwVCTvwfmlyiix2So6ZVTcPafm0OxL1_NXUqODo/edit?usp=sharing).
+
+### Podcasts where I have appeared
+
+- **Machine Learning Street Talk**. [Spoke](https://bit.ly/ml-st-sayak) to Tim Scarfe, Connor Shorten, and Yannic Kilcher.
+- Appeared on a podcast discussing my ML journey and other related things: [Hugging Face's ML Revolution](https://youtu.be/69F-ZpFj2PM).
+- **People of AI podcast (Google)**, spoke to Ashley Oldacre and Luiz Gustavo Martins from Google. Episode recording is [here](https://peopleofai.libsyn.com/sayak-paul-getting-started-with-community-contributions-diffusion-models-and-more).
+- Appeared on the Overpowered podcast with Varun Mayya. Find it [here](https://www.youtube.com/watch?v=IlIhykPDesE).
+- **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
+- Appeared on the **Humans of Digital** podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
+
+
+### ML Street Talk
+
+I used to appear on one of the most popular podcasts in machine learning called the [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ). Below are the episodes where I have made  appearances. 
+
+-   [Spoke](http://bit.ly/mlst-mathilde) to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher.
+-   [Spoke](http://bit.ly/sara_mlst) to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher.
+-   [Spoke](http://bit.ly/sanyam_mlst) to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake.
+-   [Spoke](https://youtu.be/1EqJyMy0LnE) to **Simon Kornblith** (Google Brain) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://youtu.be/Q0kN_ZHHDQY) to **Lena Voita** (University of Edinburgh and University of Amsterdam) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://www.youtube.com/watch?v=_eHRICHlg1k) to **Hadi Salman** (MIT) with Tim Scarfe and Yannic Kilcher.
+-   [Spoke](https://www.youtube.com/watch?v=EXJmodhu4_4) to **Ishan Misra** (Facebook AI Research) with Tim Scarfe and Yannic Kilcher.
 
 ### Co-organized by me
 
@@ -99,18 +116,5 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 -   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023.
 -   [JAX/Diffusers Sprint](https://github.com/huggingface/community-events/edit/main/jax-controlnet-sprint/), March 29 - May 08, 2023. 
 -   [Deploying Generative AI Models](https://lu.ma/ijcugt4n) in collaboration with Inferless and Sequoia Capital, June 10, 2023. 
-
-### ML Street Talk
-
-I used to appear on one of the most popular podcasts in machine learning called the [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ). Below are the episodes where I have made  appearances. 
-
--   [Spoke](https://bit.ly/ml-st-sayak) to Tim Scarfe, Connor Shorten, and Yannic Kilcher.
--   [Spoke](http://bit.ly/mlst-mathilde) to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher.
--   [Spoke](http://bit.ly/sara_mlst) to **Sara Hooker** (Google Brain), with Tim Scarfe, and Yannic Kilcher.
--   [Spoke](http://bit.ly/sanyam_mlst) to **Sanyam Bhutani** (H2O.ai), with Tim Scarfe, Yannic Kilcher, and Alex Stenlake.
--   [Spoke](https://youtu.be/1EqJyMy0LnE) to **Simon Kornblith** (Google Brain) with Tim Scarfe and Yannic Kilcher.
--   [Spoke](https://youtu.be/Q0kN_ZHHDQY) to **Lena Voita** (University of Edinburgh and University of Amsterdam) with Tim Scarfe and Yannic Kilcher.
--   [Spoke](https://www.youtube.com/watch?v=_eHRICHlg1k) to **Hadi Salman** (MIT) with Tim Scarfe and Yannic Kilcher.
--   [Spoke](https://www.youtube.com/watch?v=EXJmodhu4_4) to **Ishan Misra** (Facebook AI Research) with Tim Scarfe and Yannic Kilcher.
 
 **Note:** If you are interested to invite me as a speaker for your event, please get in touch by dropping an email at [spsayakpaul@gmail.com](mailto:spsayakpaul@gmail.com). If you are interested in having me submit a CFP first, that is absolutely fine! Please don't hesitate to ask that.
