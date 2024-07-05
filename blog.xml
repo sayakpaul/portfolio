@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.4.555</generator>
+<generator>quarto-1.5.53</generator>
 <lastBuildDate>Fri, 15 Mar 2024 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Streamlining PyPI Releases: A Case Study with 🧨 Diffusers</title>
@@ -378,11 +378,14 @@ font-style: inherit;">768</span>]</span></code></pre></div>
 <p>A ConvNeXt model is divided into three main parts: (1) stem which directly operates on the input image, (2) downsample blocks that reduce the resolution of feature maps as the network progresses, and (3) stages that apply the ConvNeXt blocks shown above. This is why I organized my weight porting script such that it has a correspondence between these different parts with the original parameters. Here is an example:</p>
 <div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> layer <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> stem_block.layers:</span>
 <span id="cb2-2">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">isinstance</span>(layer, tf.keras.layers.Conv2D):</span>
@@ -404,6 +407,7 @@ background-color: null;
 font-style: inherit;">1</span>].numpy()))</span>
 <span id="cb2-7">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">elif</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">isinstance</span>(layer, tf.keras.layers.LayerNormalization):</span>
@@ -834,6 +838,7 @@ $ gcloud ai-platform jobs submit training ${JOB_NAME} \
 background-color: null;
 font-style: inherit;">trainingInput</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb7-2"><span class="at" style="color: #657422;
 background-color: null;
@@ -841,6 +846,7 @@ font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">scaleTier</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> CUSTOM</span></span>
@@ -853,6 +859,7 @@ font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">masterType</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> n1-standard-8</span><span class="co" style="color: #5E5E5E;
@@ -864,6 +871,7 @@ font-style: inherit;">  </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">masterConfig</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb7-6"><span class="at" style="color: #657422;
 background-color: null;
@@ -871,6 +879,7 @@ font-style: inherit;">    </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">acceleratorConfig</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span></span>
 <span id="cb7-7"><span class="at" style="color: #657422;
 background-color: null;
@@ -878,6 +887,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">count</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> </span><span class="dv" style="color: #AD0000;
@@ -889,6 +899,7 @@ font-style: inherit;">      </span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">type</span><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">:</span><span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;"> NVIDIA_TESLA_V100</span></span></code></pre></div>
@@ -1085,6 +1096,7 @@ font-style: inherit;">%</span> cd opencv-4.5.0</span>
 background-color: null;
 font-style: inherit;">%</span> mkdir build <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">&amp;&amp;</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">cd</span> build</span></code></pre></div>
@@ -1215,6 +1227,7 @@ font-style: inherit;">&gt;</span> <span class="er" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">(</span><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> <span class="ex" style="color: null;
 background-color: null;
 font-style: inherit;">you</span> haven<span class="st" style="color: #20794D;
@@ -1632,11 +1645,14 @@ font-style: inherit;">320</span></span>
 <span id="cb4-3"> </span>
 <span id="cb4-4"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> representative_dataset_gen():</span>
 <span id="cb4-5">   <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> image_path <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> rep_ds:</span>
 <span id="cb4-6">       img <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -1659,6 +1675,7 @@ background-color: null;
 font-style: inherit;">=</span> resized_img[tf.newaxis, :]</span>
 <span id="cb4-11">       <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">yield</span> [resized_img]</span></code></pre></div>
 <p><strong>Note</strong> that these preprocessing steps should be in sync with the actual preprocessing steps that would apply before running inference with your TFLite model. In case if you are interested to know about more complex representative dataset generators you may find <a href="https://github.com/sayakpaul/Adventures-in-TensorFlow-Lite/blob/master/Magenta_arbitrary_style_transfer_model_conversion.ipynb"><u>this notebook</u></a> useful.</p>
 <p>Also, note that dynamic-range and <code>float16</code> quantization of the EdgeTPU and DSP variants don’t have much of practical usage. The next section is going to be solely about full integer quantization of these different variants and the nitty-gritty to take into consideration for the conversion process.</p>
@@ -1931,8 +1948,10 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb3-5"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> (i, segment_label) <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">enumerate</span>(segment_labels):</span>
@@ -2006,6 +2025,7 @@ font-style: inherit;">=</span> []</span>
 <span id="cb5-3"></span>
 <span id="cb5-4"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">with</span> io.<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">open</span>(image_file, <span class="st" style="color: #20794D;
@@ -2036,13 +2056,17 @@ background-color: null;
 font-style: inherit;"># Segregate the blocks</span></span>
 <span id="cb5-12"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> page <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> document.pages:</span>
 <span id="cb5-13">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> block <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> page.blocks:</span>
 <span id="cb5-14">        bounds.append(block.bounding_box)</span></code></pre></div></li>
 <li><p>Then I used the example presented <a href="https://cloud.google.com/vision/docs/fulltext-annotations"><u>here</u></a> to draw the bounding boxes on the input image which we saw earlier. I also reused these bounding boxes to segregate different blocks as inferred by the Vision API.</p></li>
@@ -2062,11 +2086,14 @@ background-color: null;
 font-style: inherit;">len</span>)</span>
 <span id="cb6-2"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> text <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> texts_sorted:</span>
 <span id="cb6-3">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">if</span> text.split()[<span class="dv" style="color: #AD0000;
 background-color: null;
 font-style: inherit;">0</span>].isupper() <span class="op" style="color: #5E5E5E;
@@ -2350,14 +2377,17 @@ Predicted: [('n02504013', 'Indian_elephant', 0.70024925), ('n01871265', 'tusker'
 <div id="cell-15" class="cell">
 <div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> time_my_model(model, data):</span>
 <span id="cb6-2">    times <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb6-3">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -2550,6 +2580,7 @@ average(sec):0.03,fps:37.24</code></pre>
 <div id="cell-32" class="cell">
 <div class="sourceCode cell-code" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> time_trt_model():</span>
 <span id="cb16-2">    image_input <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2561,8 +2592,10 @@ background-color: null;
 font-style: inherit;">=</span> []</span>
 <span id="cb16-4">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -2861,6 +2894,7 @@ font-style: inherit;">=</span> get_training_model()</span>
 <div id="cell-17" class="cell">
 <div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> parse_images(image_path):</span>
 <span id="cb9-2">    <span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -2901,12 +2935,14 @@ font-style: inherit;">5</span>]</span>
 <span id="cb9-10"></span>
 <span id="cb9-11">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> (img, label)</span></code></pre></div>
 </div>
 <p>You would then write a separate augmentation policy with the <a href="https://www.tensorflow.org/api_docs/python/tf/image">TensorFlow Image ops</a> -</p>
 <div id="cell-19" class="cell">
 <div class="sourceCode cell-code" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> augment(image, label):</span>
 <span id="cb10-2">    img <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -2916,6 +2952,7 @@ background-color: null;
 font-style: inherit;">=</span> tf.image.flip_left_right(img)</span>
 <span id="cb10-4">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> (img, label)</span></code></pre></div>
 </div>
 <p>To chain the above two together you would first create an initial dataset consisting of only the image paths -</p>
@@ -3051,8 +3088,10 @@ background-color: null;
 font-style: inherit;">10</span>))</span>
 <span id="cb18-4"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -3109,6 +3148,7 @@ font-style: inherit;">1024</span>)</span>
 background-color: null;
 font-style: inherit;">map</span>(<span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span> x, y: (data_augmentation(x), y),</span>
 <span id="cb19-7">        num_parallel_calls<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3179,11 +3219,13 @@ Note
 <div id="cell-37" class="cell">
 <div class="sourceCode cell-code" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> CustomAugment(<span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">object</span>):</span>
 <span id="cb21-2">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">__call__</span>(<span class="va" style="color: #111111;
@@ -3214,10 +3256,12 @@ background-color: null;
 font-style: inherit;">0.9</span>)</span>
 <span id="cb21-6">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> img</span>
 <span id="cb21-7"></span>
 <span id="cb21-8">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> _color_drop(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, x):</span>
@@ -3237,15 +3281,18 @@ background-color: null;
 font-style: inherit;">3</span>])</span>
 <span id="cb21-11">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> x</span>
 <span id="cb21-12">    </span>
 <span id="cb21-13">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> _random_apply(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, func, x, p):</span>
 <span id="cb21-14">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> tf.cond(</span>
 <span id="cb21-15">          tf.less(tf.random.uniform([], minval<span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3261,9 +3308,11 @@ font-style: inherit;">=</span>tf.float32),</span>
 <span id="cb21-16">                  tf.cast(p, tf.float32)),</span>
 <span id="cb21-17">          <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span>: func(x),</span>
 <span id="cb21-18">          <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">lambda</span>: x)</span></code></pre></div>
 </div>
 <p><code>_random_apply</code> is taken from the <a href="https://github.com/google-research/simclr">official SimCLR repository</a>. Now, in order to tie it together with the stock image processing layers, we can still use the <code>Sequential</code> API with a <code>Lambda</code> layer -</p>
@@ -3299,8 +3348,10 @@ background-color: null;
 font-style: inherit;">10</span>))</span>
 <span id="cb23-4"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> n <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -3482,8 +3533,10 @@ background-color: null;
 font-style: inherit;">10</span>))</span>
 <span id="cb3-3"><span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">for</span> i <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">in</span> <span class="bu" style="color: null;
 background-color: null;
 font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
@@ -3529,6 +3582,7 @@ background-color: null;
 font-style: inherit;"># We will embed it in the model later</span></span>
 <span id="cb4-3"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> preprocess_image(image_pixels):</span>
 <span id="cb4-4">    img <span class="op" style="color: #5E5E5E;
 background-color: null;
@@ -3539,6 +3593,7 @@ background-color: null;
 font-style: inherit;">255</span></span>
 <span id="cb4-5">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> img</span>
 <span id="cb4-6"></span>
 <span id="cb4-7"><span class="co" style="color: #5E5E5E;
@@ -3546,6 +3601,7 @@ background-color: null;
 font-style: inherit;"># A humble model</span></span>
 <span id="cb4-8"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> get_training_model():</span>
 <span id="cb4-9">    <span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -3629,6 +3685,7 @@ font-style: inherit;">'accuracy'</span>])</span>
 <span id="cb4-24">        </span>
 <span id="cb4-25">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> model</span></code></pre></div>
 </div>
 <div id="cell-12" class="cell" data-outputid="5ceb1291-0c2f-45bc-9faf-4cd29bbabdcd">
@@ -3895,6 +3952,7 @@ font-style: inherit;">255</span></span></code></pre></div>
 <div id="cell-38" class="cell">
 <div class="sourceCode cell-code" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> get_training_model_v2():</span>
 <span id="cb20-2">    <span class="co" style="color: #5E5E5E;
 background-color: null;
@@ -3969,6 +4027,7 @@ font-style: inherit;">"accuracy"</span>])</span>
 <span id="cb20-16">        </span>
 <span id="cb20-17">    <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> model</span></code></pre></div>
 </div>
 </section>
@@ -4030,9 +4089,11 @@ background-color: null;
 font-style: inherit;"># A custom class for serving</span></span>
 <span id="cb23-2"><span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">class</span> ExportModel(tf.keras.Model):</span>
 <span id="cb23-3">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
@@ -4066,6 +4127,7 @@ background-color: null;
 font-style: inherit;">=</span>tf.uint8)])</span>
 <span id="cb23-8">    <span class="kw" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">def</span> my_serve(<span class="va" style="color: #111111;
 background-color: null;
 font-style: inherit;">self</span>, images):</span>
@@ -4096,6 +4158,7 @@ background-color: null;
 font-style: inherit;"># post-processing</span></span>
 <span id="cb23-12">        <span class="cf" style="color: #003B4F;
 background-color: null;
+font-weight: bold;
 font-style: inherit;">return</span> {<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"class_index"</span>: class_index}</span></code></pre></div>
