@@ -205,6 +205,7 @@ and for blog posts.
 - [Welcome aMUSEd: Efficient Text-to-Image Generation](https://huggingface.co/blog/amused) (multiple authors; please refer to the blog post to know more).
 - [🤗 PEFT welcomes new merging methods](https://huggingface.co/blog/peft_merging) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en)).
 - [🧨 Diffusers welcomes Stable Diffusion 3](https://huggingface.co/blog/sd3) (Diffusers team).
+- [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers) (with [David Corvoysier](https://huggingface.co/dacorvo)).
 
 ### [Carted](https://www.carted.com/blog)
 
