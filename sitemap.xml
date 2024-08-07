@@ -1,103 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sayak.dev/blog.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/sharing-work.html</loc>
-    <lastmod>2024-07-30T05:28:37.453Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/streamlined-releases.html</loc>
-    <lastmod>2024-07-30T05:28:37.521Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/convnext-tfhub.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/ml-practice.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/optimizing-text-detectors.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions.html</loc>
+    <lastmod>2024-08-07T14:58:05.895Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/2020-08-02-favorite-recipes-vision.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/sharing-work.html</loc>
+    <lastmod>2024-08-07T14:58:05.895Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/augmentation-recipes.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/mlapis-maker.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/posts/streamlined-releases.html</loc>
+    <lastmod>2024-08-07T14:58:05.963Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/pages/authoring.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/interviews.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/about.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/education.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/talksseminarsworkshops.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/research.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/xyz.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/pages/resources.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
-  </url>
-  <url>
-    <loc>https://sayak.dev/posts/mobiledet-optimization.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/posts/ml-practice.html</loc>
+    <lastmod>2024-08-07T14:58:05.915Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/posts/tftrt-optimization.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/install-opencv-m1.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/posts/convnext-tfhub.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/distributed-training.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/pages/xyz.html</loc>
+    <lastmod>2024-08-07T14:58:05.895Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions.html</loc>
-    <lastmod>2024-07-30T05:28:37.453Z</lastmod>
+    <loc>https://sayak.dev/pages/research.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/gsoc-faqs.html</loc>
-    <lastmod>2024-07-30T05:28:37.469Z</lastmod>
+    <loc>https://sayak.dev/pages/education.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
   </url>
   <url>
-    <loc>https://sayak.dev/posts/quarto-migration.html</loc>
-    <lastmod>2024-07-30T05:28:37.513Z</lastmod>
+    <loc>https://sayak.dev/pages/about.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/blog.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
   </url>
   <url>
     <loc>https://sayak.dev/index.html</loc>
-    <lastmod>2024-07-30T05:28:37.449Z</lastmod>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/pages/authoring.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/pages/interviews.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/pages/talksseminarsworkshops.html</loc>
+    <lastmod>2024-08-07T14:58:05.895Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/pages/resources.html</loc>
+    <lastmod>2024-08-07T14:58:05.891Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/optimizing-text-detectors.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/mobiledet-optimization.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/install-opencv-m1.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/gsoc-faqs.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/mlapis-maker.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/quarto-migration.html</loc>
+    <lastmod>2024-08-07T14:58:05.959Z</lastmod>
+  </url>
+  <url>
+    <loc>https://sayak.dev/posts/distributed-training.html</loc>
+    <lastmod>2024-08-07T14:58:05.911Z</lastmod>
   </url>
 </urlset>
