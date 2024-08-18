@@ -84,6 +84,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **A talk on diffusion models**, ETH Zurich (May 06, 2024). Slides are [here](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing).
 - **Controlling Diffusion Models: Assorted Approaches**, Center of AI, UCL (June 10, 2024). Slides are [here](https://docs.google.com/presentation/d/1kzYPcwVCTvwfmlyiix2So6ZVTcPafm0OxL1_NXUqODo/edit?usp=sharing).
 - **State-of-the-art image generation 🧨 with Diffusers**, EuroPython, Prague (July 10, 2024). Slides are [here](https://ep2024.europython.eu/session/state-of-the-art-image-generation-for-the-masses-with-diffusers).
+- **LLaMADuo: Marrying small language models with larger ones**, GCCD Kolkata, India (August 17, 2024). Slides are [here](https://docs.google.com/presentation/d/1pdNBbZKdinZTZhUr9fEAPEzHRTck88MeTKx1h9AA7Ws/edit?usp=sharing).
 
 ### Podcasts where I have appeared
 
