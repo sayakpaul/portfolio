@@ -18,7 +18,7 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - New podcast with Varun Mayya: [Conversation with a Hugging Face developer](https://www.youtube.com/watch?v=IlIhykPDesE).
 - New paper in collaboration with KAIST AI and Korea University: [Margin-aware Preference Optimization for Aligning Diffusion Models without Reference](https://mapo-t2i.github.io/).
 - [SPRIGHT](https://spright-t2i.github.io/) was accepted to ECCV'24 🥳 See you in Milan 🇮🇹
-- New work: [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers).
+- New work: [How to split Flux transformer and run inference?](https://huggingface2.notion.site/How-to-split-Flux-transformer-and-run-inference-aa1583ad23ce47a78589a79bb9309ab0).
 
 To know about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
