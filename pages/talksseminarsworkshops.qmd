@@ -83,6 +83,8 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **State-of-the-art image generation 🧨 with Diffusers**, EuroPython, Prague (July 10, 2024). Slides are [here](https://ep2024.europython.eu/session/state-of-the-art-image-generation-for-the-masses-with-diffusers).
 - **LLaMADuo: Marrying small language models with larger ones**, GCCD Kolkata, India (August 17, 2024). Slides are [here](https://docs.google.com/presentation/d/1pdNBbZKdinZTZhUr9fEAPEzHRTck88MeTKx1h9AA7Ws/edit?usp=sharing).
 
+For more research-oriented talks, refer [here](https://sayak.dev/research/). 
+
 ### Podcasts where I have appeared
 
 - **Machine Learning Street Talk**. [Spoke](https://bit.ly/ml-st-sayak) to Tim Scarfe, Connor Shorten, and Yannic Kilcher.
@@ -91,8 +93,6 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - Appeared on the Overpowered podcast with Varun Mayya. Find it [here](https://www.youtube.com/watch?v=IlIhykPDesE).
 - **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 - Appeared on the **Humans of Digital** podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
-
-For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
 ### ML Street Talk
 
