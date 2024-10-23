@@ -80,7 +80,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Staying relevant as an MLE in the age of GenAI**, DevFest Kolkata 2023 (December 22, 2023). Slides are [here](https://docs.google.com/presentation/d/111mLl9pYS91ApdiBe0p0vsKGeJ33cZm0gBNVDJHKB00/edit?usp=sharing).
 - **Building a Personal Coding Assistant** (with Sourab Mangrulkar), Build with AI, Bangalore (March 02, 2024). Slides are [here](https://docs.google.com/presentation/d/17gYjRsfNYoG4oyQMx23goHI1viyh15Gdwij-D3ZGNOs/edit?usp=sharing).
 - **ML Careers in 2024**, IIT Indore (April 11, 2024). Slides are [here](https://docs.google.com/presentation/d/1idlAJnLpu5EOREMeWG2wVc23hBjZD20G1XptvvZttUQ/edit?usp=sharing).
-- **State-of-the-art image generation 🧨 with Diffusers**, EuroPython, Prague (July 10, 2024). Slides are [here](https://ep2024.europython.eu/session/state-of-the-art-image-generation-for-the-masses-with-diffusers).
+- **State-of-the-art image generation 🧨 with Diffusers**, EuroPython, Prague (July 10, 2024). Slides and recording are [here](https://ep2024.europython.eu/session/state-of-the-art-image-generation-for-the-masses-with-diffusers).
 - **LLaMADuo: Marrying small language models with larger ones**, GCCD Kolkata, India (August 17, 2024). Slides are [here](https://docs.google.com/presentation/d/1pdNBbZKdinZTZhUr9fEAPEzHRTck88MeTKx1h9AA7Ws/edit?usp=sharing).
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
