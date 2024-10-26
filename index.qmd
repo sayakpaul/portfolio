@@ -14,11 +14,11 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 
 ### News
 
-- New podcast with Varun Mayya: [Conversation with a Hugging Face developer](https://www.youtube.com/watch?v=IlIhykPDesE).
-- New paper in collaboration with KAIST AI and Korea University: [Margin-aware Preference Optimization for Aligning Diffusion Models without Reference](https://mapo-t2i.github.io/).
+- New work in collaboration with KAIST AI and Korea University: [Margin-aware Preference Optimization for Aligning Diffusion Models without Reference](https://mapo-t2i.github.io/).
 - We open-sourced a repository [`diffusers-torchao`](https://github.com/sayakpaul/diffusers-torchao) that contains recipes to optimize the runtime for large diffusion models like Flux and Cog-Video. 
 - We open-sourced [`cogvideox-factory`](https://github.com/a-r-r-o-w/cogvideox-factory), a repository that allows fine-tuning the Cog family of T2V and I2V models under 24GB GPU VRAM.
 - Shipped quantization in Diffusers. Follow [this thread](https://x.com/RisingSayak/status/1848373306233364847) to know more.
+- Flux.1 Dev LoRA training with quantization. Guide is [here](https://github.com/huggingface/diffusers/tree/main/examples/research_projects/flux_lora_quantization).
 
 To know about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
