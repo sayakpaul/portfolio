@@ -82,6 +82,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **ML Careers in 2024**, IIT Indore (April 11, 2024). Slides are [here](https://docs.google.com/presentation/d/1idlAJnLpu5EOREMeWG2wVc23hBjZD20G1XptvvZttUQ/edit?usp=sharing).
 - **State-of-the-art image generation 🧨 with Diffusers**, EuroPython, Prague (July 10, 2024). Slides and recording are [here](https://ep2024.europython.eu/session/state-of-the-art-image-generation-for-the-masses-with-diffusers).
 - **LLaMADuo: Marrying small language models with larger ones**, GCCD Kolkata, India (August 17, 2024). Slides are [here](https://docs.google.com/presentation/d/1pdNBbZKdinZTZhUr9fEAPEzHRTck88MeTKx1h9AA7Ws/edit?usp=sharing).
+- **Democratizing Diffusion Models with Diffusers**, Open-Source Summit, Japan (October 28, 2024). Slides are [here](https://docs.google.com/presentation/d/1Jzcnvgcwl45OJyqDP3MtUBZGSlsXDoZrzRIpNmNxFEs/edit?usp=sharing). Recording is [here](https://www.youtube.com/watch?v=xm1qt8k0bvE).
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
