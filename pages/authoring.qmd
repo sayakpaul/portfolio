@@ -182,6 +182,7 @@ and for blog posts.
 - [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
 - [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
 - [Inference with PEFT](https://huggingface.co/docs/diffusers/main/en/tutorials/using_peft_for_inference) (with [Sourab Mangrulkar](https://in.linkedin.com/in/sourab-m) and [Younes Belkada](https://fr.linkedin.com/in/younes-belkada-b1a903145/en))
+- [bitsandbytes quantization guide](https://huggingface.co/docs/diffusers/main/en/quantization/bitsandbytes)
 
 **Blogs**
 
@@ -206,6 +207,7 @@ and for blog posts.
 - [🤗 PEFT welcomes new merging methods](https://huggingface.co/blog/peft_merging) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en)).
 - [🧨 Diffusers welcomes Stable Diffusion 3](https://huggingface.co/blog/sd3) (Diffusers team).
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers) (with [David Corvoysier](https://huggingface.co/dacorvo)).
+- [🧨 Diffusers welcomes Stable Diffusion 3.5 Large](https://huggingface.co/blog/sd3-5) (Diffusers team).
 
 ### [Carted](https://www.carted.com/blog)
 
