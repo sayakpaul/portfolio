@@ -153,37 +153,6 @@ and for blog posts.
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
 - [Deploying 🤗 ViT on Vertex AI](https://huggingface.co/blog/deploy-vertex-ai) (with [Chansung Park](https://github.com/deep-diver))
 
-**Notebooks and Scripts**
-
-- [Fine-tuning VideoMAE for Video Classification](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/video_classification.ipynb)
-- [Fine-tuning TF SegFormer for Semantic Segmentation](https://nbviewer.org/github/huggingface/notebooks/blob/main/examples/semantic_segmentation-tf.ipynb)
-- [Fine-tuning Stable Diffusion on Text2Image with LoRA](https://github.com/huggingface/diffusers/blob/main/examples/text_to_image/train_text_to_image_lora.py)
-- [Fine-tuning a ViT for Image Classification with LoRA](https://github.com/huggingface/peft/blob/main/examples/image_classification/image_classification_peft_lora.ipynb)
-- [Fine-tuning a SegFormer for Semantic Segmentation with LoRA](https://github.com/huggingface/peft/blob/main/examples/semantic_segmentation/semantic_segmentation_peft_lora.ipynb)
-- [InstructPix2Pix training](https://huggingface.co/docs/diffusers/main/en/training/instructpix2pix)
-- [Custom Diffusion](https://huggingface.co/docs/diffusers/main/en/training/custom_diffusion) (in collaboration with [Nupur Kumari](https://nupurkmr9.github.io/))
-- Training a language model with 🤗 Transformers using TensorFlow and TPUs - [code](https://github.com/huggingface/transformers/tree/main/examples/tensorflow/language-modeling-tpu), [blog](https://huggingface.co/blog/tf_tpu) (with [Matthew Carrigan](https://twitter.com/carrigmat?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor))
-- Fine-tuning Stable Diffuson XL with DreamBooth and LoRA - [code](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/train_dreambooth_lora_sdxl.py), [guide](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md).
-- [Stable Diffusion XL + DreamBooth + LoRA](https://github.com/huggingface/diffusers/blob/main/examples/dreambooth/README_sdxl.md)
-- [Stable Diffusion XL + ControlNet](https://github.com/huggingface/diffusers/blob/main/examples/controlnet/README_sdxl.md)
-- [LCM LoRA SDXL](https://github.com/huggingface/diffusers/blob/main/examples/consistency_distillation/README_sdxl.md)
-- Faster text-to-image diffusion models in pure PyTorch ([code](https://github.com/huggingface/diffusion-fast)).
-
-**Guides**
-
-- [Semantic segmentation dataset preparation guide](https://huggingface.co/docs/datasets/semantic_segmentation)
-- [Depth estimation dataset preparation guide](https://huggingface.co/docs/datasets/main/en/depth_estimation)
-- [Video classification task guide](https://huggingface.co/docs/transformers/main/en/tasks/video_classification)
-- [Image captioning task guide](https://huggingface.co/docs/transformers/main/en/tasks/image_captioning)
-- [XLA Integration for TensorFlow Models](https://huggingface.co/docs/transformers/main/en/tf_xla) (with [Joao Gante](https://twitter.com/joao_gante))
-- [LoRA support in Diffusers](https://huggingface.co/docs/diffusers/main/en/training/lora)
-- [Using KerasCV Stable Diffusion Checkpoints in Diffusers](https://huggingface.co/docs/diffusers/main/en/using-diffusers/other-formats#keras-pb-or-h5)
-- [Zero-shot Image-to-Image Translation](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/pix2pix_zero)
-- [Evaluating Diffusion Models](https://huggingface.co/docs/diffusers/main/en/conceptual/evaluation)
-- [Token Merging](https://huggingface.co/docs/diffusers/main/en/optimization/tome)
-- [Inference with PEFT](https://huggingface.co/docs/diffusers/main/en/tutorials/using_peft_for_inference) (with [Sourab Mangrulkar](https://in.linkedin.com/in/sourab-m) and [Younes Belkada](https://fr.linkedin.com/in/younes-belkada-b1a903145/en))
-- [bitsandbytes quantization guide](https://huggingface.co/docs/diffusers/main/en/quantization/bitsandbytes)
-
 **Blogs**
 
 - [Image Similarity with Hugging Face Datasets and Transformers](https://huggingface.co/blog/image-similarity)
@@ -208,6 +177,9 @@ and for blog posts.
 - [🧨 Diffusers welcomes Stable Diffusion 3](https://huggingface.co/blog/sd3) (Diffusers team).
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers) (with [David Corvoysier](https://huggingface.co/dacorvo)).
 - [🧨 Diffusers welcomes Stable Diffusion 3.5 Large](https://huggingface.co/blog/sd3-5) (Diffusers team).
+- [Open Preference Dataset for Text-to-Image Generation by the 🤗 Community](https://huggingface.co/blog/image-preferences) (multiple authors from Hugging Face).
+
+Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
 ### [Carted](https://www.carted.com/blog)
 
