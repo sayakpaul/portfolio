@@ -15,10 +15,10 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 ### News
 
 - New work in collaboration with KAIST AI and Korea University: [Margin-aware Preference Optimization for Aligning Diffusion Models without Reference](https://mapo-t2i.github.io/).
-- We open-sourced [`cogvideox-factory`](https://github.com/a-r-r-o-w/cogvideox-factory), a repository that allows fine-tuning the Cog family of T2V and I2V models under 24GB GPU VRAM.
 - Shipped quantization in Diffusers. Follow [this thread](https://x.com/RisingSayak/status/1848373306233364847) to know more.
 - Fine-tune the best open video generation model of 2024, Mochi, under 40GB. Guide is [here](https://github.com/a-r-r-o-w/cogvideox-factory/tree/main/training/mochi-1).
 - New work with KAIST AI, Sookmyung Women's University, and Korea University: [A Noise is Worth Diffusion Guidance](https://cvlab-kaist.github.io/NoiseRefine/).
+- First work of 2025 - optimized inference for LTX-Video with `q8_kernels` and `diffusers` on ADA GPUs. Check it out [here](https://github.com/sayakpaul/q8-ltx-video).
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
