@@ -178,6 +178,7 @@ and for blog posts.
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers) (with [David Corvoysier](https://huggingface.co/dacorvo)).
 - [🧨 Diffusers welcomes Stable Diffusion 3.5 Large](https://huggingface.co/blog/sd3-5) (Diffusers team).
 - [Open Preference Dataset for Text-to-Image Generation by the 🤗 Community](https://huggingface.co/blog/image-preferences) (multiple authors from Hugging Face).
+- [State of open video generation models in Diffusers](https://huggingface.co/blog/video_gen) (with [Aryan](https://huggingface.co/a-r-r-o-w) and [Dhruv](https://huggingface.co/dn6)).
 
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
