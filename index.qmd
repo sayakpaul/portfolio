@@ -5,7 +5,7 @@ toc: false
 
 <img src="posts/carted_headshot.jpg" style="float: left; width: 230px; margin-right: 20px;"> Hi there 👋 I am Sayak Paul (সায়ক পাল). I work on [🧨 diffusion models](https://hf.co/docs/diffusers) at [Hugging Face](https://hf.co). Know more about me from [here](https://sayak.dev/about). I maintain a Google Doc answering some FAQs at length. You can check it out [here](https://bit.ly/sayak-faqs). </img>
 
-My external articles and other publishing engagements (like books, liveProjects, etc.) are listed [here](pages/authoring.qmd). Decks
+My external articles and other publishing engagements are listed [here](pages/authoring.qmd). Decks
 from my speaking engagements are listed [here](pages/talksseminarsworkshops.qmd). A detailed account of the things that are not
 directly available from the top navbar (interviews, talks etc.) can be found [here](pages/resources.qmd).
 
