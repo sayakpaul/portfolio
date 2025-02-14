@@ -18,6 +18,7 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - New work with KAIST AI, Sookmyung Women's University, and Korea University: [A Noise is Worth Diffusion Guidance](https://cvlab-kaist.github.io/NoiseRefine/).
 - First work of 2025 - optimized inference for LTX-Video with `q8_kernels` and `diffusers` on ADA GPUs. Check it out [here](https://github.com/sayakpaul/q8-ltx-video).
 - Released FluxEdit, an experimental fine-tune of Flux.1-Dev, capable of image editing from language instructions. Check it out [here](https://github.com/sayakpaul/flux-image-editing).
+- Simple re-implementation of inference-time scaling diffusion models beyond denoising steps (from Google DeepMind): [tt-scale-flux](https://github.com/sayakpaul/tt-scale-flux/).
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
