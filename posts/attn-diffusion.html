@@ -288,7 +288,7 @@ window.Quarto = {
 <div data-align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width="700/">
 <p>
-<small>Image generated with Flux.1-Dev.</small>
+<small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
 </p></div>
 <section id="self-attention" class="level2">
 <h2 class="anchored" data-anchor-id="self-attention">Self-attention</h2>
@@ -564,7 +564,7 @@ window.Quarto = {
 <div data-align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/parallel_layers.png" width="600/">
 <p>
-<small>Transformer block with parallel layers. Figure taken from the ViT-22B paper.</small>
+<small>Transformer block with parallel layers. Figure taken from the ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[<a href="#ref-dehghani2023scalingvisiontransformers22" role="doc-biblioref">3</a>]</span>.</small>
 </p></div>
 <p>It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 <span class="citation" data-cites="lumina2">[<a href="#ref-lumina2" role="doc-biblioref">11</a>]</span> combines all three and uses joint-attention with a twist:</p>
 <ul>
@@ -589,7 +589,7 @@ window.Quarto = {
 <div data-align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width="600/">
 <p>
-<small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper.</small>
+<small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[<a href="#ref-xie2024sanaefficienthighresolutionimage" role="doc-biblioref">2</a>]</span>.</small>
 </p></div>
 <p>Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">+ def forward(self, x):</span></span>
