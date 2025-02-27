@@ -276,15 +276,6 @@ window.Quarto = {
 <p>With modern diffusion models (or shall we say “flow”) for condition-guided image and video generation, we saw the community going beyond cross-attention. For example, Stable Diffusion 3 (SD 3) <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[<a href="#ref-esser2024scalingrectifiedflowtransformers" role="doc-biblioref">1</a>]</span> introduced “joint-attention” in its MMDiT architecture. SANA <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[<a href="#ref-xie2024sanaefficienthighresolutionimage" role="doc-biblioref">2</a>]</span>, on the other hand, introduced a variant of “linear attention”, moving away from the standard attention mechanism.</p>
 <p>While the changes between these variants may appear architecturally simple, it can be helpful to understand the factors that distinguish them. In this post, we will investigate the popular forms of attention blocks used in modern diffusion models. We will tear them apart with simple PyTorch code and comment on some additional findings.</p>
 <p>Readers are expected to be familiar with diffusion-based image generation models and encoder-based transformer architectures.</p>
-<p><strong>Table of contents</strong>:</p>
-<ul>
-<li><a href="#self-attention">Self-attention</a></li>
-<li><a href="#cross-attention">Cross-attention</a></li>
-<li><a href="#joint-attention">Joint-attention</a></li>
-<li><a href="#linear-attention">Linear attention</a></li>
-<li><a href="#thoughts">Thoughts</a></li>
-<li><a href="#references">References</a></li>
-</ul>
 <div data-align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width="700/">
 <p>
