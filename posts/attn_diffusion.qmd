@@ -49,7 +49,7 @@ and encoder-based transformer architectures.
 
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width=700/>
-<p><small>Image generated with Flux.1-Dev.</small>
+<p><small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
 </div>
 
 ## Self-attention
@@ -428,7 +428,7 @@ The ViT-22B paper [@dehghani2023scalingvisiontransformers22] also provides a gre
 
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/parallel_layers.png" width=600/>
-<p><small>Transformer block with parallel layers. Figure taken from the ViT-22B paper.</small>
+<p><small>Transformer block with parallel layers. Figure taken from the ViT-22B paper [@dehghani2023scalingvisiontransformers22].</small>
 </div>
 
 It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 [@lumina2] combines all three and uses joint-attention with a twist:
@@ -458,7 +458,7 @@ To facilitate local interactions between the tokens of the noisy latents, it use
 
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width=600/>
-<p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper.</small>
+<p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small>
 </div>
 
 Implementation of this linear-attention variant is by far the simplest. We show the main
