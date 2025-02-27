@@ -20,7 +20,6 @@ bibliography: bibs/attn_diffusion_references.bib
 csl: citation_styles/diabetologia.csl
 code-overflow: wrap
 ---
-
 Attention is a crucial component in neural architectures that allow the generation of continuous
 modalities like images and videos from natural language. More specifically, cross-attention helps
 to contextualize the relationship between the natural language prompt inputs and the media, being
