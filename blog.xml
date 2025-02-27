@@ -915,6 +915,7 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 </ul>
 <p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[12]</span>)?</p>
 <p>All of these questions (and possibly more) warrant a careful ablation study.</p>
+<p><em>Acknowledgements</em>: Thanks to <a href="https://twitter.com/ariG23498">Aritra Roy Gosthipaty</a> for useful feedback.</p>
 
 
 </section>
