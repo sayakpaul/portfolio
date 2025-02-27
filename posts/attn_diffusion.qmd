@@ -19,7 +19,7 @@ bibliography: bibs/attn_diffusion_references.bib
 csl: citation_styles/diabetologia.csl
 title: 'Flavors of attention in modern diffusion models'
 ---
-Attention is a crucial component in neural architectures that allow the generation of continuous
+Attention is a crucial component in generative neural architectures for continuous
 modalities like images and videos from natural language. More specifically, cross-attention helps
 to contextualize the relationship between the natural language prompt inputs and the media, being
 generated. 
