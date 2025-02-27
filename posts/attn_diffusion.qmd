@@ -512,3 +512,5 @@ In defense of the widely adopted and optimized vanilla attention, could we inter
 quadratic attention and window attention (as done in Gemma2 [@gemmateam2024gemma2improvingopen])? 
 
 All of these questions (and possibly more) warrant a careful ablation study.
+
+*Acknowledgements*: Thanks to [Aritra Roy Gosthipaty](https://twitter.com/ariG23498) for useful feedback.
