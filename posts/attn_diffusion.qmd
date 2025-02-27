@@ -15,10 +15,9 @@ image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/at
 hide: false
 output-file: attn-diffusion.html
 search_exclude: false
-title: 'Flavors of attention in modern diffusion models'
 bibliography: bibs/attn_diffusion_references.bib
 csl: citation_styles/diabetologia.csl
-code-overflow: wrap
+title: 'Flavors of attention in modern diffusion models'
 ---
 Attention is a crucial component in neural architectures that allow the generation of continuous
 modalities like images and videos from natural language. More specifically, cross-attention helps
