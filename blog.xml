@@ -257,13 +257,21 @@ font-style: inherit;">+ k = self.k_norm_layer(k)</span></span>
 <p>In the standard attention, every query in the sequence independently computes its attention weights with every key. But there may be redundancy <span class="citation" data-cites="ainslie2023gqatraininggeneralizedmultiquery">[4]</span> in this setup. We can maintain a reduced space for the keys, and the values repeat them across groups of queries. In practice, this looks like so:</p>
 <div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb5-1">...</span>
 <span id="cb5-2">q = self.to_q(x) # (batch_size, seq_length, embed_dim)</span>
-<span id="cb5-3">k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span>
-<span id="cb5-4">v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span>
+<span id="cb5-3"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
+<span id="cb5-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
 <span id="cb5-5"></span>
 <span id="cb5-6"># Note there's no transpose yet (.transpose(1, 2)).</span>
 <span id="cb5-7">q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)</span>
-<span id="cb5-8">k = k.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
-<span id="cb5-9">v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb5-8"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = k.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
+<span id="cb5-9"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ v = v.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
 <span id="cb5-10"></span>
 <span id="cb5-11"><span class="va" style="color: #111111;
 background-color: null;

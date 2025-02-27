@@ -377,13 +377,13 @@ window.Quarto = {
 <p>In the standard attention, every query in the sequence independently computes its attention weights with every key. But there may be redundancy <span class="citation" data-cites="ainslie2023gqatraininggeneralizedmultiquery">[<a href="#ref-ainslie2023gqatraininggeneralizedmultiquery" role="doc-biblioref">4</a>]</span> in this setup. We can maintain a reduced space for the keys, and the values repeat them across groups of queries. In practice, this looks like so:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>...</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>q = self.to_q(x) # (batch_size, seq_length, embed_dim)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">+ k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">+ v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a># Note there's no transpose yet (.transpose(1, 2)).</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>k = k.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">+ k = k.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">+ v = v.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="va">+ n_rep = self.num_heads // self.kv_heads</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="va">+ if n_rep &gt;= 1:</span></span>
