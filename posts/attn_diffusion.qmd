@@ -173,13 +173,13 @@ of queries. In practice, this looks like so:
 ```diff
 ...
 q = self.to_q(x) # (batch_size, seq_length, embed_dim)
-k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)
-v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)
++ k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)
++ v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)
 
 # Note there's no transpose yet (.transpose(1, 2)).
 q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)
-k = k.view(batch_size, source_seq_length, self.num_heads, self.head_dim)
-v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim)
++ k = k.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)
++ v = v.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)
 
 + n_rep = self.num_heads // self.kv_heads
 + if n_rep >= 1:
