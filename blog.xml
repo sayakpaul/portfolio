@@ -328,7 +328,7 @@ background-color: null;
 font-style: inherit;">+ key = apply_rotary_emb(key, key_rotary_emb, use_real=False)</span></span>
 <span id="cb6-15"></span>
 <span id="cb6-16">...</span></code></pre></div>
-<p>Popular models that use cross-attention include Stable Diffusion XL <span class="citation" data-cites="podell2023sdxlimprovinglatentdiffusion">[5]</span>, PixArt-{Alpha. Sigma} <span class="citation" data-cites="chen2023pixartalphafasttrainingdiffusion chen2024pixartsigmaweaktostrongtrainingdiffusion">[6, 7]</span>, Lumina-Next <span class="citation" data-cites="zhuo2024luminanextmakingluminat2xstronger">[<strong>zhuo2024luminanextmakingluminat2xstronger?</strong>]</span>, LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[8]</span>, etc. Lumina-Next incorporates all the other elements as well.</p>
+<p>Popular models that use cross-attention include Stable Diffusion XL <span class="citation" data-cites="podell2023sdxlimprovinglatentdiffusion">[5]</span>, PixArt-{Alpha. Sigma} <span class="citation" data-cites="chen2023pixartalphafasttrainingdiffusion chen2024pixartsigmaweaktostrongtrainingdiffusion">[6, 7]</span>, Lumina-Next <span class="citation" data-cites="zhuo2024luminanextmakingluminat2xstronger">[8]</span>, LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[9]</span>, etc. Lumina-Next incorporates all the other elements as well.</p>
 </section>
 <section id="joint-attention" class="level2">
 <h2 class="anchored" data-anchor-id="joint-attention">Joint-attention</h2>
@@ -598,7 +598,7 @@ background-color: null;
 font-style: inherit;">self</span>.out_proj(attn_output)</span></code></pre></div>
 <p>With joint-attention, it becomes unclear how to incorporate attention masks while computing attention and how much of a performance penalty it incurs due to that.</p>
 <p><strong>Part joint-attention, part self-attention</strong></p>
-<p>Subsequent works like AuraFlow <span class="citation" data-cites="auraflow">[9]</span> and Flux <span class="citation" data-cites="flux">[10]</span> introduced a small change in the original MMDiT architecture. They use joint attention for the first few layers within the diffusion transformer. They then concatenate the two different outputs and operate on the concatenated output. As per the AuraFlow authors, it helps with better FLOPs optimization. In pseudo-code, it looks like so:</p>
+<p>Subsequent works like AuraFlow <span class="citation" data-cites="auraflow">[10]</span> and Flux <span class="citation" data-cites="flux">[11]</span> introduced a small change in the original MMDiT architecture. They use joint attention for the first few layers within the diffusion transformer. They then concatenate the two different outputs and operate on the concatenated output. As per the AuraFlow authors, it helps with better FLOPs optimization. In pseudo-code, it looks like so:</p>
 <div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Regular MMDiT blocks.</span></span>
@@ -762,8 +762,6 @@ background-color: null;
 font-style: inherit;">=</span> torch.split(</span>
 <span id="cb12-2">    <span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">self</span>.<span class="va" style="color: #111111;
-background-color: null;
 font-style: inherit;">self</span>.qkv_mlp_first(x_mod), </span>
 <span id="cb12-3">    [<span class="dv" style="color: #AD0000;
 background-color: null;
@@ -828,7 +826,7 @@ font-style: inherit;">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span
 <p>
 <small>Transformer block with parallel layers. Figure taken from the ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[3]</span>.</small>
 </p></div>
-<p>It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 <span class="citation" data-cites="lumina2">[11]</span> combines all three and uses joint-attention with a twist:</p>
+<p>It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 <span class="citation" data-cites="lumina2">[12]</span> combines all three and uses joint-attention with a twist:</p>
 <ul>
 <li>It first uses very few layers of self-attention transformer blocks separately on the noisy latents and the conditional representations.</li>
 <li>It then combines the two representations and runs it through a number of self-attention transformer blocks.</li>
@@ -913,7 +911,7 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <li>Is the Lumina2 way of doing joint-attention the way to go?</li>
 <li>Is it necessary to do masking in joint-attention? If so, what are the benefits?</li>
 </ul>
-<p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[12]</span>)?</p>
+<p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[13]</span>)?</p>
 <p>All of these questions (and possibly more) warrant a careful ablation study.</p>
 <p><em>Acknowledgements</em>: Thanks to <a href="https://twitter.com/ariG23498">Aritra Roy Gosthipaty</a> for useful feedback.</p>
 
@@ -941,20 +939,23 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <div id="ref-chen2024pixartsigmaweaktostrongtrainingdiffusion" class="csl-entry">
 <div class="csl-left-margin">7. </div><div class="csl-right-inline">Chen J, Ge C, Xie E, et al (2024) <a href="https://arxiv.org/abs/2403.04692">PixArt-: Weak-to-strong training of diffusion transformer for 4K text-to-image generation</a></div>
 </div>
+<div id="ref-zhuo2024luminanextmakingluminat2xstronger" class="csl-entry">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Zhuo L, Du R, Xiao H, et al (2024) <a href="https://arxiv.org/abs/2406.18583">Lumina-next: Making lumina-T2X stronger and faster with next-DiT</a></div>
+</div>
 <div id="ref-hacohen2024ltxvideorealtimevideolatent" class="csl-entry">
-<div class="csl-left-margin">8. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
 </div>
 <div id="ref-auraflow" class="csl-entry">
-<div class="csl-left-margin">9. </div><div class="csl-right-inline">fal.ai, Simo <a href="https://blog.fal.ai/auraflow">Introducing AuraFlow v0.1, an open exploration of large rectified flow models</a></div>
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">fal.ai, Simo <a href="https://blog.fal.ai/auraflow">Introducing AuraFlow v0.1, an open exploration of large rectified flow models</a></div>
 </div>
 <div id="ref-flux" class="csl-entry">
-<div class="csl-left-margin">10. </div><div class="csl-right-inline">Labs BF <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Announcing black forest labs</a></div>
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Labs BF <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Announcing black forest labs</a></div>
 </div>
 <div id="ref-lumina2" class="csl-entry">
-<div class="csl-left-margin">11. </div><div class="csl-right-inline">Team L <a href="https://github.com/Alpha-VLLM/Lumina-Image-2.0">Lumina-image 2.0 : A unified and efficient image generative model</a></div>
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Team L <a href="https://github.com/Alpha-VLLM/Lumina-Image-2.0">Lumina-image 2.0 : A unified and efficient image generative model</a></div>
 </div>
 <div id="ref-gemmateam2024gemma2improvingopen" class="csl-entry">
-<div class="csl-left-margin">12. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
 </div>
 </div></section></div> ]]></description>
   <category>diffusion</category>
