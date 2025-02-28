@@ -410,7 +410,7 @@ The forward pass would be:
 
 ```python
 qkv, mlp = torch.split(
-    self.self.qkv_mlp_first(x_mod), 
+    self.qkv_mlp_first(x_mod), 
     [3 * self.embed_dim, int(self.embed_dim * self.mlp_ratio)], 
     dim=-1
 )
