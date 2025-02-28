@@ -286,10 +286,10 @@ def forward(self, x, context=None, attn_mask=None):
         context_k = context_k.view(bsz, source_seq_len, self.num_heads, self.head_dim).transpose(1, 2)
         context_v = context_v.view(bsz, source_seq_len, self.num_heads, self.head_dim).transpose(1, 2)
 
-        # Concatenate
-        q = torch.cat([context_q, q])
-        k = torch.cat([context_k, k])
-        v = torch.cat([context_v, v])
+        # Concatenate across the sequence length dimension
+        q = torch.cat([context_q, q], dim=2)
+        k = torch.cat([context_k, k], dim=2)
+        v = torch.cat([context_v, v], dim=2)
     
     # Compute scaled dot product attention
     attn_output = F.scaled_dot_product_attention(
