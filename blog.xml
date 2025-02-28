@@ -504,16 +504,28 @@ font-style: inherit;">2</span>)</span>
 <span id="cb7-26"></span>
 <span id="cb7-27">        <span class="co" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;"># Concatenate</span></span>
+font-style: inherit;"># Concatenate across the sequence length dimension</span></span>
 <span id="cb7-28">        q <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> torch.cat([context_q, q])</span>
+font-style: inherit;">=</span> torch.cat([context_q, q], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
 <span id="cb7-29">        k <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> torch.cat([context_k, k])</span>
+font-style: inherit;">=</span> torch.cat([context_k, k], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
 <span id="cb7-30">        v <span class="op" style="color: #5E5E5E;
 background-color: null;
-font-style: inherit;">=</span> torch.cat([context_v, v])</span>
+font-style: inherit;">=</span> torch.cat([context_v, v], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
 <span id="cb7-31">    </span>
 <span id="cb7-32">    <span class="co" style="color: #5E5E5E;
 background-color: null;

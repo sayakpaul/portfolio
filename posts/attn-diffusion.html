@@ -461,10 +461,10 @@ window.Quarto = {
 <span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        context_k <span class="op">=</span> context_k.view(bsz, source_seq_len, <span class="va">self</span>.num_heads, <span class="va">self</span>.head_dim).transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>        context_v <span class="op">=</span> context_v.view(bsz, source_seq_len, <span class="va">self</span>.num_heads, <span class="va">self</span>.head_dim).transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Concatenate</span></span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> torch.cat([context_q, q])</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> torch.cat([context_k, k])</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> torch.cat([context_v, v])</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Concatenate across the sequence length dimension</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>        q <span class="op">=</span> torch.cat([context_q, q], dim<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> torch.cat([context_k, k], dim<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> torch.cat([context_v, v], dim<span class="op">=</span><span class="dv">2</span>)</span>
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute scaled dot product attention</span></span>
 <span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    attn_output <span class="op">=</span> F.scaled_dot_product_attention(</span>
