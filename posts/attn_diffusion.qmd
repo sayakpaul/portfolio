@@ -481,6 +481,10 @@ changes introduced when compared to the classic self-attention:
     q = q.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
     k = k.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
     v = v.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)
+
++   # Reshape to (batch_size, seq_length, num_heads, head_dim)
++   q = q.transpose(2, 3)
++   v = v.transpose(2, 3)
     
 +    # Introduce non-linearity
 +    q = F.relu(q)
