@@ -880,40 +880,50 @@ font-style: inherit;">+ def forward(self, x):</span></span>
 <span id="cb13-12">    q = q.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
 <span id="cb13-13">    k = k.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
 <span id="cb13-14">    v = v.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
-<span id="cb13-15">    </span>
+<span id="cb13-15"></span>
 <span id="cb13-16"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    # Introduce non-linearity</span></span>
+font-style: inherit;">+   # Reshape to (batch_size, seq_length, num_heads, head_dim)</span></span>
 <span id="cb13-17"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    q = F.relu(q)</span></span>
+font-style: inherit;">+   q = q.transpose(2, 3)</span></span>
 <span id="cb13-18"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    k = F.relu(k)</span></span>
-<span id="cb13-19"></span>
+font-style: inherit;">+   v = v.transpose(2, 3)</span></span>
+<span id="cb13-19">    </span>
 <span id="cb13-20"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    # Combine scores</span></span>
+font-style: inherit;">+    # Introduce non-linearity</span></span>
 <span id="cb13-21"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    scores = torch.matmul(v, k)</span></span>
+font-style: inherit;">+    q = F.relu(q)</span></span>
 <span id="cb13-22"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    x = torch.matmul(scores, q)</span></span>
-<span id="cb13-23">    </span>
+font-style: inherit;">+    k = F.relu(k)</span></span>
+<span id="cb13-23"></span>
 <span id="cb13-24"><span class="va" style="color: #111111;
 background-color: null;
-font-style: inherit;">+    # Scale</span></span>
+font-style: inherit;">+    # Combine scores</span></span>
 <span id="cb13-25"><span class="va" style="color: #111111;
 background-color: null;
+font-style: inherit;">+    scores = torch.matmul(v, k)</span></span>
+<span id="cb13-26"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    x = torch.matmul(scores, q)</span></span>
+<span id="cb13-27">    </span>
+<span id="cb13-28"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    # Scale</span></span>
+<span id="cb13-29"><span class="va" style="color: #111111;
+background-color: null;
 font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></span>
-<span id="cb13-26">    </span>
-<span id="cb13-27">    # Combine the output from multiple heads</span>
-<span id="cb13-28">    x = x.transpose(1, 2).reshape(bsz, seq_length, self.embed_dim)</span>
-<span id="cb13-29">    </span>
-<span id="cb13-30">    # Final linear projection</span>
-<span id="cb13-31">    output = self.out_proj(x)</span>
-<span id="cb13-32">    return output</span></code></pre></div>
+<span id="cb13-30">    </span>
+<span id="cb13-31">    # Combine the output from multiple heads</span>
+<span id="cb13-32">    x = x.transpose(1, 2).reshape(bsz, seq_length, self.embed_dim)</span>
+<span id="cb13-33">    </span>
+<span id="cb13-34">    # Final linear projection</span>
+<span id="cb13-35">    output = self.out_proj(x)</span>
+<span id="cb13-36">    return output</span></code></pre></div>
 <section id="thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
 <p>Throughout the course of this post, we saw many architectural configurations of the attention mechanism. Some questions that may still arise:</p>
