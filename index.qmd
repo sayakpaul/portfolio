@@ -15,10 +15,10 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 ### News
 
 - Shipped quantization in Diffusers. Follow [this thread](https://x.com/RisingSayak/status/1848373306233364847) to know more.
-- First work of 2025 - optimized inference for LTX-Video with `q8_kernels` and `diffusers` on ADA GPUs. Check it out [here](https://github.com/sayakpaul/q8-ltx-video).
 - Simple re-implementation of inference-time scaling diffusion models beyond denoising steps (from Google DeepMind): [tt-scale-flux](https://github.com/sayakpaul/tt-scale-flux/).
 - New work on few-step sampling of diffusion models [SANA-Sprint: One-Step Diffusion with Continuous-Time Consistency Distillation](https://arxiv.org/abs/2503.09641) with NVIDIA.
 - Will be at ICLR 2025 for two papers: [FastRM](https://openreview.net/forum?id=7JGOp2fReO) and [MaPO](https://openreview.net/forum?id=JMVWaMR53s).
+- New work: [From Reflection to Perfection: Scaling Inference-Time Optimization for Text-to-Image Diffusion Models via Reflection Tuning](https://arxiv.org/abs/2504.16080).
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
