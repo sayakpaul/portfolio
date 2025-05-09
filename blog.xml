@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.7.29</generator>
+<generator>quarto-1.7.30</generator>
 <lastBuildDate>Thu, 27 Feb 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Flavors of attention in modern diffusion models</title>
@@ -856,7 +856,7 @@ font-style: inherit;">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span
 <p>SANA <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[2]</span> replaced all vanilla attention with linear attention. More specifically, in each of its transformer blocks, SANA has two kinds of attention:</p>
 <ol type="1">
 <li>linear self-attention for the noisy latents,</li>
-<li>regular cross attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
+<li>regular cross-attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
 </ol>
 <p>To facilitate local interactions between the tokens of the noisy latents, it used “Mix-FFN” blocks.</p>
 <div data-align="center">
@@ -925,6 +925,7 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <span id="cb13-34">    # Final linear projection</span>
 <span id="cb13-35">    output = self.out_proj(x)</span>
 <span id="cb13-36">    return output</span></code></pre></div>
+<p>It’s also worth pointing out that SANA uses no positional encodings (so-called <strong>NoPE</strong>). The SANA authors conjectured that the use of Mix-FFN blocks helped them get away with NoPE without incurring any loss in performance.</p>
 <section id="thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
 <p>Throughout the course of this post, we saw many architectural configurations of the attention mechanism. Some questions that may still arise:</p>
