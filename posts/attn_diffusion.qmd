@@ -454,7 +454,7 @@ SANA [@xie2024sanaefficienthighresolutionimage] replaced all vanilla attention w
 blocks, SANA has two kinds of attention: 
 
 (1) linear self-attention for the noisy latents, 
-(2) regular cross attention for the noisy latents (`x`) and the condition representations (`context`). 
+(2) regular cross-attention for the noisy latents (`x`) and the condition representations (`context`). 
 
 To facilitate local interactions between the tokens of the noisy latents, it used “Mix-FFN” blocks. 
 
@@ -463,8 +463,7 @@ To facilitate local interactions between the tokens of the noisy latents, it use
 <p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small>
 </div>
 
-Implementation of this linear-attention variant is by far the simplest. We show the main
-changes introduced when compared to the classic self-attention: 
+Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention: 
 
 ```diff
 + def forward(self, x):
@@ -504,6 +503,9 @@ changes introduced when compared to the classic self-attention:
     output = self.out_proj(x)
     return output
 ```
+
+It's also worth pointing out that SANA uses no positional encodings (so-called **NoPE**). The SANA authors conjectured that the use of Mix-FFN
+blocks helped them get away with NoPE without incurring any loss in performance.
 
 ## Thoughts
 
