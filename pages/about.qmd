@@ -24,16 +24,17 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ### Timeline
 
-| Position                               | Company                           | Duration                |
-|:--------------------------------------:|:---------------------------------:|:-----------------------:|
-| ML Engineer              | Hugging Face 🤗                   | July 2023 - Present     |
-| Developer Advocate Engineer            |                                   | October 2022 - July 2023|
-| (Founding) ML Engineer   | Carted                            | June 2021 - October 2022|
-| DL Associate                | PyImageSearch                     | June 2019 - June 2021   |
-| Data Science Instructor (on contract)  | DataCamp                          | August 2018 - June 2019 |
-| Software Engineer                      | TCS Research and Innovation       | January 2018 - August 2018|
-| Software Engineer                      | Tata Consultancy Services Limited | July 2017 - January 2018|
-| Intern                                 | CareerIn                          | Dec 2016 - Feb 2017     |
+```{=kable}
+| **Position**                             | **Company**                         |      **Duration**       |
+|:---------------------------------------- |:----------------------------------- |:----------------------:|
+| **ML Engineer**                          | **Hugging Face** 🤗                | July 2023 – Present     |
+| Developer Advocate Engineer              | —                                   | October 2022 – July 2023|
+| (Founding) ML Engineer                   | Carted                              | June 2021 – October 2022|
+| DL Associate                             | PyImageSearch                       | June 2019 – June 2021   |
+| Data Science Instructor (contract)       | DataCamp                            | August 2018 – June 2019 |
+| Software Engineer                        | TCS Research and Innovation         | January 2018 – August 2018|
+| Software Engineer                        | Tata Consultancy Services Limited   | July 2017 – January 2018|
+| Intern                                   | CareerIn                            | December 2016 – February 2017|
 
 ### Some stuff
 
