@@ -95,6 +95,7 @@ For more research-oriented talks, refer [here](https://sayak.dev/research/).
 - Appeared on the Overpowered podcast with Varun Mayya. Find it [here](https://www.youtube.com/watch?v=IlIhykPDesE).
 - **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 - Appeared on the **Humans of Digital** podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
+- Appeared on the College Street Kolkata podcast. Find it [here](https://www.youtube.com/live/m7Bm2EC_Ig0?si=-TVU86XgkoCq0VVs).
 
 ### ML Street Talk
 
