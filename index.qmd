@@ -17,7 +17,8 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - Shipped quantization in Diffusers. Follow [this thread](https://x.com/RisingSayak/status/1848373306233364847) to know more.
 - Simple re-implementation of inference-time scaling diffusion models beyond denoising steps (from Google DeepMind): [tt-scale-flux](https://github.com/sayakpaul/tt-scale-flux/).
 - New work on few-step sampling of diffusion models [SANA-Sprint: One-Step Diffusion with Continuous-Time Consistency Distillation](https://arxiv.org/abs/2503.09641) with NVIDIA.
-- New work: [From Reflection to Perfection: Scaling Inference-Time Optimization for Text-to-Image Diffusion Models via Reflection Tuning](https://arxiv.org/abs/2504.16080) with [Le Zhuo](https://le-zhuo.com/), [Liangbing Zhao](https://liangbingzhao.github.io/), and others.
+- New work: [From Reflection to Perfection: Scaling Inference-Time Optimization for Text-to-Image Diffusion Models via Reflection Tuning](https://arxiv.org/abs/2504.16080) with Le Zhuo, Liangbing Zhao, and others.
+- New work: [Exploring the Deep Fusion of Large Language Models and Diffusion Transformers for Text-to-Image Synthesis](http://arxiv.org/abs/2505.10046) with Bingda Tang, Boyang Zheng, Xichen Pan, and Saining Xie.
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
 
