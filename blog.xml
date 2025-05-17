@@ -858,7 +858,7 @@ font-style: inherit;">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span
 <li>linear self-attention for the noisy latents,</li>
 <li>regular cross-attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
 </ol>
-<p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign">[13]</span>.</p>
+<p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign">[14]</span>.</p>
 <div data-align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width="600/">
 <p>
@@ -935,7 +935,7 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <li>Is the Lumina2 way of doing joint-attention the way to go?</li>
 <li>Is it necessary to do masking in joint-attention? If so, what are the benefits?</li>
 </ul>
-<p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[14]</span>)?</p>
+<p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[15]</span>)?</p>
 <p>All of these questions (and possibly more) warrant a careful ablation study.</p>
 <p><em>Acknowledgements</em>: Thanks to <a href="https://twitter.com/ariG23498">Aritra Roy Gosthipaty</a> for useful feedback.</p>
 
@@ -981,8 +981,11 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <div id="ref-xie2021segformersimpleefficientdesign" class="csl-entry">
 <div class="csl-left-margin">13. </div><div class="csl-right-inline">Xie E, Wang W, Yu Z, Anandkumar A, Alvarez JM, Luo P (2021) <a href="https://arxiv.org/abs/2105.15203">SegFormer: Simple and efficient design for semantic segmentation with transformers</a></div>
 </div>
+<div id="ref-liu2023efficientvitmemoryefficientvision" class="csl-entry">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Liu X, Peng H, Zheng N, Yang Y, Hu H, Yuan Y (2023) <a href="https://arxiv.org/abs/2305.07027">EfficientViT: Memory efficient vision transformer with cascaded group attention</a></div>
+</div>
 <div id="ref-gemmateam2024gemma2improvingopen" class="csl-entry">
-<div class="csl-left-margin">14. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
 </div>
 </div></section></div> ]]></description>
   <category>diffusion</category>
