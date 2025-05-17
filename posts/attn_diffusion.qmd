@@ -456,7 +456,7 @@ blocks, SANA has two kinds of attention:
 (1) linear self-attention for the noisy latents, 
 (2) regular cross-attention for the noisy latents (`x`) and the condition representations (`context`). 
 
-To facilitate local interactions between the tokens, it used “Mix-FFN” blocks [@xie2021segformersimpleefficientdesign, @liu2023efficientvitmemoryefficientvision]. 
+To facilitate local interactions between the tokens, it used “Mix-FFN” blocks [@xie2021segformersimpleefficientdesign], [@liu2023efficientvitmemoryefficientvision]. 
 
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width=600/>
