@@ -18,6 +18,11 @@ on the publications I have been a part of.
 
 ### Invited talks, demos, etc.
 
+- SoTA Diffusion Models with 🧨 diffusers ([slides](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing) and [recording](https://youtu.be/qo5ubQadvfs))
+  - IBM Research (October 17, 2023)
+  - [The Dyson Robotics Lab](https://www.imperial.ac.uk/dyson-robotics-lab/), Imperial College London
+  - Department of Statistics, University of Oxford
+- 🧨 diffusers for research at [VAL](https://val.cds.iisc.ac.in/), Indian Institute of Science (IISc), June 12, 2023. Slides are [here](https://docs.google.com/presentation/d/1xBfs8yPVC4jeHJR4ShV0YIjpgC6glS4R6xD6BrxaU10/edit?usp=sharing).
 - Controlling Text-to-Image Diffusion Models: Assorted Approaches 
   - [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) in 2023 ([slides](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p), [recording](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s))
   - UCL in June 2024
