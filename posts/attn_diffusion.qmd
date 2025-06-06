@@ -466,7 +466,7 @@ To facilitate local interactions between the tokens, it used “Mix-FFN” block
 Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention: 
 
 ```diff
-+ def forward(self, x):
+def forward(self, x):
     # x shape: (batch_size, seq_length, embed_dim)
     bsz, seq_length, _ = x.size()
     
