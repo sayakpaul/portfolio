@@ -759,7 +759,7 @@ window.Quarto = {
 <small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[<a href="#ref-xie2024sanaefficienthighresolutionimage" role="doc-biblioref">2</a>]</span>.</small>
 </p></div>
 <p>Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">+ def forward(self, x):</span></span>
+<div class="sourceCode" id="cb13"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>def forward(self, x):</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    # x shape: (batch_size, seq_length, embed_dim)</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    bsz, seq_length, _ = x.size()</span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    </span>

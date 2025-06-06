@@ -865,9 +865,7 @@ font-style: inherit;">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span
 <small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[2]</span>.</small>
 </p></div>
 <p>Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention:</p>
-<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1"><span class="va" style="color: #111111;
-background-color: null;
-font-style: inherit;">+ def forward(self, x):</span></span>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1">def forward(self, x):</span>
 <span id="cb13-2">    # x shape: (batch_size, seq_length, embed_dim)</span>
 <span id="cb13-3">    bsz, seq_length, _ = x.size()</span>
 <span id="cb13-4">    </span>
