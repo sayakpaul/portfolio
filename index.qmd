@@ -20,7 +20,7 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - Gave a talk at Stanford about DiTs. Find the slides here: [Transformers in Diffusion Models for Image Generation and Beyond](http://bit.ly/dit-cs25).
 - Open-sourced [nanoDiT](https://github.com/sayakpaul/nanoDiT), an educational repository to show how to train class-conditional DiTs with rectified flow for image generation.
 
-To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). 
+To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). For an up-to-date list of my publications, refer to [my Google Scholar page](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#).
 
 Apart from the blogs [here](blog.qmd), I try to contribute to other platforms in the form of writing. Please refer [here](https://sayak.dev/authoring)
 for more details.
