@@ -17,8 +17,8 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - New work on few-step sampling of diffusion models [SANA-Sprint: One-Step Diffusion with Continuous-Time Consistency Distillation](https://arxiv.org/abs/2503.09641) with NVIDIA.
 - New work: [From Reflection to Perfection: Scaling Inference-Time Optimization for Text-to-Image Diffusion Models via Reflection Tuning](https://arxiv.org/abs/2504.16080) with Le Zhuo, Liangbing Zhao, and others.
 - New work: [Exploring the Deep Fusion of Large Language Models and Diffusion Transformers for Text-to-Image Synthesis](http://arxiv.org/abs/2505.10046) with Bingda Tang, Boyang Zheng, Xichen Pan, and Saining Xie.
-- Gave a talk at Stanford about DiTs. Find the slides here: [Transformers in Diffusion Models for Image Generation and Beyond](http://bit.ly/dit-cs25).
-- Open-sourced [nanoDiT](https://github.com/sayakpaul/nanoDiT), an educational repository to show how to train class-conditional DiTs with rectified flow for image generation.
+- New work: [Fine-Grained Perturbation Guidance via Attention Head Selection](https://arxiv.org/abs/2506.10978) with Donghoon Ahn et. al.
+- Gave an invited talk at Stanford ([CS25](https://web.stanford.edu/class/cs25/)) about DiTs. Find the slides here: [Transformers in Diffusion Models for Image Generation and Beyond](http://bit.ly/dit-cs25).
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). For an up-to-date list of my publications, refer to [my Google Scholar page](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#).
 
