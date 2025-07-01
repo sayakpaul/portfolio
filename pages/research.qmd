@@ -41,8 +41,8 @@ Served as a TA for [Full Stack Deep Learning’s 2022 cohort](https://fullstackd
 
 ### Reviewing
 
-* Conferences: ICCV'25, ICML'25, CVPR'25, ICLR'25, NeurIPS'24, AAAI'23, ICASSP'21 (sub-reviewer)
-* Workshops: [UDL workshop (ICML'21)](https://sites.google.com/view/udlworkshop2021/home)
+* Conferences: NeurIPS'25, ICCV'25, ICML'25, CVPR'25, ICLR'25, NeurIPS'24, AAAI'23, ICASSP'21 (sub-reviewer).
+* Workshops: [UDL workshop (ICML'21)](https://sites.google.com/view/udlworkshop2021/home).
 * Journals: TMLR, [Artificial Intelligence (Elsevier)](https://www.journals.elsevier.com/artificial-intelligence), [IEEE Access](https://ieeeaccess.ieee.org/).
 
 ### Misc
