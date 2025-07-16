@@ -994,6 +994,988 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
   <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" medium="image" type="image/png"/>
 </item>
 <item>
+  <title>Flavors of attention in modern diffusion models</title>
+  <link>https://sayak.dev/posts/attn-diffusion-2.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>Attention is a crucial component in generative neural architectures for continuous modalities like images and videos from natural language. More specifically, cross-attention helps to contextualize the relationship between the natural language prompt inputs and the media, being generated.</p>
+<p>With modern diffusion models (or shall we say “flow”) for condition-guided image and video generation, we saw the community going beyond cross-attention. For example, Stable Diffusion 3 (SD 3) <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[1]</span> introduced “joint-attention” in its MMDiT architecture. SANA <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[2]</span>, on the other hand, introduced a variant of “linear attention”, moving away from the standard attention mechanism.</p>
+<p>While the changes between these variants may appear architecturally simple, it can be helpful to understand the factors that distinguish them. In this post, we will investigate the popular forms of attention blocks used in modern diffusion models. We will tear them apart with simple PyTorch code and comment on some additional findings.</p>
+<p>Readers are expected to be familiar with diffusion-based image generation models and encoder-based transformer architectures.</p>
+<p><strong>Table of contents</strong>:</p>
+<ul>
+<li>Self-attention</li>
+<li>Cross-attention</li>
+<li>Joint-attention</li>
+<li>Linear attention</li>
+<li>Thoughts</li>
+<li>References</li>
+</ul>
+<div data-align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width="700/">
+<p>
+<small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
+</p></div>
+<section id="self-attention" class="level2">
+<h2 class="anchored" data-anchor-id="self-attention">Self-attention</h2>
+<p>For the sake of completeness, let’s take a quick look at how self-attention is implemented. This will help us understand how it can be evolved to cross-attention and others.</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> forward(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, x, attn_mask<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>):</span>
+<span id="cb1-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># x shape: (batch_size, seq_length, embed_dim)</span></span>
+<span id="cb1-3">    bsz, seq_length, _ <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x.size()</span>
+<span id="cb1-4">    </span>
+<span id="cb1-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute queries, keys, and values using separate linear layers</span></span>
+<span id="cb1-6">    q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_q(x)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (batch_size, seq_length, embed_dim)</span></span>
+<span id="cb1-7">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_k(x)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (batch_size, seq_length, embed_dim)</span></span>
+<span id="cb1-8">    v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_v(x)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (batch_size, seq_length, embed_dim)</span></span>
+<span id="cb1-9">    </span>
+<span id="cb1-10">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reshape and transpose to get dimensions</span></span>
+<span id="cb1-11">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># (batch_size, num_heads, seq_length, head_dim)</span></span>
+<span id="cb1-12">    q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> q.view(bsz, seq_length, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb1-13">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> k.view(bsz, seq_length, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb1-14">    v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> v.view(bsz, seq_length, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb1-15">    </span>
+<span id="cb1-16">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute scaled dot product attention using PyTorch's built-in function</span></span>
+<span id="cb1-17">    attn_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> F.scaled_dot_product_attention(</span>
+<span id="cb1-18">        q, k, v, attn_mask<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>attn_mask, dropout_p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.dropout.p, is_causal<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span></span>
+<span id="cb1-19">    )  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># shape: (batch_size, num_heads, seq_length, head_dim)</span></span>
+<span id="cb1-20">    </span>
+<span id="cb1-21">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Combine the attention output from multiple heads</span></span>
+<span id="cb1-22">    attn_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> attn_output.transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>).reshape(bsz, seq_length, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.embed_dim)</span>
+<span id="cb1-23">    </span>
+<span id="cb1-24">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Final linear projection</span></span>
+<span id="cb1-25">    output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.out_proj(attn_output)</span>
+<span id="cb1-26">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> output</span></code></pre></div>
+<p>With self-attention, we model the interactions between the different parts of the <em>same input</em>.</p>
+<p>Regarding the implementation above, the initialization part of the underlying class was intentionally left out in the interest of brevity. We will follow this kind of snippets for the rest of this post.</p>
+</section>
+<section id="cross-attention" class="level2">
+<h2 class="anchored" data-anchor-id="cross-attention">Cross-attention</h2>
+<p>The premise of cross-attention is we want to model how two <em>different</em> <em>inputs</em> interact with each other. For example, image patches and text tokens.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb2-1"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ def forward(self, x, context=None, attn_mask=None):</span></span>
+<span id="cb2-2">    # x shape: (batch_size, seq_length, embed_dim)</span>
+<span id="cb2-3"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    bsz, target_seq_len, _ = x.size()</span></span>
+<span id="cb2-4">    </span>
+<span id="cb2-5"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    if context is None:</span></span>
+<span id="cb2-6"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+        context = x</span></span>
+<span id="cb2-7"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    source_seq_len = context.size(1)</span></span>
+<span id="cb2-8">    </span>
+<span id="cb2-9"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    # Compute queries from x; keys and values from context</span></span>
+<span id="cb2-10"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    q = self.to_q(x)      # (batch_size, target_seq_length, embed_dim)</span></span>
+<span id="cb2-11"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    k = self.to_k(context)  # (batch_size, source_seq_length, embed_dim)</span></span>
+<span id="cb2-12"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    v = self.to_v(context)  # (batch_size, source_seq_length, embed_dim)</span></span>
+<span id="cb2-13">    </span>
+<span id="cb2-14">    # Reshape and transpose to get dimensions</span>
+<span id="cb2-15"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    q = q.view(bsz, target_seq_len, self.num_heads, self.head_dim).transpose(1, 2)</span></span>
+<span id="cb2-16"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    k = k.view(bsz, source_seq_len, self.num_heads, self.head_dim).transpose(1, 2)</span></span>
+<span id="cb2-17"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    v = v.view(bsz, source_seq_len, self.num_heads, self.head_dim).transpose(1, 2)</span></span>
+<span id="cb2-18">    </span>
+<span id="cb2-19">    # Compute scaled dot product attention using PyTorch's built-in function</span>
+<span id="cb2-20">    attn_output = F.scaled_dot_product_attention(</span>
+<span id="cb2-21">        q, k, v, attn_mask=attn_mask, dropout_p=self.dropout.p, is_causal=False</span>
+<span id="cb2-22">    )  # shape: (batch_size, num_heads, seq_length, head_dim)</span>
+<span id="cb2-23">    </span>
+<span id="cb2-24">    # Combine the attention output from multiple heads</span>
+<span id="cb2-25">    attn_output = attn_output.transpose(1, 2).reshape(</span>
+<span id="cb2-26">        bsz, target_seq_len, self.embed_dim</span>
+<span id="cb2-27">    )</span>
+<span id="cb2-28">    </span>
+<span id="cb2-29">    # Final linear projection</span>
+<span id="cb2-30">    output = self.out_proj(attn_output)</span>
+<span id="cb2-31">    return output</span></code></pre></div>
+<p>For the context of this post, <code>x</code> would be the noisy latents we will denoise during inference and <code>context</code> would be the representations computed from input text prompts. In this case, the attention masks (<code>attn_mask</code>) are usually computed from the <code>context</code>. For example, for text prompts, the attention masks are constructed from the actual text tokens and the padding tokens.</p>
+<p>Let’s consider the sentence - “a dog”. Without going into too many details, if we want to tokenize it with a maximum sequence length of 10, the attention masks would look like so:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">[1,</span> 1, 1, 1, 0, 0, 0, 0, 0, 0]</span></code></pre></div>
+<p>The exact text tokens would change based on the tokenizer being used but we get the idea of how attention masks might look like.</p>
+<p>With the presence of attention masks, attention computation accelerates while also reducing memory footprint.</p>
+<p>This implementation often meets with other elements that help stabilize training, improve the end performance, extrapolate to larger resolutions, etc. Some of these popular elements include:</p>
+<p><strong>QK normalization</strong></p>
+<p>Introduced in ViT-22B <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[3]</span>, QK normalization is a commonly used technique to help stabilize the training of transformers at scale. In code, this is simple to implement:</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb4-1">...</span>
+<span id="cb4-2">q = self.to_q(x)</span>
+<span id="cb4-3">k = self.to_k(k)</span>
+<span id="cb4-4">...</span>
+<span id="cb4-5"></span>
+<span id="cb4-6"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ q = self.q_norm_layer(q)</span></span>
+<span id="cb4-7"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = self.k_norm_layer(k)</span></span>
+<span id="cb4-8">...</span></code></pre></div>
+<p>Some choices of norms include LayerNorm, RMSNorm, and L2Norm, with the first two being the most common.</p>
+<p><strong>Grouped-query attention (GQA)</strong></p>
+<p>In the standard attention, every query in the sequence independently computes its attention weights with every key. But there may be redundancy <span class="citation" data-cites="ainslie2023gqatraininggeneralizedmultiquery">[4]</span> in this setup. We can maintain a reduced space for the keys, and the values repeat them across groups of queries. In practice, this looks like so:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb5-1">...</span>
+<span id="cb5-2">q = self.to_q(x) # (batch_size, seq_length, embed_dim)</span>
+<span id="cb5-3"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = self.to_k(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
+<span id="cb5-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ v = self.to_v(context) # (batch_size, context_seq_length, embed_dim // reduced_kv_heads)</span></span>
+<span id="cb5-5"></span>
+<span id="cb5-6"># Note there's no transpose yet (.transpose(1, 2)).</span>
+<span id="cb5-7">q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb5-8"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = k.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
+<span id="cb5-9"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ v = v.view(batch_size, source_seq_length, self.kv_heads, self.head_dim)</span></span>
+<span id="cb5-10"></span>
+<span id="cb5-11"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ n_rep = self.num_heads // self.kv_heads</span></span>
+<span id="cb5-12"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ if n_rep &gt;= 1:</span></span>
+<span id="cb5-13"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+       # Perform repeats.</span></span>
+<span id="cb5-14"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    k = k.unsqueeze(3).repeat(1, 1, 1, n_rep, 1).flatten(2, 3)</span></span>
+<span id="cb5-15"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    v = v.unsqueeze(3).repeat(1, 1, 1, n_rep, 1).flatten(2, 3)</span></span>
+<span id="cb5-16"></span>
+<span id="cb5-17"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ # Complete the transpose to get (batch_size, num_heads, seq_length, head_dim).</span></span>
+<span id="cb5-18"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ q = q.transpose(1, 2)</span></span>
+<span id="cb5-19"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ k = k.transpose(1, 2)</span></span>
+<span id="cb5-20"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ v = v.transpose(1, 2)</span></span>
+<span id="cb5-21"></span>
+<span id="cb5-22"># Apply `scaled_dot_product_attention()`</span>
+<span id="cb5-23">...</span></code></pre></div>
+<p>This helps reduce memory overhead without hurting performance too much. This is crucial when generating high-resolution images and videos.</p>
+<p><strong>Rotary position embeddings (RoPE)</strong></p>
+<p>Rotary position embeddings have become de facto as they help extrapolate to longer sequences. Image (and video) generation is no exception! The explanation of RoPE is out of this post’s scope. Interested readers should check out <a href="https://huggingface.co/blog/designing-positional-encoding">this post</a>, instead.</p>
+<p>Below, we provide where RoPE is usually incorporated when computing attention:</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb6-1">...</span>
+<span id="cb6-2"></span>
+<span id="cb6-3">q = self.to_q(x) # (batch_size, seq_length, embed_dim)</span>
+<span id="cb6-4">k = self.to_k(context) # (batch_size, context_seq_length, embed_dim)</span>
+<span id="cb6-5">v = self.to_v(context) # (batch_size, context_seq_length, embed_dim)</span>
+<span id="cb6-6"></span>
+<span id="cb6-7"># Note there's no transpose yet (.transpose(1, 2)).</span>
+<span id="cb6-8">q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb6-9">k = k.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb6-10">v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
+<span id="cb6-11"></span>
+<span id="cb6-12"># The `*_rotary_emb()` below are computed based on the inputs.</span>
+<span id="cb6-13"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ query = apply_rotary_emb(query, query_rotary_emb, use_real=False)</span></span>
+<span id="cb6-14"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+ key = apply_rotary_emb(key, key_rotary_emb, use_real=False)</span></span>
+<span id="cb6-15"></span>
+<span id="cb6-16">...</span></code></pre></div>
+<p>Popular models that use cross-attention include Stable Diffusion XL <span class="citation" data-cites="podell2023sdxlimprovinglatentdiffusion">[5]</span>, PixArt-{Alpha. Sigma} <span class="citation" data-cites="chen2023pixartalphafasttrainingdiffusion chen2024pixartsigmaweaktostrongtrainingdiffusion">[6, 7]</span>, Lumina-Next <span class="citation" data-cites="zhuo2024luminanextmakingluminat2xstronger">[8]</span>, LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[9]</span>, etc. Lumina-Next incorporates all the other elements as well.</p>
+</section>
+<section id="joint-attention" class="level2">
+<h2 class="anchored" data-anchor-id="joint-attention">Joint-attention</h2>
+<p>Through cross-attention, we also inherit any bias that might be present in the prompt embeddings computed with text encoders. For example, if a text encoder exhibits a unidirectional bias (through causal attention), that can creep unexpectedly into the diffusion model representations. Joint-attention alleviates this by allowing the representations coming from two different modalities to co-evolve with training.</p>
+<p>The diagram below depicts the MMDiT architecture, which also introduces joint-attention.</p>
+<div data-align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/mmdit.png" width="600/">
+<p>
+<small>MMDiT architecture. Figure taken from SD 3 paper <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[1]</span>.</small>
+</p></div>
+<p>If the diagram appears to be overwhelming, don’t worry, the implementation of it is simpler than one might think. In a nutshell, in joint-attention, the QKV projection is performed separately (with separate sets of params) on each of the two modalities shown above (<code>c</code> being the representation computed from the text prompts and <code>x</code> being noisy latents to be denoised). Before computing the attention, these projections are concatenated. Quoting from the SD3 paper <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[1]</span>:</p>
+<blockquote class="blockquote">
+<p>Since text and image embeddings are conceptually quite different, we use two separate sets of weights for the two modalities. […], this is equivalent to having two independent transformers for each modality, but joining the sequences of the two modalities for the attention operation, such that both representations can work in their own space yet take the other one into account.</p>
+</blockquote>
+<p>Interested readers can check out <a href="https://x.com/RisingSayak/status/1888462811971400063">this thread</a> for more insights from the community.</p>
+<p>Let’s now turn our attention to how it is implemented in practice.</p>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> forward(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, x, context<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, attn_mask<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>):</span>
+<span id="cb7-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> context <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb7-3">        source_seq_len <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> context.size(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb7-4">    </span>
+<span id="cb7-5">    bsz, target_seq_len, _ <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> x.size()</span>
+<span id="cb7-6">    </span>
+<span id="cb7-7">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute projections on the different modalities separately</span></span>
+<span id="cb7-8">    q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_q(x)      </span>
+<span id="cb7-9">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_k(x)  </span>
+<span id="cb7-10">    v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_v(x)  </span>
+<span id="cb7-11"></span>
+<span id="cb7-12">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Reshape and transpose for multi-head attention</span></span>
+<span id="cb7-13">    q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> q.view(bsz, target_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-14">    k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> k.view(bsz, target_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-15">    v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> v.view(bsz, target_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-16"></span>
+<span id="cb7-17">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute projections on the condition separately</span></span>
+<span id="cb7-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> context <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb7-19">        context_q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_add_q(context)</span>
+<span id="cb7-20">        context_k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_add_k(context)</span>
+<span id="cb7-21">        context_v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_add_v(context)</span>
+<span id="cb7-22">        </span>
+<span id="cb7-23">        context_q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> context_q.view(bsz, source_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-24">        context_k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> context_k.view(bsz, source_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-25">        context_v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> context_v.view(bsz, source_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.num_heads, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.head_dim).transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-26"></span>
+<span id="cb7-27">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Concatenate across the sequence length dimension</span></span>
+<span id="cb7-28">        q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.cat([context_q, q], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-29">        k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.cat([context_k, k], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-30">        v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.cat([context_v, v], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb7-31">    </span>
+<span id="cb7-32">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute scaled dot product attention</span></span>
+<span id="cb7-33">    attn_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> F.scaled_dot_product_attention(</span>
+<span id="cb7-34">        q, k, v, attn_mask<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>attn_mask, dropout_p<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.dropout.p, is_causal<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span></span>
+<span id="cb7-35">    )  </span>
+<span id="cb7-36">    </span>
+<span id="cb7-37">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Combine attention heads</span></span>
+<span id="cb7-38">    attn_output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> attn_output.transpose(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>).reshape(</span>
+<span id="cb7-39">        bsz, target_seq_len, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.embed_dim</span>
+<span id="cb7-40">    )</span>
+<span id="cb7-41"></span>
+<span id="cb7-42">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Seperate context from latents and final linear projection</span></span>
+<span id="cb7-43">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> context <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb7-44">        context, x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb7-45">            attn_output[:, : source_seq_len],</span>
+<span id="cb7-46">            attn_output[:, source_seq_len :],</span>
+<span id="cb7-47">        )</span>
+<span id="cb7-48">        context <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.add_out_proj(context)</span>
+<span id="cb7-49">        x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.out_proj(x)</span>
+<span id="cb7-50"></span>
+<span id="cb7-51">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> x, context</span>
+<span id="cb7-52">    </span>
+<span id="cb7-53">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span>:</span>
+<span id="cb7-54">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.out_proj(attn_output)</span></code></pre></div>
+<p>With joint-attention, it becomes unclear how to incorporate attention masks while computing attention and how much of a performance penalty it incurs due to that.</p>
+<p><strong>Part joint-attention, part self-attention</strong></p>
+<p>Subsequent works like AuraFlow <span class="citation" data-cites="auraflow">[10]</span> and Flux <span class="citation" data-cites="flux">[11]</span> introduced a small change in the original MMDiT architecture. They use joint attention for the first few layers within the diffusion transformer. They then concatenate the two different outputs and operate on the concatenated output. As per the AuraFlow authors, it helps with better FLOPs optimization. In pseudo-code, it looks like so:</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Regular MMDiT blocks.</span></span>
+<span id="cb8-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> block <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.double_blocks:</span>
+<span id="cb8-3">    context, x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> block(</span>
+<span id="cb8-4">        x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>x,</span>
+<span id="cb8-5">        context<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>context,</span>
+<span id="cb8-6">        ...</span>
+<span id="cb8-7">    )</span>
+<span id="cb8-8"></span>
+<span id="cb8-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Concatenate.</span></span>
+<span id="cb8-10">context_x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.cat([context, x], dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)  </span>
+<span id="cb8-11"></span>
+<span id="cb8-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Continue with the rest.</span></span>
+<span id="cb8-13"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> block <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.single_blocks:</span>
+<span id="cb8-14">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> block(x<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>context_x, ...)</span></code></pre></div>
+<p>The joint-attention implementation provided above is already equipped to handle situations when <code>context</code> may not be provided while computing attention (the <code>context is not None</code> code path).</p>
+<p><strong>Attention gymnastics</strong></p>
+<p>Flux, additionally, improves the hardware efficiency by using parallel layers <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[3]</span>. To better understand how parallel layers can be helpful in improving efficiency, let’s look at the first set of equations that govern an encoder-style transformer block:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0A%5Cbegin%7Baligned%7D%0A&amp;%20y%5E%7B%5Cprime%7D=%5Coperatorname%7BLayerNorm%7D(x)%20%5C%5C%0A&amp;%20y=x+%5Coperatorname%7BMLP%7D%5Cleft(y%5E%7B%5Cprime%7D%5Cright)+%5Coperatorname%7BAttention%7D%5Cleft(y%5E%7B%5Cprime%7D%5Cright)%0A%5Cend%7Baligned%7D%0A"></p>
+<p>We can combine the linear projection layers of attention (QKV) and the MLP. From the ViT-22B paper:</p>
+<blockquote class="blockquote">
+<p>In particular, the matrix multiplication for query/key/value-projections and the first linear layer of the MLP are fused into a single operation, and the same is done for the attention out-projection and second linear layer of the MLP.</p>
+</blockquote>
+<p>To understand how it is implemented in practice, we first need to understand QKV fusion. It lets us perform the three different projections involved in attention in one go. Instead of having three different projection layers, we only keep one:</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">...</span>
+<span id="cb9-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># This becomes</span></span>
+<span id="cb9-3"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_q <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(embed_dim, embed_dim)</span>
+<span id="cb9-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_k <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(embed_dim, embed_dim)</span>
+<span id="cb9-5"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(embed_dim, embed_dim)</span>
+<span id="cb9-6"></span>
+<span id="cb9-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># this ⬇️</span></span>
+<span id="cb9-8"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_qkv <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(embed_dim, embed_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span></code></pre></div>
+<p>Then, during the forward pass, we do:</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1">...</span>
+<span id="cb10-2">qkv <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.to_qkv(x)</span>
+<span id="cb10-3">split_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> qkv.shape[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">//</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span></span>
+<span id="cb10-4">q, k, v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.split(qkv, split_size, dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb10-5"></span>
+<span id="cb10-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Rest of the process is the same</span></span>
+<span id="cb10-7">...</span></code></pre></div>
+<p>Now, to incorporate the MLP into the mix, we need some changes in the initialization:</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">...</span>
+<span id="cb11-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># MLP ratio is typically 4.</span></span>
+<span id="cb11-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The first part of fusion. QKV + first layer of an MLP from a transformer block.</span></span>
+<span id="cb11-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.qkv_mlp_first <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(embed_dim, embed_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> mlp_ratio))</span>
+<span id="cb11-5"></span>
+<span id="cb11-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Second part of fusion. Attention out projection + second MLP layer.</span></span>
+<span id="cb11-7"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.attn_proj_mlp_second <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> nn.Linear(</span>
+<span id="cb11-8">    embed_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> embed_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> mlp_ratio, embed_dim</span>
+<span id="cb11-9">)</span></code></pre></div>
+<p>The forward pass would be:</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1">qkv, mlp <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.split(</span>
+<span id="cb12-2">    <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.qkv_mlp_first(x_mod),</span>
+<span id="cb12-3">    [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.embed_dim, <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.embed_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.mlp_ratio)],</span>
+<span id="cb12-4">    dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span></span>
+<span id="cb12-5">)</span>
+<span id="cb12-6">q, k, v <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.split(qkv, qkv.shape[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">//</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>, dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)</span>
+<span id="cb12-7"></span>
+<span id="cb12-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute attention</span></span>
+<span id="cb12-9">...</span>
+<span id="cb12-10"></span>
+<span id="cb12-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># MLP computation</span></span>
+<span id="cb12-12">concat_attn_mlp_in <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.cat((attn_output, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.mlp_act(mlp)), <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb12-13">output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span></code></pre></div>
+<p>The ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[3]</span> also provides a great visualization for this:</p>
+<div data-align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/parallel_layers.png" width="600/">
+<p>
+<small>Transformer block with parallel layers. Figure taken from the ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[3]</span>.</small>
+</p></div>
+<p>It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 <span class="citation" data-cites="lumina2">[12]</span> combines all three and uses joint-attention with a twist:</p>
+<ul>
+<li>It first uses very few layers of self-attention transformer blocks separately on the noisy latents and the conditional representations.</li>
+<li>It then combines the two representations and runs it through a number of self-attention transformer blocks.</li>
+</ul>
+<p>Interested readers can check out the implementation details <a href="https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/transformers/transformer_lumina2.py#L498C1-L525C1">here</a>. The figure below provides a side-by-side comparison of the differences in attention used in SD3 and Lumina2:</p>
+<div data-align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/comparison_sd3_lumina2.jpg" width="600/">
+<p>
+<small>Comparison between the attention schemes used in SD3 and Lumina2, respectively. Figures were intentionally simplified to convey the main idea.</small>
+</p></div>
+<section id="linear-attention" class="level2">
+<h2 class="anchored" data-anchor-id="linear-attention">Linear attention</h2>
+<p>As the world already knows, attention has a quadratic time complexity. This can pose prohibitive challenges when operating with very long sequences despite improved techniques like Flash Attention.</p>
+<p>SANA <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[2]</span> replaced all vanilla attention with linear attention. More specifically, in each of its transformer blocks, SANA has two kinds of attention:</p>
+<ol type="1">
+<li>linear self-attention for the noisy latents,</li>
+<li>regular cross-attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
+</ol>
+<p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign">[13]</span>, <span class="citation" data-cites="liu2023efficientvitmemoryefficientvision">[14]</span>.</p>
+<div data-align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width="600/">
+<p>
+<small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[2]</span>.</small>
+</p></div>
+<p>Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention:</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1">def forward(self, x):</span>
+<span id="cb13-2">    # x shape: (batch_size, seq_length, embed_dim)</span>
+<span id="cb13-3">    bsz, seq_length, _ = x.size()</span>
+<span id="cb13-4">    </span>
+<span id="cb13-5">    # Compute queries, keys, and values using separate linear layers</span>
+<span id="cb13-6">    q = self.to_q(x)  # shape: (batch_size, seq_length, embed_dim)</span>
+<span id="cb13-7">    k = self.to_k(x)  # shape: (batch_size, seq_length, embed_dim)</span>
+<span id="cb13-8">    v = self.to_v(x)  # shape: (batch_size, seq_length, embed_dim)</span>
+<span id="cb13-9">    </span>
+<span id="cb13-10">    # Reshape and transpose to get dimensions</span>
+<span id="cb13-11">    # (batch_size, num_heads, seq_length, head_dim)</span>
+<span id="cb13-12">    q = q.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
+<span id="cb13-13">    k = k.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
+<span id="cb13-14">    v = v.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
+<span id="cb13-15"></span>
+<span id="cb13-16"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+   # Reshape to (batch_size, seq_length, num_heads, head_dim)</span></span>
+<span id="cb13-17"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+   q = q.transpose(2, 3)</span></span>
+<span id="cb13-18"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+   v = v.transpose(2, 3)</span></span>
+<span id="cb13-19">    </span>
+<span id="cb13-20"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    # Introduce non-linearity</span></span>
+<span id="cb13-21"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    q = F.relu(q)</span></span>
+<span id="cb13-22"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    k = F.relu(k)</span></span>
+<span id="cb13-23"></span>
+<span id="cb13-24"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    # Combine scores</span></span>
+<span id="cb13-25"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    scores = torch.matmul(v, k)</span></span>
+<span id="cb13-26"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    x = torch.matmul(scores, q)</span></span>
+<span id="cb13-27">    </span>
+<span id="cb13-28"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    # Scale</span></span>
+<span id="cb13-29"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></span>
+<span id="cb13-30">    </span>
+<span id="cb13-31">    # Combine the output from multiple heads</span>
+<span id="cb13-32">    x = x.transpose(1, 2).reshape(bsz, seq_length, self.embed_dim)</span>
+<span id="cb13-33">    </span>
+<span id="cb13-34">    # Final linear projection</span>
+<span id="cb13-35">    output = self.out_proj(x)</span>
+<span id="cb13-36">    return output</span></code></pre></div>
+<p>It’s also worth pointing out that SANA uses no positional encodings (so-called <strong>NoPE</strong>). The SANA authors conjectured that the use of Mix-FFN blocks helped them get away with NoPE without incurring any loss in performance.</p>
+<section id="thoughts" class="level2">
+<h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
+<p>Throughout the course of this post, we saw many architectural configurations of the attention mechanism. Some questions that may still arise:</p>
+<ul>
+<li>Is there any benefit to using cross-attention for image-video generation at all?</li>
+<li>How can we compensate for the compute intensity of joint-attention?</li>
+<li>Is the Lumina2 way of doing joint-attention the way to go?</li>
+<li>Is it necessary to do masking in joint-attention? If so, what are the benefits?</li>
+</ul>
+<p>In defense of the widely adopted and optimized vanilla attention, could we interleave quadratic attention and window attention (as done in Gemma2 <span class="citation" data-cites="gemmateam2024gemma2improvingopen">[15]</span>)?</p>
+<p>All of these questions (and possibly more) warrant a careful ablation study.</p>
+<p><em>Acknowledgements</em>: Thanks to <a href="https://twitter.com/ariG23498">Aritra Roy Gosthipaty</a> for useful feedback.</p>
+
+
+</section>
+</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body">
+<div id="ref-esser2024scalingrectifiedflowtransformers" class="csl-entry">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Esser P, Kulal S, Blattmann A, et al (2024) <a href="https://arxiv.org/abs/2403.03206">Scaling rectified flow transformers for high-resolution image synthesis</a></div>
+</div>
+<div id="ref-xie2024sanaefficienthighresolutionimage" class="csl-entry">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Xie E, Chen J, Chen J, et al (2024) <a href="https://arxiv.org/abs/2410.10629">SANA: Efficient high-resolution image synthesis with linear diffusion transformers</a></div>
+</div>
+<div id="ref-dehghani2023scalingvisiontransformers22" class="csl-entry">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Dehghani M, Djolonga J, Mustafa B, et al (2023) <a href="https://arxiv.org/abs/2302.05442">Scaling vision transformers to 22 billion parameters</a></div>
+</div>
+<div id="ref-ainslie2023gqatraininggeneralizedmultiquery" class="csl-entry">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Ainslie J, Lee-Thorp J, Jong M de, Zemlyanskiy Y, Lebrón F, Sanghai S (2023) <a href="https://arxiv.org/abs/2305.13245">GQA: Training generalized multi-query transformer models from multi-head checkpoints</a></div>
+</div>
+<div id="ref-podell2023sdxlimprovinglatentdiffusion" class="csl-entry">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Podell D, English Z, Lacey K, et al (2023) <a href="https://arxiv.org/abs/2307.01952">SDXL: Improving latent diffusion models for high-resolution image synthesis</a></div>
+</div>
+<div id="ref-chen2023pixartalphafasttrainingdiffusion" class="csl-entry">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Chen J, Yu J, Ge C, et al (2023) <a href="https://arxiv.org/abs/2310.00426">PixArt-<img src="https://latex.codecogs.com/png.latex?%5Calpha">: Fast training of diffusion transformer for photorealistic text-to-image synthesis</a></div>
+</div>
+<div id="ref-chen2024pixartsigmaweaktostrongtrainingdiffusion" class="csl-entry">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Chen J, Ge C, Xie E, et al (2024) <a href="https://arxiv.org/abs/2403.04692">PixArt-: Weak-to-strong training of diffusion transformer for 4K text-to-image generation</a></div>
+</div>
+<div id="ref-zhuo2024luminanextmakingluminat2xstronger" class="csl-entry">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Zhuo L, Du R, Xiao H, et al (2024) <a href="https://arxiv.org/abs/2406.18583">Lumina-next: Making lumina-T2X stronger and faster with next-DiT</a></div>
+</div>
+<div id="ref-hacohen2024ltxvideorealtimevideolatent" class="csl-entry">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
+</div>
+<div id="ref-auraflow" class="csl-entry">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">fal.ai, Simo <a href="https://blog.fal.ai/auraflow">Introducing AuraFlow v0.1, an open exploration of large rectified flow models</a></div>
+</div>
+<div id="ref-flux" class="csl-entry">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Labs BF <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Announcing black forest labs</a></div>
+</div>
+<div id="ref-lumina2" class="csl-entry">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Team L <a href="https://github.com/Alpha-VLLM/Lumina-Image-2.0">Lumina-image 2.0 : A unified and efficient image generative model</a></div>
+</div>
+<div id="ref-xie2021segformersimpleefficientdesign" class="csl-entry">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Xie E, Wang W, Yu Z, Anandkumar A, Alvarez JM, Luo P (2021) <a href="https://arxiv.org/abs/2105.15203">SegFormer: Simple and efficient design for semantic segmentation with transformers</a></div>
+</div>
+<div id="ref-liu2023efficientvitmemoryefficientvision" class="csl-entry">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Liu X, Peng H, Zheng N, Yang Y, Hu H, Yuan Y (2023) <a href="https://arxiv.org/abs/2305.07027">EfficientViT: Memory efficient vision transformer with cascaded group attention</a></div>
+</div>
+<div id="ref-gemmateam2024gemma2improvingopen" class="csl-entry">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
+</div>
+</div></section></div> ]]></description>
+  <category>diffusion</category>
+  <category>diffusion-transformers</category>
+  <category>diffusers</category>
+  <guid>https://sayak.dev/posts/attn-diffusion-2.html</guid>
+  <pubDate>Thu, 27 Feb 2025 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" medium="image" type="image/png"/>
+</item>
+<item>
   <title>Streamlining PyPI Releases: A Case Study with 🧨 Diffusers</title>
   <link>https://sayak.dev/posts/streamlined-releases.html</link>
   <description><![CDATA[ 

@@ -3,6 +3,7 @@
     "listing": "/blog.html",
     "items": [
       "/posts/attn-diffusion.html",
+      "/posts/attn-diffusion-2.html",
       "/posts/streamlined-releases.html",
       "/posts/quarto-migration.html",
       "/posts/ml-practice.html",

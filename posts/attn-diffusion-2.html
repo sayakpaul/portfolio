@@ -469,7 +469,7 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="va">self</span>.to_k(x)  <span class="co"># shape: (batch_size, seq_length, embed_dim)</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> <span class="va">self</span>.to_v(x)  <span class="co"># shape: (batch_size, seq_length, embed_dim)</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reshape and transpose to get dimensions </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Reshape and transpose to get dimensions</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># (batch_size, num_heads, seq_length, head_dim)</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> q.view(bsz, seq_length, <span class="va">self</span>.num_heads, <span class="va">self</span>.head_dim).transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> k.view(bsz, seq_length, <span class="va">self</span>.num_heads, <span class="va">self</span>.head_dim).transpose(<span class="dv">1</span>, <span class="dv">2</span>)</span>
@@ -578,7 +578,7 @@ window.Quarto = {
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a># Note there's no transpose yet (.transpose(1, 2)).</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>q = q.view(batch_size, target_seq_length, self.num_heads, self.head_dim)</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>k = k.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim) </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>v = v.view(batch_size, source_seq_length, self.num_heads, self.head_dim)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a># The `*_rotary_emb()` below are computed based on the inputs.</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="va">+ query = apply_rotary_emb(query, query_rotary_emb, use_real=False)</span></span>
@@ -620,7 +620,7 @@ window.Quarto = {
 <span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compute projections on the condition separately</span></span>
 <span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> context <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        context_q <span class="op">=</span> <span class="va">self</span>.to_add_q(context) </span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        context_q <span class="op">=</span> <span class="va">self</span>.to_add_q(context)</span>
 <span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        context_k <span class="op">=</span> <span class="va">self</span>.to_add_k(context)</span>
 <span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        context_v <span class="op">=</span> <span class="va">self</span>.to_add_v(context)</span>
 <span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        </span>
@@ -663,7 +663,7 @@ window.Quarto = {
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.double_blocks:</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    context, x <span class="op">=</span> block(</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>x,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        context<span class="op">=</span>context, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        context<span class="op">=</span>context,</span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        ...</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
@@ -672,7 +672,7 @@ window.Quarto = {
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Continue with the rest.</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.single_blocks:</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> block(x<span class="op">=</span>context_x, ...) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> block(x<span class="op">=</span>context_x, ...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The joint-attention implementation provided above is already equipped to handle situations when <code>context</code> may not be provided while computing attention (the <code>context is not None</code> code path).</p>
 <p><strong>Attention gymnastics</strong></p>
 <p>Flux, additionally, improves the hardware efficiency by using parallel layers <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[<a href="#ref-dehghani2023scalingvisiontransformers22" role="doc-biblioref">3</a>]</span>. To better understand how parallel layers can be helpful in improving efficiency, let’s look at the first set of equations that govern an encoder-style transformer block:</p>
@@ -715,8 +715,8 @@ window.Quarto = {
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The forward pass would be:</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>qkv, mlp <span class="op">=</span> torch.split(</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.qkv_mlp_first(x_mod), </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">3</span> <span class="op">*</span> <span class="va">self</span>.embed_dim, <span class="bu">int</span>(<span class="va">self</span>.embed_dim <span class="op">*</span> <span class="va">self</span>.mlp_ratio)], </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.qkv_mlp_first(x_mod),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    [<span class="dv">3</span> <span class="op">*</span> <span class="va">self</span>.embed_dim, <span class="bu">int</span>(<span class="va">self</span>.embed_dim <span class="op">*</span> <span class="va">self</span>.mlp_ratio)],</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    dim<span class="op">=-</span><span class="dv">1</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>q, k, v <span class="op">=</span> torch.split(qkv, qkv.shape[<span class="op">-</span><span class="dv">1</span>] <span class="op">//</span> <span class="dv">3</span>, dim<span class="op">=-</span><span class="dv">1</span>)</span>
@@ -768,7 +768,7 @@ window.Quarto = {
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    k = self.to_k(x)  # shape: (batch_size, seq_length, embed_dim)</span>
 <span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    v = self.to_v(x)  # shape: (batch_size, seq_length, embed_dim)</span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    # Reshape and transpose to get dimensions </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    # Reshape and transpose to get dimensions</span>
 <span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    # (batch_size, num_heads, seq_length, head_dim)</span>
 <span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    q = q.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    k = k.view(bsz, seq_length, self.num_heads, self.head_dim).transpose(1, 2)</span>
@@ -864,7 +864,7 @@ window.Quarto = {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/attn_diffusion.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/sayakpaul/portfolio/blob/master/posts/attn-test.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer>
 
  <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
