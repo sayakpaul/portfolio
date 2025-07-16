@@ -9,7 +9,7 @@ toc: true
 
 ### Nebula (preview)
 
-Build Local Apps on the fly right in your web browser. [Github](https://github.com/kanpuriyanawab/nebula)
+Build Local Apps [on the fly](https://x.com/kanpuriyanawab/status/1945081337742025166) right in your web browser. [Github](https://github.com/kanpuriyanawab/nebula)
 Nebula is an open source agentic browser built with Electron & Chromium from scratch.
 
 ### Snapgenie
