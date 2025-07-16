@@ -7,25 +7,14 @@ toc: true
 
 ## 2025
 
-<!-- ### Building Production Ready Text to SQL Agent <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span> <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span><span style="font-size: 0.65em; font-weight: 600; background-color: #FEE2E2; color: #991B1B; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">YouTube</span>
+### Nebula (preview)
 
-As I venture into AI Consulting, I'm giving back to community via education. In this project I demonstrate how to build production ready AI Agent for task of text to sql generation and execution.
-
-The assets related to this work can be found on [X](https://x.com/kanpuriyanawab/status/1931018241419477078), [github](https://github.com/kanpuriyanawab/awesome-ai-agents/tree/main). I also published [a blog](https://heyyanshuman.com/posts/text2sql_agent) for this. 
-To stay upto-date with my work you can subscribe via [substack](https://fullstackagents.substack.com/p/building-production-ready-text-to). -->
-
-
-<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/ezOhLC10uSQ?si=eC1KW1yHw6vw-ozV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
-
-
-<!-- ### The AI Memory Layer That will change everything <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span>
-
-In this [blog](https://heyyanshuman.com/posts/agent_memory_101) we dive into Memory layer of AI and understand why stateful AI agents are path to hyperpersonalization and not the stateless once. -->
-
+Build Local Apps on the fly right in your web browser. [Github](https://github.com/kanpuriyanawab/nebula)
+Nebula is an open source agentic browser built with Electron & Chromium from scratch.
 
 ### Snapgenie
 
-Building my first [SaaS](https://snapgenie.pro). One Photo. Endless Possibilities. Turn snappy pictures into professional shots.
+My first [SaaS](https://snapgenie.pro) - to turn product snaps to professional photographs
 
 ### Qwen Model Family Integration in Keras  <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 
