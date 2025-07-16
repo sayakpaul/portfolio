@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Blog – Sayak Paul</title>
+<title>blog – Sayak Paul</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -61,20 +61,48 @@ ul.task-list li input[type="checkbox"] {
 <script>
 
   window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    const listingTargetEl = window.document.querySelector('#listing-all-posts .list');
     if (!listingTargetEl) {
       // No listing discovered, do not attach.
       return; 
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title','listing-author','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+    window['quarto-listings']['listing-all-posts'] = new List('listing-all-posts', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-pinned-post .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-image','listing-title','listing-author','listing-reading-time','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-image"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-pinned-post'] = new List('listing-pinned-post', options);
 
     if (window['quarto-listing-loaded']) {
       window['quarto-listing-loaded']();
@@ -133,12 +161,14 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Sayak Paul" href="blog.xml" data-external="1"><meta property="og:title" content="Blog – Sayak Paul">
+<link rel="alternate" type="application/rss+xml" title="Sayak Paul" href="blog.xml" data-external="1"><meta property="og:title" content="Sayak Paul">
+<meta property="og:description" content="Personal site of Sayak Paul.">
 <meta property="og:image" content="https://sayak.dev/posts/pypi-releases-diffusers.png">
 <meta property="og:site_name" content="Sayak Paul">
 <meta property="og:image:height" content="1160">
 <meta property="og:image:width" content="2320">
-<meta name="twitter:title" content="Blog – Sayak Paul">
+<meta name="twitter:title" content="Sayak Paul">
+<meta name="twitter:description" content="Personal site of Sayak Paul.">
 <meta name="twitter:image" content="https://sayak.dev/posts/pypi-releases-diffusers.png">
 <meta name="twitter:creator" content="@RisingSayak">
 <meta name="twitter:card" content="summary">
@@ -146,7 +176,7 @@ window.Quarto = {
 <meta name="twitter:image-width" content="2320">
 </head>
 
-<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-fixed fullcontent quarto-light"><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -373,39 +403,19 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
-
-
-
-<div class="quarto-title-meta">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 
 
 
 
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<section id="all-posts" class="level2">
+<h2 class="anchored" data-anchor-id="all-posts">All Posts</h2>
+<div id="listing-all-posts" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="ZGlmZnVzaW9uJTJDZGlmZnVzaW9uLXRyYW5zZm9ybWVycyUyQ2RpZmZ1c2Vycw==" data-listing-date-sort="1740614400000" data-listing-file-modified-sort="1752682858303" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3050">
+<div class="quarto-post image-right" data-index="0" data-categories="ZGlmZnVzaW9uJTJDZGlmZnVzaW9uLXRyYW5zZm9ybWVycyUyQ2RpZmZ1c2Vycw==" data-listing-date-sort="1740614400000" data-listing-file-modified-sort="1752703629454" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3041">
 <div class="thumbnail"><a href="./posts/attn-diffusion.html" class="no-external">
 
 <img loading="lazy" src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" class="thumbnail-image">
@@ -424,10 +434,11 @@ window.Quarto = {
 <div class="listing-date">
 Feb 27, 2025
 </div>
+<div class="listing-reading-time">16 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-categories="cHlwaS1yZWxlYXNlcyUyQ2dpdGh1Yi1hY3Rpb25zJTJDZGlmZnVzZXJz" data-listing-date-sort="1710460800000" data-listing-file-modified-sort="1752682858348" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="799">
+<div class="quarto-post image-right" data-index="1" data-categories="cHlwaS1yZWxlYXNlcyUyQ2dpdGh1Yi1hY3Rpb25zJTJDZGlmZnVzZXJz" data-listing-date-sort="1710460800000" data-listing-file-modified-sort="1752703629498" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="799">
 <div class="thumbnail"><a href="./posts/streamlined-releases.html" class="no-external">
 
 <img loading="lazy" src="./posts/pypi-releases-diffusers.png" class="thumbnail-image">
@@ -446,32 +457,11 @@ Feb 27, 2025
 <div class="listing-date">
 Mar 15, 2024
 </div>
+<div class="listing-reading-time">4 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-categories="cXVhcnRvJTJDYmxvZ2dpbmclMkNmYXN0cGFnZXM=" data-listing-date-sort="1705449600000" data-listing-file-modified-sort="1752682858343" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="711">
-<div class="thumbnail"><a href="./posts/quarto-migration.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/quarto-migration.html" class="no-external">Another Quarto Migration Guide for fastpages Users</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/quarto-migration.html" class="no-external">
-<p>Some tidbits of migrating from fastpages to Quarto.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/quarto-migration.html" class="no-external">
-<div class="listing-date">
-Jan 17, 2024
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="bWwtcHJhY3RpY2UlMkNqb2Jz" data-listing-date-sort="1653609600000" data-listing-file-modified-sort="1752682858303" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1739">
+<div class="quarto-post image-right" data-index="2" data-categories="bWwtcHJhY3RpY2UlMkNqb2Jz" data-listing-date-sort="1653609600000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1739">
 <div class="thumbnail"><a href="./posts/ml-practice.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -490,10 +480,11 @@ Jan 17, 2024
 <div class="listing-date">
 May 27, 2022
 </div>
+<div class="listing-reading-time">9 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-categories="Z3NvYyUyQ29wZW4tc291cmNl" data-listing-date-sort="1647129600000" data-listing-file-modified-sort="1752682858303" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="892">
+<div class="quarto-post image-right" data-index="3" data-categories="Z3NvYyUyQ29wZW4tc291cmNl" data-listing-date-sort="1647129600000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="892">
 <div class="thumbnail"><a href="./posts/gsoc-faqs.html" class="no-external">
 
 <div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
@@ -512,10 +503,11 @@ May 27, 2022
 <div class="listing-date">
 Mar 13, 2022
 </div>
+<div class="listing-reading-time">5 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="5" data-categories="dGVuc29yZmxvdyUyQ2tlcmFzJTJDY25ucyUyQ2ltYWdlbmV0LTFrJTJDY29udm5leHQ=" data-listing-date-sort="1643846400000" data-listing-file-modified-sort="1752682858303" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1445">
+<div class="quarto-post image-right" data-index="4" data-categories="dGVuc29yZmxvdyUyQ2tlcmFzJTJDY25ucyUyQ2ltYWdlbmV0LTFrJTJDY29udm5leHQ=" data-listing-date-sort="1643846400000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1445">
 <div class="thumbnail"><a href="./posts/convnext-tfhub.html" class="no-external">
 
 <img loading="lazy" src="./posts/convnext_tfhub/convnext_header.png" class="thumbnail-image">
@@ -534,32 +526,11 @@ Mar 13, 2022
 <div class="listing-date">
 Feb 3, 2022
 </div>
+<div class="listing-reading-time">8 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="6" data-categories="dGVuc29yZmxvdyUyQ2tlcmFzJTJDZGlzdHJpYnV0ZWQtdHJhaW5pbmclMkNhaS1wbGF0Zm9ybSUyQ2RvY2tlciUyQ21sb3Bz" data-listing-date-sort="1617667200000" data-listing-file-modified-sort="1752682858303" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2577">
-<div class="thumbnail"><a href="./posts/distributed-training.html" class="no-external">
-
-<img loading="lazy" src="./posts/distributed_training.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/distributed-training.html" class="no-external">Distributed Training in TensorFlow with AI Platform &amp; Docker</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/distributed-training.html" class="no-external">
-<p>Training a model using distributed training with AI Platform and Docker.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/distributed-training.html" class="no-external">
-<div class="listing-date">
-Apr 6, 2021
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-listing-date-sort="1609459200000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="826">
+<div class="quarto-post image-right" data-index="5" data-listing-date-sort="1609459200000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="826">
 <div class="thumbnail"><a href="./posts/install-opencv-m1.html" class="no-external">
 
 <img loading="lazy" src="./posts/opencv_m1.png" class="thumbnail-image">
@@ -578,10 +549,11 @@ Apr 6, 2021
 <div class="listing-date">
 Jan 1, 2021
 </div>
+<div class="listing-reading-time">5 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="8" data-listing-date-sort="1606435200000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
+<div class="quarto-post image-right" data-index="6" data-listing-date-sort="1606435200000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1572">
 <div class="thumbnail"><a href="./posts/optimizing-text-detectors.html" class="no-external">
 
 <img loading="lazy" src="./posts/text_detector_benchmark.png" class="thumbnail-image">
@@ -603,10 +575,11 @@ Nov 27, 2020
 <div class="listing-author">
 Sayak Paul, Tulasi Ram Laghumavarapu
 </div>
+<div class="listing-reading-time">8 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="9" data-categories="dGZsaXRlJTJDbW9kZWwtb3B0aW1pemF0aW9uJTJDbW9iaWxlZGV0" data-listing-date-sort="1601337600000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2395">
+<div class="quarto-post image-right" data-index="7" data-categories="dGZsaXRlJTJDbW9kZWwtb3B0aW1pemF0aW9uJTJDbW9iaWxlZGV0" data-listing-date-sort="1601337600000" data-listing-file-modified-sort="1752703629453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2395">
 <div class="thumbnail"><a href="./posts/mobiledet-optimization.html" class="no-external">
 
 <img loading="lazy" src="./posts/benchmark.png" class="thumbnail-image">
@@ -625,76 +598,11 @@ Sayak Paul, Tulasi Ram Laghumavarapu
 <div class="listing-date">
 Sep 29, 2020
 </div>
+<div class="listing-reading-time">12 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="10" data-categories="Z2NwJTJDdmlzaW9uJTJDYXBpcw==" data-listing-date-sort="1600992000000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2340">
-<div class="thumbnail"><a href="./posts/mlapis-maker.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/mlapis-maker.html" class="no-external">The Maker Philosophy with ML APIs</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/mlapis-maker.html" class="no-external">
-<p>Practising being a maker with Google Cloud Platform’s ML APIs.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/mlapis-maker.html" class="no-external">
-<div class="listing-date">
-Sep 25, 2020
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="11" data-categories="dmlzdWFsLXJlcHJlc2VudGF0aW9uLWxlYXJuaW5nJTJDc2VsZi1zdXBlcnZpc2VkLWxlYXJuaW5nJTJDY29tcHV0ZXItdmlzaW9u" data-listing-date-sort="1596326400000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1689">
-<div class="thumbnail"><a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">
-
-<img loading="lazy" src="./posts/montage_vrl.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">A few favorite recipes in computer vision &amp; deep learning</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">
-<p>This blog post enlists a few of my favorite recipes in deep learning in the context of computer vision (as of August 2020).</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2020-08-02-favorite-recipes-vision.html" class="no-external">
-<div class="listing-date">
-Aug 2, 2020
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="12" data-categories="dGYua2VyYXMlMkN0ZW5zb3JydCUyQ3RlbnNvcmZsb3c=" data-listing-date-sort="1593561600000" data-listing-file-modified-sort="1752682858302" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1358">
-<div class="thumbnail"><a href="./posts/tftrt-optimization.html" class="no-external">
-
-<img loading="lazy" src="./posts/speed.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/tftrt-optimization.html" class="no-external">Using TensorRT for accelerated deep learning inference</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/tftrt-optimization.html" class="no-external">
-<p>Accelerating inference of TensorFlow models using TensorRT.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/tftrt-optimization.html" class="no-external">
-<div class="listing-date">
-Jul 1, 2020
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="13" data-categories="dGYua2VyYXMlMkNkYXRhX2F1Z21lbnRhdGlvbiUyQ2ltYWdl" data-listing-date-sort="1589068800000" data-listing-file-modified-sort="1752682858301" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1312">
+<div class="quarto-post image-right" data-index="8" data-categories="dGYua2VyYXMlMkNkYXRhX2F1Z21lbnRhdGlvbiUyQ2ltYWdl" data-listing-date-sort="1589068800000" data-listing-file-modified-sort="1752703629451" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1312">
 <div class="thumbnail"><a href="./posts/augmentation-recipes.html" class="no-external">
 
 <img loading="lazy" src="./posts/augmentation.png" class="thumbnail-image">
@@ -713,53 +621,25 @@ Jul 1, 2020
 <div class="listing-date">
 May 10, 2020
 </div>
+<div class="listing-reading-time">7 min</div>
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="14" data-categories="YmxvZ3MlMkNzaGFyaW5n" data-listing-date-sort="1587340800000" data-listing-file-modified-sort="1752682858286" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="725">
-<div class="thumbnail"><a href="./posts/sharing-work.html" class="no-external">
+</div>
+<div class="listing-no-matching d-none">No matching items</div>
+</div>
+</section>
+<section id="from-the-past" class="level2">
+<h2 class="anchored" data-anchor-id="from-the-past">From the Past</h2>
+<p>Check them <a href="../posts/others.html">here</a>.</p>
 
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/sharing-work.html" class="no-external">Sharing your work online effectively</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/sharing-work.html" class="no-external">
-<p>A few tips on sharing your work online effectively.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/sharing-work.html" class="no-external">
-<div class="listing-date">
-Apr 20, 2020
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="15" data-listing-date-sort="1586736000000" data-listing-file-modified-sort="1752682858286" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1048">
-<div class="thumbnail"><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/2020-04-13-embedding-image-preprocessing-functions_files/figure-html/cell-6-output-1.png"  class="thumbnail-image card-img"/></p>
+</section>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">Embedding an image preprocessing function in a <code>tf.keras</code> model</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">
-<p>Learn how to embed an image preprocessing function in a <code>tf.keras</code> model.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2020-04-13-embedding-image-preprocessing-functions.html" class="no-external">
-<div class="listing-date">
-Apr 13, 2020
-</div>
-</a>
-</div>
-</div>
+<div class="quarto-listing quarto-listing-container-default" id="listing-pinned-post">
+<div class="list quarto-listing-default">
+
 </div>
 <div class="listing-no-matching d-none">No matching items</div>
 </div></main> <!-- /main -->

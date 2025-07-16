@@ -428,8 +428,18 @@ window.Quarto = {
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#self-attention" id="toc-self-attention" class="nav-link active" data-scroll-target="#self-attention">Self-attention</a></li>
+  <li><a href="#cross-attention" id="toc-cross-attention" class="nav-link" data-scroll-target="#cross-attention">Cross-attention</a></li>
+  <li><a href="#joint-attention" id="toc-joint-attention" class="nav-link" data-scroll-target="#joint-attention">Joint-attention</a></li>
+  <li><a href="#linear-attention" id="toc-linear-attention" class="nav-link" data-scroll-target="#linear-attention">Linear attention</a></li>
+  <li><a href="#thoughts" id="toc-thoughts" class="nav-link" data-scroll-target="#thoughts">Thoughts</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/attn_diffusion.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -443,19 +453,9 @@ window.Quarto = {
 <p>With modern diffusion models (or shall we say “flow”) for condition-guided image and video generation, we saw the community going beyond cross-attention. For example, Stable Diffusion 3 (SD 3) <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[<a href="#ref-esser2024scalingrectifiedflowtransformers" role="doc-biblioref">1</a>]</span> introduced “joint-attention” in its MMDiT architecture. SANA <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[<a href="#ref-xie2024sanaefficienthighresolutionimage" role="doc-biblioref">2</a>]</span>, on the other hand, introduced a variant of “linear attention”, moving away from the standard attention mechanism.</p>
 <p>While the changes between these variants may appear architecturally simple, it can be helpful to understand the factors that distinguish them. In this post, we will investigate the popular forms of attention blocks used in modern diffusion models. We will tear them apart with simple PyTorch code and comment on some additional findings.</p>
 <p>Readers are expected to be familiar with diffusion-based image generation models and encoder-based transformer architectures.</p>
-<p><strong>Table of contents</strong>:</p>
-<ul>
-<li><a href="#self-attention">Self-attention</a></li>
-<li><a href="#cross-attention">Cross-attention</a></li>
-<li><a href="#joint-attention">Joint-attention</a></li>
-<li><a href="#linear-attention">Linear attention</a></li>
-<li><a href="#thoughts">Thoughts</a></li>
-<li><a href="#references">References</a></li>
-</ul>
-<div data-align="center">
+<div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width="700/">
-<p>
-<small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
+<p><small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
 </p></div>
 <section id="self-attention" class="level2">
 <h2 class="anchored" data-anchor-id="self-attention">Self-attention</h2>
@@ -591,10 +591,9 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="joint-attention">Joint-attention</h2>
 <p>Through cross-attention, we also inherit any bias that might be present in the prompt embeddings computed with text encoders. For example, if a text encoder exhibits a unidirectional bias (through causal attention), that can creep unexpectedly into the diffusion model representations. Joint-attention alleviates this by allowing the representations coming from two different modalities to co-evolve with training.</p>
 <p>The diagram below depicts the MMDiT architecture, which also introduces joint-attention.</p>
-<div data-align="center">
+<div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/mmdit.png" width="600/">
-<p>
-<small>MMDiT architecture. Figure taken from SD 3 paper <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[<a href="#ref-esser2024scalingrectifiedflowtransformers" role="doc-biblioref">1</a>]</span>.</small>
+<p><small>MMDiT architecture. Figure taken from SD 3 paper [@esser2024scalingrectifiedflowtransformers].</small>
 </p></div>
 <p>If the diagram appears to be overwhelming, don’t worry, the implementation of it is simpler than one might think. In a nutshell, in joint-attention, the QKV projection is performed separately (with separate sets of params) on each of the two modalities shown above (<code>c</code> being the representation computed from the text prompts and <code>x</code> being noisy latents to be denoised). Before computing the attention, these projections are concatenated. Quoting from the SD3 paper <span class="citation" data-cites="esser2024scalingrectifiedflowtransformers">[<a href="#ref-esser2024scalingrectifiedflowtransformers" role="doc-biblioref">1</a>]</span>:</p>
 <blockquote class="blockquote">
@@ -728,10 +727,9 @@ window.Quarto = {
 <span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>concat_attn_mlp_in <span class="op">=</span> torch.cat((attn_output, <span class="va">self</span>.mlp_act(mlp)), <span class="dv">2</span>)</span>
 <span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> <span class="va">self</span>.attn_proj_mlp_second(concat_attn_mlp_in)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[<a href="#ref-dehghani2023scalingvisiontransformers22" role="doc-biblioref">3</a>]</span> also provides a great visualization for this:</p>
-<div data-align="center">
+<div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/parallel_layers.png" width="600/">
-<p>
-<small>Transformer block with parallel layers. Figure taken from the ViT-22B paper <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[<a href="#ref-dehghani2023scalingvisiontransformers22" role="doc-biblioref">3</a>]</span>.</small>
+<p><small>Transformer block with parallel layers. Figure taken from the ViT-22B paper [@dehghani2023scalingvisiontransformers22].</small>
 </p></div>
 <p>It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 <span class="citation" data-cites="lumina2">[<a href="#ref-lumina2" role="doc-biblioref">12</a>]</span> combines all three and uses joint-attention with a twist:</p>
 <ul>
@@ -739,11 +737,11 @@ window.Quarto = {
 <li>It then combines the two representations and runs it through a number of self-attention transformer blocks.</li>
 </ul>
 <p>Interested readers can check out the implementation details <a href="https://github.com/huggingface/diffusers/blob/main/src/diffusers/models/transformers/transformer_lumina2.py#L498C1-L525C1">here</a>. The figure below provides a side-by-side comparison of the differences in attention used in SD3 and Lumina2:</p>
-<div data-align="center">
+<div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/comparison_sd3_lumina2.jpg" width="600/">
-<p>
-<small>Comparison between the attention schemes used in SD3 and Lumina2, respectively. Figures were intentionally simplified to convey the main idea.</small>
+<p><small>Comparison between the attention schemes used in SD3 and Lumina2, respectively. Figures were intentionally simplified to convey the main idea.</small>
 </p></div>
+</section>
 <section id="linear-attention" class="level2">
 <h2 class="anchored" data-anchor-id="linear-attention">Linear attention</h2>
 <p>As the world already knows, attention has a quadratic time complexity. This can pose prohibitive challenges when operating with very long sequences despite improved techniques like Flash Attention.</p>
@@ -753,10 +751,9 @@ window.Quarto = {
 <li>regular cross-attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
 </ol>
 <p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign">[<a href="#ref-xie2021segformersimpleefficientdesign" role="doc-biblioref">13</a>]</span>, <span class="citation" data-cites="liu2023efficientvitmemoryefficientvision">[<a href="#ref-liu2023efficientvitmemoryefficientvision" role="doc-biblioref">14</a>]</span>.</p>
-<div data-align="center">
+<div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width="600/">
-<p>
-<small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper <span class="citation" data-cites="xie2024sanaefficienthighresolutionimage">[<a href="#ref-xie2024sanaefficienthighresolutionimage" role="doc-biblioref">2</a>]</span>.</small>
+<p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small>
 </p></div>
 <p>Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode diff code-with-copy"><code class="sourceCode diff"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>def forward(self, x):</span>
@@ -796,6 +793,7 @@ window.Quarto = {
 <span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    output = self.out_proj(x)</span>
 <span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>    return output</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>It’s also worth pointing out that SANA uses no positional encodings (so-called <strong>NoPE</strong>). The SANA authors conjectured that the use of Mix-FFN blocks helped them get away with NoPE without incurring any loss in performance.</p>
+</section>
 <section id="thoughts" class="level2">
 <h2 class="anchored" data-anchor-id="thoughts">Thoughts</h2>
 <p>Throughout the course of this post, we saw many architectural configurations of the attention mechanism. Some questions that may still arise:</p>
@@ -810,8 +808,10 @@ window.Quarto = {
 <p><em>Acknowledgements</em>: Thanks to <a href="https://twitter.com/ariG23498">Aritra Roy Gosthipaty</a> for useful feedback.</p>
 
 
+
 </section>
-</section></section><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
 <div id="ref-esser2024scalingrectifiedflowtransformers" class="csl-entry" role="listitem">
 <div class="csl-left-margin">1. </div><div class="csl-right-inline">Esser P, Kulal S, Blattmann A, et al (2024) <a href="https://arxiv.org/abs/2403.03206">Scaling rectified flow transformers for high-resolution image synthesis</a></div>
 </div>
@@ -857,16 +857,7 @@ window.Quarto = {
 <div id="ref-gemmateam2024gemma2improvingopen" class="csl-entry" role="listitem">
 <div class="csl-left-margin">15. </div><div class="csl-right-inline">Team G (2024) <a href="https://arxiv.org/abs/2408.00118">Gemma 2: Improving open language models at a practical size</a></div>
 </div>
-</div></section></div></main></div>
-
-
-
-
-
-
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/attn_diffusion.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer>
-
- <!-- /main -->
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1279,9 +1270,9 @@ window.Quarto = {
     }
   });
   </script>
- <!-- /content -->
+</div> <!-- /content -->
 
 
 
 
-</body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/attn_diffusion.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
