@@ -1,9 +1,32 @@
 ---
-title: "Blog"
+toc: false
 listing:
-  sort: "date desc"
-  contents: "posts"
-  categories: false
-  feed: true
-# page-layout: full
+  - id: all-posts
+    contents: "posts"
+    sort: "date desc"
+    # drop every post marked hide:true from the main list
+    exclude:
+      hide: true
+    categories: false
+    feed: true
+    fields: [image, date, title, author, reading-time, description]
+
+  - id: pinned-post
+    contents: "posts"
+    sort: "date asc"
+    # pull in only your one “from the past” page
+    include:
+      id: "pinned-post"
+    categories: false
+    feed: false
+    # omit the date here
+    fields: [image, title, author, reading-time, description]
 ---
+## All Posts
+
+::: {#all-posts}
+:::
+
+## From the Past
+
+Check them [here](../posts/others.html).

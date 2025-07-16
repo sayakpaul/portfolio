@@ -1,0 +1,19 @@
+---
+title: "Posts from the past"
+aliases:
+- /past-stuff
+permalink: /past-stuff
+hide: true
+---
+
+Following are some posts from the past that I could have written with more
+time and thought. Or, maybe even should have not written them at all. Hence,
+I don't enlist them from the main blog content.
+
+* [Another Quarto Migration Guide for fastpages Users](https://sayak.dev/posts/quarto-migration.html)
+* [Distributed Training in TensorFlow with AI Platform & Docker](https://sayak.dev/posts/distributed-training.html)
+* [The Maker Philosophy with ML APIs](https://sayak.dev/posts/mlapis-maker.html)
+* [A few favorite recipes in computer vision & deep learning](https://sayak.dev/posts/2020-08-02-favorite-recipes-vision.html)
+* [Using TensorRT for accelerated deep learning inference](https://sayak.dev/posts/tftrt-optimization.html)
+* [Sharing your work online effectively](https://sayak.dev/posts/sharing-work.html)
+* [Embedding an image preprocessing function in a `tf.keras` model](https://sayak.dev/posts/2020-04-13-embedding-image-preprocessing-functions.html)
