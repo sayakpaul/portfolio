@@ -176,6 +176,7 @@ Blog posts outside the Hugging Face blogging platform:
 * [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with Merve Noyan)
 * [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
 * [Presenting Flux Fast: Making Flux go brrr on H100s](https://pytorch.org/blog/presenting-flux-fast-making-flux-go-brrr-on-h100s/). [Tweet](https://x.com/PyTorch/status/1937904983254446325) from PyTorch.
+* [torch.compile and Diffusers: A Hands-On Guide to Peak Performance](https://pytorch.org/blog/torch-compile-and-diffusers-a-hands-on-guide-to-peak-performance/). [Tweet](https://x.com/PyTorch/status/1945928992315277549) from PyTorch.
 
 ### [Carted](https://www.carted.com/blog)
 
