@@ -56,13 +56,6 @@ _Imagine feeding an AI 20 documents to answer a question, and the key document i
 
 The consequence of these limitations is that many AI agents today are essentially stateless. Each interaction is largely isolated, leading to a lack of true personalization, repeated questions, and inconsistent behavior. It's like having a brilliant personal assistant who, unfortunately, gets their memory wiped clean every morning.
 
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>
 
 
 ## Defining "Memory" in AI: More Than Just Recent Chat History
@@ -82,14 +75,6 @@ I think it's helpful to consider different types of memory, drawing inspiration 
     - Procedural Memory: Knowledge of how to do things. For an AI, this could be remembering a multi-step process you often use, or learning the best way to present information to you.
 
 I have a strong opinion here. The Dotcom era Dotcom era enabled businesses to move online - and Apps emerged, I think AI is going to bring hyper-personalization to these apps. And for that to happen this much depth of memory so crucial. Moreover, Agent memory is going to play very important role in maintaining coherence and consistency in its interactions. It will enable an agent to Learn and adapt from past successes and failures.
-
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>
 
 ## Another challenge - LLMs lack focus!
 
@@ -182,12 +167,3 @@ Throughout this piece, I've drawn inspiration and information from the work of m
 
 
 
-
-
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>

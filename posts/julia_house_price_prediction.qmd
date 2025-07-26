@@ -21,12 +21,6 @@ In this tutorial we'll be reproducing [Comprehensive data exploration with Pytho
 
 Dataset used in this tutorial can be found [here](https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques).
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>
-
 We'll be using following packages:
 
 1. PlotlyJS.jl : A Julia interface to Plotly.js
@@ -78,11 +72,6 @@ first(df_train, 5)
 
 ![](assets/julia_house_price_prediction/img_1.png)
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>
 
 ## So… What can we expect?
 
@@ -117,11 +106,6 @@ I ended up with two 'building' variables ('OverallQual' and 'YearBuilt') and two
 
 However, the main point of this exercise was to think a little about our data and expectactions, so I think we achieved our goal. Now it's time for 'a little less conversation, a little more action please'. Let's shake it!
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>
 
 ## Analysing SalePrice
 
@@ -214,11 +198,6 @@ Although it's not a strong tendency, I'd say that 'SalePrice' is more prone to s
 
 Note: we don't know if 'SalePrice' is in constant prices. Constant prices try to remove the effect of inflation. If 'SalePrice' is not in constant prices, it should be, so than prices are comparable over the years.
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>
 
 ## In summary
 
@@ -296,8 +275,3 @@ Pheww ! That's it for today. Today we took a look at how cool Julia is and why 
 
 ![](assets/julia_house_price_prediction/img_10.jpg)
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>

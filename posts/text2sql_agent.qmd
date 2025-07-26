@@ -33,13 +33,6 @@ Let’s build this agent! 💪
 
 And by the way, all the code related to this guide can be found here on my github.
 
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>
 
 ## The Big Picture: Our Agent's Workflow
 
@@ -173,13 +166,6 @@ Working with powerful LLMs is an iterative process. It's rarely perfect on the f
 
 __**Key Takeaway: Debugging LLM interactions is an art. Log your inputs (prompts) and its outputs (raw responses) very carefully!**__
 
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>
 
 ## Bringing Our Agent to Life with Gradio
 
@@ -235,11 +221,3 @@ Feel free to experiment further:
 - Expand the Gradio UI with more features!
 
 Happy coding, and keep building amazing things!
-
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>

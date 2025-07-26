@@ -28,11 +28,6 @@ Flux is fairly new, and needs attention of community ! In this article we'll le
 2. A brief overview of Flux API
 3. Reimplementing PyTorch Models in Julia
 
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-  <a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe">
-    Subscribe
-  </a>
-</div>
 
 ## UNet 🥅
 

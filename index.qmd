@@ -50,10 +50,3 @@ I am also a [Google Developer Expert](https://g.dev/anshuizme) in Machine Learni
 
 **Amazon** → During my **Software Engineering internship** at Amazon, I contributed to a team responsible for developing large-scale software systems. This experience provided a strong foundation in the software development lifecycle, including coding, debugging, and working with cloud infrastructure to deliver a project feature.
 
-<p style="text-align: center;">
-  <a href="https://fullstackagents.substack.com/subscribe" 
-     target="_blank" 
-     style="display: inline-block; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color:rgb(19, 36, 135); color: #FFFFFF; font-size: 16px; font-weight: 600; padding: 12px 24px; border-radius: 8px; text-decoration: none;">
-    Subscribe to Full-Stack Agents
-  </a>
-</p>
