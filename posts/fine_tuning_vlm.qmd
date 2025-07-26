@@ -1,0 +1,29 @@
+# [WIP] Fine-Tuning a Vision Language Model in 2025
+
+In this tutorial, we'll learn how to fine-tune a Vision Language Model using Huggingface. We are going to use TRL library.
+
+We are picking Qwen2-VL 7B model and we are going to fine tune it on ChartQA dataset. This dataset includes images of various chart types paired with question-answer pairs -  ideal for
+visual question-answering capabilities.
+
+## Install dependencies
+
+
+First thing first let's get the base libraries, and we are going to do this guide in pytorch. To install it:
+
+```bash
+!pip install -qq torch torchvision torchaudio
+```
+
+Okay, so we are going to need `transformers`, `datasets`, `bitsandbytes`, `peft`, `accelerate` and `qwen-vl-utils` library. Let's first install all of them
+
+```bash
+!pip install -U -qq transformers trl datasets bitsandbytes peft accelerate qwen-vl-utils
+```
+
+## Load Dataset
+
+Now that we are done installing all the dependencies, it's time to load our dataset. ChartQA dataset is available on [Huggingface](https://huggingface.co/datasets/HuggingFaceM4/ChartQA) and we can use the dataset package to install it.
+
+ChartQA is a dataset of of various graphs and corresponding question-answer pairs. It's a good enough challenge for our model to test visual-question answering capabilities.
+
+

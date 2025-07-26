@@ -2022,5 +2022,48 @@ ht(co, xticks=(1:35, not_avoid), yticks=(1:35, not_avoid),
   <guid>https://www.heyyanshuman.com/posts/interview_rrk.html</guid>
   <pubDate>Sun, 11 Sep 2022 18:30:00 GMT</pubDate>
 </item>
+<item>
+  <title></title>
+  <link>https://www.heyyanshuman.com/posts/fine_tuning_vlm.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="wip-fine-tuning-a-vision-language-model-in-2025" class="level1">
+<h1>[WIP] Fine-Tuning a Vision Language Model in 2025</h1>
+<p>In this tutorial, we’ll learn how to fine-tune a Vision Language Model using Huggingface. We are going to use TRL library.</p>
+<p>We are picking Qwen2-VL 7B model and we are going to fine tune it on ChartQA dataset. This dataset includes images of various chart types paired with question-answer pairs - ideal for visual question-answering capabilities.</p>
+<section id="install-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="install-dependencies">Install dependencies</h2>
+<p>First thing first let’s get the base libraries, and we are going to do this guide in pytorch. To install it:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-qq</span> torch torchvision torchaudio</span></code></pre></div>
+<p>Okay, so we are going to need <code>transformers</code>, <code>datasets</code>, <code>bitsandbytes</code>, <code>peft</code>, <code>accelerate</code> and <code>qwen-vl-utils</code> library. Let’s first install all of them</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-U</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-qq</span> transformers trl datasets bitsandbytes peft accelerate qwen-vl-utils</span></code></pre></div>
+</section>
+<section id="load-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="load-dataset">Load Dataset</h2>
+<p>Now that we are done installing all the dependencies, it’s time to load our dataset. ChartQA dataset is available on <a href="https://huggingface.co/datasets/HuggingFaceM4/ChartQA">Huggingface</a> and we can use the dataset package to install it.</p>
+<p>ChartQA is a dataset of of various graphs and corresponding question-answer pairs. It’s a good enough challenge for our model to test visual-question answering capabilities.</p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <guid>https://www.heyyanshuman.com/posts/fine_tuning_vlm.html</guid>
+  <pubDate>Sat, 26 Jul 2025 20:17:03 GMT</pubDate>
+</item>
 </channel>
 </rss>

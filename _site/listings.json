@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/fine_tuning_vlm.html",
       "/posts/text2sql_agent.html",
       "/posts/agent_memory_101.html",
       "/posts/interview_aakash.html",
