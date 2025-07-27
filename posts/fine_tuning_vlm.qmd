@@ -10,7 +10,7 @@ badges: false
 toc: true
 categories:
 - VLMs
-- LoRA
+- Fine-tuning
 date: '2025-07-27'
 description: How to fine-tune Gemma3 vision on consumer hardware with 4-bit quantization (QLoRA)
 hide: false
