@@ -369,9 +369,6 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 <p>Source&nbsp;: Analytics India&nbsp;MagazineIn this tutorial, we’ll learn using Julia for exploratory data analysis. This is my first blog post ever and first article of my series Julia For The Win. Please feel free to give feedback&nbsp;! Let’s get started. In this tutorial we’ll be reproducing <a href="https://www.kaggle.com/code/pmarcelino/comprehensive-data-exploration-with-python">Comprehensive data exploration with Python</a> notebook, but in Julia.</p>
 <p>Dataset used in this tutorial can be found <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">here</a>.</p>
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-<p><a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe"> Subscribe </a></p>
-</div>
 <p>We’ll be using following packages:</p>
 <ol type="1">
 <li>PlotlyJS.jl&nbsp;: A Julia interface to Plotly.js</li>
@@ -407,9 +404,6 @@ df_train = CSV.read("./train.csv", DataFrame, stringtype=String);</code></pre>
 <pre><code>first(df_train, 5) 
 # displays first 5 value of dataframe</code></pre>
 <p><img src="assets/julia_house_price_prediction/img_1.png" class="img-fluid"></p>
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-<p><a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe"> Subscribe </a></p>
-</div>
 <section id="so-what-can-we-expect" class="level2">
 <h2 class="anchored" data-anchor-id="so-what-can-we-expect">So… What can we&nbsp;expect?</h2>
 <p>In order to understand our data, we can look at each variable and try to understand their meaning and relevance to this problem. I know this is time-consuming, but it will give us the flavour of our dataset.</p>
@@ -438,9 +432,6 @@ df_train = CSV.read("./train.csv", DataFrame, stringtype=String);</code></pre>
 </ul>
 <p>I ended up with two ‘building’ variables (‘OverallQual’ and ‘YearBuilt’) and two ‘space’ variables (‘TotalBsmtSF’ and ‘GrLivArea’). This might be a little bit unexpected as it goes against the real estate mantra that all that matters is ‘location, location and location’. It is possible that this quick data examination process was a bit harsh for categorical variables. For example, I expected the ‘Neigborhood’ variable to be more relevant, but after the data examination I ended up excluding it. Maybe this is related to the use of scatter plots instead of boxplots, which are more suitable for categorical variables visualization. The way we visualize data often influences our conclusions.</p>
 <p>However, the main point of this exercise was to think a little about our data and expectactions, so I think we achieved our goal. Now it’s time for ‘a little less conversation, a little more action please’. Let’s shake it!</p>
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-<p><a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe"> Subscribe </a></p>
-</div>
 </section>
 <section id="analysing-saleprice" class="level2">
 <h2 class="anchored" data-anchor-id="analysing-saleprice">Analysing SalePrice</h2>
@@ -488,9 +479,6 @@ Kurtosis: 6.509812011089398</code></pre>
 <p><img src="assets/julia_house_price_prediction/img_7.png" class="img-fluid"></p>
 <p>Although it’s not a strong tendency, I’d say that ‘SalePrice’ is more prone to spend more money in new stuff than in old relics.</p>
 <p>Note: we don’t know if ‘SalePrice’ is in constant prices. Constant prices try to remove the effect of inflation. If ‘SalePrice’ is not in constant prices, it should be, so than prices are comparable over the years.</p>
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-<p><a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe"> Subscribe </a></p>
-</div>
 </section>
 <section id="in-summary" class="level2">
 <h2 class="anchored" data-anchor-id="in-summary">In summary</h2>
@@ -544,9 +532,6 @@ ht(co, xticks=(1:35, not_avoid), yticks=(1:35, not_avoid),
 <p>The plot concerning ‘SalePrice’ and ‘YearBuilt’ can also make us think. In the bottom of the ‘dots cloud’, we see what almost appears to be a shy exponential function (be creative). We can also see this same tendency in the upper limit of the ‘dots cloud’ (be even more creative). Also, notice how the set of dots regarding the last years tend to stay above this limit (I just wanted to say that prices are increasing faster now).</p>
 <p>Pheww&nbsp;! That’s it for today. Today we took a look at how cool Julia is and why can it rescue data scientists just in case Python disappears from this earth&nbsp;!</p>
 <p><img src="assets/julia_house_price_prediction/img_10.jpg" class="img-fluid"></p>
-<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
-<p><a href="https://fullstackagents.substack.com" class="btn btn-primary" target="_blank" title="Subscribe"> Subscribe </a></p>
-</div>
 
 
 </section>
