@@ -1,0 +1,17 @@
+---
+aliases:
+- /flux-kontext
+permalink: /what-is-flux-kontext-really
+badges: false
+toc: true
+categories:
+- Diffusion
+- Model Architecture
+date: '2022-08-02'
+description: How does generative image editing work?
+hide: false
+output-file: what_is_flux_kontext_really.html
+search_exclude: false
+title: What is Flux Kontext really?
+---
+

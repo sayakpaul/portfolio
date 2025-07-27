@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Introductions</title>
+<title>Tech Blog – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -26,6 +26,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/quarto-nav/headroom.min.js"></script>
 <link href="./assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -58,6 +60,35 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
+
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-listing .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-36H2NR8FB7"></script>
 
 <script type="text/javascript">
@@ -68,15 +99,40 @@ gtag('js', new Date());
 gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Introductions">
-<meta property="og:description" content="Introductions Anshuman Mishra.">
-<meta property="og:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<link rel="alternate" type="application/rss+xml" title="Introductions" href="ml-blog.xml" data-external="1"><meta property="og:title" content="Tech Blog – Introductions">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="Introductions">
-<meta name="twitter:description" content="Introductions Anshuman Mishra.">
-<meta name="twitter:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<meta name="twitter:title" content="Tech Blog – Introductions">
 <meta name="twitter:creator" content="@kanpuriyanawab">
 <meta name="twitter:card" content="summary">
 </head>
@@ -264,7 +320,7 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./ml-blog.html"> 
+    <a class="nav-link active" href="./ml-blog.html" aria-current="page"> 
 <span class="menu-text">ML Blog</span></a>
   </li>  
 </ul>
@@ -310,55 +366,464 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        
+    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(14)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RGlmZnVzaW9u">Diffusion <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RmluZS10dW5pbmc=">Fine-tuning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SW50ZXJ2aWV3">Interview <span class="quarto-category-count">(4)</span></div><div class="category" data-category="SnVsaWE=">Julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="S2VyYXNIdWI=">KerasHub <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(6)</span></div><div class="category" data-category="TW9kZWwlMjBBcmNoaXRlY3R1cmU=">Model Architecture <span class="quarto-category-count">(2)</span></div><div class="category" data-category="T3BlcmF0aW5nLXN5c3RlbQ==">Operating-system <span class="quarto-category-count">(2)</span></div><div class="category" data-category="VkxNcw==">VLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="V2FuZGI=">Wandb <span class="quarto-category-count">(2)</span></div></div></div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-page-left" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Tech Blog</h1>
+</div>
+
+
+
+<div class="quarto-title-meta column-page-left">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 
 
 
-<div class="columns">
-<div class="column" style="width:65%;">
-<section id="hi-im-anshuman." class="level3">
-<h3 class="anchored" data-anchor-id="hi-im-anshuman.">Hi, I’m Anshuman.</h3>
-<p>Thanks for dropping by. I’m a software engineer at heart with a deep passion for building with stuff with large language models.</p>
-<p>After years of contributing to the core of major open-source machine learning frameworks, I now work as an AI consultant, helping startups build robust, AI-native products.</p>
-<p>My expertise comes from foundational, hands-on work—implementing models from scratch, designing training pipelines, and writing technical guides.</p>
-<p>I am also a <a href="https://g.dev/anshuizme">Google Developer Expert</a> in Machine Learning.</p>
-</section>
-</div><div class="column" style="width:35%;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="assets/images/pfp/varkala.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="border-radius: 30%;" width="250"></p>
-</figure>
+
+<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+      <option value="" disabled="" selected="" hidden="">Order By</option>
+      <option value="index" data-direction="asc">Default</option>
+      <option value="listing-title" data-direction="asc">
+        Title
+      </option>
+      <option value="listing-date-sort" data-direction="asc">
+        Date - Oldest
+      </option>
+      <option value="listing-date-sort" data-direction="desc">
+        Date - Newest
+      </option>
+      <option value="listing-author" data-direction="asc">
+        Author
+      </option>
+    </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-categories="TExNcw==" data-listing-date-sort="1753554600000" data-listing-file-modified-sort="1753615826644" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1548">
+<div class="thumbnail"><a href="./posts/what_is_gspo.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/what_is_gspo/grpo_1.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/what_is_gspo.html" class="no-external">What is GSPO?</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/what_is_gspo.html" class="no-external">
+<p>How does Group Sequence Policy Optimization work?</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/what_is_gspo.html" class="no-external">
+<div class="listing-date">
+Jul 27, 2025
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-categories="VkxNcyUyQ0ZpbmUtdHVuaW5n" data-listing-date-sort="1753554600000" data-listing-file-modified-sort="1753610797407" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2297">
+<div class="thumbnail"><a href="./posts/fine-tuning-vlm.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/finetune_vlm/gemma3_arch.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/fine-tuning-vlm.html" class="no-external">Fine-Tuning a Vision Language Model in 2025</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('VkxNcw=='); return false;">VLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('RmluZS10dW5pbmc='); return false;">Fine-tuning</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/fine-tuning-vlm.html" class="no-external">
+<p>How to fine-tune Gemma3 vision on consumer hardware with 4-bit quantization (QLoRA)</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/fine-tuning-vlm.html" class="no-external">
+<div class="listing-date">
+Jul 27, 2025
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1749148200000" data-listing-file-modified-sort="1753561135420" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1643">
+<div class="thumbnail"><a href="./posts/text2sql_agent.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/text2sql_agent/db_schema.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/text2sql_agent.html" class="no-external">Building Production Ready Text-to-SQL Agent from Scratch</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/text2sql_agent.html" class="no-external">
+<p>Tired of Writing SQL? Let’s Build an AI That Does It For You.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/text2sql_agent.html" class="no-external">
+<div class="listing-date">
+Jun 6, 2025
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="3" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1748889000000" data-listing-file-modified-sort="1753561103853" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3401">
+<div class="thumbnail"><a href="./posts/agent_memory_101.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/agent_memory_101/memory_1.jpg"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/agent_memory_101.html" class="no-external">The AI Memory Layer Will Change Everything</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/agent_memory_101.html" class="no-external">
+<p>How Stateful Memory is Revolutionizing AI Agents and Applications</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/agent_memory_101.html" class="no-external">
+<div class="listing-date">
+Jun 3, 2025
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="4" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1703183400000" data-listing-file-modified-sort="1749469125767" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2252">
+<div class="thumbnail"><a href="./posts/interview_aakash.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/interview/interview_aakash.webp"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/interview_aakash.html" class="no-external">Interview with Aakash Kumar Nain, MLE at Merlyn Minds</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/interview_aakash.html" class="no-external">
+<p>joint work with Abheesht Sharma</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/interview_aakash.html" class="no-external">
+<div class="listing-date">
+Dec 22, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="5" data-categories="TExNcyUyQ09wZXJhdGluZy1zeXN0ZW0=" data-listing-date-sort="1701541800000" data-listing-file-modified-sort="1749308882776" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1200">
+<div class="thumbnail"><a href="./posts/illustrated_llmos.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/illustrated_llmos/karpathy_ss.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/illustrated_llmos.html" class="no-external">Illustrated LLM OS</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('T3BlcmF0aW5nLXN5c3RlbQ=='); return false;">Operating-system</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/illustrated_llmos.html" class="no-external">
+<p>An Implementational Perspective of LLMs as Operating Systems</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/illustrated_llmos.html" class="no-external">
+<div class="listing-date">
+Dec 3, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="6" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1696962600000" data-listing-file-modified-sort="1749312922228" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3033">
+<div class="thumbnail"><a href="./posts/interview_matt.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/interview/interview_matt.webp"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/interview_matt.html" class="no-external">Interview with Matthew Watson, Keras Team, Google</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/interview_matt.html" class="no-external">
+<p>joint work with Abheesht Sharma</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/interview_matt.html" class="no-external">
+<div class="listing-date">
+Oct 11, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="7" data-categories="RGlmZnVzaW9uJTJDV2FuZGI=" data-listing-date-sort="1696185000000" data-listing-file-modified-sort="1749374943003" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
+<div class="thumbnail"><a href="./posts/sd_next.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/sd_next.html" class="no-external">Generating High-quality Images with SD.Next, HuggingFace Diffusers and W&amp;B</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('RGlmZnVzaW9u'); return false;">Diffusion</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/sd_next.html" class="no-external">
+<p>A walkthrough of using SD.Next (Advanced webUI for Stable Diffusion) for generating high-quality images using HuggingFace Diffusers and managing experiments with W&amp;B.</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/sd_next.html" class="no-external">
+<div class="listing-date">
+Oct 2, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="8" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1695580200000" data-listing-file-modified-sort="1749312912115" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3186">
+<div class="thumbnail"><a href="./posts/interview_rajaswa.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/interview/interview_rajaswa.webp"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/interview_rajaswa.html" class="no-external">Interview with Rajaswa Patil, AI Researcher at Postman Labs</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/interview_rajaswa.html" class="no-external">
+<p>joint work with Abheesht Sharma</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/interview_rajaswa.html" class="no-external">
+<div class="listing-date">
+Sep 25, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="9" data-categories="S2VyYXNIdWIlMkNMTE1zJTJDV2FuZGI=" data-listing-date-sort="1693593000000" data-listing-file-modified-sort="1749374954894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
+<div class="thumbnail"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">Predicting Semantic Similarity using KerasNLP</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('S2VyYXNIdWI='); return false;">KerasHub</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
+<p>This report demonstrates how to use the Weights&amp;Biases to speedup experiments with Keras</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
+<div class="listing-date">
+Sep 2, 2023
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="10" data-categories="TW9kZWwlMjBBcmNoaXRlY3R1cmUlMkNKdWxpYQ==" data-listing-date-sort="1672425000000" data-listing-file-modified-sort="1753561107884" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="894">
+<div class="thumbnail"><a href="./posts/flux_is_so_flexible.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/flux_is_flexible/unet_full.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/flux_is_so_flexible.html" class="no-external">Deep Learning in&nbsp;Julia</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TW9kZWwlMjBBcmNoaXRlY3R1cmU='); return false;">Model Architecture</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('SnVsaWE='); return false;">Julia</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/flux_is_so_flexible.html" class="no-external">
+<p>Implementing ML models in Flux, the Julia Deep Learning&nbsp;Package!</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/flux_is_so_flexible.html" class="no-external">
+<div class="listing-date">
+Dec 31, 2022
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="11" data-categories="TExNcyUyQ09wZXJhdGluZy1zeXN0ZW0=" data-listing-date-sort="1671647400000" data-listing-file-modified-sort="1753561139356" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2340">
+<div class="thumbnail"><a href="./posts/julia_house_price_prediction.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/julia_house_price_prediction/img_1.png"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/julia_house_price_prediction.html" class="no-external">Comprehensive data exploration with Julia</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('T3BlcmF0aW5nLXN5c3RlbQ=='); return false;">Operating-system</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/julia_house_price_prediction.html" class="no-external">
+<p>Exploratory Data Analysis of Housing dataset in Julia</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/julia_house_price_prediction.html" class="no-external">
+<div class="listing-date">
+Dec 22, 2022
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="12" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1662921000000" data-listing-file-modified-sort="1749309730655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3914">
+<div class="thumbnail"><a href="./posts/interview_rrk.html" class="no-external">
+
+<p class="card-img-top"><img src="posts/assets/interview/interview_rrk.webp"  class="thumbnail-image card-img"/></p>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/interview_rrk.html" class="no-external">Interview with 2x Kaggle Grandmaster, Data Science Manager at Emirates NBD - Ravi Ramakrishnan</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/interview_rrk.html" class="no-external">
+<p>joint work with Abheesht Sharma</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/interview_rrk.html" class="no-external">
+<div class="listing-date">
+Sep 12, 2022
+</div>
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="13" data-categories="RGlmZnVzaW9uJTJDTW9kZWwlMjBBcmNoaXRlY3R1cmU=" data-listing-date-sort="1659378600000" data-listing-file-modified-sort="1753613421602" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="thumbnail"><a href="./posts/what_is_flux_kontext_really.html" class="no-external">
+
+<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+
+</a></div>
+<div class="body">
+<h3 class="no-anchor listing-title">
+<a href="./posts/what_is_flux_kontext_really.html" class="no-external">What is Flux Kontext really?</a>
+</h3>
+<div class="listing-categories">
+
+<div class="listing-category" onclick="window.quartoListingCategory('RGlmZnVzaW9u'); return false;">Diffusion</div>
+
+<div class="listing-category" onclick="window.quartoListingCategory('TW9kZWwlMjBBcmNoaXRlY3R1cmU='); return false;">Model Architecture</div>
+
+</div>
+<div class="delink listing-description"><a href="./posts/what_is_flux_kontext_really.html" class="no-external">
+<p>How does generative image editing work?</p>
+</a></div>
+</div>
+<div class="metadata">
+<a href="./posts/what_is_flux_kontext_really.html" class="no-external">
+<div class="listing-date">
+Aug 2, 2022
+</div>
+</a>
 </div>
 </div>
 </div>
-<hr>
-<section id="who-im-working-with-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="who-im-working-with-consultancy">Who I’m Working With (Consultancy)</h3>
-<ul>
-<li><strong>Google</strong> → As an Independent AI Consultant, I support the Keras team by implementing state-of-the-art models in <a href="https://github.com/keras-team/keras-hub">KerasHub</a> and writing technical deep-dives on their usage.</li>
-</ul>
-</section>
-<section id="previous-clients-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="previous-clients-consultancy">Previous Clients (Consultancy):</h3>
-<ul>
-<li><strong>W&amp;B</strong> → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&amp;B platform.</li>
-</ul>
-</section>
-<section id="experience" class="level3">
-<h3 class="anchored" data-anchor-id="experience">Experience</h3>
-<p><strong>FlipAI</strong> → Fifth employee of the company and 2nd <strong>Machine Learning Engineer</strong> hired. My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications &amp; feature in a fast-paced production environment as per customer needs.</p>
-<p><strong>Google</strong> → Selected for the <strong>Google Summer of Code Program</strong> to work with the TensorFlow and Keras teams. Mainly worked on KerasHub (then KerasNLP), implementing models like Llama2, GPT NeoX from scratch and writing technical articles.</p>
-<p><strong>BNY Mellon</strong> → As a <strong>Data Science Intern</strong>, I gained hands-on experience within the financial services industry. My responsibilities included analyzing large datasets to uncover insights, building predictive models, and presenting my findings to support data-driven decision-making.</p>
-<p><strong>Amazon</strong> → During my <strong>Software Engineering internship</strong> at Amazon, I contributed to a team responsible for developing large-scale software systems. This experience provided a strong foundation in the software development lifecycle, including coding, debugging, and working with cloud infrastructure to deliver a project feature.</p>
-
-
-</section>
-
-</main> <!-- /main -->
+<div class="listing-no-matching d-none">No matching items</div>
+</div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -776,4 +1241,4 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/ml-blog.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

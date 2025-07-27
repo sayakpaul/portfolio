@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2022-08-02">
+<meta name="description" content="How does generative image editing work?">
 
-<title>Introductions</title>
+<title>What is Flux Kontext really? – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +25,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -69,14 +71,12 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 </script>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Introductions">
-<meta property="og:description" content="Introductions Anshuman Mishra.">
-<meta property="og:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="What is Flux Kontext really? – Introductions">
+<meta property="og:description" content="How does generative image editing work?">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="Introductions">
-<meta name="twitter:description" content="Introductions Anshuman Mishra.">
-<meta name="twitter:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<meta name="twitter:title" content="What is Flux Kontext really? – Introductions">
+<meta name="twitter:description" content="How does generative image editing work?">
 <meta name="twitter:creator" content="@kanpuriyanawab">
 <meta name="twitter:card" content="summary">
 </head>
@@ -246,11 +246,11 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introductions</span>
     </a>
   </div>
@@ -260,12 +260,12 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/work.html"> 
+    <a class="nav-link" href="../pages/work.html"> 
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./ml-blog.html"> 
-<span class="menu-text">ML Blog</span></a>
+    <a class="nav-link" href="../blog.qmd"> 
+<span class="menu-text">Blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
@@ -307,56 +307,53 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">What is Flux Kontext really?</h1>
+                  <div>
+        <div class="description">
+          How does generative image editing work?
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Diffusion</div>
+                <div class="quarto-category">Model Architecture</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 2, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<div class="columns">
-<div class="column" style="width:65%;">
-<section id="hi-im-anshuman." class="level3">
-<h3 class="anchored" data-anchor-id="hi-im-anshuman.">Hi, I’m Anshuman.</h3>
-<p>Thanks for dropping by. I’m a software engineer at heart with a deep passion for building with stuff with large language models.</p>
-<p>After years of contributing to the core of major open-source machine learning frameworks, I now work as an AI consultant, helping startups build robust, AI-native products.</p>
-<p>My expertise comes from foundational, hands-on work—implementing models from scratch, designing training pipelines, and writing technical guides.</p>
-<p>I am also a <a href="https://g.dev/anshuizme">Google Developer Expert</a> in Machine Learning.</p>
-</section>
-</div><div class="column" style="width:35%;">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="assets/images/pfp/varkala.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="border-radius: 30%;" width="250"></p>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-<section id="who-im-working-with-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="who-im-working-with-consultancy">Who I’m Working With (Consultancy)</h3>
-<ul>
-<li><strong>Google</strong> → As an Independent AI Consultant, I support the Keras team by implementing state-of-the-art models in <a href="https://github.com/keras-team/keras-hub">KerasHub</a> and writing technical deep-dives on their usage.</li>
-</ul>
-</section>
-<section id="previous-clients-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="previous-clients-consultancy">Previous Clients (Consultancy):</h3>
-<ul>
-<li><strong>W&amp;B</strong> → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&amp;B platform.</li>
-</ul>
-</section>
-<section id="experience" class="level3">
-<h3 class="anchored" data-anchor-id="experience">Experience</h3>
-<p><strong>FlipAI</strong> → Fifth employee of the company and 2nd <strong>Machine Learning Engineer</strong> hired. My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications &amp; feature in a fast-paced production environment as per customer needs.</p>
-<p><strong>Google</strong> → Selected for the <strong>Google Summer of Code Program</strong> to work with the TensorFlow and Keras teams. Mainly worked on KerasHub (then KerasNLP), implementing models like Llama2, GPT NeoX from scratch and writing technical articles.</p>
-<p><strong>BNY Mellon</strong> → As a <strong>Data Science Intern</strong>, I gained hands-on experience within the financial services industry. My responsibilities included analyzing large datasets to uncover insights, building predictive models, and presenting my findings to support data-driven decision-making.</p>
-<p><strong>Amazon</strong> → During my <strong>Software Engineering internship</strong> at Amazon, I contributed to a team responsible for developing large-scale software systems. This experience provided a strong foundation in the software development lifecycle, including coding, debugging, and working with cloud infrastructure to deliver a project feature.</p>
 
 
-</section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -776,4 +773,4 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/flux_kontext.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

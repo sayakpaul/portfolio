@@ -30,8 +30,8 @@ website:
     left:
       - text: "Work"
         href: pages/work.qmd
-      - text: "Blog"
-        href: blog.qmd
+      - text: "ML Blog"
+        href: ml-blog.qmd
       # - text: "Life"
       #   href: pages/life.qmd
     right:

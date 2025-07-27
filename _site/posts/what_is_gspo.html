@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-07-27">
+<meta name="description" content="How does Group Sequence Policy Optimization work?">
 
-<title>Introductions</title>
+<title>What is GSPO? – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,26 +25,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -69,16 +71,20 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 </script>
 
 
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Introductions">
-<meta property="og:description" content="Introductions Anshuman Mishra.">
-<meta property="og:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="What is GSPO? – Introductions">
+<meta property="og:description" content="How does Group Sequence Policy Optimization work?">
+<meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/what_is_gspo/grpo_1.png">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="Introductions">
-<meta name="twitter:description" content="Introductions Anshuman Mishra.">
-<meta name="twitter:image" content="https://www.heyyanshuman.com/assets/images/pfp/varkala.jpg">
+<meta property="og:image:height" content="840">
+<meta property="og:image:width" content="1286">
+<meta name="twitter:title" content="What is GSPO? – Introductions">
+<meta name="twitter:description" content="How does Group Sequence Policy Optimization work?">
+<meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/what_is_gspo/grpo_1.png">
 <meta name="twitter:creator" content="@kanpuriyanawab">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="840">
+<meta name="twitter:image-width" content="1286">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -246,11 +252,11 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introductions</span>
     </a>
   </div>
@@ -260,11 +266,11 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/work.html"> 
+    <a class="nav-link" href="../pages/work.html"> 
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./ml-blog.html"> 
+    <a class="nav-link" href="../ml-blog.html"> 
 <span class="menu-text">ML Blog</span></a>
   </li>  
 </ul>
@@ -307,53 +313,181 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">What is GSPO?</h1>
+                  <div>
+        <div class="description">
+          How does Group Sequence Policy Optimization work?
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">LLMs</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 27, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#quick-recap" id="toc-quick-recap" class="nav-link active" data-scroll-target="#quick-recap">Quick recap</a>
+  <ul class="collapse">
+  <li><a href="#the-problem-with-rewarding-every-little-step" id="toc-the-problem-with-rewarding-every-little-step" class="nav-link" data-scroll-target="#the-problem-with-rewarding-every-little-step">The Problem with Rewarding Every Little Step</a></li>
+  </ul></li>
+  <li><a href="#what-is-gspo-a-smarter-way-to-learn" id="toc-what-is-gspo-a-smarter-way-to-learn" class="nav-link" data-scroll-target="#what-is-gspo-a-smarter-way-to-learn">What is GSPO? A Smarter Way to Learn</a></li>
+  <li><a href="#how-does-gspo-work" id="toc-how-does-gspo-work" class="nav-link" data-scroll-target="#how-does-gspo-work">How does GSPO Work?</a>
+  <ul class="collapse">
+  <li><a href="#from-group-scores-to-a-learning-signal" id="toc-from-group-scores-to-a-learning-signal" class="nav-link" data-scroll-target="#from-group-scores-to-a-learning-signal">From Group Scores to a Learning Signal</a></li>
+  </ul></li>
+  <li><a href="#how-good-gspo-is" id="toc-how-good-gspo-is" class="nav-link" data-scroll-target="#how-good-gspo-is">How good GSPO is?</a></li>
+  <li><a href="#qwen-cooked" id="toc-qwen-cooked" class="nav-link" data-scroll-target="#qwen-cooked">Qwen cooked!</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/what_is_gspo.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
-<div class="columns">
-<div class="column" style="width:65%;">
-<section id="hi-im-anshuman." class="level3">
-<h3 class="anchored" data-anchor-id="hi-im-anshuman.">Hi, I’m Anshuman.</h3>
-<p>Thanks for dropping by. I’m a software engineer at heart with a deep passion for building with stuff with large language models.</p>
-<p>After years of contributing to the core of major open-source machine learning frameworks, I now work as an AI consultant, helping startups build robust, AI-native products.</p>
-<p>My expertise comes from foundational, hands-on work—implementing models from scratch, designing training pipelines, and writing technical guides.</p>
-<p>I am also a <a href="https://g.dev/anshuizme">Google Developer Expert</a> in Machine Learning.</p>
+
+<p>Qwen <a href="https://x.com/Alibaba_Qwen/status/1949412072942612873">just</a> launched so called <strong>breakthrough RL algorithm</strong> and they are calling it <strong>Group Sequence Policy Optimization (GSPO)</strong>. In the paper they published, they demonstrated that GSPO is not just an incremental update; it’s a fundamental fix that leads to more stable, efficient, and powerful LLMs.</p>
+<p>I couldn’t stop myself from reading this paper and share my learnings. So let’s see how it really works!</p>
+<p>Algorithms like Proximal Policy Optimization (PPO) and more recently, Group Relative Policy Optimization (GRPO), have been instrumental. However, as models are getting bigger and more complex day by day, these methods have started to show cracks, often leading to unstable training and catastrophic performance collapses.</p>
+<section id="quick-recap" class="level2">
+<h2 class="anchored" data-anchor-id="quick-recap">Quick recap</h2>
+<p>Before we get to GSPO, let’s quickly <strong>recap how modern RL for LLMs works</strong>. It has evolved through several key stages:</p>
+<ol type="1">
+<li><p><strong>PPO (Proximal Policy Optimization):</strong> This was a major step. Instead of just using a fixed dataset, PPO uses a separate <strong>reward model</strong> (often trained on human feedback) to score the LLM’s responses. The LLM is then trained to maximize these scores. This is powerful but complex, as it requires training and maintaining a whole separate model just for rewards.</p></li>
+<li><p><strong>DPO (Direct Policy Optimization):</strong> DPO simplified things by getting rid of the reward model. Instead, it learns directly from human preferences (e.g., <strong>Response B is better than Response A</strong>). This is more direct but still relies heavily on collecting large amounts of human preference data.</p></li>
+<li><p><strong>GRPO (Group Relative Policy Optimization):</strong> GRPO took another leap by often removing the need for human feedback altogether. It generates a <em>group</em> of responses and uses an automated “verifier” or reward function (like checking if code compiles or a math answer is correct) to score them. It then teaches the model to produce responses that score higher than the group average.</p></li>
+</ol>
+<section id="the-problem-with-rewarding-every-little-step" class="level3">
+<h3 class="anchored" data-anchor-id="the-problem-with-rewarding-every-little-step">The Problem with Rewarding Every Little Step</h3>
+<p>GRPO was a big improvement, but it has a hidden flaw. It operates at the <strong>token level</strong>. A “token” is a word or part of a word. GRPO analyzes the probability of <em>each individual token</em> in a response and adjusts the model’s weights based on that.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Analogy">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Analogy
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Imagine teaching a child to build a tower of blocks. The token-level approach is like praising them for <em>every single action</em>: “Good job picking up a block! Great placement! Excellent letting go!” This feedback is noisy and confusing. The child might focus on perfecting one tiny action rather than understanding the overall goal of building a stable tower.</p>
+</div>
+</div>
+<p>This is what happens with GRPO. The model can get lost in the noise of token-level feedback, leading to unstable training. The Qwen paper identifies this as a primary cause of the “irreversible model collapse” seen when training very large models.</p>
 </section>
-</div><div class="column" style="width:35%;">
+</section>
+<section id="what-is-gspo-a-smarter-way-to-learn" class="level2">
+<h2 class="anchored" data-anchor-id="what-is-gspo-a-smarter-way-to-learn">What is GSPO? A Smarter Way to Learn</h2>
+<p>Group Sequence Policy Optimization (GSPO) fixes this fundamental problem by shifting from the token level to the <strong>sequence level</strong>.</p>
+<p>So it almost turns into an optimization policy that <strong>Rewards the Final Outcome</strong></p>
+<p>Instead of rewarding every tiny step, GSPO waits for the entire task to be completed and then gives a single, holistic score for the final result.</p>
+<p>To use our analogy:</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Analogy">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Analogy
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>GSPO waits for the child to finish building the block tower. Then, it looks at the whole tower and says, “This is a fantastic, stable tower! You get a big reward.” The feedback is clearer, more meaningful, and directly tied to the ultimate goal.</p>
+</div>
+</div>
+</section>
+<section id="how-does-gspo-work" class="level2">
+<h2 class="anchored" data-anchor-id="how-does-gspo-work">How does GSPO Work?</h2>
+<p>The GSPO workflow is an elegant loop that focuses on clear, high-level feedback. Here’s how it works, step by step:</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="assets/images/pfp/varkala.jpg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="border-radius: 30%;" width="250"></p>
+<p><img src="https://i.imgur.com/GzB1tJk.png" class="img-fluid figure-img"></p>
+<figcaption>A detailed diagram showing the GSPO workflow. Step 1: A prompt goes to the Policy Model which generates multiple output sequences. Step 2: The sequences are scored by reward functions. Step 3: A Sequence Advantage is computed from the scores. Step 4: The advantage is used to update the policy model, with a KL divergence check against a reference model.</figcaption>
 </figure>
 </div>
-</div>
-</div>
-<hr>
-<section id="who-im-working-with-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="who-im-working-with-consultancy">Who I’m Working With (Consultancy)</h3>
 <ul>
-<li><strong>Google</strong> → As an Independent AI Consultant, I support the Keras team by implementing state-of-the-art models in <a href="https://github.com/keras-team/keras-hub">KerasHub</a> and writing technical deep-dives on their usage.</li>
-</ul>
-</section>
-<section id="previous-clients-consultancy" class="level3">
-<h3 class="anchored" data-anchor-id="previous-clients-consultancy">Previous Clients (Consultancy):</h3>
+<li><p><strong>Step 1: Generate a Group of Responses.</strong> For a single prompt (e.g., a math problem), the main model (the “Policy Model”) generates a diverse group of potential answers. This is like brainstorming multiple ways to solve the problem.</p></li>
+<li><p><strong>Step 2: Score Each Complete Response.</strong> This is the first key difference from GRPO. An automated reward function—like a script that checks if the final answer is correct or if code passes unit tests—evaluates each <em>entire</em> response and assigns it a single score. There’s no judgment on individual words, only on the final outcome.</p></li>
+<li><p><strong>Step 3: Calculate the “Sequence Advantage”.</strong> GSPO takes all the scores from the group and calculates an “advantage” for each response. This advantage simply represents how much better or worse a given response was compared to the average of the group. We’ll dive into this in the next section.</p></li>
+<li><p><strong>Step 4: Update the Model.</strong> The model is updated based on this sequence-level advantage.</p>
 <ul>
-<li><strong>W&amp;B</strong> → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&amp;B platform.</li>
+<li>If a sequence has a <strong>positive advantage</strong> (it was better than average), the model’s weights are adjusted to make generating that <em>entire sequence</em> more likely in the future.</li>
+<li>If a sequence has a <strong>negative advantage</strong> (it was worse than average), the model is discouraged from producing that sequence.</li>
+<li>A <strong>KL Divergence</strong> check with a frozen “Reference Model” ensures the model doesn’t stray too far from its original capabilities, preventing it from “reward hacking” or forgetting how to write coherent text.</li>
+</ul></li>
 </ul>
+<section id="from-group-scores-to-a-learning-signal" class="level3">
+<h3 class="anchored" data-anchor-id="from-group-scores-to-a-learning-signal">From Group Scores to a Learning Signal</h3>
+<p>So how does GSPO create a learning signal from a bunch of scores? It’s simpler than you might think and doesn’t require a complex “Value Model” like older methods.</p>
+<p>Let’s say we give the model a math problem and it generates four different solutions. Our reward function scores them based on correctness:</p>
+<ul>
+<li><strong>Response A:</strong> Correct reasoning, correct answer. <strong>Score = 1.0</strong></li>
+<li><strong>Response B:</strong> Correct reasoning, but a small calculation error. <strong>Score = 0.5</strong></li>
+<li><strong>Response C:</strong> Wrong reasoning, wrong answer. <strong>Score = 0.0</strong></li>
+<li><strong>Response D:</strong> Fails to follow formatting, wrong answer. <strong>Score = 0.0</strong></li>
+</ul>
+<ol type="1">
+<li><p><strong>Find the Average:</strong> The average score for this group is (1.0 + 0.5 + 0.0 + 0.0) / 4 = <strong>0.375</strong>. This is our baseline for “average performance” on this specific problem.</p></li>
+<li><p><strong>Calculate the Advantage:</strong> Now, GSPO compares each score to this average.</p>
+<ul>
+<li><strong>Response A (1.0):</strong> Is way above average. It gets a <strong>strong positive advantage</strong>.</li>
+<li><strong>Response B (0.5):</strong> Is slightly above average. It gets a <strong>weak positive advantage</strong>.</li>
+<li><strong>Responses C &amp; D (0.0):</strong> Are below average. They get a <strong>negative advantage</strong>.</li>
+</ul></li>
+</ol>
+<p>This “advantage” is the clean, simple signal used to teach the model. It tells the model exactly which complete lines of reasoning are worth learning from and which should be avoided, all relative to its current abilities.</p>
 </section>
-<section id="experience" class="level3">
-<h3 class="anchored" data-anchor-id="experience">Experience</h3>
-<p><strong>FlipAI</strong> → Fifth employee of the company and 2nd <strong>Machine Learning Engineer</strong> hired. My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications &amp; feature in a fast-paced production environment as per customer needs.</p>
-<p><strong>Google</strong> → Selected for the <strong>Google Summer of Code Program</strong> to work with the TensorFlow and Keras teams. Mainly worked on KerasHub (then KerasNLP), implementing models like Llama2, GPT NeoX from scratch and writing technical articles.</p>
-<p><strong>BNY Mellon</strong> → As a <strong>Data Science Intern</strong>, I gained hands-on experience within the financial services industry. My responsibilities included analyzing large datasets to uncover insights, building predictive models, and presenting my findings to support data-driven decision-making.</p>
-<p><strong>Amazon</strong> → During my <strong>Software Engineering internship</strong> at Amazon, I contributed to a team responsible for developing large-scale software systems. This experience provided a strong foundation in the software development lifecycle, including coding, debugging, and working with cloud infrastructure to deliver a project feature.</p>
+</section>
+<section id="how-good-gspo-is" class="level2">
+<h2 class="anchored" data-anchor-id="how-good-gspo-is">How good GSPO is?</h2>
+<p>Qwen ran a head-to-head comparison between GSPO and a carefully tuned GRPO. The results, shown in Figure 1 from their paper, are unambiguous: GSPO is not only more stable but also significantly more efficient.</p>
+<p><img src="assets/what_is_gspo/grpo_1.png" class="img-fluid"></p>
+<p>GSPO’s reward curve climbing steadily while GRPO’s is far more volatile. On difficult math and coding benchmarks, GSPO achieves significantly better results with the same amount of training compute.</p>
+<p>But <strong>why is it so much better?</strong> The paper offers two fascinating insights that explain the performance gap.</p>
+<p>First, GSPO it seemed to be doing better at identifying high-quality training data. During training, RL algorithms “clip” (ignore) data that is too different from what the model already knows to prevent instability. I used to think that using more data is better, but GSPO turns that assumption on its head. The paper reveals that GSPO clips over 100 times more data than GRPO.</p>
+<p><img src="assets/what_is_gspo/grpo_2.png" class="img-fluid"></p>
+<p>This counter-intuitive result shows that GRPO’s token-level view is so noisy it can’t tell good data from bad. GSPO, with its holistic sequence-level view, can effectively identify and focus only on the most useful learning examples, making it vastly more efficient.</p>
+<p>Second, GSPO inherently solves a major stability problem for powerful but notoriously difficult-to-train Mixture-of-Experts (MoE) models. With GRPO, the underlying “experts” being used can shift dramatically from one training step to the next, causing training to fail. The old solution was a complex workaround called “Routing Replay.” GSPO makes this obsolete.</p>
+<p><img src="assets/what_is_gspo/grpo_3.png" class="img-fluid"></p>
+<p>Because GSPO cares about the final sequence, it isn’t thrown off by small changes in which experts are used for which tokens. This inherent robustness fundamentally solves the MoE stability problem.</p>
+</section>
+<section id="qwen-cooked" class="level2">
+<h2 class="anchored" data-anchor-id="qwen-cooked">Qwen cooked!</h2>
+<p>Group Sequence Policy Optimization is cool, even though it sounds otherwise. I think it is a real deal. It represents a shift in thinking—from micromanaging the model’s every step to judging its final performance. This change delivers a trifecta of benefits:</p>
+<ol type="1">
+<li><strong>Superior Stability and Performance:</strong> It provides a cleaner learning signal that prevents model collapse and leads to better results.</li>
+<li><strong>Unlocks MoE at Scale:</strong> It solves a critical instability problem, making it feasible to apply RL to the largest and most powerful MoE architectures.</li>
+<li><strong>Greater Efficiency:</strong> By being better at identifying high-quality data, it achieves more with less, saving valuable compute resources.</li>
+</ol>
+<p>The remarkable improvements in the latest Qwen3 models are a direct result of this new algorithm. By providing a more robust and scalable foundation for reinforcement learning, GSPO is paving the way for the next generation of smarter, more capable, and more reliable AI.</p>
+<p>PS: I took a little help from Gemini for quickly taking notes from the paper.</p>
 
 
 </section>
@@ -776,4 +910,4 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/what_is_gspo.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
