@@ -10,7 +10,1355 @@
 <atom:link href="https://www.heyyanshuman.com/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Introductions Anshuman Mishra.</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Thu, 05 Jun 2025 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 26 Jul 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Fine-Tuning a Vision Language Model in 2025</title>
+  <link>https://www.heyyanshuman.com/posts/fine-tuning-vlm.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p><strong>“Keep it simple”</strong> they said.</p>
+<p>When I was working on an agentic pipeline for a question-answering task on a time-series dataset, the common advice was to just dump the raw data into the language model’s context. In my opinion, that was a flawed approach. Dumping a stream of floating-point numbers into a prompt is a recipe for confusing the model and getting unreliable results.</p>
+<p>So, in this tutorial, we’ll explore a more robust alternative. We will fine-tune a Vision Language Model (VLM), specifically Google’s Gemma 3, for a Visual Question Answering (VQA) task on chart data. We’ll be using the powerful Hugging Face ecosystem, including <code>transformers</code>, <code>datasets</code>, and <code>trl</code>.</p>
+<section id="install-dependencies" class="level2">
+<h2 class="anchored" data-anchor-id="install-dependencies">Install dependencies</h2>
+<p>First thing first let’s get the base libraries, and we are going to do this guide in pytorch. To install it:</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-qq</span> torch torchvision torchaudio</span></code></pre></div>
+<p>Next, we’ll need transformers for our models, datasets for data handling, bitsandbytes for quantization, peft for efficient fine-tuning, and accelerate to optimize it all.</p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-U</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-qq</span> transformers trl datasets bitsandbytes peft accelerate</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Key Libraries">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Libraries
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>transformers</code></strong>: Provides the VLM architecture (Gemma 3) and processor.</li>
+<li><strong><code>datasets</code></strong>: Allows us to easily load and manipulate the ChartQA dataset.</li>
+<li><strong><code>bitsandbytes</code></strong>: Enables model quantization (like 4-bit loading) to reduce memory usage.</li>
+<li><strong><code>peft</code></strong>: The Parameter-Efficient Fine-Tuning library, which contains the logic for LoRA/QLoRA.</li>
+<li><strong><code>trl</code></strong>: The Transformer Reinforcement Learning library, which simplifies the supervised fine-tuning process with its <code>SFTTrainer</code>.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="load-and-prepare-the-dataset" class="level2">
+<h2 class="anchored" data-anchor-id="load-and-prepare-the-dataset">Load and Prepare the Dataset</h2>
+<p>With our environment set up, it’s time to load our data. The <a href="https://huggingface.co/datasets/HuggingFaceM4/ChartQA">ChartQA dataset</a> is available on the Hugging Face Hub and is perfect for our task. It contains a wide variety of graphs along with corresponding question-answer pairs, presenting a solid challenge for a model’s VQA capabilities.</p>
+<p>Since our goal is to build a conversational model, we need to format the dataset into a chat-like structure. I’ve crafted a system prompt to guide the model’s behavior:</p>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">system_prompt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""You are a Vision Language Model that understands and </span></span>
+<span id="cb3-2"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">interprets chart images. Your job is to look at the chart and answer </span></span>
+<span id="cb3-3"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">questions with short, clear responses—usually a single word, number, </span></span>
+<span id="cb3-4"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">or brief phrase. The charts may be line charts, bar charts, pie charts, </span></span>
+<span id="cb3-5"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">or others, and can include colors, labels, legends, and text. Focus on </span></span>
+<span id="cb3-6"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">giving accurate answers based only on what is shown  in the image. </span></span>
+<span id="cb3-7"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">Do not explain your answer unless the question needs it to make sense.</span></span>
+<span id="cb3-8"><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"""</span></span></code></pre></div>
+<p>Referring to the chat template described in the <a href="https://huggingface.co/google/gemma-3-4b-it">Gemma 3 model card</a>, we can create a formatting function that structures each sample into a conversation with <code>system</code>, <code>user</code>, and <code>assistant</code> roles.</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">def <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_data</span>(sample)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb4-2">    # The system message sets the context <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> the model</span>
+<span id="cb4-3">    system_message <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-4">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"system"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-5">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> system_prompt}]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-6">    }</span>
+<span id="cb4-7">    # The user message provides the image and the question</span>
+<span id="cb4-8">    user_message <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-9">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"user"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-10">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [</span>
+<span id="cb4-11">            {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"image"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"image"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"image"</span>]}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-12">            {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"query"</span>]}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-13">        ]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-14">    }</span>
+<span id="cb4-15">    # The assistant message provides the ground<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>truth answer</span>
+<span id="cb4-16">    assistant_message <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-17">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"assistant"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-18">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]}]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb4-19">    }</span>
+<span id="cb4-20">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [system_message<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> user_message<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> assistant_message]</span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="Note">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This guide is compute-intensive, so we’ll only use a small fraction (10%) of the dataset for demonstration. For a production model, you would want to fine-tune on the full dataset.</p>
+</div>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_dataset</span>
+<span id="cb5-2"></span>
+<span id="cb5-3">train_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> eval_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> test_dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">load_dataset</span>(</span>
+<span id="cb5-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"HuggingFaceM4/ChartQA"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> </span>
+<span id="cb5-5">    split<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"train[:10%]"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"val[:10%]"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"test[:10%]"</span>]</span>
+<span id="cb5-6">)</span></code></pre></div>
+<p>Now, let’s format the data using the chatbot structure.</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb6-1">train_dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> train_dataset]</span>
+<span id="cb6-2">eval_dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> eval_dataset]</span>
+<span id="cb6-3">test_dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> test_dataset]</span></code></pre></div>
+</section>
+<section id="establish-a-baseline" class="level2">
+<h2 class="anchored" data-anchor-id="establish-a-baseline">Establish a Baseline</h2>
+<p>Before fine-tuning, let’s load the base model and test its performance out-of-the-box. This will give us a baseline to measure our improvements against.</p>
+<p>We’ll load the <code>gemma-3-4b-it</code> model, which is the instruction-tuned version of Gemma 3 with 4 billion parameters.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/gemma3_arch.png" class="img-fluid figure-img"></p>
+<figcaption><a href="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Fd6h5380Ca7myTcfUYNlgA.png">Gemma 3 Architrecture</a></figcaption>
+</figure>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb7-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> AutoProcessor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> Gemma3ForConditionalGeneration</span>
+<span id="cb7-3"></span>
+<span id="cb7-4">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">from_pretrained</span>(</span>
+<span id="cb7-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb7-6">    device_map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb7-7">    torch_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bfloat16</span></span>
+<span id="cb7-8">)</span>
+<span id="cb7-9">processor <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AutoProcessor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">from_pretrained</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"google/gemma-3-4b-it"</span>)</span></code></pre></div>
+<p>Next, let’s create a helper function to streamline inference. This function will take a data sample, process it, and generate the model’s response.</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"></span>
+<span id="cb8-2">def <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">generate_text_from_sample</span>(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> sample<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> max_new_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1024</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> device<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb8-3">    # The sample contains system<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> user<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> and assistant messages<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span></span>
+<span id="cb8-4">    # We only need the user message <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> inference<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span></span>
+<span id="cb8-5">    chat_for_inference <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sample[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>] </span>
+<span id="cb8-6">    </span>
+<span id="cb8-7">    # Prepare the text prompt by applying the chat template</span>
+<span id="cb8-8">    text_input <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">apply_chat_template</span>(</span>
+<span id="cb8-9">        chat_for_inference<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> </span>
+<span id="cb8-10">        add_generation_prompt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb8-11">        tokenize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>False</span>
+<span id="cb8-12">    )</span>
+<span id="cb8-13"></span>
+<span id="cb8-14">    # Prepare the image input</span>
+<span id="cb8-15">    image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> sample[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span>][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"image"</span>]</span>
+<span id="cb8-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> image<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">mode</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RGB"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb8-17">        image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> image<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">convert</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"RGB"</span>)</span>
+<span id="cb8-18"></span>
+<span id="cb8-19">    # Process both text and image</span>
+<span id="cb8-20">    inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">processor</span>(</span>
+<span id="cb8-21">        text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>text_input<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb8-22">        images<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[image]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb8-23">        return_tensors<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pt"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb8-24">    )<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">to</span>(device)</span>
+<span id="cb8-25"></span>
+<span id="cb8-26">    # Generate an answer</span>
+<span id="cb8-27">    generated_ids <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">generate</span>(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>inputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> max_new_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>max_new_tokens)</span>
+<span id="cb8-28"></span>
+<span id="cb8-29">    # Decode the generated tokens into text</span>
+<span id="cb8-30">    output_text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">batch_decode</span>(</span>
+<span id="cb8-31">        generated_ids<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> skip_special_tokens<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> clean_up_tokenization_spaces<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>False</span>
+<span id="cb8-32">    )</span>
+<span id="cb8-33"></span>
+<span id="cb8-34">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> output_text[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span></code></pre></div>
+<p>Let’s test the base model on a sample from our training set.</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> generate_text_from_sample(model, processor, train_dataset[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>])</span>
+<span id="cb9-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(output)</span></code></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="Note">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The output will vary, but it’s often incorrect or generic.</p>
+</div>
+</div>
+<p>A model with four billion parameters is still too large to fine-tune directly on most consumer hardware. To solve this, we’ll use <strong>QLoRA (Quantized Low-Rank Adaptation)</strong>, a highly efficient fine-tuning technique.</p>
+<section id="what-is-qlora" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-qlora">What is QLoRA?</h3>
+<p>QLoRA reduces the memory footprint of fine-tuning by combining two powerful ideas:</p>
+<ol type="1">
+<li><strong>Quantization</strong>: The main model weights are loaded in a 4-bit data type, drastically cutting down memory usage.</li>
+<li><strong>Low-Rank Adaptation (LoRA)</strong>: Instead of training all the model’s billions of parameters, we only train a small number of “adapter” matrices that are injected into the model’s architecture.</li>
+</ol>
+<p>This combination allows us to fine-tune massive models on a single GPU without sacrificing much performance.</p>
+<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/qlora.webp" class="img-fluid"></p>
+</section>
+<section id="loading-the-quantized-model" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-quantized-model">Loading the Quantized Model</h3>
+<p>First, we’ll create a <code>BitsAndBytesConfig</code> to tell the <code>transformers</code> library to load our model in 4-bit precision.</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> BitsAndBytesConfig</span>
+<span id="cb10-2"></span>
+<span id="cb10-3">bits_and_bytes_config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">BitsAndBytesConfig</span>(</span>
+<span id="cb10-4">    load_in_4bit<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-5">    bnb_4bit_use_double_quant<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-6">    bnb_4bit_quant_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nf4"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-7">    bnb_4bit_compute_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bfloat16</span></span>
+<span id="cb10-8">)</span>
+<span id="cb10-9"></span>
+<span id="cb10-10">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">from_pretrained</span>(</span>
+<span id="cb10-11">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-12">    device_map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-13">    torch_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bfloat16</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb10-14">    quantization_config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>bits_and_bytes_config</span>
+<span id="cb10-15">)</span>
+<span id="cb10-16">processor <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AutoProcessor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">from_pretrained</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"google/gemma-3-4b-it"</span>)</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `BitsAndBytesConfig`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Parameters in <code>BitsAndBytesConfig</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>load_in_4bit=True</code></strong>: The master switch that enables 4-bit quantization.</li>
+<li><strong><code>bnb_4bit_quant_type="nf4"</code></strong>: Specifies the quantization type. “nf4” (NormalFloat 4-bit) is a sophisticated data type optimized for normally distributed weights, which is common in neural networks.</li>
+<li><strong><code>bnb_4bit_use_double_quant=True</code></strong>: Applies a second quantization after the first one, further reducing the memory footprint.</li>
+<li><strong><code>bnb_4bit_compute_dtype=torch.bfloat16</code></strong>: While the model weights are stored in 4-bit, computations (like matrix multiplications) are performed in a higher-precision format (<code>bfloat16</code>) to maintain accuracy and stability.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="setting-up-the-lora-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-the-lora-configuration">Setting Up the LoRA Configuration</h3>
+<p>Next, we define our <code>LoraConfig</code>. This tells PEFT where to inject the adapter layers and how to configure them.</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"></span>
+<span id="cb11-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> peft <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> LoraConfig<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> get_peft_model</span>
+<span id="cb11-3"></span>
+<span id="cb11-4">peft_config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">LoraConfig</span>(</span>
+<span id="cb11-5">    lora_alpha<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-6">    lora_dropout<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.05</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-7">    r<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-8">    bias<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-9">    target_module<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'q_proj'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'v_proj'</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb11-10">    task_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"CAUSAL_LM"</span></span>
+<span id="cb11-11">)</span>
+<span id="cb11-12"></span>
+<span id="cb11-13">peft_model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">get_peft_model</span>(model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> peft_config)</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `LoraConfig`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Parameters in <code>LoraConfig</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>r</code></strong>: The rank of the low-rank matrices. A smaller <code>r</code> means fewer trainable parameters and faster training, but might capture less information. <code>8</code> is a common starting point.</li>
+<li><strong><code>lora_alpha</code></strong>: A scaling factor for the LoRA weights. It’s often set to twice the value of <code>r</code>.</li>
+<li><strong><code>target_modules</code></strong>: A crucial parameter that specifies which layers of the base model will be adapted. For vision-language models, targeting the query (<code>q_proj</code>) and value (<code>v_proj</code>) projections in the attention mechanism is a common and effective strategy.</li>
+<li><strong><code>task_type="CAUSAL_LM"</code></strong>: Informs PEFT about the task type, ensuring the adapters are set up correctly for a causal language model.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="configuring-the-trainer" class="level3">
+<h3 class="anchored" data-anchor-id="configuring-the-trainer">Configuring the Trainer</h3>
+<p>Now, we configure the training process using <code>SFTConfig</code> from the TRL library. This class holds all the hyperparameters for our supervised fine-tuning run.</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"></span>
+<span id="cb12-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> trl <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> SFTConfig</span>
+<span id="cb12-3"></span>
+<span id="cb12-4"># Configure training <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">arguments</span></span>
+<span id="cb12-5">training_args <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">SFTConfig</span>(</span>
+<span id="cb12-6">    output_dir<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemma3-vqa-finetuned"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-7">    num_train_epochs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-8">    per_device_train_batch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-9">    per_device_eval_batch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-10">    gradient_accumulation_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-11">    gradient_checkpointing<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> </span>
+<span id="cb12-12"></span>
+<span id="cb12-13">    # Optimizer and scheduler settings</span>
+<span id="cb12-14">    optim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"adamw_torch_fused"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> </span>
+<span id="cb12-15">    learning_rate<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2e-4</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-16">    lr_scheduler_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"constant"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-17"></span>
+<span id="cb12-18">    # Logging and evaluation</span>
+<span id="cb12-19">    logging_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-20">    eval_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-21">    eval_strategy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"steps"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-22">    save_strategy<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"steps"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-23">    save_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-24">    metric_for_best_model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"eval_loss"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-25">    greater_is_better<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>False<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-26">    load_best_model_at_end<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-27"></span>
+<span id="cb12-28">    # Mixed precision and gradient settings</span>
+<span id="cb12-29">    bf16<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-30">    tf32<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-31">    max_grad_norm<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.3</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-32">    warmup_ratio<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.03</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-33"></span>
+<span id="cb12-34">    # Hub and reporting</span>
+<span id="cb12-35">    push_to_hub<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-36">    report_to<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"wandb"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb12-37"></span>
+<span id="cb12-38">    # Gradient checkpointing settings</span>
+<span id="cb12-39">    gradient_checkpointing_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"use_reentrant"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> False}<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span>  </span>
+<span id="cb12-40"></span>
+<span id="cb12-41">    # Dataset configuration</span>
+<span id="cb12-42">    dataset_text_field<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span>  # <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">Text</span> field <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> dataset</span>
+<span id="cb12-43">    dataset_kwargs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"skip_prepare_dataset"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> True}</span>
+<span id="cb12-44">)</span>
+<span id="cb12-45"></span>
+<span id="cb12-46">training_args<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">remove_unused_columns</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> False</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `SFTConfig`">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Key Parameters in <code>SFTConfig</code>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><strong><code>output_dir</code></strong>: The directory where training checkpoints and the final adapter model will be saved.</li>
+<li><strong><code>per_device_train_batch_size</code></strong>: The number of samples processed per GPU in each training step.</li>
+<li><strong><code>gradient_accumulation_steps</code></strong>: A memory-saving technique. Gradients are accumulated for this many steps before an optimizer update is performed. This allows you to simulate a larger batch size (<code>4 * 8 = 32</code> here) without using more GPU memory.</li>
+<li><strong><code>optim</code></strong>: The optimizer to use. <code>adamw_torch_fused</code> is a memory-efficient and fast version of the AdamW optimizer.</li>
+<li><strong><code>eval_strategy="steps"</code></strong>: Specifies that evaluation should be run at regular step intervals.</li>
+<li><strong><code>bf16=True</code></strong>: Enables mixed-precision training, which speeds up computation and reduces memory usage by performing certain operations in <code>bfloat16</code>.</li>
+<li><strong><code>gradient_checkpointing</code></strong>: Another key memory-saving technique that trades more compute time for a significantly smaller memory footprint during the backward pass.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="creating-a-data-collator" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-data-collator">Creating a Data Collator</h3>
+<p>We need one final piece before training: a data collator. This function takes a list of samples from our dataset and batches them together, ensuring they are correctly padded and formatted for the model. It’s also responsible for creating the <code>labels</code> for our language modeling task.</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb13-1">image_token_id <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">additional_special_tokens_ids</span>[</span>
+<span id="cb13-2">    processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">additional_special_tokens</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">index</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;image&gt;"</span>)</span>
+<span id="cb13-3">]</span>
+<span id="cb13-4"></span>
+<span id="cb13-5"></span>
+<span id="cb13-6">def <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">collate_fn</span>(examples)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span></span>
+<span id="cb13-7">    # Each <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'example'</span> is a list <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">of</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">dicts</span> (system<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> user<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> assistant)</span>
+<span id="cb13-8">    texts <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">apply_chat_template</span>(ex<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> tokenize<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>False) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> ex <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> examples]</span>
+<span id="cb13-9">    images <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [ex[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span>][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"image"</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> ex <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> examples]</span>
+<span id="cb13-10">    </span>
+<span id="cb13-11">    # Process the batch</span>
+<span id="cb13-12">    batch <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">processor</span>(text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>texts<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> images<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>images<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> return_tensors<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pt"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> padding<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>True)</span>
+<span id="cb13-13"></span>
+<span id="cb13-14">    # Create labels <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> language modeling</span>
+<span id="cb13-15">    labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> batch[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"input_ids"</span>]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">clone</span>()</span>
+<span id="cb13-16">    # Mask padding tokens and image tokens so they are not included <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> the loss calculation</span>
+<span id="cb13-17">    labels[labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">pad_token_id</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span></span>
+<span id="cb13-18">    labels[labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> image_token_id] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100</span></span>
+<span id="cb13-19">    batch[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"labels"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> labels</span>
+<span id="cb13-20"></span>
+<span id="cb13-21">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> batch</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="What is a Data Collator?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is a Data Collator?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>A data collator is a function that takes a list of individual dataset items and bundles them into a single batch. Its key responsibilities are:</p>
+<ul>
+<li><strong>Batching</strong>: Combining multiple samples into tensors.</li>
+<li><strong>Padding</strong>: Making sure all sequences in the batch have the same length by adding padding tokens.</li>
+<li><strong>Label Creation</strong>: For language modeling, it creates the <code>labels</code> tensor that the model uses to calculate loss. In our case, we mask out the input prompt, padding tokens, and image tokens, so the model is only trained to predict the assistant’s response.</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="launching-the-training" class="level3">
+<h3 class="anchored" data-anchor-id="launching-the-training">Launching the Training</h3>
+<p>Now, we can instantiate the <code>SFTTrainer</code> from TRL. It elegantly wraps the entire training loop, handling everything from data collation to model saving.</p>
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"></span>
+<span id="cb14-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> trl <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> SFTTrainer</span>
+<span id="cb14-3"></span>
+<span id="cb14-4">trainer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">SFTTrainer</span>(</span>
+<span id="cb14-5">    model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-6">    args<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>training_args<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-7">    train_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>train_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-8">    eval_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>eval_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-9">    data_collator<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>collate_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-10">    peft_config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>peft_config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-11">    processing_class<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>processor<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb14-12">)</span></code></pre></div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Why pass `model` and `peft_config` separately?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why pass <code>model</code> and <code>peft_config</code> separately?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <code>SFTTrainer</code> is smart. Instead of requiring you to wrap the model with <code>get_peft_model</code> yourself, it handles it internally. You provide the base (quantized) model and the <code>peft_config</code>, and the trainer sets up the PEFT model for you.</p>
+</div>
+</div>
+<p>To start training, all we need to do is call one method:</p>
+<div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">trainer.train()</span></code></pre></div>
+<p>This will kick off the training process, and once training is complete, the best adapter checkpoint will be saved in the <code>output_dir</code> we specified.</p>
+</section>
+</section>
+<section id="test-the-fine-tuned-model" class="level2">
+<h2 class="anchored" data-anchor-id="test-the-fine-tuned-model">Test the Fine-Tuned Model</h2>
+<p>We’re done! Now for the moment of truth. Let’s load our fine-tuned adapter and see if the model’s performance has improved.</p>
+<p>First, we reload the original 4-bit quantized model. Then, we use the <code>load_adapter</code> method to attach our trained LoRA weights.</p>
+<div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb16-1">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">from_pretrained</span>(</span>
+<span id="cb16-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb16-3">    device_map<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb16-4">    torch_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">bfloat16</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb16-5">    quantization_config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>bits_and_bytes_config</span>
+<span id="cb16-6">)</span>
+<span id="cb16-7"></span>
+<span id="cb16-8">model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">load_adapter</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"gemma3-vqa-finetuned"</span>)</span></code></pre></div>
+<p>Let’s pick a sample from the test set that the model hasn’t seen before.</p>
+<div class="sourceCode" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">test_sample <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> test_dataset[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">21</span>]</span>
+<span id="cb17-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Question:"</span>, test_sample[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'content'</span>][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'text'</span>])</span>
+<span id="cb17-3">test_sample[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'content'</span>][<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'image'</span>]</span></code></pre></div>
+<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/chart.jpg" class="img-fluid"></p>
+<p>And now, let’s generate an answer with our fine-tuned model.</p>
+<div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> generate_text_from_sample(model, processor, test_sample)</span>
+<span id="cb18-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model Answer:"</span>, output)</span></code></pre></div>
+<p>You should now see a much more accurate and direct answer to the question, demonstrating the power of fine-tuning. We’ve successfully taught the model a new skill—interpreting charts—without the prohibitive cost of a full fine-tune.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><a href="https://huggingface.co/learn/cookbook/en/fine_tuning_vlm_trl">Finetuning Qwen2 VL with Huggingface</a></li>
+<li><a href="https://huggingface.co/blog/4bit-transformers-bitsandbytes">QLoRA Blog Post (Hugging Face)</a></li>
+</ol>
+
+
+</section>
+
+ ]]></description>
+  <category>VLMs</category>
+  <category>LoRA</category>
+  <guid>https://www.heyyanshuman.com/posts/fine-tuning-vlm.html</guid>
+  <pubDate>Sat, 26 Jul 2025 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>Building Production Ready Text-to-SQL Agent from Scratch</title>
   <link>https://www.heyyanshuman.com/posts/text2sql_agent.html</link>
@@ -1985,1352 +3333,6 @@ ht(co, xticks=(1:35, not_avoid), yticks=(1:35, not_avoid),
   <category>Interview</category>
   <guid>https://www.heyyanshuman.com/posts/interview_rrk.html</guid>
   <pubDate>Sun, 11 Sep 2022 18:30:00 GMT</pubDate>
-</item>
-<item>
-  <title>Fine-Tuning a Vision Language Model in 2025</title>
-  <link>https://www.heyyanshuman.com/posts/fine_tuning_vlm.html</link>
-  <description><![CDATA[ 
-
-
-
-
-
-
-<p><strong>“Keep it simple”</strong> they said.</p>
-<p>When I was working on an agentic pipeline for a question-answering task on a time-series dataset, the common advice was to just dump the raw data into the language model’s context. In my opinion, that was a flawed approach. Dumping a stream of floating-point numbers into a prompt is a recipe for confusing the model and getting unreliable results.</p>
-<p>So, in this tutorial, we’ll explore a more robust alternative. We will fine-tune a Vision Language Model (VLM), specifically Google’s Gemma 3, for a Visual Question Answering (VQA) task on chart data. We’ll be using the powerful Hugging Face ecosystem, including <code>transformers</code>, <code>datasets</code>, and <code>trl</code>.</p>
-<section id="install-dependencies" class="level2">
-<h2 class="anchored" data-anchor-id="install-dependencies">Install dependencies</h2>
-<p>First thing first let’s get the base libraries, and we are going to do this guide in pytorch. To install it:</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-qq</span> torch torchvision torchaudio</span></code></pre></div>
-<p>Next, we’ll need transformers for our models, datasets for data handling, bitsandbytes for quantization, peft for efficient fine-tuning, and accelerate to optimize it all.</p>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">!pip</span> install <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-U</span> <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-qq</span> transformers trl datasets bitsandbytes peft accelerate</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Key Libraries">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Key Libraries
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong><code>transformers</code></strong>: Provides the VLM architecture (Gemma 3) and processor.</li>
-<li><strong><code>datasets</code></strong>: Allows us to easily load and manipulate the ChartQA dataset.</li>
-<li><strong><code>bitsandbytes</code></strong>: Enables model quantization (like 4-bit loading) to reduce memory usage.</li>
-<li><strong><code>peft</code></strong>: The Parameter-Efficient Fine-Tuning library, which contains the logic for LoRA/QLoRA.</li>
-<li><strong><code>trl</code></strong>: The Transformer Reinforcement Learning library, which simplifies the supervised fine-tuning process with its <code>SFTTrainer</code>.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="load-and-prepare-the-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="load-and-prepare-the-dataset">Load and Prepare the Dataset</h2>
-<p>With our environment set up, it’s time to load our data. The <a href="https://huggingface.co/datasets/HuggingFaceM4/ChartQA">ChartQA dataset</a> is available on the Hugging Face Hub and is perfect for our task. It contains a wide variety of graphs along with corresponding question-answer pairs, presenting a solid challenge for a model’s VQA capabilities.</p>
-<p>Since our goal is to build a conversational model, we need to format the dataset into a chat-like structure. I’ve crafted a system prompt to guide the model’s behavior:</p>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">system_prompt<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"""You are a Vision Language Model that understands and </span></span>
-<span id="cb3-2"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">interprets chart images. Your job is to look at the chart and answer </span></span>
-<span id="cb3-3"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">questions with short, clear responses—usually a single word, number, </span></span>
-<span id="cb3-4"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">or brief phrase. The charts may be line charts, bar charts, pie charts, </span></span>
-<span id="cb3-5"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">or others, and can include colors, labels, legends, and text. Focus on </span></span>
-<span id="cb3-6"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">giving accurate answers based only on what is shown  in the image. </span></span>
-<span id="cb3-7"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">Do not explain your answer unless the question needs it to make sense.</span></span>
-<span id="cb3-8"><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"""</span></span></code></pre></div>
-<p>Referring to the chat template described in the <a href="https://huggingface.co/google/gemma-3-4b-it">Gemma 3 model card</a>, we can create a formatting function that structures each sample into a conversation with <code>system</code>, <code>user</code>, and <code>assistant</code> roles.</p>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">def <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">format_data</span>(sample)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span></span>
-<span id="cb4-2">    # The system message sets the context <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> the model</span>
-<span id="cb4-3">    system_message <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> {</span>
-<span id="cb4-4">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"system"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-5">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> [{<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> system_prompt}]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-6">    }</span>
-<span id="cb4-7">    # The user message provides the image and the question</span>
-<span id="cb4-8">    user_message <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> {</span>
-<span id="cb4-9">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"user"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-10">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> [</span>
-<span id="cb4-11">            {<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"image"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"image"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"image"</span>]}<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-12">            {<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"query"</span>]}<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-13">        ]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-14">    }</span>
-<span id="cb4-15">    # The assistant message provides the ground<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span>truth answer</span>
-<span id="cb4-16">    assistant_message <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> {</span>
-<span id="cb4-17">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"role"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"assistant"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-18">        <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"content"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> [{<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"type"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"text"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> sample[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"label"</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]}]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb4-19">    }</span>
-<span id="cb4-20">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> [system_message<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> user_message<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> assistant_message]</span></code></pre></div>
-<div class="callout callout-style-default callout-note callout-titled" title="Note">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This guide is compute-intensive, so we’ll only use a small fraction (10%) of the dataset for demonstration. For a production model, you would want to fine-tune on the full dataset.</p>
-</div>
-</div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> load_dataset</span>
-<span id="cb5-2"></span>
-<span id="cb5-3">train_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> eval_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> test_dataset <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">load_dataset</span>(</span>
-<span id="cb5-4">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"HuggingFaceM4/ChartQA"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> </span>
-<span id="cb5-5">    split<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"train[:10%]"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"val[:10%]"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"test[:10%]"</span>]</span>
-<span id="cb5-6">)</span></code></pre></div>
-<p>Now, let’s format the data using the chatbot structure.</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb6-1">train_dataset <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> train_dataset]</span>
-<span id="cb6-2">eval_dataset <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> eval_dataset]</span>
-<span id="cb6-3">test_dataset <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [<span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">format_data</span>(sample) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> sample <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> test_dataset]</span></code></pre></div>
-</section>
-<section id="establish-a-baseline" class="level2">
-<h2 class="anchored" data-anchor-id="establish-a-baseline">Establish a Baseline</h2>
-<p>Before fine-tuning, let’s load the base model and test its performance out-of-the-box. This will give us a baseline to measure our improvements against.</p>
-<p>We’ll load the <code>gemma-3-4b-it</code> model, which is the instruction-tuned version of Gemma 3 with 4 billion parameters.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/gemma3_arch.png" class="img-fluid figure-img"></p>
-<figcaption><a href="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*Fd6h5380Ca7myTcfUYNlgA.png">Gemma 3 Architrecture</a></figcaption>
-</figure>
-</div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> torch</span>
-<span id="cb7-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> AutoProcessor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> Gemma3ForConditionalGeneration</span>
-<span id="cb7-3"></span>
-<span id="cb7-4">model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">from_pretrained</span>(</span>
-<span id="cb7-5">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb7-6">    device_map<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb7-7">    torch_dtype<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">bfloat16</span></span>
-<span id="cb7-8">)</span>
-<span id="cb7-9">processor <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> AutoProcessor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">from_pretrained</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"google/gemma-3-4b-it"</span>)</span></code></pre></div>
-<p>Next, let’s create a helper function to streamline inference. This function will take a data sample, process it, and generate the model’s response.</p>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"></span>
-<span id="cb8-2">def <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">generate_text_from_sample</span>(model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> sample<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> max_new_tokens<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1024</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> device<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"cuda"</span>)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span></span>
-<span id="cb8-3">    # The sample contains system<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> user<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> and assistant messages<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span></span>
-<span id="cb8-4">    # We only need the user message <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> inference<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span></span>
-<span id="cb8-5">    chat_for_inference <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> sample[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2</span>] </span>
-<span id="cb8-6">    </span>
-<span id="cb8-7">    # Prepare the text prompt by applying the chat template</span>
-<span id="cb8-8">    text_input <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">apply_chat_template</span>(</span>
-<span id="cb8-9">        chat_for_inference<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> </span>
-<span id="cb8-10">        add_generation_prompt<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb8-11">        tokenize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>False</span>
-<span id="cb8-12">    )</span>
-<span id="cb8-13"></span>
-<span id="cb8-14">    # Prepare the image input</span>
-<span id="cb8-15">    image <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> sample[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"content"</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"image"</span>]</span>
-<span id="cb8-16">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">if</span> image<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">mode</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">!=</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"RGB"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span></span>
-<span id="cb8-17">        image <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> image<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">convert</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"RGB"</span>)</span>
-<span id="cb8-18"></span>
-<span id="cb8-19">    # Process both text and image</span>
-<span id="cb8-20">    inputs <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">processor</span>(</span>
-<span id="cb8-21">        text<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>text_input<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb8-22">        images<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[image]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb8-23">        return_tensors<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"pt"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb8-24">    )<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">to</span>(device)</span>
-<span id="cb8-25"></span>
-<span id="cb8-26">    # Generate an answer</span>
-<span id="cb8-27">    generated_ids <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">generate</span>(<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">**</span>inputs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> max_new_tokens<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>max_new_tokens)</span>
-<span id="cb8-28"></span>
-<span id="cb8-29">    # Decode the generated tokens into text</span>
-<span id="cb8-30">    output_text <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">batch_decode</span>(</span>
-<span id="cb8-31">        generated_ids<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> skip_special_tokens<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> clean_up_tokenization_spaces<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>False</span>
-<span id="cb8-32">    )</span>
-<span id="cb8-33"></span>
-<span id="cb8-34">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> output_text[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>]</span></code></pre></div>
-<p>Let’s test the base model on a sample from our training set.</p>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1">output <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> generate_text_from_sample(model, processor, train_dataset[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>])</span>
-<span id="cb9-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(output)</span></code></pre></div>
-<div class="callout callout-style-default callout-note callout-titled" title="Note">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The output will vary, but it’s often incorrect or generic.</p>
-</div>
-</div>
-<p>A model with four billion parameters is still too large to fine-tune directly on most consumer hardware. To solve this, we’ll use <strong>QLoRA (Quantized Low-Rank Adaptation)</strong>, a highly efficient fine-tuning technique.</p>
-<section id="what-is-qlora" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-qlora">What is QLoRA?</h3>
-<p>QLoRA reduces the memory footprint of fine-tuning by combining two powerful ideas:</p>
-<ol type="1">
-<li><strong>Quantization</strong>: The main model weights are loaded in a 4-bit data type, drastically cutting down memory usage.</li>
-<li><strong>Low-Rank Adaptation (LoRA)</strong>: Instead of training all the model’s billions of parameters, we only train a small number of “adapter” matrices that are injected into the model’s architecture.</li>
-</ol>
-<p>This combination allows us to fine-tune massive models on a single GPU without sacrificing much performance.</p>
-<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/qlora.webp" class="img-fluid"></p>
-</section>
-<section id="loading-the-quantized-model" class="level3">
-<h3 class="anchored" data-anchor-id="loading-the-quantized-model">Loading the Quantized Model</h3>
-<p>First, we’ll create a <code>BitsAndBytesConfig</code> to tell the <code>transformers</code> library to load our model in 4-bit precision.</p>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> transformers <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> BitsAndBytesConfig</span>
-<span id="cb10-2"></span>
-<span id="cb10-3">bits_and_bytes_config <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">BitsAndBytesConfig</span>(</span>
-<span id="cb10-4">    load_in_4bit<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-5">    bnb_4bit_use_double_quant<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-6">    bnb_4bit_quant_type<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"nf4"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-7">    bnb_4bit_compute_dtype<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">bfloat16</span></span>
-<span id="cb10-8">)</span>
-<span id="cb10-9"></span>
-<span id="cb10-10">model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">from_pretrained</span>(</span>
-<span id="cb10-11">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-12">    device_map<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-13">    torch_dtype<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">bfloat16</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb10-14">    quantization_config<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>bits_and_bytes_config</span>
-<span id="cb10-15">)</span>
-<span id="cb10-16">processor <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> AutoProcessor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">from_pretrained</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"google/gemma-3-4b-it"</span>)</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `BitsAndBytesConfig`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Key Parameters in <code>BitsAndBytesConfig</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong><code>load_in_4bit=True</code></strong>: The master switch that enables 4-bit quantization.</li>
-<li><strong><code>bnb_4bit_quant_type="nf4"</code></strong>: Specifies the quantization type. “nf4” (NormalFloat 4-bit) is a sophisticated data type optimized for normally distributed weights, which is common in neural networks.</li>
-<li><strong><code>bnb_4bit_use_double_quant=True</code></strong>: Applies a second quantization after the first one, further reducing the memory footprint.</li>
-<li><strong><code>bnb_4bit_compute_dtype=torch.bfloat16</code></strong>: While the model weights are stored in 4-bit, computations (like matrix multiplications) are performed in a higher-precision format (<code>bfloat16</code>) to maintain accuracy and stability.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="setting-up-the-lora-configuration" class="level3">
-<h3 class="anchored" data-anchor-id="setting-up-the-lora-configuration">Setting Up the LoRA Configuration</h3>
-<p>Next, we define our <code>LoraConfig</code>. This tells PEFT where to inject the adapter layers and how to configure them.</p>
-<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"></span>
-<span id="cb11-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> peft <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> LoraConfig<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> get_peft_model</span>
-<span id="cb11-3"></span>
-<span id="cb11-4">peft_config <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">LoraConfig</span>(</span>
-<span id="cb11-5">    lora_alpha<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">16</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb11-6">    lora_dropout<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.05</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb11-7">    r<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">8</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb11-8">    bias<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"none"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb11-9">    target_module<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'q_proj'</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'v_proj'</span>]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb11-10">    task_type<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"CAUSAL_LM"</span></span>
-<span id="cb11-11">)</span>
-<span id="cb11-12"></span>
-<span id="cb11-13">peft_model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">get_peft_model</span>(model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> peft_config)</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `LoraConfig`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Key Parameters in <code>LoraConfig</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong><code>r</code></strong>: The rank of the low-rank matrices. A smaller <code>r</code> means fewer trainable parameters and faster training, but might capture less information. <code>8</code> is a common starting point.</li>
-<li><strong><code>lora_alpha</code></strong>: A scaling factor for the LoRA weights. It’s often set to twice the value of <code>r</code>.</li>
-<li><strong><code>target_modules</code></strong>: A crucial parameter that specifies which layers of the base model will be adapted. For vision-language models, targeting the query (<code>q_proj</code>) and value (<code>v_proj</code>) projections in the attention mechanism is a common and effective strategy.</li>
-<li><strong><code>task_type="CAUSAL_LM"</code></strong>: Informs PEFT about the task type, ensuring the adapters are set up correctly for a causal language model.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="configuring-the-trainer" class="level3">
-<h3 class="anchored" data-anchor-id="configuring-the-trainer">Configuring the Trainer</h3>
-<p>Now, we configure the training process using <code>SFTConfig</code> from the TRL library. This class holds all the hyperparameters for our supervised fine-tuning run.</p>
-<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"></span>
-<span id="cb12-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> trl <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> SFTConfig</span>
-<span id="cb12-3"></span>
-<span id="cb12-4"># Configure training <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">arguments</span></span>
-<span id="cb12-5">training_args <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">SFTConfig</span>(</span>
-<span id="cb12-6">    output_dir<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"gemma3-vqa-finetuned"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-7">    num_train_epochs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">3</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-8">    per_device_train_batch_size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-9">    per_device_eval_batch_size<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">4</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-10">    gradient_accumulation_steps<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">8</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-11">    gradient_checkpointing<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> </span>
-<span id="cb12-12"></span>
-<span id="cb12-13">    # Optimizer and scheduler settings</span>
-<span id="cb12-14">    optim<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"adamw_torch_fused"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> </span>
-<span id="cb12-15">    learning_rate<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">2e-4</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-16">    lr_scheduler_type<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"constant"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-17"></span>
-<span id="cb12-18">    # Logging and evaluation</span>
-<span id="cb12-19">    logging_steps<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-20">    eval_steps<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-21">    eval_strategy<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"steps"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-22">    save_strategy<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"steps"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-23">    save_steps<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">20</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-24">    metric_for_best_model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"eval_loss"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-25">    greater_is_better<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>False<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-26">    load_best_model_at_end<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-27"></span>
-<span id="cb12-28">    # Mixed precision and gradient settings</span>
-<span id="cb12-29">    bf16<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-30">    tf32<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-31">    max_grad_norm<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.3</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-32">    warmup_ratio<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0.03</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-33"></span>
-<span id="cb12-34">    # Hub and reporting</span>
-<span id="cb12-35">    push_to_hub<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-36">    report_to<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"wandb"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb12-37"></span>
-<span id="cb12-38">    # Gradient checkpointing settings</span>
-<span id="cb12-39">    gradient_checkpointing_kwargs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"use_reentrant"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> False}<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span>  </span>
-<span id="cb12-40"></span>
-<span id="cb12-41">    # Dataset configuration</span>
-<span id="cb12-42">    dataset_text_field<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">""</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span>  # <span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">Text</span> field <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> dataset</span>
-<span id="cb12-43">    dataset_kwargs<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"skip_prepare_dataset"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span> True}</span>
-<span id="cb12-44">)</span>
-<span id="cb12-45"></span>
-<span id="cb12-46">training_args<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">remove_unused_columns</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> False</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Key Parameters in `SFTConfig`">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Key Parameters in <code>SFTConfig</code>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li><strong><code>output_dir</code></strong>: The directory where training checkpoints and the final adapter model will be saved.</li>
-<li><strong><code>per_device_train_batch_size</code></strong>: The number of samples processed per GPU in each training step.</li>
-<li><strong><code>gradient_accumulation_steps</code></strong>: A memory-saving technique. Gradients are accumulated for this many steps before an optimizer update is performed. This allows you to simulate a larger batch size (<code>4 * 8 = 32</code> here) without using more GPU memory.</li>
-<li><strong><code>optim</code></strong>: The optimizer to use. <code>adamw_torch_fused</code> is a memory-efficient and fast version of the AdamW optimizer.</li>
-<li><strong><code>eval_strategy="steps"</code></strong>: Specifies that evaluation should be run at regular step intervals.</li>
-<li><strong><code>bf16=True</code></strong>: Enables mixed-precision training, which speeds up computation and reduces memory usage by performing certain operations in <code>bfloat16</code>.</li>
-<li><strong><code>gradient_checkpointing</code></strong>: Another key memory-saving technique that trades more compute time for a significantly smaller memory footprint during the backward pass.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="creating-a-data-collator" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-data-collator">Creating a Data Collator</h3>
-<p>We need one final piece before training: a data collator. This function takes a list of samples from our dataset and batches them together, ensuring they are correctly padded and formatted for the model. It’s also responsible for creating the <code>labels</code> for our language modeling task.</p>
-<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb13-1">image_token_id <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">additional_special_tokens_ids</span>[</span>
-<span id="cb13-2">    processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">additional_special_tokens</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">index</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"&lt;image&gt;"</span>)</span>
-<span id="cb13-3">]</span>
-<span id="cb13-4"></span>
-<span id="cb13-5"></span>
-<span id="cb13-6">def <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">collate_fn</span>(examples)<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">:</span></span>
-<span id="cb13-7">    # Each <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'example'</span> is a list <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">of</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">dicts</span> (system<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> user<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> assistant)</span>
-<span id="cb13-8">    texts <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">apply_chat_template</span>(ex<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> tokenize<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>False) <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> ex <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> examples]</span>
-<span id="cb13-9">    images <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> [ex[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"content"</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"image"</span>] <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> ex <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> examples]</span>
-<span id="cb13-10">    </span>
-<span id="cb13-11">    # Process the batch</span>
-<span id="cb13-12">    batch <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">processor</span>(text<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>texts<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> images<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>images<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> return_tensors<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"pt"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span> padding<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>True)</span>
-<span id="cb13-13"></span>
-<span id="cb13-14">    # Create labels <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">for</span> language modeling</span>
-<span id="cb13-15">    labels <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> batch[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"input_ids"</span>]<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">clone</span>()</span>
-<span id="cb13-16">    # Mask padding tokens and image tokens so they are not included <span class="kw" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">in</span> the loss calculation</span>
-<span id="cb13-17">    labels[labels <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">pad_token_id</span>] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">100</span></span>
-<span id="cb13-18">    labels[labels <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">==</span> image_token_id] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">100</span></span>
-<span id="cb13-19">    batch[<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"labels"</span>] <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> labels</span>
-<span id="cb13-20"></span>
-<span id="cb13-21">    <span class="cf" style="color: #003B4F;
-background-color: null;
-font-weight: bold;
-font-style: inherit;">return</span> batch</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="What is a Data Collator?">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-What is a Data Collator?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>A data collator is a function that takes a list of individual dataset items and bundles them into a single batch. Its key responsibilities are:</p>
-<ul>
-<li><strong>Batching</strong>: Combining multiple samples into tensors.</li>
-<li><strong>Padding</strong>: Making sure all sequences in the batch have the same length by adding padding tokens.</li>
-<li><strong>Label Creation</strong>: For language modeling, it creates the <code>labels</code> tensor that the model uses to calculate loss. In our case, we mask out the input prompt, padding tokens, and image tokens, so the model is only trained to predict the assistant’s response.</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="launching-the-training" class="level3">
-<h3 class="anchored" data-anchor-id="launching-the-training">Launching the Training</h3>
-<p>Now, we can instantiate the <code>SFTTrainer</code> from TRL. It elegantly wraps the entire training loop, handling everything from data collation to model saving.</p>
-<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"></span>
-<span id="cb14-2"><span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">from</span> trl <span class="im" style="color: #00769E;
-background-color: null;
-font-style: inherit;">import</span> SFTTrainer</span>
-<span id="cb14-3"></span>
-<span id="cb14-4">trainer <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">SFTTrainer</span>(</span>
-<span id="cb14-5">    model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-6">    args<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>training_args<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-7">    train_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>train_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-8">    eval_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>eval_dataset<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-9">    data_collator<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>collate_fn<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-10">    peft_config<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>peft_config<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-11">    processing_class<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>processor<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">tokenizer</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb14-12">)</span></code></pre></div>
-<div class="callout callout-style-default callout-tip callout-titled" title="Why pass `model` and `peft_config` separately?">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Why pass <code>model</code> and <code>peft_config</code> separately?
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>The <code>SFTTrainer</code> is smart. Instead of requiring you to wrap the model with <code>get_peft_model</code> yourself, it handles it internally. You provide the base (quantized) model and the <code>peft_config</code>, and the trainer sets up the PEFT model for you.</p>
-</div>
-</div>
-<p>To start training, all we need to do is call one method:</p>
-<div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1">trainer.train()</span></code></pre></div>
-<p>This will kick off the training process, and once training is complete, the best adapter checkpoint will be saved in the <code>output_dir</code> we specified.</p>
-</section>
-</section>
-<section id="test-the-fine-tuned-model" class="level2">
-<h2 class="anchored" data-anchor-id="test-the-fine-tuned-model">Test the Fine-Tuned Model</h2>
-<p>We’re done! Now for the moment of truth. Let’s load our fine-tuned adapter and see if the model’s performance has improved.</p>
-<p>First, we reload the original 4-bit quantized model. Then, we use the <code>load_adapter</code> method to attach our trained LoRA weights.</p>
-<div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb16-1">model <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> Gemma3ForConditionalGeneration<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">from_pretrained</span>(</span>
-<span id="cb16-2">    <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"google/gemma-3-4b-it"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb16-3">    device_map<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span><span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"auto"</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb16-4">    torch_dtype<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>torch<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">bfloat16</span><span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">,</span></span>
-<span id="cb16-5">    quantization_config<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span>bits_and_bytes_config</span>
-<span id="cb16-6">)</span>
-<span id="cb16-7"></span>
-<span id="cb16-8">model<span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
-background-color: null;
-font-style: inherit;">load_adapter</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"gemma3-vqa-finetuned"</span>)</span></code></pre></div>
-<p>Let’s pick a sample from the test set that the model hasn’t seen before.</p>
-<div class="sourceCode" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1">test_sample <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> test_dataset[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">21</span>]</span>
-<span id="cb17-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Question:"</span>, test_sample[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'content'</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'text'</span>])</span>
-<span id="cb17-3">test_sample[<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'content'</span>][<span class="dv" style="color: #AD0000;
-background-color: null;
-font-style: inherit;">0</span>][<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">'image'</span>]</span></code></pre></div>
-<p><img src="https://www.heyyanshuman.com/posts/assets/finetune_vlm/chart.jpg" class="img-fluid"></p>
-<p>And now, let’s generate an answer with our fine-tuned model.</p>
-<div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1">output <span class="op" style="color: #5E5E5E;
-background-color: null;
-font-style: inherit;">=</span> generate_text_from_sample(model, processor, test_sample)</span>
-<span id="cb18-2"><span class="bu" style="color: null;
-background-color: null;
-font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"Model Answer:"</span>, output)</span></code></pre></div>
-<p>You should now see a much more accurate and direct answer to the question, demonstrating the power of fine-tuning. We’ve successfully taught the model a new skill—interpreting charts—without the prohibitive cost of a full fine-tune.</p>
-</section>
-<section id="references" class="level2">
-<h2 class="anchored" data-anchor-id="references">References</h2>
-<ol type="1">
-<li><a href="https://huggingface.co/learn/cookbook/en/fine_tuning_vlm_trl">Finetuning Qwen2 VL with Huggingface</a></li>
-<li><a href="https://huggingface.co/blog/4bit-transformers-bitsandbytes">QLoRA Blog Post (Hugging Face)</a></li>
-</ol>
-
-
-</section>
-
- ]]></description>
-  <guid>https://www.heyyanshuman.com/posts/fine_tuning_vlm.html</guid>
-  <pubDate>Sun, 27 Jul 2025 09:51:37 GMT</pubDate>
 </item>
 </channel>
 </rss>

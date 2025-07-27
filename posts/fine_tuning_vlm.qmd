@@ -1,6 +1,21 @@
 ---
 title: "Fine-Tuning a Vision Language Model in 2025"
 highlight-style: dracula
+
+aliases:
+- /fine-tuning-vlm
+- /fine-tuning-gemma3
+permalink: /fine-tuning-vlm
+badges: false
+toc: true
+categories:
+- VLMs
+- LoRA
+date: '2025-07-27'
+description: How to fine-tune Gemma3 vision on consumer hardware with 4-bit quantization (QLoRA)
+hide: false
+output-file: fine-tuning-vlm.html
+search_exclude: false
 ---
 
 
