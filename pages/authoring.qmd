@@ -167,6 +167,7 @@ You can check out the article I have written or co-written on the hf.co/blog pla
 - [🤗 PEFT welcomes new merging methods](https://huggingface.co/blog/peft_merging) (with [Sourab Mangrulkar](https://twitter.com/sourab_m?lang=en)).
 - [State of open video generation models in Diffusers](https://huggingface.co/blog/video_gen) (with [Aryan](https://huggingface.co/a-r-r-o-w) and [Dhruv](https://huggingface.co/dn6))
 - [Build awesome datasets for video generation](https://huggingface.co/blog/vid_ds_scripts) (with [hlky](https://huggingface.co/hlky))
+- [Fast LoRA inference for Flux with Diffusers and PEFT](https://huggingface.co/blog/lora-fast) (with [Benjamin](https://huggingface.co/BenjaminB))
 
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
