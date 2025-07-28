@@ -51,14 +51,13 @@ and for blog posts.
 
 ### [Datacamp](https://www.datacamp.com/)
 
--   [KMeans clustering with `scikit-learn`](https://goo.gl/dT7kYq) 
 -   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^5]
 -   [Turning Machine Learning Models into APIs in Python](https://goo.gl/vwzqtA) [^6]
 -   [Essentials of Linear Regression in Python](https://goo.gl/5nuVmt) [^7]
 -   [Simplifying Sentiment Analysis in Python](https://goo.gl/62mEJo)
 -   [Introduction to Indexing in SQL](https://goo.gl/7dcnE7) 
 -   [Understanding Recursive Functions in Python](https://goo.gl/u1U2eH) 
--   [Beginner's Guide to Google's Vision API in Pytho](https://goo.gl/VCwZa8) 
+-   [Beginner's Guide to Google's Vision API in Python](https://goo.gl/VCwZa8) 
 -   [Beginner's Guide to PostgreSQL](https://goo.gl/DV1rhY)
 -   [Managing Databases in PostgreSQL](https://goo.gl/YA9fAy)
 -   [Working with Spreadsheets in SQL](https://goo.gl/PYUb2v)
