@@ -51,15 +51,7 @@ I gave [this](https://www.analyticsvidhya.com/datahacksummit-2024/sessions/demys
 
 *I contributed to open source (mainly Keras) heavily throught the year. Gave a lot of talks travelling across the country.*
 
-<!-- ### Supercharge KerasNLP Models with Wandb <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span>
 
-While at Weights & Biases, I authored this official [report](https://wandb.ai/kanpuriyanawab/keras-nlp-x-wandb/reports/Supercharge-KerasNLP-Models-with-Wandb--Vmlldzo1Mjk1NjI2) on fine-tuning KerasNLP models for Semantic Similarity. The guide demonstrates how to leverage W&B Sweeps on the SNLI dataset to find optimal hyperparameters and train a high-performing model.
-
-This was also [published](https://keras.io/examples/nlp/semantic_similarity_with_keras_hub/) on official keras website. -->
-
-<!-- ### Generating High-quality Images with SD.Next, HuggingFace Diffusers and W&B <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span>
-
-I documented my experiments with advanced diffusion models in this [report](https://wandb.ai/ml-colabs/automatic/reports/Generating-High-quality-Images-with-SD-Next-HuggingFace-Diffusers-and-W-B--Vmlldzo1NTYzMzQy). It's a comprehensive guide to generating high-quality images with SD.Next and HuggingFace Diffusers, emphasizing the use of W&B for complete observability and reproducibility. -->
 ### Google Summer of Code at TensorFlow <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 
 My Google Summer of Code project was centered on expanding the KerasNLP library with foundational generative models. This experience evolved from implementing a single model to contributing core components, porting functionalities to Keras 3, and adding a series of highly-demanded models to the ecosystem.
@@ -99,16 +91,6 @@ In later half of 2023, after I finished my GSoC, I decided to give back the know
 8. [Re-imagining Keras in the evolving ML ecosystem](https://www.linkedin.com/posts/kanpuriyanawab_event-developercommunity-congratulations-activity-7086588533510934528-dS2y) on July 16, 2023 at Google I/O Extended'23 New Delhi.
 
 
-<!-- 
-### Data Parallel Training with KerasNLP <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span>
-In this guide I demonstrated how to significantly accelerate NLP model training using data parallelism. I showcased the process of fine-tuning a pretrained BERT model from Keras Hub across multiple GPUs, leveraging TensorFlow's MirroredStrategy to efficiently scale deep learning workflows and dramatically reduce training time. 
-
-This guide was officially [published](https://keras.io/examples/nlp/data_parallel_training_with_keras_hub/) on Keras website.
-
-
-### Exploratory Data Analysis <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Blog</span>
-
-In [this](https://www.kaggle.com/code/shivanshuman/one-stop-eda) Kaggle notebook, I developed a comprehensive template for Exploratory Data Analysis (EDA) on an enzyme substrate dataset. I demonstrated a full workflow, including visualizing feature correlations with heatmaps, analyzing distributions with histograms and box plots, and examining relationships between variables using pair plots to uncover key insights. -->
 
 
 ### Julia Contributions <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>

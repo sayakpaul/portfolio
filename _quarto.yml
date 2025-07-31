@@ -19,7 +19,7 @@ website:
   favicon: assets/images/pfp/varkala.jpg
   search: false
   twitter-card:
-    creator: "@kanpuriyanawab"
+    creator: "@athleticKoder"
     card-style: summary
   open-graph: true
   repo-actions: [edit, issue]
@@ -36,7 +36,7 @@ website:
       #   href: pages/life.qmd
     right:
       - icon: twitter
-        href: https://twitter.com/kanpuriyanawab
+        href: https://twitter.com/athleticKoder
       - icon: linkedin
         href: https://www.linkedin.com/in/anshuizme/
       - icon: github
