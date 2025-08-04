@@ -37,6 +37,7 @@
   {
     "listing": "/ml-blog.html",
     "items": [
+      "/posts/what_is_flux_kontext_really.html",
       "/posts/what_is_gspo.html",
       "/posts/fine-tuning-vlm.html",
       "/posts/text2sql_agent.html",
@@ -50,7 +51,7 @@
       "/posts/flux_is_so_flexible.html",
       "/posts/julia_house_price_prediction.html",
       "/posts/interview_rrk.html",
-      "/posts/what_is_flux_kontext_really.html"
+      "/posts/finetuning_reasoning_model.html"
     ]
   }
 ]

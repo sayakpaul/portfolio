@@ -74,7 +74,7 @@
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/what_is_flux_kontext_really.html</loc>
-    <lastmod>2025-07-27T10:50:21.602Z</lastmod>
+    <lastmod>2025-08-04T03:57:14.997Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/ml-blog.html</loc>
@@ -83,5 +83,9 @@
   <url>
     <loc>https://www.heyyanshuman.com/posts/what_is_gspo.html</loc>
     <lastmod>2025-07-27T11:40:40.346Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/posts/finetuning_reasoning_model.html</loc>
+    <lastmod>2025-08-04T06:15:02.995Z</lastmod>
   </url>
 </urlset>

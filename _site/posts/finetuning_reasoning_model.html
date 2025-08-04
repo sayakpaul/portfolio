@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.31">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Anshuman">
+<meta name="dcterms.date" content="2022-08-03">
+<meta name="description" content="How to fine tune a reasoning model?">
+
+<title>WIP - Fine-Tuning a Reasoning Language Model with Unsloth and GRPO – Introductions</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-36H2NR8FB7"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="WIP - Fine-Tuning a Reasoning Language Model with Unsloth and GRPO – Introductions">
+<meta property="og:description" content="How to fine tune a reasoning model?">
+<meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/rl_fine_tuning/grpo_vs_ppo.png">
+<meta property="og:site_name" content="Introductions">
+<meta property="og:image:height" content="694">
+<meta property="og:image:width" content="1282">
+<meta name="twitter:title" content="WIP - Fine-Tuning a Reasoning Language Model with Unsloth and GRPO – Introductions">
+<meta name="twitter:description" content="How to fine tune a reasoning model?">
+<meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/rl_fine_tuning/grpo_vs_ppo.png">
+<meta name="twitter:creator" content="@athleticKoder">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="694">
+<meta name="twitter:image-width" content="1282">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Introductions</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/work.html"> 
+<span class="menu-text">Work</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../ml-blog.html"> 
+<span class="menu-text">ML Blog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/athleticKoder"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/anshuizme/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/kanpuriyanawab"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://youtube.com/@1smollcoder"> <i class="bi bi-youtube" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://fullstackagents.substack.com"> <i class="bi bi-substack" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://scholar.google.fr/citations?user=70wh9jcAAAAJ"> 
+<span class="menu-text"><i class="ai  ai-google-scholar" aria-label="google-scholar"></i></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">WIP - Fine-Tuning a Reasoning Language Model with Unsloth and GRPO</h1>
+                  <div>
+        <div class="description">
+          How to fine tune a reasoning model?
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">LLMs</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Anshuman </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 3, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#okay-but-what-is-grpo-again" id="toc-okay-but-what-is-grpo-again" class="nav-link" data-scroll-target="#okay-but-what-is-grpo-again">Okay, but what is GRPO again?</a>
+  <ul class="collapse">
+  <li><a href="#how-grpo-works-learning-from-a-group" id="toc-how-grpo-works-learning-from-a-group" class="nav-link" data-scroll-target="#how-grpo-works-learning-from-a-group">How GRPO Works: Learning from a Group</a></li>
+  </ul></li>
+  <li><a href="#why-use-unsloth" id="toc-why-use-unsloth" class="nav-link" data-scroll-target="#why-use-unsloth">Why Use Unsloth?</a></li>
+  <li><a href="#the-fine-tuning-process" id="toc-the-fine-tuning-process" class="nav-link" data-scroll-target="#the-fine-tuning-process">The Fine-Tuning Process</a>
+  <ul class="collapse">
+  <li><a href="#setting-up-the-environment" id="toc-setting-up-the-environment" class="nav-link" data-scroll-target="#setting-up-the-environment">1. Setting Up the Environment</a></li>
+  <li><a href="#loading-the-model-and-preparing-for-peft" id="toc-loading-the-model-and-preparing-for-peft" class="nav-link" data-scroll-target="#loading-the-model-and-preparing-for-peft">2. Loading the Model and Preparing for PEFT</a></li>
+  <li><a href="#crafting-a-custom-chat-template-for-grpo" id="toc-crafting-a-custom-chat-template-for-grpo" class="nav-link" data-scroll-target="#crafting-a-custom-chat-template-for-grpo">3. Crafting a Custom Chat Template for GRPO</a></li>
+  <li><a href="#pre-finetuning-for-formatting" id="toc-pre-finetuning-for-formatting" class="nav-link" data-scroll-target="#pre-finetuning-for-formatting">4. Pre-Finetuning for Formatting</a></li>
+  <li><a href="#defining-the-reward-system" id="toc-defining-the-reward-system" class="nav-link" data-scroll-target="#defining-the-reward-system">6. Defining the Reward System</a></li>
+  <li><a href="#configuring-and-launching-the-grpo-trainer" id="toc-configuring-and-launching-the-grpo-trainer" class="nav-link" data-scroll-target="#configuring-and-launching-the-grpo-trainer">7. Configuring and Launching the GRPO Trainer</a></li>
+  <li><a href="#inference-with-the-fine-tuned-model" id="toc-inference-with-the-fine-tuned-model" class="nav-link" data-scroll-target="#inference-with-the-fine-tuned-model">8. Inference with the Fine-tuned Model</a></li>
+  <li><a href="#saving-and-sharing-your-model" id="toc-saving-and-sharing-your-model" class="nav-link" data-scroll-target="#saving-and-sharing-your-model">9. Saving and Sharing Your Model</a></li>
+  </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/quantization_aware_fine_tuning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Large Language Models (LLMs) have shown remarkable capabilities in various NLP tasks. However, to excel at specific and complex tasks like mathematical reasoning, they often require specialized fine-tuning. This blog post will guide you through the process of fine-tuning a <code>Qwen3-4B-Base</code> model for reasoning tasks using a powerful technique called Generative Representation Policy Optimization (GRPO) with the help of the Unsloth library.</p>
+<p>We’ll be working with the provided Python script that demonstrates this process. Our goal is to transform this code into a comprehensive tutorial, explaining each step and the underlying concepts.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Base Model vs. Chat Model">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Base Model vs.&nbsp;Chat Model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<section id="whats-a-base-model" class="level4">
+<h4 class="anchored" data-anchor-id="whats-a-base-model">What’s a Base Model?</h4>
+<p>A base model is the raw, foundational LLM that has been trained on a massive corpus of text data. Its core capability is simply predicting the next word. It’s incredibly knowledgeable but doesn’t inherently know how to follow instructions or engage in a conversation. Think of it as a brilliant but untamed engine of knowledge.</p>
+</section>
+<section id="whats-a-chatinstruct-model" class="level4">
+<h4 class="anchored" data-anchor-id="whats-a-chatinstruct-model">What’s a Chat/Instruct Model?</h4>
+<p>A chat model (or instruction-tuned model) is a base model that has undergone a second stage of training. This alignment phase, often using techniques like Supervised Fine-Tuning (SFT) and Reinforcement Learning from Human Feedback (RLHF), teaches the model to be helpful, harmless, and follow user instructions in a conversational format. This process gives the model a specific “personality” and a strong bias towards a certain style of response.</p>
+</section>
+</div>
+</div>
+</section>
+<section id="okay-but-what-is-grpo-again" class="level2">
+<h2 class="anchored" data-anchor-id="okay-but-what-is-grpo-again">Okay, but what is GRPO again?</h2>
+<p>At its core, <strong>Group Relative Policy Optimization (GRPO)</strong> is an advanced reinforcement learning (RL) technique designed to enhance a language model’s reasoning capabilities. It was prominently used by DeepSeek AI to train their powerful reasoning models.</p>
+<p>To understand GRPO’s benefits, it helps to first look at its predecessor, Proximal Policy Optimization (PPO), which was famously used to train models like ChatGPT.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./assets/rl_fine_tuning/grpo_vs_ppo.png" class="img-fluid figure-img"></p>
+<figcaption>A diagram comparing the model architecture of PPO and GRPO. PPO uses a Policy, Reference, Reward, and Value model. GRPO simplifies this by removing the Value model.</figcaption>
+</figure>
+</div>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled" title="The Challenge with PPO">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The Challenge with PPO
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Traditional RL fine-tuning with PPO is notoriously expensive. It requires multiple large models to be loaded into GPU memory simultaneously:</p>
+<ol type="1">
+<li><strong>Policy Model</strong>: The main LLM you are actively training.</li>
+<li><strong>Reference Model</strong>: A frozen, unchanged copy of the original LLM to ensure the model doesn’t “forget” its core abilities.</li>
+<li><strong>Reward Model</strong>: A model trained on human preferences to score the main model’s outputs.</li>
+<li><strong>Value Model</strong>: Another trainable model whose job is to estimate the long-term reward, essentially judging how good a generated response is likely to be.</li>
+</ol>
+<p>This setup, especially with two trainable models (Policy and Value), consumes a massive amount of VRAM and makes the training process complex and unstable.</p>
+</div>
+</div>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled" title="GRPO's Innovation: Drop the Value Model">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+GRPO’s Innovation: Drop the Value Model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>GRPO’s innovation is simple but brilliant: <strong>it completely removes the need for the Value Model</strong>. This single change significantly cuts down the computational and memory requirements, making RL-based fine-tuning more accessible. As one article puts it, dropping the value model makes the whole process “cleaner” and simpler to optimize.</p>
+</div>
+</div>
+<hr>
+<section id="how-grpo-works-learning-from-a-group" class="level3">
+<h3 class="anchored" data-anchor-id="how-grpo-works-learning-from-a-group">How GRPO Works: Learning from a Group</h3>
+<p>So, how does GRPO get by without a Value Model? It replaces the complex value estimation with a clever, more direct approach based on group statistics.</p>
+<ol type="1">
+<li><p><strong>Generate Multiple Outputs</strong>: Instead of generating a single response to a prompt, the Policy Model is prompted to generate a <em>group</em> of varied responses (e.g., trying different ways to solve a math problem).</p></li>
+<li><p><strong>Calculate Rewards for Each Output</strong>: Each of these generated outputs is then scored by a <strong>Reward Model</strong> or, as in our case, a set of rule-based reward functions. For reasoning tasks, these rewards can be based on formatting correctness, logical consistency, or whether the final answer is accurate.</p></li>
+<li><p><strong>Estimate Advantage from the Group</strong>: This is the key step. GRPO calculates the “advantage” for each output—a signal that tells the model whether to reinforce or discourage that type of response. Instead of using a Value Model to predict this, GRPO calculates it by looking at the scores of the entire group of responses. It computes the <strong>mean and standard deviation</strong> of all the reward scores and uses these statistics to normalize each individual score.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="Calculating the Advantage">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Calculating the Advantage
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The advantage is calculated with this simple formula:</p>
+<p><span class="math display">\[
+\hat{A}_{i,t} = \frac{r_i - \text{mean}(r)}{\text{std}(r)}
+\]</span></p>
+<p>Where: - <span class="math inline">\(r_i\)</span> is the reward for a specific output. - <span class="math inline">\(\text{mean}(r)\)</span> is the average reward of all outputs in the group. - <span class="math inline">\(\text{std}(r)\)</span> is the standard deviation of all rewards.</p>
+<p>This formula essentially asks, “How good or bad is this specific response compared to the average of all responses the model just generated for this prompt?”. An output with a reward far above the average gets a high positive advantage, strongly reinforcing that reasoning path. An output below the average gets a negative advantage, penalizing it. This group-based comparison provides a robust, on-the-fly baseline without needing a separate, memory-hungry Value LLM.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="why-use-unsloth" class="level2">
+<h2 class="anchored" data-anchor-id="why-use-unsloth">Why Use Unsloth?</h2>
+<p><img src="./assets/rl_fine_tuning/unsloth.png" class="img-fluid"></p>
+<p><strong><a href="https://unsloth.ai/">Unsloth</a></strong> is a powerful library designed to make fine-tuning LLMs faster and more memory-efficient. It achieves this through several optimizations, including:</p>
+<ul>
+<li><strong>Faster training:</strong> Unsloth can significantly speed up the training process, in some cases by a factor of 2x or more.</li>
+<li><strong>Reduced memory usage:</strong> It allows for fine-tuning larger models on consumer-grade hardware by reducing the memory footprint.</li>
+<li><strong>Ease of use:</strong> Unsloth provides a user-friendly API that simplifies the fine-tuning workflow.</li>
+</ul>
+<p>Now, let’s dive into the code and the fine-tuning process.</p>
+<hr>
+</section>
+<section id="the-fine-tuning-process" class="level2">
+<h2 class="anchored" data-anchor-id="the-fine-tuning-process">The Fine-Tuning Process</h2>
+<section id="setting-up-the-environment" class="level3">
+<h3 class="anchored" data-anchor-id="setting-up-the-environment">1. Setting Up the Environment</h3>
+<p>The first step is to install the necessary libraries. The script provides commands for both a standard Python environment and a Google Colab instance.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">Standard Environment</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">Google Colab</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For a standard environment</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install unsloth vllm</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>deps unsloth vllm<span class="op">==</span><span class="fl">0.8.5</span>.post1</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>deps bitsandbytes accelerate xformers<span class="op">==</span><span class="fl">0.0.29</span>.post3 peft trl triton cut_cross_entropy unsloth_zoo</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install sentencepiece protobuf <span class="st">"datasets&gt;=3.4.1,&lt;4.0.0&gt;"</span> <span class="st">"huggingface_hub&gt;=0.34.0"</span> hf_transfer</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+<p>These commands install Unsloth, vLLM for fast inference, and other essential libraries like PEFT (Parameter-Efficient Fine-Tuning), TRL (Transformer Reinforcement Learning), and Datasets.</p>
+</section>
+<section id="loading-the-model-and-preparing-for-peft" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-model-and-preparing-for-peft">2. Loading the Model and Preparing for PEFT</h3>
+<p>Next, we load the Qwen3-4B-Base model using Unsloth’s FastLanguageModel. We also configure it for PEFT using LoRA (Low-Rank Adaptation).</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unsloth <span class="im">import</span> FastLanguageModel</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>max_seq_length <span class="op">=</span> <span class="dv">2048</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>lora_rank <span class="op">=</span> <span class="dv">32</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>model, tokenizer <span class="op">=</span> FastLanguageModel.from_pretrained(</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    model_name <span class="op">=</span> <span class="st">"unsloth/Qwen3-4B-Base"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    max_seq_length <span class="op">=</span> max_seq_length,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    load_in_4bit <span class="op">=</span> <span class="va">False</span>, <span class="co"># False for LoRA 16bit</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    fast_inference <span class="op">=</span> <span class="va">True</span>, <span class="co"># Enable vLLM fast inference</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    max_lora_rank <span class="op">=</span> lora_rank,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    gpu_memory_utilization <span class="op">=</span> <span class="fl">0.7</span>, <span class="co"># Reduce if out of memory</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> FastLanguageModel.get_peft_model(</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> lora_rank, <span class="co"># Choose any number &gt; 0 ! Suggested 8, 16, 32, 64, 128</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    target_modules <span class="op">=</span> [</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"q_proj"</span>, <span class="st">"k_proj"</span>, <span class="st">"v_proj"</span>, <span class="st">"o_proj"</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"gate_proj"</span>, <span class="st">"up_proj"</span>, <span class="st">"down_proj"</span>,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    lora_alpha <span class="op">=</span> lora_rank<span class="op">*</span><span class="dv">2</span>, <span class="co"># *2 speeds up training</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    use_gradient_checkpointing <span class="op">=</span> <span class="st">"unsloth"</span>, <span class="co"># Reduces memory usage</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> <span class="dv">3407</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled" title="Note">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p><strong><code>FastLanguageModel.from_pretrained</code></strong>: This function from Unsloth loads the model and tokenizer with optimizations for speed and memory.</p></li>
+<li><p><strong><code>max_seq_length</code></strong>: This defines the maximum number of tokens the model can handle in a single input.</p></li>
+<li><p><strong><code>lora_rank</code></strong>: This is a key parameter for LoRA. It determines the rank of the matrices that are used to approximate the weight updates. A larger rank can lead to a more “intelligent” model but at the cost of slower training and higher memory usage.</p></li>
+<li><p><strong><code>get_peft_model</code></strong>: This function prepares the model for PEFT by adding LoRA adapters to the specified target_modules.</p></li>
+<li><p><strong><code>lora_alpha</code></strong>: This is a scaling factor for the LoRA updates. Setting it to lora_rank * 2 is a common practice that can help speed up training.</p></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="crafting-a-custom-chat-template-for-grpo" class="level3">
+<h3 class="anchored" data-anchor-id="crafting-a-custom-chat-template-for-grpo">3. Crafting a Custom Chat Template for GRPO</h3>
+<p>Before we can train our model, we need to teach it how to structure its responses. We do this by defining a <strong>chat template</strong>. This template acts as a blueprint, guiding the model to generate output in a consistent, predictable format that is ideal for our reasoning task.</p>
+<hr>
+<div class="callout callout-style-default callout-note callout-titled" title="What is a Chat Template?">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What is a Chat Template?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Most Large Language Models are, at their core, text-completion engines. They don’t inherently understand the back-and-forth nature of a conversation. A <strong>chat template</strong> is a set of rules that tells the tokenizer how to convert a structured list of messages (from a “user” and “assistant”) into a single, formatted string the model can process.</p>
+<p>Instruction-tuned models (like Llama-3-Instruct) already have a built-in template. Since we are using a <strong>base model</strong>, it has no default conversational format, so we must create our own.</p>
+</div>
+</div>
+<hr>
+<section id="why-this-specific-template" class="level4">
+<h4 class="anchored" data-anchor-id="why-this-specific-template">Why This Specific Template?</h4>
+<p>For our GRPO fine-tuning, we don’t just want a conversational model; we want a <strong>reasoning model</strong>. Our goal is to reward the model for “showing its work” and then providing a clear, final answer.</p>
+<p>To do this effectively, we need to force the model’s output into a rigid structure. Our template will compel the model to generate text that looks like this:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>start_working_out<span class="op">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>...the model<span class="st">'s step-by-step reasoning goes here...</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;end_working_out&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;</span>SOLUTION<span class="op">&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>...the model<span class="st">'s final answer goes here...</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="er">&lt;/SOLUTION&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This structure is not arbitrary. It allows our reward functions (which we’ll define later) to easily parse the model’s output, separating the reasoning from the final solution to score each part independently.</p>
+</section>
+<section id="breaking-down-the-code" class="level4">
+<h4 class="anchored" data-anchor-id="breaking-down-the-code">Breaking Down the Code</h4>
+<p>Here’s how we build and apply this template:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Define the special tokens that will structure the output</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>reasoning_start <span class="op">=</span> <span class="st">"&lt;start_working_out&gt;"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>reasoning_end   <span class="op">=</span> <span class="st">"&lt;end_working_out&gt;"</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>solution_start  <span class="op">=</span> <span class="st">"&lt;SOLUTION&gt;"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>solution_end    <span class="op">=</span> <span class="st">"&lt;/SOLUTION&gt;"</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Create the system prompt that instructs the model on the format</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>system_prompt <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="ss">f"""You are given a problem.</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="ss">Think about the problem and provide your working out.</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="ss">Place it between </span><span class="sc">{</span>reasoning_start<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>reasoning_end<span class="sc">}</span><span class="ss">.</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="ss">Then, provide your solution between </span><span class="sc">{</span>solution_start<span class="sc">}{</span>solution_end<span class="sc">}</span><span class="ss">"""</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Define the Jinja2 template for the tokenizer</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>chat_template <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% i</span><span class="st">f messages[0]['role'] == 'system' %}"</span><span class="op">\</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">{{</span><span class="st"> messages[0]['content'] + eos_token </span><span class="sc">}}</span><span class="st">"</span><span class="op">\</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"{</span><span class="sc">% s</span><span class="st">et loop_messages = messages[1:] %}"</span><span class="op">\</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% e</span><span class="st">lse %}"</span><span class="op">\</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="st">"</span><span class="sc">{{</span><span class="st"> '</span><span class="sc">{system_prompt}</span><span class="st">' + eos_token </span><span class="sc">}}</span><span class="st">"</span><span class="op">\</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        <span class="st">"{</span><span class="sc">% s</span><span class="st">et loop_messages = messages %}"</span><span class="op">\</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% e</span><span class="st">ndif %}"</span><span class="op">\</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% f</span><span class="st">or message in loop_messages %}"</span><span class="op">\</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"{</span><span class="sc">% i</span><span class="st">f message['role'] == 'user' %}"</span><span class="op">\</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="st">"</span><span class="sc">{{</span><span class="st"> message['content'] </span><span class="sc">}}</span><span class="st">"</span><span class="op">\</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"{</span><span class="sc">% e</span><span class="st">lif message['role'] == 'assistant' %}"</span><span class="op">\</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>            <span class="st">"</span><span class="sc">{{</span><span class="st"> message['content'] + eos_token </span><span class="sc">}}</span><span class="st">"</span><span class="op">\</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"{</span><span class="sc">% e</span><span class="st">ndif %}"</span><span class="op">\</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% e</span><span class="st">ndfor %}"</span><span class="op">\</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% i</span><span class="st">f add_generation_prompt %}</span><span class="sc">{{</span><span class="st"> '</span><span class="sc">{reasoning_start}</span><span class="st">' </span><span class="sc">}}</span><span class="st">"</span><span class="op">\</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    <span class="st">"{</span><span class="sc">% e</span><span class="st">ndif %}"</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Inject our custom system prompt and starting token into the template</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>chat_template <span class="op">=</span> chat_template<span class="op">\</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    .replace(<span class="st">"'</span><span class="sc">{system_prompt}</span><span class="st">'"</span>,   <span class="ss">f"'</span><span class="sc">{</span>system_prompt<span class="sc">}</span><span class="ss">'"</span>)<span class="op">\</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    .replace(<span class="st">"'</span><span class="sc">{reasoning_start}</span><span class="st">'"</span>, <span class="ss">f"'</span><span class="sc">{</span>reasoning_start<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co"># 5. Finally, apply this template to the tokenizer</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>tokenizer.chat_template <span class="op">=</span> chat_template</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol type="1">
+<li><strong>Special Tokens</strong>: We define the unique tags that will act as dividers in the model’s output.</li>
+<li><strong>System Prompt</strong>: This is our direct instruction to the model, telling it <em>how</em> to behave and the format it must follow.</li>
+<li><strong>Jinja2 Template</strong>: This is the core logic. It’s a small script that iterates through a conversation history (<code>messages</code>) and formats it. The most important part for us is the final <code>if add_generation_prompt</code> block. This line tells the tokenizer to automatically append our <code>&lt;start_working_out&gt;</code> token whenever it’s the model’s turn to generate a response, kicking off the reasoning process.</li>
+<li><strong>Injecting Our Logic</strong>: We use a simple <code>.replace()</code> to insert our specific <code>system_prompt</code> and <code>reasoning_start</code> token into the generic template structure.</li>
+<li><strong>Applying the Template</strong>: We assign our newly crafted template to the tokenizer, making it the official rulebook for all future formatting.</li>
+</ol>
+<hr>
+<div class="callout callout-style-default callout-important callout-titled" title="How This Template Makes a Difference">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+How This Template Makes a Difference
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This custom chat template is the foundation of our entire GRPO strategy. By enforcing a strict output structure, we make the process of <strong>rewarding the model programmatic and reliable</strong>.</p>
+<p>Later, we can easily write reward functions that: * Check if the output contains the exact <code>&lt;start_working_out&gt;...&lt;end_working_out&gt;</code> structure. * Extract the final answer from between the <code>&lt;SOLUTION&gt;...&lt;/SOLUTION&gt;</code> tags and compare it to the correct answer. * Penalize the model if it fails to follow the format.</p>
+<p>Without this template, the model’s output would be unstructured, making it nearly impossible to evaluate and reward its reasoning ability at scale.</p>
+</div>
+</div>
+<p>This template ensures that the model’s output will have a clear structure, with the reasoning process enclosed within <start_working_out> and <end_working_out>, and the final answer within <solution> and </solution>.</end_working_out></start_working_out></p>
+</section>
+</section>
+<section id="pre-finetuning-for-formatting" class="level3">
+<h3 class="anchored" data-anchor-id="pre-finetuning-for-formatting">4. Pre-Finetuning for Formatting</h3>
+<p>Before diving into GRPO, we perform a short supervised fine-tuning (SFT) step. The goal of this step is to “prime” the model to understand and follow our custom GRPO formatting. This helps to speed up the GRPO process as the model will already have a basic understanding of the desired output structure.</p>
+<p>We use a small subset of NVIDIA’s Open Math Reasoning dataset for this.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> SFTTrainer, SFTConfig</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and format the dataset from the original script</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># This involves loading "unsloth/OpenMathReasoning-mini", filtering,</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># and applying the format_dataset function.</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the SFT Trainer</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> SFTTrainer(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    tokenizer <span class="op">=</span> tokenizer,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    train_dataset <span class="op">=</span> dataset, <span class="co"># The formatted dataset</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    args <span class="op">=</span> SFTConfig(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        dataset_text_field <span class="op">=</span> <span class="st">"text"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        per_device_train_batch_size <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        gradient_accumulation_steps <span class="op">=</span> <span class="dv">1</span>, <span class="co"># Use GA to mimic batch size!</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        warmup_steps <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>        num_train_epochs <span class="op">=</span> <span class="dv">2</span>, <span class="co"># Set this for 1 full training run.</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>        learning_rate <span class="op">=</span> <span class="fl">2e-4</span>, <span class="co"># Reduce to 2e-5 for long training runs</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        logging_steps <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        optim <span class="op">=</span> <span class="st">"adamw_8bit"</span>,</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>        weight_decay <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        lr_scheduler_type <span class="op">=</span> <span class="st">"linear"</span>,</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>        seed <span class="op">=</span> <span class="dv">3407</span>,</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>        report_to <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># Use "wandb" for Weights &amp; Biases</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Start the pre-finetuning</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>We map the dataset to create a “prompt” which includes our system message and the user’s question, and an “answer” which is the expected solution.</p>
+</section>
+<section id="defining-the-reward-system" class="level3">
+<h3 class="anchored" data-anchor-id="defining-the-reward-system">6. Defining the Reward System</h3>
+<p>This is the core of the GRPO process. We define a set of reward functions that will be used to score the model’s generated responses. These functions will guide the model towards generating outputs that are both correctly formatted and mathematically accurate.</p>
+<ol type="1">
+<li>match_format_exactly: This function gives a high reward if the model’s output perfectly matches the desired format.</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> match_format_exactly(completions, <span class="op">**</span>kwargs):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> []</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> completion <span class="kw">in</span> completions:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> completion[<span class="dv">0</span>][<span class="st">"content"</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Match if format is seen exactly!</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> match_format.search(response) <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>: score <span class="op">+=</span> <span class="fl">3.0</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        scores.append(score)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="2" type="1">
+<li>match_format_approximately: If the format is not exact, this function provides a smaller reward if the model has at least used the correct special tokens.</li>
+</ol>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> match_format_approximately(completions, <span class="op">**</span>kwargs):</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> []</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> completion <span class="kw">in</span> completions:</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        score <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> completion[<span class="dv">0</span>][<span class="st">"content"</span>]</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Count how many keywords are seen - we penalize if too many!</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="fl">0.5</span> <span class="cf">if</span> response.count(reasoning_end)   <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span><span class="fl">1.0</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="fl">0.5</span> <span class="cf">if</span> response.count(solution_start)  <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span><span class="fl">1.0</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        score <span class="op">+=</span> <span class="fl">0.5</span> <span class="cf">if</span> response.count(solution_end)    <span class="op">==</span> <span class="dv">1</span> <span class="cf">else</span> <span class="op">-</span><span class="fl">1.0</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        scores.append(score)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> scores</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<ol start="3" type="1">
+<li>check_answer &amp; check_numbers: These functions (fully defined in the script) check if the extracted answer from the model’s response matches the true answer. They provide a high reward for correct answers, partial credit for close answers, and penalties for incorrect ones.</li>
+</ol>
+<p>By combining these reward functions, we create a comprehensive scoring system that encourages the model to generate well-structured and accurate responses.</p>
+</section>
+<section id="configuring-and-launching-the-grpo-trainer" class="level3">
+<h3 class="anchored" data-anchor-id="configuring-and-launching-the-grpo-trainer">7. Configuring and Launching the GRPO Trainer</h3>
+<p>Now, we configure the GRPOTrainer with our model, tokenizer, reward functions, and training arguments.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> GRPOConfig, GRPOTrainer</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> vllm <span class="im">import</span> SamplingParams</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define sampling parameters for vLLM</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>vllm_sampling_params <span class="op">=</span> SamplingParams(</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    min_p <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    top_p <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    top_k <span class="op">=</span> <span class="op">-</span><span class="dv">1</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    seed <span class="op">=</span> <span class="dv">3407</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    stop <span class="op">=</span> [tokenizer.eos_token],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    include_stop_str_in_output <span class="op">=</span> <span class="va">True</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure GRPO training</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>training_args <span class="op">=</span> GRPOConfig(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    vllm_sampling_params <span class="op">=</span> vllm_sampling_params,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    temperature <span class="op">=</span> <span class="fl">1.0</span>,</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    learning_rate <span class="op">=</span> <span class="fl">5e-6</span>,</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    weight_decay <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    warmup_ratio <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type <span class="op">=</span> <span class="st">"linear"</span>,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    optim <span class="op">=</span> <span class="st">"adamw_8bit"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    logging_steps <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size <span class="op">=</span> <span class="dv">1</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps <span class="op">=</span> <span class="dv">1</span>, <span class="co"># Increase for smoother training</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    num_generations <span class="op">=</span> <span class="dv">4</span>, <span class="co"># Decrease if out of memory</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    max_prompt_length <span class="op">=</span> max_prompt_length,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    max_completion_length <span class="op">=</span> max_completion_length,</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    max_steps <span class="op">=</span> <span class="dv">100</span>, <span class="co"># Set to a higher number for a full run</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    save_steps <span class="op">=</span> <span class="dv">100</span>,</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    report_to <span class="op">=</span> <span class="st">"none"</span>, <span class="co"># Can use "wandb"</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    output_dir <span class="op">=</span> <span class="st">"outputs"</span>,</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the trainer</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> GRPOTrainer(</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model,</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>    processing_class <span class="op">=</span> tokenizer,</span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    reward_funcs <span class="op">=</span> [</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>        match_format_exactly,</span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>        match_format_approximately,</span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>        check_answer,</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a>        check_numbers,</span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>    args <span class="op">=</span> training_args,</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    train_dataset <span class="op">=</span> dataset,</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a><span class="co"># Start training!</span></span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The GRPOTrainer uses the configuration to fine-tune the model. The goal during training is to see the reward column in the training logs increase over time.</p>
+</section>
+<section id="inference-with-the-fine-tuned-model" class="level3">
+<h3 class="anchored" data-anchor-id="inference-with-the-fine-tuned-model">8. Inference with the Fine-tuned Model</h3>
+<p>After training, we can test our fine-tuned model. First, we save the trained LoRA adapter, then load it during inference.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the LoRA adapter</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>model.save_lora(<span class="st">"grpo_saved_lora"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare messages for inference</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"system"</span>, <span class="st">"content"</span>: system_prompt},</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>,   <span class="st">"content"</span>: <span class="st">"What is the sqrt of 101?"</span>},</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> tokenizer.apply_chat_template(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    messages,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    add_generation_prompt <span class="op">=</span> <span class="va">True</span>, <span class="co"># Must add for generation</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    tokenize <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate text using the fine-tuned LoRA</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> model.fast_generate(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    text,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    sampling_params <span class="op">=</span> sampling_params,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    lora_request <span class="op">=</span> model.load_lora(<span class="st">"grpo_saved_lora"</span>),</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>)[<span class="dv">0</span>].outputs[<span class="dv">0</span>].text</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(output)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The lora_request argument tells the model to use our fine-tuned LoRA adapter for this generation. The output should now follow the reasoning format we defined.</p>
+</section>
+<section id="saving-and-sharing-your-model" class="level3">
+<h3 class="anchored" data-anchor-id="saving-and-sharing-your-model">9. Saving and Sharing Your Model</h3>
+<p>Finally, Unsloth provides convenient methods for saving your fine-tuned model in various formats.</p>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true">Saving as a merged model (float16 or 4-bit):</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false">Saving just the LoRA adapters</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false">Converting to GGUF for llama.cpp</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This combines the base model with the LoRA adapter into a single model.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge to 16-bit</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_merged(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model"</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    tokenizer, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    save_method <span class="op">=</span> <span class="st">"merged_16bit"</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge to 4-bit</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_merged(</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model"</span>, </span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    tokenizer, </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    save_method <span class="op">=</span> <span class="st">"merged_4bit"</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-2-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-2-tab">
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge to 16-bit</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_merged(</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model"</span>, </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    tokenizer, </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    save_method <span class="op">=</span> <span class="st">"merged_16bit"</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge to 4-bit</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_merged(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"model"</span>, </span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    tokenizer, </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    save_method <span class="op">=</span> <span class="st">"merged_4bit"</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="tabset-2-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-2-3-tab">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to 8-bit Q8_0 GGUF</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_gguf(<span class="st">"model"</span>, tokenizer)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Save to q4_k_m GGUF</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>model.save_pretrained_gguf(<span class="st">"model"</span>, tokenizer, quantization_method <span class="op">=</span> <span class="st">"q4_k_m"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>This blog post has provided a detailed walkthrough of fine-tuning a language model for reasoning tasks using Unsloth and GRPO. By combining a powerful base model, a clever reinforcement learning technique, and an efficient library, you can create specialized models that excel at complex tasks.</p>
+<p>The key takeaways are:</p>
+<ul>
+<li><p>GRPO is an effective method for teaching models to reason by rewarding them for correct and well-structured responses.</p></li>
+<li><p>Unsloth makes the fine-tuning process more accessible by improving speed and reducing memory usage.</p></li>
+<li><p>A well-defined reward system is crucial for the success of GRPO.</p></li>
+<li><p>Pre-finetuning can help to streamline the main RL training phase.</p></li>
+</ul>
+<p>We encourage you to experiment with different models, datasets, and reward functions to further explore the possibilities of LLM fine-tuning. Happy coding!</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/www\.heyyanshuman\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/quantization_aware_fine_tuning.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
