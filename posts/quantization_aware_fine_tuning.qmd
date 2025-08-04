@@ -13,6 +13,7 @@ description: How to fine tune a reasoning model?
 hide: false
 output-file: finetuning_reasoning_model.html
 search_exclude: false
+highlight-style: monokai
 
 ---
 
@@ -32,64 +33,52 @@ A chat model (or instruction-tuned model) is a base model that has undergone a s
 
 :::
 
-## Okay, but what is GRPO again?
 
-At its core, **Group Relative Policy Optimization (GRPO)** is an advanced reinforcement learning (RL) technique designed to enhance a language model's reasoning capabilities. It was prominently used by DeepSeek AI to train their powerful reasoning models.
+### **What is GRPO and How Does It Work?**
 
-To understand GRPO's benefits, it helps to first look at its predecessor, Proximal Policy Optimization (PPO), which was famously used to train models like ChatGPT.
-
-![A diagram comparing the model architecture of PPO and GRPO. PPO uses a Policy, Reference, Reward, and Value model. GRPO simplifies this by removing the Value model.](./assets/rl_fine_tuning/grpo_vs_ppo.png)
-
-***
-
-::: {.callout-note title="The Challenge with PPO"}
-Traditional RL fine-tuning with PPO is notoriously expensive. It requires multiple large models to be loaded into GPU memory simultaneously:
-
-1.  **Policy Model**: The main LLM you are actively training.
-2.  **Reference Model**: A frozen, unchanged copy of the original LLM to ensure the model doesn't "forget" its core abilities.
-3.  **Reward Model**: A model trained on human preferences to score the main model's outputs.
-4.  **Value Model**: Another trainable model whose job is to estimate the long-term reward, essentially judging how good a generated response is likely to be.
-
-This setup, especially with two trainable models (Policy and Value), consumes a massive amount of VRAM and makes the training process complex and unstable.
-:::
-
-***
-
-::: {.callout-important title="GRPO's Innovation: Drop the Value Model"}
-GRPO's innovation is simple but brilliant: **it completely removes the need for the Value Model**. This single change significantly cuts down the computational and memory requirements, making RL-based fine-tuning more accessible. As one article puts it, dropping the value model makes the whole process "cleaner" and simpler to optimize.
+**Group Relative Policy Optimization (GRPO)** is an advanced reinforcement learning (RL) technique designed to efficiently enhance a language model's reasoning capabilities. To understand its benefits, we first need to look at the method it improves upon: Proximal Policy Optimization (PPO).
 
 
-:::
-
-***
-
-### How GRPO Works: Learning from a Group
-
-So, how does GRPO get by without a Value Model? It replaces the complex value estimation with a clever, more direct approach based on group statistics.
-
-1.  **Generate Multiple Outputs**: Instead of generating a single response to a prompt, the Policy Model is prompted to generate a *group* of varied responses (e.g., trying different ways to solve a math problem).
-
-2.  **Calculate Rewards for Each Output**: Each of these generated outputs is then scored by a **Reward Model** or, as in our case, a set of rule-based reward functions. For reasoning tasks, these rewards can be based on formatting correctness, logical consistency, or whether the final answer is accurate.
-
-3.  **Estimate Advantage from the Group**: This is the key step. GRPO calculates the "advantage" for each output—a signal that tells the model whether to reinforce or discourage that type of response. Instead of using a Value Model to predict this, GRPO calculates it by looking at the scores of the entire group of responses. It computes the **mean and standard deviation** of all the reward scores and uses these statistics to normalize each individual score.
-
-::: {.callout-tip title="Calculating the Advantage"}
-The advantage is calculated with this simple formula:
-
-$$
-\hat{A}_{i,t} = \frac{r_i - \text{mean}(r)}{\text{std}(r)}
-$$
-
-Where:
-- $r_i$ is the reward for a specific output.
-- $\text{mean}(r)$ is the average reward of all outputs in the group.
-- $\text{std}(r)$ is the standard deviation of all rewards.
-
-This formula essentially asks, "How good or bad is this specific response compared to the average of all responses the model just generated for this prompt?". An output with a reward far above the average gets a high positive advantage, strongly reinforcing that reasoning path. An output below the average gets a negative advantage, penalizing it. This group-based comparison provides a robust, on-the-fly baseline without needing a separate, memory-hungry Value LLM.
+::: {.callout-warning title="Problem with PPO"}
+Traditional RL fine-tuning with PPO is notoriously expensive because it requires loading four large models into GPU memory: a **Policy Model** (the one being trained), a **Reference Model**, a **Reward Model**, and a **Value Model**. The Value Model, which is also trainable, estimates the potential for long-term rewards but adds significant complexity and memory overhead.
 :::
 
 
+![A diagram comparing the model architecture of PPO and GRPO. GRPO simplifies the process by removing the Value model.](assets/rl_fine_tuning/grpo_vs_ppo.png)
 
+GRPO's core innovation is simple but brilliant: **it completely removes the need for the Value Model**. This single change significantly cuts down computational requirements, making advanced RL fine-tuning more accessible.
+
+
+#### **Learning from a Group**
+
+So, how does GRPO get by without a Value Model? It replaces the complex value estimation with a clever, three-step process based on group statistics:
+
+1.  **Generate a Group of Outputs**: Instead of creating a single response, the policy model is prompted to generate a *group* of varied responses for a given prompt.
+
+2.  **Calculate Rewards**: Each of these generated outputs is then scored by a reward function (or a separate Reward Model). For a reasoning task, rewards might be based on correct formatting or mathematical accuracy.
+
+3.  **Estimate Advantage from the Group**: This is the key step. GRPO calculates the "advantage" for each response—a signal telling the model whether to reinforce or discourage that type of output. It does this by normalizing each response's reward against the mean and standard deviation of the entire group's rewards.
+
+The advantage is calculated with a simple formula that essentially asks, "How good is this response compared to the average of all other responses in this group?"
+
+::: {.callout-note title="GRPO in Action: A Simple Example" collapse="true"}
+Imagine the prompt is "What is 7 * 6?". The model generates a group of 3 responses that are then scored:
+
+| Response                                                                 | Reason                          | Reward |
+| ------------------------------------------------------------------------ | ------------------------------- | :----: |
+| `<start_working_out>7*6 is 42</end_working_out><SOLUTION>42</SOLUTION>` | Correct format & answer         | **+4.0** |
+| `<start_working_out>7*6 is 41</end_working_out><SOLUTION>41</SOLUTION>` | Correct format, wrong answer    | **+1.0** |
+| `The answer is 42.`                                                      | Wrong format, "correct" answer  | **-2.0** |
+
+GRPO then calculates the group's statistics:
+-   **Mean reward:** `(4.0 + 1.0 - 2.0) / 3 = 1.0`
+-   **Advantage for Response A:** `(4.0 - 1.0) / std_dev` = High positive value (Strongly reinforce!)
+-   **Advantage for Response C:** `(-2.0 - 1.0) / std_dev` = High negative value (Strongly penalize!)
+
+This process allows the model to learn to prefer the structure and accuracy of Response A without needing a separate Value Model to make that judgment.
+:::
+
+This group-based comparison provides a robust, on-the-fly baseline that effectively guides the model toward better reasoning.
 
 ## Why Use Unsloth?
 
@@ -177,29 +166,35 @@ model = FastLanguageModel.get_peft_model(
 
 - **`get_peft_model`**: This function prepares the model for PEFT by adding LoRA adapters to the specified target_modules.
 
-- **`lora_alpha`**: This is a scaling factor for the LoRA updates. Setting it to lora_rank * 2 is a common practice that can help speed up training.
+- **`lora_alpha`**: This is a scaling factor for the LoRA updates. Think of `lora_alpha` as controlling how much importance is given to the new, fine-tuned weights versus the original model weights. Setting it to twice the `lora_rank` is a common heuristic that provides a good starting point for stable training.
 
 :::
 
 ### 3. Crafting a Custom Chat Template for GRPO
 
-Before we can train our model, we need to teach it how to structure its responses. We do this by defining a **chat template**. This template acts as a blueprint, guiding the model to generate output in a consistent, predictable format that is ideal for our reasoning task.
-
-***
+Before we can train our model, we need to teach it how to structure its responses. We do this by defining a chat template. This template acts as a blueprint, guiding the model to generate output in a consistent, predictable format that is ideal for our reasoning task.
 
 ::: {.callout-note title="What is a Chat Template?"}
-Most Large Language Models are, at their core, text-completion engines. They don't inherently understand the back-and-forth nature of a conversation. A **chat template** is a set of rules that tells the tokenizer how to convert a structured list of messages (from a "user" and "assistant") into a single, formatted string the model can process.
+Most Large Language Models are, at their core, text-completion engines. They don't inherently understand the back-and-forth nature of a conversation. A chat template is a set of rules that tells the tokenizer how to convert a structured list of messages (from a "user" and "assistant") into a single, formatted string the model can process.
 
-Instruction-tuned models (like Llama-3-Instruct) already have a built-in template. Since we are using a **base model**, it has no default conversational format, so we must create our own.
+Instruction-tuned models (like Llama-3-Instruct) already have a built-in template. Since we are using a base model, it has no default conversational format, so we must create our own.
 :::
 
-***
+Our goal is to create a template that forces the model to "show its work" and provide a clear final answer. To do this, we'll build the template in three main steps.
 
-#### Why This Specific Template?
+#### Step 1 : Define the Structure with Special Tokens
 
-For our GRPO fine-tuning, we don't just want a conversational model; we want a **reasoning model**. Our goal is to reward the model for "showing its work" and then providing a clear, final answer.
+First, we'll define the special tags that will act as dividers in the model's output. This allows our reward functions to easily parse the response later.
 
-To do this effectively, we need to force the model's output into a rigid structure. Our template will compel the model to generate text that looks like this:
+```python
+# Define the special tokens that will structure the output
+reasoning_start = "<start_working_out>"
+reasoning_end   = "<end_working_out>"
+solution_start  = "<SOLUTION>"
+solution_end    = "</SOLUTION>"
+```
+
+Our desired output format will look like this:
 
 ```python
 <start_working_out>
@@ -210,27 +205,18 @@ To do this effectively, we need to force the model's output into a rigid structu
 </SOLUTION>
 ```
 
-This structure is not arbitrary. It allows our reward functions (which we'll define later) to easily parse the model's output, separating the reasoning from the final solution to score each part independently.
-
-#### Breaking Down the Code
-
-Here’s how we build and apply this template:
+#### Step 2 : Create the System Prompt and Jinja Template
+Next, we create the instructions for the model. This involves two parts: a high-level system prompt telling the model its role, and a Jinja2 template that programmatically assembles the conversation for the model.
 
 ```python
-# 1. Define the special tokens that will structure the output
-reasoning_start = "<start_working_out>"
-reasoning_end   = "<end_working_out>"
-solution_start  = "<SOLUTION>"
-solution_end    = "</SOLUTION>"
-
-# 2. Create the system prompt that instructs the model on the format
+# Create the system prompt that instructs the model on the format
 system_prompt = \
 f"""You are given a problem.
 Think about the problem and provide your working out.
 Place it between {reasoning_start} and {reasoning_end}.
 Then, provide your solution between {solution_start}{solution_end}"""
 
-# 3. Define the Jinja2 template for the tokenizer
+# Define the Jinja2 template for the tokenizer
 chat_template = \
     "{% if messages[0]['role'] == 'system' %}"\
         "{{ messages[0]['content'] + eos_token }}"\
@@ -248,39 +234,30 @@ chat_template = \
     "{% endfor %}"\
     "{% if add_generation_prompt %}{{ '{reasoning_start}' }}"\
     "{% endif %}"
+```
 
-# 4. Inject our custom system prompt and starting token into the template
+The Jinja template is the core logic. It loops through the conversation history and formats it correctly. The most important line is the last one: `{% if add_generation_prompt %}`. This tells the tokenizer to automatically add our `<start_working_out>` token whenever it's the model's turn to speak, kicking off the required reasoning process.
+
+#### Step 3: Apply the Template to the Tokenizer
+
+Finally, we inject our custom system_prompt into the Jinja template and assign the completed template to our tokenizer. This makes our custom format the official rulebook for all future conversations.
+
+```python
+# Inject our custom system prompt and starting token into the template
 chat_template = chat_template\
     .replace("'{system_prompt}'",   f"'{system_prompt}'")\
     .replace("'{reasoning_start}'", f"'{reasoning_start}'")
 
-# 5. Finally, apply this template to the tokenizer
+# Finally, apply this template to the tokenizer
 tokenizer.chat_template = chat_template
 ```
 
-1.  **Special Tokens**: We define the unique tags that will act as dividers in the model's output.
-2.  **System Prompt**: This is our direct instruction to the model, telling it *how* to behave and the format it must follow.
-3.  **Jinja2 Template**: This is the core logic. It's a small script that iterates through a conversation history (`messages`) and formats it. The most important part for us is the final `if add_generation_prompt` block. This line tells the tokenizer to automatically append our `<start_working_out>` token whenever it's the model's turn to generate a response, kicking off the reasoning process.
-4.  **Injecting Our Logic**: We use a simple `.replace()` to insert our specific `system_prompt` and `reasoning_start` token into the generic template structure.
-5.  **Applying the Template**: We assign our newly crafted template to the tokenizer, making it the official rulebook for all future formatting.
-
-***
-
-::: {.callout-important title="How This Template Makes a Difference"}
-This custom chat template is the foundation of our entire GRPO strategy. By enforcing a strict output structure, we make the process of **rewarding the model programmatic and reliable**.
-
-Later, we can easily write reward functions that:
-* Check if the output contains the exact `<start_working_out>...<end_working_out>` structure.
-* Extract the final answer from between the `<SOLUTION>...</SOLUTION>` tags and compare it to the correct answer.
-* Penalize the model if it fails to follow the format.
-
-Without this template, the model's output would be unstructured, making it nearly impossible to evaluate and reward its reasoning ability at scale.
-:::
-
-This template ensures that the model's output will have a clear structure, with the reasoning process enclosed within <start_working_out> and <end_working_out>, and the final answer within <SOLUTION> and </SOLUTION>.
+By enforcing this structure, we make the process of rewarding the model for good reasoning both programmatic and reliable. It's the foundation upon which our entire GRPO training strategy is built.
 
 ### 4. Pre-Finetuning for Formatting
-Before diving into GRPO, we perform a short supervised fine-tuning (SFT) step. The goal of this step is to "prime" the model to understand and follow our custom GRPO formatting. This helps to speed up the GRPO process as the model will already have a basic understanding of the desired output structure.
+Before we let the model learn through trial-and-error with GRPO, we first give it a head start with a short phase of **Supervised Fine-Tuning (SFT)**. Why? Reinforcement learning is most effective when the model already has a rough idea of what to do. If a base model has never seen our `<start_working_out>` format, it will generate random, unstructured text. Rewarding the rare occasions it gets the format right is highly inefficient.
+
+This SFT step acts as **behavioral cloning**. We show the model a few hundred examples of the exact format we want. This quickly teaches it the basic structure, making the subsequent GRPO phase much more stable and focused on improving the *reasoning within the format*, rather than just *learning the format itself*.
 
 We use a small subset of NVIDIA's Open Math Reasoning dataset for this.
 
@@ -321,7 +298,7 @@ trainer.train()
 
 We map the dataset to create a "prompt" which includes our system message and the user's question, and an "answer" which is the expected solution.
 
-### 6. Defining the Reward System
+### 5. Defining the Reward System
 This is the core of the GRPO process. We define a set of reward functions that will be used to score the model's generated responses. These functions will guide the model towards generating outputs that are both correctly formatted and mathematically accurate.
 
 1. match_format_exactly: This function gives a high reward if the model's output perfectly matches the desired format.
@@ -359,7 +336,13 @@ def match_format_approximately(completions, **kwargs):
 
 By combining these reward functions, we create a comprehensive scoring system that encourages the model to generate well-structured and accurate responses.
 
-### 7. Configuring and Launching the GRPO Trainer
+::: {.callout-tip title="How do the reward functions get the correct answer?"}
+You might wonder where kwargs["answer"] comes from. The trl library is smart about this! The GRPOTrainer automatically takes the columns from your training dataset (other than the "prompt") and passes them into the reward functions through the **kwargs dictionary.
+
+This is how our check_answer function can compare the model's generated solution to the actual correct answer from the dataset for that specific prompt.
+:::
+
+### 6. Configuring and Launching the GRPO Trainer
 Now, we configure the GRPOTrainer with our model, tokenizer, reward functions, and training arguments.
 
 ```python
@@ -396,7 +379,15 @@ training_args = GRPOConfig(
     report_to = "none", # Can use "wandb"
     output_dir = "outputs",
 )
+```
 
+::: {.callout-tip title="Key GRPOConfig Parameters"}
+- **`num_generations`**: This is the 'G' in GRPO—the size of the group of responses generated for each prompt. A larger group gives better statistics for the advantage calculation but uses more memory and compute. A value of 4-8 is a good starting point.
+- **`temperature`**: A higher temperature (like `1.0`) encourages the model to generate more diverse and creative responses for the group. This diversity is essential for exploration, as it allows the model to try different reasoning paths. A low temperature would make all the responses in the group too similar, hindering learning.
+:::
+
+
+```python
 # Initialize the trainer
 trainer = GRPOTrainer(
     model = model,
@@ -417,7 +408,7 @@ trainer.train()
 
 The GRPOTrainer uses the configuration to fine-tune the model. The goal during training is to see the reward column in the training logs increase over time.
 
-### 8. Inference with the Fine-tuned Model
+### 7. Inference with the Fine-tuned Model
 After training, we can test our fine-tuned model. First, we save the trained LoRA adapter, then load it during inference.
 
 ```python
@@ -448,7 +439,7 @@ print(output)
 
 The lora_request argument tells the model to use our fine-tuned LoRA adapter for this generation. The output should now follow the reasoning format we defined.
 
-### 9. Saving and Sharing Your Model
+### 8. Saving and Sharing Your Model
 Finally, Unsloth provides convenient methods for saving your fine-tuned model in various formats.
 
 ::: {.panel-tabset}
