@@ -12,7 +12,7 @@
 <generator>quarto-1.7.31</generator>
 <lastBuildDate>Sun, 03 Aug 2025 18:30:00 GMT</lastBuildDate>
 <item>
-  <title>Teaching LLMs to Think</title>
+  <title>Training LLMs to Think</title>
   <link>https://www.heyyanshuman.com/posts/post_training_reasoning_model.html</link>
   <description><![CDATA[ 
 
@@ -23,7 +23,7 @@
 
 <p>It’s been a while since I wrote a blog on slightly technical topic. Today is the day!</p>
 <p>It’s 2025 and LLMs have gained ability to “reason” their way through a tricky math problems. It’s not magic—it’s the result of specialized post-training. While pre-trained LLMs are incredibly knowledgeable, they aren’t born problem-solvers. To get them to excel at complex tasks like mathematical reasoning, we need to fine-tune them.</p>
-<p>In this guide, we’ll learn how to do just that. We’re going to take a powerful base model, <code>Qwen3-4B-Base</code>, and teach it to reason using a clever RL technique called GRPO and the speed-boosting Unsloth library. Let’s get started!</p>
+<p>In this guide, we’ll learn how to do just that. We’re going to take a powerful base model, <code>Qwen3-1.7B-Base</code>, and teach it to reason using a clever RL technique called GRPO and the speed-boosting Unsloth library. Let’s get started!</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Base Model vs. Chat Model">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -209,7 +209,7 @@ font-style: inherit;">"huggingface_hub&gt;=0.34.0"</span> hf_transfer</span></co
 </section>
 <section id="loading-the-model-and-preparing-for-peft" class="level3">
 <h3 class="anchored" data-anchor-id="loading-the-model-and-preparing-for-peft">2. Loading the Model and Preparing for PEFT</h3>
-<p>Next, we load the Qwen3-4B-Base model using Unsloth’s <code>FastLanguageModel</code>. We also configure it for PEFT using LoRA (Low-Rank Adaptation).</p>
+<p>Next, we load the Qwen3-1.7B-Base model using Unsloth’s <code>FastLanguageModel</code>. We also configure it for PEFT using LoRA (Low-Rank Adaptation).</p>
 <div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="im" style="color: #00769E;
 background-color: null;
 font-style: inherit;">from</span> unsloth <span class="im" style="color: #00769E;
@@ -237,7 +237,7 @@ font-style: inherit;">=</span> FastLanguageModel.from_pretrained(</span>
 background-color: null;
 font-style: inherit;">=</span> <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"unsloth/Qwen3-4B-Base"</span>,</span>
+font-style: inherit;">"unsloth/Qwen3-1.7B-Base"</span>,</span>
 <span id="cb3-9">    max_seq_length <span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">=</span> max_seq_length,</span>

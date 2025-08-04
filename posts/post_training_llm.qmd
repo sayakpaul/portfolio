@@ -1,5 +1,5 @@
 ---
-title: "Teaching LLMs to Think"
+title: "Training LLMs to Think"
 aliases:
 - /post-training-reasoning-model
 permalink: /post-training-reasoning-model

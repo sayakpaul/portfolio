@@ -9,7 +9,7 @@
 <meta name="dcterms.date" content="2025-08-04">
 <meta name="description" content="Post training a LLM for reasoning with GRPO using Unsloth">
 
-<title>Teaching LLMs to Think – Introductions</title>
+<title>Training LLMs to Think – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -136,13 +136,13 @@ window.Quarto = {
 </script>
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Teaching LLMs to Think – Introductions">
+<meta property="og:title" content="Training LLMs to Think – Introductions">
 <meta property="og:description" content="Post training a LLM for reasoning with GRPO using Unsloth">
 <meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/rl_fine_tuning/grpo_vs_ppo.png">
 <meta property="og:site_name" content="Introductions">
 <meta property="og:image:height" content="694">
 <meta property="og:image:width" content="1282">
-<meta name="twitter:title" content="Teaching LLMs to Think – Introductions">
+<meta name="twitter:title" content="Training LLMs to Think – Introductions">
 <meta name="twitter:description" content="Post training a LLM for reasoning with GRPO using Unsloth">
 <meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/rl_fine_tuning/grpo_vs_ppo.png">
 <meta name="twitter:creator" content="@athleticKoder">
@@ -380,7 +380,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Teaching LLMs to Think</h1>
+      <h1 class="title">Training LLMs to Think</h1>
                   <div>
         <div class="description">
           Post training a LLM for reasoning with GRPO using Unsloth
@@ -442,7 +442,7 @@ window.Quarto = {
 
 <p>It’s been a while since I wrote a blog on slightly technical topic. Today is the day!</p>
 <p>It’s 2025 and LLMs have gained ability to “reason” their way through a tricky math problems. It’s not magic—it’s the result of specialized post-training. While pre-trained LLMs are incredibly knowledgeable, they aren’t born problem-solvers. To get them to excel at complex tasks like mathematical reasoning, we need to fine-tune them.</p>
-<p>In this guide, we’ll learn how to do just that. We’re going to take a powerful base model, <code>Qwen3-4B-Base</code>, and teach it to reason using a clever RL technique called GRPO and the speed-boosting Unsloth library. Let’s get started!</p>
+<p>In this guide, we’ll learn how to do just that. We’re going to take a powerful base model, <code>Qwen3-1.7B-Base</code>, and teach it to reason using a clever RL technique called GRPO and the speed-boosting Unsloth library. Let’s get started!</p>
 <div class="callout callout-style-default callout-note callout-titled" title="Base Model vs. Chat Model">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -600,7 +600,7 @@ A Simple Example on Advantage calculation in GRPO
 </section>
 <section id="loading-the-model-and-preparing-for-peft" class="level3">
 <h3 class="anchored" data-anchor-id="loading-the-model-and-preparing-for-peft">2. Loading the Model and Preparing for PEFT</h3>
-<p>Next, we load the Qwen3-4B-Base model using Unsloth’s <code>FastLanguageModel</code>. We also configure it for PEFT using LoRA (Low-Rank Adaptation).</p>
+<p>Next, we load the Qwen3-1.7B-Base model using Unsloth’s <code>FastLanguageModel</code>. We also configure it for PEFT using LoRA (Low-Rank Adaptation).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unsloth <span class="im">import</span> FastLanguageModel</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -608,7 +608,7 @@ A Simple Example on Advantage calculation in GRPO
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>lora_rank <span class="op">=</span> <span class="dv">32</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>model, tokenizer <span class="op">=</span> FastLanguageModel.from_pretrained(</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    model_name <span class="op">=</span> <span class="st">"unsloth/Qwen3-4B-Base"</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    model_name <span class="op">=</span> <span class="st">"unsloth/Qwen3-1.7B-Base"</span>,</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    max_seq_length <span class="op">=</span> max_seq_length,</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    load_in_4bit <span class="op">=</span> <span class="va">False</span>, <span class="co"># False for LoRA 16bit</span></span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    fast_inference <span class="op">=</span> <span class="va">True</span>, <span class="co"># Enable vLLM fast inference</span></span>
