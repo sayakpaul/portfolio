@@ -686,3 +686,7 @@ That's it! Now you know the fundamentals of fancy "post-training". You see how e
 
 :::
 
+
+## References
+
+1. [Unsloth AI](https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Qwen3_(4B)-GRPO.ipynb)
