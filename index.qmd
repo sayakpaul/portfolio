@@ -9,9 +9,11 @@ page-layout: full
 ::: {.column width="65%"}
 ### Hi, I'm Anshuman.
 
-Thanks for dropping by. I'm a software engineer at heart with a deep passion for building with stuff with large language models.
+Thanks for dropping by. I'm a software engineer at heart with a deep passion for building with stuff with Machine Learning.
 
 After years of contributing to the core of major open-source machine learning frameworks, I now work as an AI consultant, helping startups build robust, AI-native products. 
+
+#### [NOTE] - I am currently open to work
 
 My expertise comes from foundational, hands-on work—implementing models from scratch, designing training pipelines, and writing technical guides.
 

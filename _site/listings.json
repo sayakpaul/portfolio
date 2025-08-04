@@ -1,57 +1,16 @@
 [
   {
-    "listing": "/blog.html",
-    "items": [
-      "/posts/fine-tuning-vlm.html",
-      "/posts/text2sql_agent.html",
-      "/posts/agent_memory_101.html",
-      "/posts/interview_aakash.html",
-      "/posts/illustrated_llmos.html",
-      "/posts/interview_matt.html",
-      "/posts/sd_next.html",
-      "/posts/interview_rajaswa.html",
-      "/posts/semantic_sim_kerasnlp.html",
-      "/posts/flux_is_so_flexible.html",
-      "/posts/julia_house_price_prediction.html",
-      "/posts/interview_rrk.html"
-    ]
-  },
-  {
-    "listing": "/tech-blog.html",
-    "items": [
-      "/posts/fine-tuning-vlm.html",
-      "/posts/text2sql_agent.html",
-      "/posts/agent_memory_101.html",
-      "/posts/interview_aakash.html",
-      "/posts/illustrated_llmos.html",
-      "/posts/interview_matt.html",
-      "/posts/sd_next.html",
-      "/posts/interview_rajaswa.html",
-      "/posts/semantic_sim_kerasnlp.html",
-      "/posts/flux_is_so_flexible.html",
-      "/posts/julia_house_price_prediction.html",
-      "/posts/interview_rrk.html",
-      "/posts/what_is_flux_kontext_really.html"
-    ]
-  },
-  {
     "listing": "/ml-blog.html",
     "items": [
-      "/posts/what_is_flux_kontext_really.html",
+      "/posts/post_training_reasoning_model.html",
       "/posts/what_is_gspo.html",
       "/posts/fine-tuning-vlm.html",
       "/posts/text2sql_agent.html",
       "/posts/agent_memory_101.html",
-      "/posts/interview_aakash.html",
       "/posts/illustrated_llmos.html",
-      "/posts/interview_matt.html",
       "/posts/sd_next.html",
-      "/posts/interview_rajaswa.html",
       "/posts/semantic_sim_kerasnlp.html",
-      "/posts/flux_is_so_flexible.html",
-      "/posts/julia_house_price_prediction.html",
-      "/posts/interview_rrk.html",
-      "/posts/finetuning_reasoning_model.html"
+      "/posts/flux_is_so_flexible.html"
     ]
   }
 ]

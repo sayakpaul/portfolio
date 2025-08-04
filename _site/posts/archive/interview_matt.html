@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2023-10-11">
+<meta name="description" content="joint work with Abheesht Sharma">
 
-<title>Blog – Introductions</title>
+<title>Interview with Matthew Watson, Keras Team, Google – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,28 +25,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../../assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
+<link href="../../site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -60,35 +60,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-36H2NR8FB7"></script>
 
 <script type="text/javascript">
@@ -99,41 +70,16 @@ gtag('js', new Date());
 gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Introductions" href="blog.xml" data-external="1"><meta property="og:title" content="Blog – Introductions">
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Interview with Matthew Watson, Keras Team, Google – Introductions">
+<meta property="og:description" content="joint work with Abheesht Sharma">
+<meta property="og:image" content="https://www.heyyanshuman.com/posts/archive/assets/interview/interview_matt.webp">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="Blog – Introductions">
-<meta name="twitter:creator" content="@kanpuriyanawab">
+<meta name="twitter:title" content="Interview with Matthew Watson, Keras Team, Google – Introductions">
+<meta name="twitter:description" content="joint work with Abheesht Sharma">
+<meta name="twitter:image" content="https://www.heyyanshuman.com/posts/archive/assets/interview/interview_matt.webp">
+<meta name="twitter:creator" content="@athleticKoder">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -302,11 +248,11 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Introductions</span>
     </a>
   </div>
@@ -316,17 +262,17 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/work.html"> 
+    <a class="nav-link" href="../../pages/work.html"> 
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./blog.html" aria-current="page"> 
-<span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../../ml-blog.html"> 
+<span class="menu-text">ML Blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/kanpuriyanawab"> <i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/athleticKoder"> <i class="bi bi-twitter" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -363,411 +309,117 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Interview with Matthew Watson, Keras Team, Google</h1>
+                  <div>
+        <div class="description">
+          joint work with Abheesht Sharma
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Interview</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 11, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
         
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(12)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RGlmZnVzaW9u">Diffusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmluZS10dW5pbmc=">Fine-tuning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SW50ZXJ2aWV3">Interview <span class="quarto-category-count">(4)</span></div><div class="category" data-category="SnVsaWE=">Julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="S2VyYXNIdWI=">KerasHub <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(5)</span></div><div class="category" data-category="TW9kZWwlMjBBcmNoaXRlY3R1cmU=">Model Architecture <span class="quarto-category-count">(1)</span></div><div class="category" data-category="T3BlcmF0aW5nLXN5c3RlbQ==">Operating-system <span class="quarto-category-count">(2)</span></div><div class="category" data-category="VkxNcw==">VLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="V2FuZGI=">Wandb <span class="quarto-category-count">(2)</span></div></div></div>
-<!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">Blog</h1>
-</div>
-
-
-
-<div class="quarto-title-meta column-page-left">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
-      <option value="listing-date-sort" data-direction="asc">
-        Date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        Date - Newest
-      </option>
-      <option value="listing-author" data-direction="asc">
-        Author
-      </option>
-    </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
     </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="VkxNcyUyQ0ZpbmUtdHVuaW5n" data-listing-date-sort="1753554600000" data-listing-file-modified-sort="1753610797407" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2297">
-<div class="thumbnail"><a href="./posts/fine-tuning-vlm.html" class="no-external">
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
-<p class="card-img-top"><img src="posts/assets/finetune_vlm/gemma3_arch.png"  class="thumbnail-image card-img"/></p>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/fine-tuning-vlm.html" class="no-external">Fine-Tuning a Vision Language Model in 2025</a>
-</h3>
-<div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('VkxNcw=='); return false;">VLMs</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('RmluZS10dW5pbmc='); return false;">Fine-tuning</div>
 
-</div>
-<div class="delink listing-description"><a href="./posts/fine-tuning-vlm.html" class="no-external">
-<p>How to fine-tune Gemma3 vision on consumer hardware with 4-bit quantization (QLoRA)</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/fine-tuning-vlm.html" class="no-external">
-<div class="listing-date">
-Jul 27, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1749148200000" data-listing-file-modified-sort="1753561135420" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1643">
-<div class="thumbnail"><a href="./posts/text2sql_agent.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/assets/text2sql_agent/db_schema.png"  class="thumbnail-image card-img"/></p>
+<p><img src="assets/interview/interview_matt.webp" class="img-fluid"></p>
+<p>by Anshuman Mishra &amp; Abheesht Sharma</p>
+<p>The AI world is brimming with talent. Folks in the AI industry and the research world are continuously pushing the boundaries of innovation. With this interview series, we want to focus on bringing these inspiring (and possibly unheard-of) stories out into the world — their struggles, their triumphs, and their journey. We will be conversing with people we have looked up to and still look up to for their unparalleled contributions to the AI world. We call this interview series AI Chronicles.</p>
+<p>In this installment of our series, we sit down with Matthew Watson for a chat. Matt, a Stanford CS alumnus, is a software engineer with the Keras team at Google, where he works on KerasNLP, Keras’ native NLP offering. He has also been instrumental in developing Keras 3 (its announcement created significant buzz on Twitter!), a multi-backend Keras that can run on TensorFlow, JAX, and PyTorch. In the past decade or so, Matt has already had a wonderfully diverse career — he started off with literature in his undergrad, before developing a love for CS (more on this in the interview!).</p>
+<p>All words seem inadequate when one sets out to describe Matt. Matt is one of those “10x” engineers/researchers and always has a solution to every problem. We have always found his intuition to be bang on target. Matt has played a pivotal role in both of our careers; he has mentored us during (and after) Google Summer of Code. But one needs to look beyond just his technical expertise. Matt has infinite patience; we’ve spent late-night debugging sessions with him, and he has always been super-helpful and giving. Matt is an “open source stan”, and you can see his love for open source in every response of his on GitHub, and in every meticulously drafted PR (Pull Request). Safe to say, Matt has influenced us like no one else.</p>
+<p>Let’s begin!</p>
+<p>Anshuman &amp; Abheesht: Welcome, Matt! Thanks for doing this.</p>
+<p>Matt: Hi Anshuman and Abheesht! And thanks for putting this whole series together. I should probably quickly note that opinions here are my own; I’m not speaking on behalf of Google or any organization.</p>
+<p>Anshuman: Can you tell us about your journey in the field of natural language processing (NLP) and how you became involved with the Keras team at Google?</p>
+<p>Matt: Honestly I have taken a meandering path, but two consistent threads I can pick out of the last decade of my career are a love of language and of open-source software.</p>
+<p>I started my undergraduate studies with a focus on literature before getting lured to Computer Science by some really fantastic teachers. Through that switch, I have remained fascinated with the intersection of language and math. My first hands-on experience with NLP was helping with a research project at my university extracting information from Wikipedia via support vector machines written in Java (times have changed!). I started using Keras in 2017 when everyone was discovering text generation with LSTMs.</p>
+<p>I’ve had the chance to spend most of my career so far working in open source (first in the Linux community and now ML) and have always been so grateful for it. So joining Keras honestly felt like a no-brainer; it was a chance to do open work on my interests with a library I already loved.</p>
+<p>Abheesht: I’d like to talk a bit more about the career pivots you’ve done. In school/college, you say that you were interested in literature, post which you pivoted to Computer Science. Even in the field of Computer Science, you started off with Computer Graphics, started working on building an operating system at Endless Computers, and worked in the Firebase team, before joining Keras. How much did learning/working in different “disciplines/fields” help you? Were there any opportunities for “cross-discipline” learning, say, something you learned from discipline A which helped you in discipline B?</p>
+<p>Matt: I’m really glad I got a start in the humanities because writing is so important for almost every field. Being able to articulate a thought clearly and concisely is an important skill we underplay too often in the hard sciences.</p>
+<p>Computer graphics and the ML work I’m doing today feel closely intertwined. My advisor for my Master’s degree, Pat Hanrahan, was a driving force behind programmable shading language, and that blows my mind to this day. The early days of GPUs were all about these fixed-function pipelines for creating and rasterizing triangles. Then came the idea to write these domain-specific shading languages that added a ton of expressivity to the process. And from that came the idea of general-purpose GPU computations, and things like CUDA, and here we are today! ML as a field has probably been moved forward literal decades thanks to ideas from the graphics world.</p>
+<p>I’m grateful for my time in the Linux open-source world for quite different reasons. I can’t say there’s much overlap in subject matter, but it was a wonderful start in the world of open source. It definitely made me a bit of a tinkerer, with everything from my OS to shell to IDE. Linux is built around supporting that. But it’s something I think equally applies to the world of ML. The deeper you get into these big deep-learning frameworks the more clear it becomes they all have bugs. You gain so much as an ML developer when you can get into the weeds of a library and start changing things.</p>
+<p>Anyway, that’s a long-winded way of saying I’m quite glad my career hasn’t been a straight line.</p>
+<p>Anshuman: Given your interest in English literature, which novels are you currently reading? What’s on your to-read list? Do you have any writing aspirations?</p>
+<p>Matt: Hah, for any attempt to read literature with a capital “L” in school, my reading diet since I was 10 has been mostly sci-fi and fantasy. Ursula K. Le Guin is a big hero of mine. I recently read Klara and the Sun, a dystopian novel narrated by an “autonomous friend” that certainly feels relevant to all the work we do.</p>
+<p>I would love to try my hand at fiction someday, but most of my writing is technical these days.</p>
+<p>Abheesht: What are the focal attributes of KerasNLP that make it different from other NLP libraries out there?</p>
+<p>Matt: One thing that makes Keras unique is a detailed and strict style guide for any new API. Our top-level APIs should be accessible to a very broad audience. We achieve flexibility underneath this top level with a focus on modular components and layered abstractions.</p>
+<p>This gives KerasNLP a somewhat unique positioning among “pre-trained modeling” libraries. When we port a model from a research codebase, we tend to heavily rewrite the forward pass so it matches our conventions and uses common building blocks.</p>
+<p>This has some neat side effects. For one, it’s a great library to learn from–you can define a transformer from scratch with our base layers in about 20 lines of code. It also gives a very uniform experience of slicing and dicing our models. That’s a big one given how many real-world workflows, from PEFT strategies to interpretability techniques, require reaching into model internals.</p>
+<p>Abheesht: How do you see the current landscape of NLP and deep learning evolving, and how does KerasNLP fit into this evolving landscape?</p>
+<p>Matt: It’s dizzying how fast the field is changing these days. There is a ton of energy in open-source NLP development. There are so many valid concerns with how all this new technology is being used. At a broad level, I keep trying to remind myself what a massive period of flux this is for the field. We should all hold our opinions lightly and stay curious.</p>
+<p>I think multi-backend Keras 3 is really a game changer for how KerasNLP fits it. On the KerasNLP side, we can take a pre-trained model, write our numerics once, and distribute our weights once. You can fine-tune a model in any of TensorFlow, Jax, or Torch, and use Keras’ save format as a way to seamlessly move between frameworks. I think this is a new tool we are putting in ML developer’s toolboxes, and I am excited to see what people do with it.</p>
+<p>Anshuman: Could you share some real-world applications or projects where KerasNLP has been particularly instrumental or innovative?</p>
+<p>Matt: One of the first projects to use KerasNLP is the AutoKeras library, and I really love how it fits into the Keras broader Keras ecosystem. It’s a super accessible, code-first library. You can just define your data and problem and it will handle choosing an architecture, optimizer, and hyperparameters. Or you can define your own much more complex and tailored workflow as you get deeper in.</p>
+<p>I think there is a huge opportunity to take a similar approach to generative problems going forward. Meet people with accessible, understandable, code-first flows that still give you full control over an underlying language model when you need it. I haven’t quite seen an “auto ML” offering on the generative modeling front that has really blown me away, but I would bet it’s just a matter of time.</p>
+<p>Abheesht: Natural language understanding and generation have seen remarkable advancements. What do you think are the key challenges and opportunities in NLP today?</p>
+<p>Matt: There’s a huge amount of opportunity here. We are far from understanding all the ways we can put the emergent properties of LLMs to use. Given the amount of investment and attention, I am not particularly worried about the field suddenly losing steam.</p>
+<p>An obvious challenge is the reliability of language models. If you had a service where a fellow human would often give you helpful advice, and occasionally confidently lie to your face, people would be out there flipping tables.</p>
+<p>I think there are two things we could do here. First, keep working on the engineering problem of reliable models that can, at least, indicate uncertainty when present. Second, don’t oversell these things! There are a lot of unsolved problems with LLMs, and there is a persistent, magnetic attraction towards anthropomorphizing something that appears to understand language. Everyone working in this space needs to be careful with how we describe these systems, and continually flag the obvious limitations of these tools.</p>
+<p>Abheesht: One thing I’ve seen with the Keras team is the collaborative culture that has been fostered. All members of the Keras team are very helpful to the outside community. Evidence of this is seen in the number of students who contribute to the Keras ecosystem. Can you provide insights into the collaborative development process within the Keras team at Google and outside contributors and how it contributes to the library’s success?</p>
+<p>Matt: A huge reason I was attracted to the Keras team was that everyone on it really cares about open-source tools, not as an afterthought or a way to boost your profile, but as an end unto itself.</p>
+<p>The vast majority of my work is out in the open on GitHub, and I think that is true of the whole Keras ecosystem. Most real discussion about new APIs is happening on issues and pull requests.</p>
+<p>I think everyone on the team really believes in the virtuous cycle here. There is far more knowledge and skill in the large pool of Keras users than just the Keras team at Google.</p>
+<p>Anshuman: In the ever-evolving field of AI, staying updated is crucial. How do you personally keep up with the latest developments and trends in NLP and deep learning?</p>
+<p>Matt: It’s a mix right now of Twitter, word of mouth, and anything that naturally comes up in my work. There is just no way for anyone to ingest all the research in this space. I constantly try to curate a short list of concepts to understand deeply, rather than attempting to ingest the whole fire hose.</p>
+<p>If I encounter a new claim that breaks an assumption I was holding, or a bug in my code I can’t effectively explain, it’s almost always worth digging in. ML as a field I think really rewards going deep on unknowns and constantly leveling up your understanding.</p>
+<p>Anshuman: You’ve done your Bachelor’s and Master’s from Stanford, widely regarded as one of the best universities in the world. How was your time at Stanford? How do you think your education has shaped your career as an engineer over the past decade? What makes Stanford Stanford; what does Stanford do differently from other universities that makes it the best? Is it the faculty? Is it the peer group?</p>
+<p>Matt: The main thing I think Stanford provided was this massive playground to go out and build your own understanding. They give a lot of resources and freedom to students, and there’s a lot of bright people trying weird stuff you can talk to. There’s definite energy in that environment.</p>
+<p>Stanford also killed it with the introductory Computer Science courses. The lecturers and teaching assistants were really supportive and focused on sparking curiosity about what computers can do. That is for sure what lured me out of the social sciences.</p>
+<p>I wouldn’t put too much stock into any one place though. The best coworkers in my working life have truly come from all sorts of educational backgrounds; I cannot pick out a pattern. People who teach themselves and even get a bit irritated by things they don’t yet understand tend to make great engineers. And open source in particular is one of the most accessible ways to wade into real problems from anywhere in the world.</p>
+<p>Abheesht: What, do you think, is the future for KerasNLP? Where do you see it going? What are some exciting developments that are planned in the near future?</p>
+<p>Matt: The near future for KerasNLP is all about sticking the landing with Keras 3 (multi-backend Keras). We want to make sure we have the models people are most excited about (e.g.&nbsp;LLama 2 and Falcon), but equally important is a good ecosystem of tools to scale these models up and down.</p>
+<p>On the scaling down front, we want a good multi-backend workflow for LoRA, and for scaling up, we are working on some dead simple model parallelism (think sharding individual matrices across GPUs). It’s definitely a lot to execute on, but that’s kinda fun. We are all heads down on our projects till the release of Keras 3 later this year.</p>
+<p>Abheesht: Having talked to you before, I know how bullish you are on open-source software. Is open source the way forward with LLMs? The upsides are obvious; the downsides include potential misuse, etc. What are your views on this?</p>
+<p>Matt: I think the biggest thing we can all do is stay open to changing our viewpoints. We are way out in uncharted territory in terms of model capability, so the most accurate (and maybe unhelpful) thing we can say is that we don’t know what the biggest risks are or how to mitigate them.</p>
+<p>I should probably just recuse myself from any conversations of existential risk from language models; I don’t know enough. I am glad some people out there are thinking about it, but personally, I am much more worried about the more immediate societal issues–bias, misuse, misinformation, disruption from automation, etc. These I feel strongly need to be addressed in the public square, and open models will be an essential tool.</p>
+<p>First, with an open model, you can crowdsource finding all the issues and fail states. More people probing a model will do a much more thorough job of making it “misbehave.” Second, if we really open up the whole training recipe (what data is going in?!), we can have a much more open conversation about equitable outcomes with this new tech.</p>
+<p>I think we have a ways to go as a field, particularly with opening up details on training data. We also need to avoid a “race to the bottom,” just throwing more in more compute and data to beat benchmarks without understanding what we are scaling to. But if we want this new tech to do right by society at large, I think open models have a large role to play.</p>
+<p>Abheesht: Keras 3, i..e, multi-backend Keras which allows users to switch backends (TensorFlow, JAX, and PyTorch) was released to much hubbub and fanfare a couple of months ago. What do you think are some of the most exciting use cases of a multi-backend Keras? Why should people be excited about it?</p>
+<p>Matt: Maybe a bit abstract, but I think Keras has the opportunity to become a “lingua franca” for modeling problems for a lot more people with Keras 3. Keras is a familiar API to basically everyone in the ML field–even if you don’t realize it, its fingerprints are all over abstractions in so many deep learning toolkits.</p>
+<p>With Keras 3, you can start with a backend agnostic modeling flow, and “lower” it into TensorFlow, JAX, or PyTorch anytime you need. There’s no transpilation, all layers/metrics/optimizers are using backend native calls for the selected framework. So basically Keras just becomes an incredibly efficient thing to learn. You can use it as a diving off point for basically any ML problem, and have the expressivity of a low-level framework as soon as you need it.</p>
+<p>Abheesht: What is one research paper you’ve read recently that gave you that “aha” feeling? Basically, a paper that blew your mind!</p>
+<p>Matt: A while ago I was in a paper reading group digging into graph neural networks. I found the notions of message passing and permutation invariance among graph vertices to be this big lightbulb moment where a lot of disparate notions in my head suddenly coalesced.</p>
+<p>Basically, you can think of CNNs and Transformers, and RNNs as graph networks. A convolution is just a message passing among neighboring pixels. Transformers are quite literally densely connected graph attention networks, with positional information added in.</p>
+<p>Framing everything as a graph gives you this uniform lens to look across the whole field of deep learning, which is so cool. This article is a good introduction to the idea.</p>
+<p>Anshuman &amp; Abheesht: Thank you, Matt! It’s been great talking to you!</p>
+<p>And that concludes the third interview of our “AI Chronicles” series! This series is a joint effort of Anshuman Mishra and Abheesht Sharma. Anshuman is currently working at Flip as a Machine Learning Engineer. Abheesht is an ML Research Scientist at Amazon, where he works on detecting advertisement bots. Both of them contribute extensively to ML open-source software and have been involved in developing KerasNLP.</p>
+<p>Best regards and happy learning!</p>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/text2sql_agent.html" class="no-external">Building Production Ready Text-to-SQL Agent from Scratch</a>
-</h3>
-<div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/text2sql_agent.html" class="no-external">
-<p>Tired of Writing SQL? Let’s Build an AI That Does It For You.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/text2sql_agent.html" class="no-external">
-<div class="listing-date">
-Jun 6, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1748889000000" data-listing-file-modified-sort="1753561103853" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3401">
-<div class="thumbnail"><a href="./posts/agent_memory_101.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/agent_memory_101/memory_1.jpg"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/agent_memory_101.html" class="no-external">The AI Memory Layer Will Change Everything</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/agent_memory_101.html" class="no-external">
-<p>How Stateful Memory is Revolutionizing AI Agents and Applications</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/agent_memory_101.html" class="no-external">
-<div class="listing-date">
-Jun 3, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1703183400000" data-listing-file-modified-sort="1749469125767" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2252">
-<div class="thumbnail"><a href="./posts/interview_aakash.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/interview/interview_aakash.webp"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/interview_aakash.html" class="no-external">Interview with Aakash Kumar Nain, MLE at Merlyn Minds</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/interview_aakash.html" class="no-external">
-<p>joint work with Abheesht Sharma</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/interview_aakash.html" class="no-external">
-<div class="listing-date">
-Dec 22, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="TExNcyUyQ09wZXJhdGluZy1zeXN0ZW0=" data-listing-date-sort="1701541800000" data-listing-file-modified-sort="1749308882776" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1200">
-<div class="thumbnail"><a href="./posts/illustrated_llmos.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/illustrated_llmos/karpathy_ss.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/illustrated_llmos.html" class="no-external">Illustrated LLM OS</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('T3BlcmF0aW5nLXN5c3RlbQ=='); return false;">Operating-system</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/illustrated_llmos.html" class="no-external">
-<p>An Implementational Perspective of LLMs as Operating Systems</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/illustrated_llmos.html" class="no-external">
-<div class="listing-date">
-Dec 3, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1696962600000" data-listing-file-modified-sort="1749312922228" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3033">
-<div class="thumbnail"><a href="./posts/interview_matt.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/interview/interview_matt.webp"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/interview_matt.html" class="no-external">Interview with Matthew Watson, Keras Team, Google</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/interview_matt.html" class="no-external">
-<p>joint work with Abheesht Sharma</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/interview_matt.html" class="no-external">
-<div class="listing-date">
-Oct 11, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="RGlmZnVzaW9uJTJDV2FuZGI=" data-listing-date-sort="1696185000000" data-listing-file-modified-sort="1749374943003" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
-<div class="thumbnail"><a href="./posts/sd_next.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/sd_next.html" class="no-external">Generating High-quality Images with SD.Next, HuggingFace Diffusers and W&amp;B</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGlmZnVzaW9u'); return false;">Diffusion</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/sd_next.html" class="no-external">
-<p>A walkthrough of using SD.Next (Advanced webUI for Stable Diffusion) for generating high-quality images using HuggingFace Diffusers and managing experiments with W&amp;B.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/sd_next.html" class="no-external">
-<div class="listing-date">
-Oct 2, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1695580200000" data-listing-file-modified-sort="1749312912115" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="16" data-listing-word-count-sort="3186">
-<div class="thumbnail"><a href="./posts/interview_rajaswa.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/interview/interview_rajaswa.webp"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/interview_rajaswa.html" class="no-external">Interview with Rajaswa Patil, AI Researcher at Postman Labs</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/interview_rajaswa.html" class="no-external">
-<p>joint work with Abheesht Sharma</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/interview_rajaswa.html" class="no-external">
-<div class="listing-date">
-Sep 25, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="S2VyYXNIdWIlMkNMTE1zJTJDV2FuZGI=" data-listing-date-sort="1693593000000" data-listing-file-modified-sort="1749374954894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
-<div class="thumbnail"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">Predicting Semantic Similarity using KerasNLP</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('S2VyYXNIdWI='); return false;">KerasHub</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-<p>This report demonstrates how to use the Weights&amp;Biases to speedup experiments with Keras</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-<div class="listing-date">
-Sep 2, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-categories="TW9kZWwlMjBBcmNoaXRlY3R1cmUlMkNKdWxpYQ==" data-listing-date-sort="1672425000000" data-listing-file-modified-sort="1753561107884" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="894">
-<div class="thumbnail"><a href="./posts/flux_is_so_flexible.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/flux_is_flexible/unet_full.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/flux_is_so_flexible.html" class="no-external">Deep Learning in&nbsp;Julia</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TW9kZWwlMjBBcmNoaXRlY3R1cmU='); return false;">Model Architecture</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('SnVsaWE='); return false;">Julia</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/flux_is_so_flexible.html" class="no-external">
-<p>Implementing ML models in Flux, the Julia Deep Learning&nbsp;Package!</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/flux_is_so_flexible.html" class="no-external">
-<div class="listing-date">
-Dec 31, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="10" data-categories="TExNcyUyQ09wZXJhdGluZy1zeXN0ZW0=" data-listing-date-sort="1671647400000" data-listing-file-modified-sort="1753561139356" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2340">
-<div class="thumbnail"><a href="./posts/julia_house_price_prediction.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/julia_house_price_prediction/img_1.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/julia_house_price_prediction.html" class="no-external">Comprehensive data exploration with Julia</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('T3BlcmF0aW5nLXN5c3RlbQ=='); return false;">Operating-system</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/julia_house_price_prediction.html" class="no-external">
-<p>Exploratory Data Analysis of Housing dataset in Julia</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/julia_house_price_prediction.html" class="no-external">
-<div class="listing-date">
-Dec 22, 2022
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="11" data-categories="SW50ZXJ2aWV3" data-listing-date-sort="1662921000000" data-listing-file-modified-sort="1749309730655" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="20" data-listing-word-count-sort="3914">
-<div class="thumbnail"><a href="./posts/interview_rrk.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/interview/interview_rrk.webp"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/interview_rrk.html" class="no-external">Interview with 2x Kaggle Grandmaster, Data Science Manager at Emirates NBD - Ravi Ramakrishnan</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('SW50ZXJ2aWV3'); return false;">Interview</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/interview_rrk.html" class="no-external">
-<p>joint work with Abheesht Sharma</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/interview_rrk.html" class="no-external">
-<div class="listing-date">
-Sep 12, 2022
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1185,4 +837,4 @@ Sep 12, 2022
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/blog.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/archive/interview_matt.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

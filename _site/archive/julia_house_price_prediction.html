@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2023-12-22">
-<meta name="description" content="joint work with Abheesht Sharma">
+<meta name="dcterms.date" content="2022-12-22">
+<meta name="description" content="Exploratory Data Analysis of Housing dataset in Julia">
 
-<title>Interview with Aakash Kumar Nain, MLE at Merlyn Minds – Introductions</title>
+<title>Comprehensive data exploration with Julia – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -72,14 +72,14 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="Interview with Aakash Kumar Nain, MLE at Merlyn Minds – Introductions">
-<meta property="og:description" content="joint work with Abheesht Sharma">
-<meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/interview/interview_aakash.webp">
+<meta property="og:title" content="Comprehensive data exploration with Julia – Introductions">
+<meta property="og:description" content="Exploratory Data Analysis of Housing dataset in Julia">
+<meta property="og:image" content="https://www.heyyanshuman.com/archive/assets/julia_house_price_prediction/img_1.png">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="Interview with Aakash Kumar Nain, MLE at Merlyn Minds – Introductions">
-<meta name="twitter:description" content="joint work with Abheesht Sharma">
-<meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/interview/interview_aakash.webp">
-<meta name="twitter:creator" content="@kanpuriyanawab">
+<meta name="twitter:title" content="Comprehensive data exploration with Julia – Introductions">
+<meta name="twitter:description" content="Exploratory Data Analysis of Housing dataset in Julia">
+<meta name="twitter:image" content="https://www.heyyanshuman.com/archive/assets/julia_house_price_prediction/img_1.png">
+<meta name="twitter:creator" content="@athleticKoder">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -248,7 +248,7 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+  <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
@@ -266,13 +266,13 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../blog.html"> 
-<span class="menu-text">Blog</span></a>
+    <a class="nav-link" href="../ml-blog.html"> 
+<span class="menu-text">ML Blog</span></a>
   </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://twitter.com/kanpuriyanawab"> <i class="bi bi-twitter" role="img">
+    <a class="nav-link" href="https://twitter.com/athleticKoder"> <i class="bi bi-twitter" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -309,103 +309,227 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
-  <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-body">
-      <h1 class="title">Interview with Aakash Kumar Nain, MLE at Merlyn Minds</h1>
-                  <div>
-        <div class="description">
-          joint work with Abheesht Sharma
-        </div>
-      </div>
-                          <div class="quarto-categories">
-                <div class="quarto-category">Interview</div>
-              </div>
-                  </div>
-  </div>
-    
-  
-  <div class="quarto-title-meta">
-
-      
-      <div>
-      <div class="quarto-title-meta-heading">Published</div>
-      <div class="quarto-title-meta-contents">
-        <p class="date">December 22, 2023</p>
-      </div>
-    </div>
-    
-      
-    </div>
-    
-  
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#so-what-can-we-expect" id="toc-so-what-can-we-expect" class="nav-link active" data-scroll-target="#so-what-can-we-expect">So… What can we&nbsp;expect?</a></li>
+  <li><a href="#analysing-saleprice" id="toc-analysing-saleprice" class="nav-link" data-scroll-target="#analysing-saleprice">Analysing SalePrice</a></li>
+  <li><a href="#relationship-with-categorical-features" id="toc-relationship-with-categorical-features" class="nav-link" data-scroll-target="#relationship-with-categorical-features">Relationship with categorical features</a></li>
+  <li><a href="#in-summary" id="toc-in-summary" class="nav-link" data-scroll-target="#in-summary">In summary</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/archive/julia_house_price_prediction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Comprehensive data exploration with Julia</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">LLMs</div>
+    <div class="quarto-category">Operating-system</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Exploratory Data Analysis of Housing dataset in Julia
+  </div>
+</div>
 
 
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">December 22, 2022</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
 
 
-<p><img src="assets/interview/interview_aakash.webp" class="img-fluid"></p>
-<p>The AI world is brimming with talent. Folks in the AI industry and the research world are continuously pushing the boundaries of innovation. With this interview series, we want to focus on bringing these inspiring (and possibly unheard-of) stories out into the world — their struggles, their triumphs, and their journey. We will be conversing with people we have looked up to and still look up to for their unparalleled contributions to the AI world. We call this interview series AI Chronicles.</p>
-<p>The two of us with Aakash in Uzbekistan! Aakash Kumar Nain — open source legend, MLE extraordinaire, Delhi lover, mountain climber. We had the privilege of meeting Aakash in Tashkent at the Google ML Community Summit and were taken aback by how laidback and easygoing he was. Looking at how meticulous he is with his work, we were expecting him to be the “serious kind”. The three of us instantly hit it off.</p>
-<p>When we say Aakash is an open source legend, we kid you not. Aakash started contributing to DL open source in 2016, and has never looked back since then. He is a TensorFlow-Addons maintainer. He is a core contributor to Keras 3.0, the new multi-backend Keras. Our favourite open source work of his is, however, Annotated Papers, where he breaks down ML/DL papers into simple explanations. Aakash is a huge proponent of JAX. Safe to say, he has inspired folks like us to take to open source.</p>
-<p>On top of his impressive open source work, he has 7 years of experience in the industry as an ML Engineer/Researcher, starting his career at Parallel Dots and then working at Ola, H2O.ai and now Merlyn Minds where he is working on building an AI assistant for education. Despite having spent 7 years in the industry, he has lost none of his inquisitiveness and curiosity.</p>
-<p>We can keep raving on and on about Aakash’s technical accomplishments, but to us, what separates Aakash from the rest is his approach to life. Read on to find out more about the man!</p>
-<p>Hi, Aakash! Thank you for doing this.</p>
-<p>Thank you for having me here today.</p>
-<p>Q: Could you discuss any machine learning projects or applications that you’ve found personally rewarding, either in terms of impact or the technical challenges involved?</p>
-<p>Though all the open-source projects I worked on were rewarding, contributing to TensorFlow-Addons, Keras, JAX, and Keras Core created the biggest impact. Although I have been a TF user since 2016, my open-source journey started with TF-addons in 2019. Once you start exploring the low-level bits of a library or a framework, your understanding of the mental model improves automatically. I wrote many code examples for keras.io where I showcased the flexibility of the Keras API to build very complex models. The motivation for writing those code examples was to help people understand the mental model behind tf.keras</p>
-<p>I consider myself a power Keras user. I have always wanted to contribute to the core Keras engine. This year, I finally got an opportunity to collaborate with Francois Chollet and the team to rewrite the entire Keras codebase with multi-backend support, including but not limited to TensorFlow, JAX, and PyTorch. It is one of my biggest open-source collaborations with the highest impact.</p>
-<p>Q: The field of machine learning is continually evolving. Are there any emerging trends or developments that particularly excite you or that you believe will have a significant impact in the near future?</p>
-<p>Diffusion models are one of the things that have gotten me excited about the future of generative AI after a long time. Though generative machine learning algorithms are nothing new, it’s just that the underlying algorithm for Diffusion models feels more natural. The other thing that I am looking forward to is the successor of the Transformer architecture. CNNs to transformers was a big leap. I hope the next set of algorithms is equally revolutionary.</p>
-<p>Q: How do you approach maintaining a balance between your athletic interests, such as being a footballer, and your demanding career in data science? Do you find any synergies between these seemingly different pursuits?</p>
-<p>Ever heard of the phrase “Too much of anything is good for nothing”? If you like/love doing something, that doesn’t mean you should devote your entire time to it. Of course, it’s a biased opinion, but to me, there is way more to life than just work. So, I distribute my time among all the things I enjoy doing. It doesn’t mean that it should be like that for anyone else in any sense. It’s a personal choice how much time one wants to dedicate to different aspects of life. Also, I am a firm believer that health is the true wealth. To ensure that I am physically fit, I go to the gym and play football regularly.</p>
-<p>Q: Many aspiring data scientists grapple with imposter syndrome. Have you ever experienced such feelings, and if so, how did you overcome them?</p>
-<p>Oh absolutely! Though many people may suffer from imposter syndrome at different stages, I think it’s way more common during the early years. When working in a fast-moving field like ML, it is natural to feel lagging, seeing the incredible progress in ML and AI daily. The best way to overcome such feelings is to understand that you don’t have to follow every other trend. Fundamentals matter the most in the long run. If you have a solid understanding of the fundamentals, things will always be easy.</p>
-<p>Q: As a maintainer of TensorFlow addons and contributor to multi-backend Keras, can you give us some insights into the open-source development process, including the joys and challenges of contributing to these projects?</p>
-<p>Contributing to open-source is a commitment. It’s not a one-time thing. If you are working on an open-source project, ideally you expect that the community will use it, and that too for a long period. Developing something that people are eager to use needs well-defined goals. The development of the project has to align with these goals.</p>
-<p>The best part of OSS is that you get to collaborate with many talented people. Once you start developing things in collaboration, you get more clarity about the modalities (using the word modality loosely in this context). You start to optimize for maximum coverage-minimal maintenance. Talking about the challenges, I think the biggest challenge is commitment. Many people do OSS just to make it a bullet point in their resume, but some of us do it because we enjoy solving complex problems for a larger audience. If you have a full-time job, then working on OSS means cutting down on other things to find time for the project.</p>
-<p>Q: How do you stay updated with the latest developments in the field of machine learning? Are there specific resources or communities you recommend for those looking to stay informed?</p>
-<p>Reading research papers is the easiest way. The problem, nowadays, is that it is very hard to filter out good papers from the “pile” of research papers being dumped on arXiv every day. Earlier I used to use arXiv-sanity for filtering paper, but recent changes made to it made it somewhat less usable for me (asking Karpathy to bring back the top-rated filter). Now I rely mainly on my Twitter feed for filtering papers. It’s not that good, but it works.</p>
-<p>To answer your question about communities and resources, I think Twitter and Kaggle are hands down the best. If you constantly use the two, you pretty much are aware of the latest research trends and the things that work in practice.</p>
-<p>Q: If you had to offer a single piece of advice to aspiring data scientists or machine learning enthusiasts, what would it be, and why do you consider it so valuable?</p>
-<p>As I said earlier, the most important thing is to learn the fundamental concepts. The biggest mistake I see people making, especially people starting their careers or those in the early stage, is that they get influenced(pun intended!) by the noise on social media. Also, learning “how” to use an algorithm and learning “when” to use an algorithm are two very different things.</p>
-<p>One other unusual thing that I want to emphasize is that if you can afford higher education, go for it without a doubt. Degrees may not matter for your work, but they definitely help in your job search. I am not saying that you can’t do good without degrees, but you will get more opportunities easily if you have one. I couldn’t afford to apply for a master’s program after graduation, but if you can, you definitely should.</p>
-<p>Q: When you are given a problem statement, how do you devise AI solutions for it? What do you look for in a proposed solution?</p>
-<p>The first thing I do before attempting anything else at all is to go through the data thoroughly. People naively jump on model building, but I tend to spend a lot of time with the data at hand. Once I understand the dataset, I look for a trivial solution that can be considered as a baseline. Defining metrics for a model and defining metrics that align with the business are two different aspects. We can’t ignore the latter. Putting models into production means adjusting to the constraints in the production environment. Blatantly scaling up/down doesn’t work for most of the scenarios.</p>
-<p>Q: You’ve always been bullish on JAX, the framework. What is it about JAX that you like? Why would you use JAX over say, TensorFlow or PyTorch? When you look at an ML framework, what attributes are you looking for?</p>
-<p>Almost everything. Reproducibility is a first-class citizen, and so is parallelism in JAX. Have you tried sharding in JAX? I don’t think any other framework (past and present included) had such a good API design for implementing parallelism.</p>
-<p>I would use JAX over any other framework because it is efficient and much easier to optimize. People keep focusing on compilers for programming languages but don’t focus enough on the need for a compiler for deep learning workflows. In my opinion, Python is the perfect language, XLA is a great compiler, and JAX is the best framework for deep learning.</p>
-<p>If I were to choose a framework today from a given list, here are the following things that I use as a checklist for evaluation:</p>
+</header>
+
+
+<p>Source&nbsp;: Analytics India&nbsp;MagazineIn this tutorial, we’ll learn using Julia for exploratory data analysis. This is my first blog post ever and first article of my series Julia For The Win. Please feel free to give feedback&nbsp;! Let’s get started. In this tutorial we’ll be reproducing <a href="https://www.kaggle.com/code/pmarcelino/comprehensive-data-exploration-with-python">Comprehensive data exploration with Python</a> notebook, but in Julia.</p>
+<p>Dataset used in this tutorial can be found <a href="https://www.kaggle.com/competitions/house-prices-advanced-regression-techniques">here</a>.</p>
+<p>We’ll be using following packages:</p>
 <ol type="1">
-<li><p>Mental model</p></li>
-<li><p>Ease of reproducibility</p></li>
-<li><p>Ease of parallelism</p></li>
-<li><p>The balance between low-level and high-level</p></li>
-<li><p>The ecosystem</p></li>
+<li>PlotlyJS.jl&nbsp;: A Julia interface to Plotly.js</li>
+<li>JuliaPlots/Plots.jl</li>
+<li>PairPlots.jl</li>
+<li>CSV.jl</li>
+<li>JuliaStats/StatsBase.jl</li>
 </ol>
-<p>I think the ecosystem is the part where JAX is lacking in a big way, but I hope with Keras 3, more people will contribute to the ecosystem, and it will catch up.</p>
-<p>Q: Can’t have an interview without asking this question to the Annotated Papers guy 😂: what is one research paper you’ve read recently which gave you that “aha” feeling? Basically, a paper which blew your mind!</p>
-<p>I wouldn’t say that I came across any paper in the last few months that blew my mind, but the latest paper from Apple titled MobileCLIP was a refreshing one. Deploying deep learning models on mobile devices is always a challenge, and requires a bit of rethinking, and modifications on the architectural side which aren’t that obvious when you are deploying things on a server. In that way, I think MobileCLIP is a must-read for anyone interested in those kinds of details.</p>
-<p>Q: Your open source work has mostly focused on vision. Has your work in the industry focused around vision as well? Or have you dabbled in different fields?</p>
-<p>Haha yes, my open-source work has mostly been focused on vision, but in terms of industrial experience, I have a T-shaped knowledge graph where I consider the depth of expertise in vision and width for other areas of Machine Learning. From 2017 to date, I have worked on business problems focused on traditional machine learning, time series, vision, speech, and NLP. I have been on the other side of ML as well, where I have focused on MLOPs along with my research work.</p>
-<p>Computer Vision is my favorite field, and the biggest reason for that is that when I focus on vision problems, I have a sense of “what’s happening” inside my pipelines. I find vision more mature compared to other fields, and I absolutely love working with images.</p>
-<p>Q: You’ve been in the industry for 6–7 years, and yet, manage to take time out to contribute to open source. What motivates you to keep contributing to open source?</p>
-<p>Two major things. First, during my initial career phase, OSS played a big role in my learning and growth curves. Second, I consider solving problems in OSS as a mental exercise. The more you do it, the better you become. Your code being used by thousands of other developers is a true test of the logic baked in that code.</p>
-<p>Q: What’s the next big thing for Aakash Nain? :) What are you planning to work on next in open source? If you have any big announcements to make, this is the best place to make them 😂</p>
-<p>For now, I will be focusing on making some tutorials for large-scale training using Keras and JAX. At some point, I will also develop another library based on JAX purely for fun, mostly focused on the vision side, given if I get enough time.</p>
-<p>Anshuman &amp; Abheesht: Thank you, Aakash! It’s been great talking to you!</p>
-<p>And that concludes the fourth interview of our “AI Chronicles” series! This series is a joint effort of Anshuman Mishra and Abheesht Sharma. Anshuman is currently working at Flip as a Machine Learning Engineer. Abheesht is an Applied Scientist at Amazon, where he works on detecting advertisement bots. Both of them contribute extensively to ML open-source software and have been involved in developing KerasNLP.</p>
+<p>Above packages can be installed by using the following block of code (we take PlotlyJS for example)</p>
+<pre><code>using Pkg;
+Pkg.add("PlotlyJS");</code></pre>
+<blockquote class="blockquote">
+<p>The most difficult thing in life is to know yourself</p>
+</blockquote>
+<p>This quote belongs to Thales of Miletus. Thales was a Greek/Phonecian philosopher, mathematician and astronomer, which is recognised as the first individual in Western civilisation known to have entertained and engaged in scientific thought (source: https://en.wikipedia.org/wiki/Thales)</p>
+<p>I wouldn’t say that knowing your data is the most difficult thing in data science, but it is time-consuming. Therefore, it’s easy to overlook this initial step and jump too soon into the water.</p>
+<p>So I tried to learn how to swim before jumping into the water. Based on <a href="https://amzn.to/2JuDmvo">Hair et al.</a> (2013), chapter ‘Examining your data’, I did my best to follow a comprehensive, but not exhaustive, analysis of the data. I’m far from reporting a rigorous study in this kernel, but I hope that it can be useful for the community, so I’m sharing how I applied some of those data analysis principles to this problem.</p>
+<p>Despite the strange names I gave to the chapters, what we are doing in this kernel is something like:</p>
+<ol type="1">
+<li><strong>Understand the problem.</strong> We’ll look at each variable and do a philosophical analysis about their meaning and importance for this problem.</li>
+<li><strong>Univariable study.</strong> We’ll just focus on the dependent variable (‘SalePrice’) and try to know a little bit more about it.</li>
+<li><strong>Multivariate study.</strong> We’ll try to understand how the dependent variable and independent variables relate.</li>
+<li><strong>Basic cleaning.</strong> We’ll clean the dataset and handle the missing data, outliers and categorical variables.</li>
+<li><strong>Test assumptions.</strong> We’ll check if our data meets the assumptions required by most multivariate techniques.</li>
+</ol>
+<p>Now, it’s time to have fun!</p>
+<p>DataFrames.jl is the stable alternative of Pandas in Julia. Its design and functionality are similar to those of pandas (in Python) and data.frame, data.table and dplyr (in R), making it a great general purpose data science tool.</p>
+<pre><code>using CSV
+using DataFrames
+
+df_train = CSV.read("./train.csv", DataFrame, stringtype=String);</code></pre>
+<p>To peek into the dataframe, Julia alternative of head() method is first</p>
+<pre><code>first(df_train, 5) 
+# displays first 5 value of dataframe</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_1.png" class="img-fluid"></p>
+<section id="so-what-can-we-expect" class="level2">
+<h2 class="anchored" data-anchor-id="so-what-can-we-expect">So… What can we&nbsp;expect?</h2>
+<p>In order to understand our data, we can look at each variable and try to understand their meaning and relevance to this problem. I know this is time-consuming, but it will give us the flavour of our dataset.</p>
+<p>In order to have some discipline in our analysis, we can create an Excel spreadsheet with the following columns:</p>
+<ul>
+<li><strong>Variable</strong> - Variable name.</li>
+<li><strong>Type</strong> - Identification of the variables’ type. There are two possible values for this field: ‘numerical’ or ‘categorical’. By ‘numerical’ we mean variables for which the values are numbers, and by ‘categorical’ we mean variables for which the values are categories.</li>
+<li><strong>Segment</strong> - Identification of the variables’ segment. We can define three possible segments building, space or location. When we say ‘building’, we mean a variable that relates to the physical characteristics of the building (e.g.&nbsp;‘OverallQual’). When we say ‘space’, we mean a variable that reports space properties of the house (e.g.&nbsp;‘TotalBsmtSF’). Finally, when we say a ‘location’, we mean a variable that gives information about the place where the house is located (e.g.&nbsp;‘Neighborhood’).</li>
+<li><strong>Expectation</strong> - Our expectation about the variable influence in ‘SalePrice’. We can use a categorical scale with ‘High’, ‘Medium’ and ‘Low’ as possible values.</li>
+<li><strong>Conclusion</strong> - Our conclusions about the importance of the variable, after we give a quick look at the data. We can keep with the same categorical scale as in ‘Expectation’.</li>
+<li><strong>Comments</strong> - Any general comments that occured to us.</li>
+</ul>
+<p>While ‘Type’ and ‘Segment’ is just for possible future reference, the column ‘Expectation’ is important because it will help us develop a ‘sixth sense’. To fill this column, we should read the description of all the variables and, one by one, ask ourselves:</p>
+<ul>
+<li>Do we think about this variable when we are buying a house? (e.g.&nbsp;When we think about the house of our dreams, do we care about its ‘Masonry veneer type’?).</li>
+<li>If so, how important would this variable be? (e.g.&nbsp;What is the impact of having ‘Excellent’ material on the exterior instead of ‘Poor’? And of having ‘Excellent’ instead of ‘Good’?).</li>
+<li>Is this information already described in any other variable? (e.g.&nbsp;If ‘LandContour’ gives the flatness of the property, do we really need to know the ‘LandSlope’?).</li>
+</ul>
+<p>After this daunting exercise, we can filter the spreadsheet and look carefully to the variables with ‘High’ ‘Expectation’. Then, we can rush into some scatter plots between those variables and ‘SalePrice’, filling in the ‘Conclusion’ column which is just the correction of our expectations.</p>
+<p>I went through this process and concluded that the following variables can play an important role in this problem:</p>
+<ul>
+<li>OverallQual (which is a variable that I don’t like because I don’t know how it was computed; a funny exercise would be to predict ‘OverallQual’ using all the other variables available).</li>
+<li>YearBuilt.</li>
+<li>TotalBsmtSF.</li>
+<li>GrLivArea.</li>
+</ul>
+<p>I ended up with two ‘building’ variables (‘OverallQual’ and ‘YearBuilt’) and two ‘space’ variables (‘TotalBsmtSF’ and ‘GrLivArea’). This might be a little bit unexpected as it goes against the real estate mantra that all that matters is ‘location, location and location’. It is possible that this quick data examination process was a bit harsh for categorical variables. For example, I expected the ‘Neigborhood’ variable to be more relevant, but after the data examination I ended up excluding it. Maybe this is related to the use of scatter plots instead of boxplots, which are more suitable for categorical variables visualization. The way we visualize data often influences our conclusions.</p>
+<p>However, the main point of this exercise was to think a little about our data and expectactions, so I think we achieved our goal. Now it’s time for ‘a little less conversation, a little more action please’. Let’s shake it!</p>
+</section>
+<section id="analysing-saleprice" class="level2">
+<h2 class="anchored" data-anchor-id="analysing-saleprice">Analysing SalePrice</h2>
+<p>‘SalePrice’ is the reason of our quest. It’s like when we’re going to a party. We always have a reason to be there. Usually, women are that reason. (disclaimer: adapt it to men, dancing or alcohol, according to your preferences)</p>
+<p>Using the women analogy, let’s build a little story, the story of ‘How we met ’SalePrice’.</p>
+<p><em>Everything started in our Kaggle party, when we were looking for a dance partner. After a while searching in the dance floor, we saw a girl, near the bar, using dance shoes. That’s a sign that she’s there to dance. We spend much time doing predictive modelling and participating in analytics competitions, so talking with girls is not one of our super powers. Even so, we gave it a try:</em></p>
+<p><em>‘Hi, I’m Kaggly! And you? ’SalePrice’? What a beautiful name! You know ‘SalePrice’, could you give me some data about you? I just developed a model to calculate the probability of a successful relationship between two people. I’d like to apply it to us!’</em></p>
+<pre><code>describe(df_train, cols=:SalePrice)</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_2.png" class="img-fluid"></p>
+<p>Very well… It seems that your minimum price is larger than zero. Excellent! You don’t have one of those personal traits that would destroy my model! Do you have any picture that you can send me? I don’t know… like, you in the beach… or maybe a selfie in the gym?</p>
+<pre><code>plot(df_train, x=:SalePrice, kind="histogram")</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_3.png" class="img-fluid"></p>
+<p>Ah! I see you that you use seaborn makeup when you’re going out… That’s so elegant! I also see that you:</p>
+<ul>
+<li>Deviate from the normal distribution</li>
+<li>Have appreciable positive skewness</li>
+<li>Show peakedness</li>
+</ul>
+<p>This is getting interesting! ‘SalePrice’, could you give me your body measures?</p>
+<pre><code>using StatsBase
+skw, kurt = skewness(collect(df_train.SalePrice)), kurtosis(collect(df_train.SalePrice))
+println("Skewness: $skw \nKurtosis: $kurt")</code></pre>
+<p>This prints:</p>
+<pre><code>Skewness: 1.8809407460340335 
+Kurtosis: 6.509812011089398</code></pre>
+<p>Amazing! If my love calculator is correct, our success probability is 97.834657%. I think we should meet again! Please, keep my number and give me a call if you’re free next Friday. See you in a while, crocodile!</p>
+<p><strong>‘SalePrice’, her buddies and her interests</strong></p>
+<p>It is military wisdom to choose the terrain where you will fight. As soon as ‘SalePrice’ walked away, we went to Facebook. Yes, now this is getting serious. Notice that this is not stalking. It’s just an intense research of an individual, if you know what I mean.</p>
+<p>According to her profile, we have some common friends. Besides Chuck Norris, we both know ‘GrLivArea’ and ‘TotalBsmtSF’. Moreover, we also have common interests such as ‘OverallQual’ and ‘YearBuilt’. This looks promising!</p>
+<p>To take the most out of our research, we will start by looking carefully at the profiles of our common friends and later we will focus on our common interests. Relationship with numerical variables</p>
+<pre><code>plot(scatter(df_train, x=:GrLivArea, y=:SalePrice, mode="markers"))</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_4.png" class="img-fluid"></p>
+<p>Hmmm… It seems that ‘SalePrice’ and ‘GrLivArea’ are really old friends, with a linear relationship.</p>
+<p>And what about ‘TotalBsmtSF’?</p>
+<pre><code>plot(scatter(df_train, x=:TotalBsmtSF, y=:SalePrice, mode="markers"))</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_5.png" class="img-fluid"></p>
+<p>‘TotalBsmtSF’ is also a great friend of ‘SalePrice’ but this seems a much more emotional relationship! Everything is ok and suddenly, in a strong linear (exponential?) reaction, everything changes. Moreover, it’s clear that sometimes ‘TotalBsmtSF’ closes in itself and gives zero credit to ‘SalePrice’.</p>
+</section>
+<section id="relationship-with-categorical-features" class="level2">
+<h2 class="anchored" data-anchor-id="relationship-with-categorical-features">Relationship with categorical features</h2>
+<pre><code>plot(df_train, x=:OverallQual, y=:SalePrice, color=:OverallQual, kind="box")</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_6.png" class="img-fluid"></p>
+<p>Like all the pretty girls, ‘SalePrice’ enjoys ‘OverallQual’. Note to self: consider whether McDonald’s is suitable for the first date.</p>
+<pre><code>plot(df_train, x=:YearBuilt, y=:SalePrice, color=:OverallQual, kind="box")</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_7.png" class="img-fluid"></p>
+<p>Although it’s not a strong tendency, I’d say that ‘SalePrice’ is more prone to spend more money in new stuff than in old relics.</p>
+<p>Note: we don’t know if ‘SalePrice’ is in constant prices. Constant prices try to remove the effect of inflation. If ‘SalePrice’ is not in constant prices, it should be, so than prices are comparable over the years.</p>
+</section>
+<section id="in-summary" class="level2">
+<h2 class="anchored" data-anchor-id="in-summary">In summary</h2>
+<p>Stories aside, we can conclude that: - ‘GrLivArea’ and ‘TotalBsmtSF’ seem to be linearly related with ‘SalePrice’. Both relationships are positive, which means that as one variable increases, the other also increases. In the case of ‘TotalBsmtSF’, we can see that the slope of the linear relationship is particularly high. - ‘OverallQual’ and ‘YearBuilt’ also seem to be related with ‘SalePrice’. The relationship seems to be stronger in the case of ‘OverallQual’, where the box plot shows how sales prices increase with the overall quality.</p>
+<p>We just analysed four variables, but there are many other that we should analyse. The trick here seems to be the choice of the right features (feature selection) and not the definition of complex relationships between them (feature engineering).</p>
+<p>That said, let’s separate the wheat from the chaff.</p>
+<p>As an engineer, I don’t feel comfortable with this approach. All my education was about developing a disciplined mind, able to withstand the winds of subjectivity. There’s a reason for that. Try to be subjective in structural engineering and you will see physics making things fall down. It can hurt.</p>
+<p>So, let’s overcome inertia and do a more objective analysis.</p>
+<p>The ‘plasma soup’</p>
+<p>‘In the very beginning there was nothing except for a plasma soup. What is known of these brief moments in time, at the start of our study of cosmology, is largely conjectural. However, science has devised some sketch of what probably happened, based on what is known about the universe today.’ (source: http://umich.edu/~gs265/bigbang.htm)</p>
+<p>To explore the universe, we will start with some practical recipes to make sense of our ‘plasma soup’:</p>
+<ul>
+<li>Correlation matrix (heatmap style).</li>
+<li>‘SalePrice’ correlation matrix (zoomed heatmap style).</li>
+<li>Scatter plots between the most correlated variables (move like Jagger style).</li>
+</ul>
+<p>For heatmaps, I found JuliaPlots to be more userfriendly than PlotlyJS.jl</p>
+<pre><code>import Plots.heatmap as ht 
+# alias because Plotly namescope conflicts with Plots.jl
+
+using Statistics: cor 
+# correlation matrix
+
+avoid = names(df_train, String)
+
+# avoiding columns with string values : raises error
+df_non_str = select(df_train, Not(avoid));
+co = cor(Matrix(df_non_str));
+
+not_avoid = names(df_train, Not(avoid));
+
+ht(co, xticks=(1:35, not_avoid), yticks=(1:35, not_avoid), 
+    aspect_ratio=:equal, fill_z=co, xrotation=90, xtickfontsize=5, 
+    ytickfontsize=5)</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_8.png" class="img-fluid"></p>
+<p>According to our crystal ball, these are the variables most correlated with ‘SalePrice’. My thoughts on this:</p>
+<ul>
+<li>‘OverallQual’, ‘GrLivArea’ and ‘TotalBsmtSF’ are strongly correlated with ‘SalePrice’. Check!</li>
+<li>‘GarageCars’ and ‘GarageArea’ are also some of the most strongly correlated variables. However, as we discussed in the last sub-point, the number of cars that fit into the garage is a consequence of the garage area. ‘GarageCars’ and ‘GarageArea’ are like twin brothers. You’ll never be able to distinguish them. Therefore, we just need one of these variables in our analysis (we can keep ‘GarageCars’ since its correlation with ‘SalePrice’ is higher).</li>
+<li>‘TotalBsmtSF’ and ‘1stFloor’ also seem to be twin brothers. We can keep ‘TotalBsmtSF’ just to say that our first guess was right (re-read ‘So… What can we expect?’).</li>
+<li>‘FullBath’?? Really?</li>
+<li>‘TotRmsAbvGrd’ and ‘GrLivArea’, twin brothers again. Is this dataset from Chernobyl?</li>
+<li>Ah… ‘YearBuilt’… It seems that ‘YearBuilt’ is slightly correlated with ‘SalePrice’. Honestly, it scares me to think about ‘YearBuilt’ because I start feeling that we should do a little bit of time-series analysis to get this right. I’ll leave this as a homework for you.</li>
+</ul>
+<p>Let’s proceed to the pair plots.</p>
+<p>Pair plots between ‘SalePrice’ and correlated variables (move like Jagger style)</p>
+<pre><code>corner(df_train[:, cols])</code></pre>
+<p><img src="assets/julia_house_price_prediction/img_9.jpg" class="img-fluid"></p>
+<p>Although we already know some of the main figures, this mega scatter plot gives us a reasonable idea about variables relationships.</p>
+<p>One of the figures we may find interesting is the one between ‘TotalBsmtSF’ and ‘GrLiveArea’. In this figure we can see the dots drawing a linear line, which almost acts like a border. It totally makes sense that the majority of the dots stay below that line. Basement areas can be equal to the above ground living area, but it is not expected a basement area bigger than the above ground living area (unless you’re trying to buy a bunker).</p>
+<p>The plot concerning ‘SalePrice’ and ‘YearBuilt’ can also make us think. In the bottom of the ‘dots cloud’, we see what almost appears to be a shy exponential function (be creative). We can also see this same tendency in the upper limit of the ‘dots cloud’ (be even more creative). Also, notice how the set of dots regarding the last years tend to stay above this limit (I just wanted to say that prices are increasing faster now).</p>
+<p>Pheww&nbsp;! That’s it for today. Today we took a look at how cool Julia is and why can it rescue data scientists just in case Python disappears from this earth&nbsp;!</p>
+<p><img src="assets/julia_house_price_prediction/img_10.jpg" class="img-fluid"></p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -825,4 +949,4 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/interview_aakash.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/archive/julia_house_price_prediction.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
