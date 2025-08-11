@@ -1,0 +1,270 @@
+---
+aliases:
+- /flow-optim
+permalink: /flow-optim
+badges: false
+toc: true
+highlight-style: github
+categories:
+- diffusion
+- flow-matching
+- optimization
+date: '2025-08-11'
+description: Optimizing flow-based image and video generation models beyond just speed.
+image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/header.jpeg
+hide: false
+output-file: flow-optim.html
+search_exclude: false
+bibliography: bibs/flow_optim_references.bib
+csl: citation_styles/diabetologia.csl
+title: 'Optimizing the Full Stack: Thoughts with Image and Video Generation Models'
+---
+
+For the past few years, the space of synthetic image and video generation has been on the rise. The
+results have been nothing short of extraordinary, and they continue to get better. At the center
+of this revolution lies a class of models – flow-matching – known for its unique
+framework to connect noise to data through a straight line[^1] [@lipman2023flow]. 
+
+Typically, these generative models take different forms of input conditions, and natural
+language is perhaps the most popular one. Being able to generate images and videos just from
+natural language descriptions is liberating. You may already recall some popular models / organizations
+in this line: DALL-E 3, Stable Diffusion, Flux, Pika, Midjourney, etc. You may also know them to
+be “diffusion models” [@NEURIPS2020_4c5bcfec]. Flow-matching subsumes diffusion
+as a special case [@lipman2023flow]. This means that the principles
+and optimizations discussed for flow-based models are often directly applicable to diffusion models, as
+they represent a specific instance within the broader flow-matching framework.
+
+Unlike GANs (Generative Adversarial Networks) [@NIPS2014_f033ed80], these models are not one-shot. They are
+typically invoked multiple times over a fixed number of iterations to reach a reasonable output. By design,
+these steps cannot be parallelized[^2]. Therefore, despite extremely convincing results, these models are
+believed to be notoriously difficult to optimize when it comes to serving.
+
+These models often become standalone practical applications or become a
+part of some larger application. They become a part of the user experience. For instance,
+this involves analyzing trade-offs like whether a faster generation speed better serves a user
+with slightly lower quality, or if the use case demands the highest possible quality even at the
+cost of higher latency and expense. It also includes considering whether to offer different tiers
+of models—from small and fast to larger and slower — to best match a user's specific needs and budget.
+We discuss perspectives on optimizing these models by keeping such user-facing decisions at the center.
+
+We start by looking at the steps involved in a standard text-to-image generation pipeline. We then analyze the memory and latency costs to build the ground for optimization. We then dive into different approaches that can be taken to not only optimize the speed-memory trade-offs but also the user experiences surrounding these models. Since the post doesn’t account for the fundamentals of flow-matching or the classes of models that implement it, readers are expected to have some level of familiarity with diffusion or flow-matching family of models. [This short video](https://www.youtube.com/watch?v=DDq_pIfHqLs) does a great job of introducing the topics.
+
+We will discuss most of the approaches by keeping image generation in mind. Unless explicitly specified, these methods should also apply to video generation. Similarly, the approaches are applicable to both flow and diffusion models. Additionally, we will focus on open models, as closed-source models like Veo and Sora already come with optimized user experiences. This focus allows us to concretely analyze their individual components, reference different strategies, and explore how these techniques can be combined into a more holistic optimization process. 
+
+## Skeleton of a common generation pipeline
+
+```{=html}
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image1.png"/>
+<p><small><b>Figure 1</b>: Outline of the text-to-image generation process with Flux.1-Dev.</small></p>
+</div>
+```
+
+Unlike large-language models (LLMs), modern image or video generation models are never single models. They are composed of multiple models. For example, the Flux model
+[@blackforestlabs2024announcing] we see in Figure 1 is composed of two text encoders, a Transformer-based [@NIPS2017_3f5ee243; @pmlr-v235-esser24a] flow model, aka the Flux Transformer, and a decoder. 
+
+In the case of text-to-image generation, we first embed the input prompt with text encoder(s). The prompt embeddings and an initial noisy latents (drawn from a Gaussian distribution) become the inputs to the flow model, responsible for denoising the noisy latents iteratively. The flow model is also conditioned on the current iteration it is operating on. Once it is done with the entire course of the iterations, the refined latents are passed to the decoder to obtain the final image pixels [@Rombach_2022_CVPR].
+
+Below is the memory footprint of these individual model-level components involved in Flux:
+
+* Text encoders  
+  * T5-XXL: 8.87 GB  
+  * CLIP-L: 0.229 GB  
+* Transformer: 22.168 GB  
+* Decoder: 0.156 GB
+
+It is worth mentioning that amongst these models, the Transformer (aka the flow model that is the crux of the entire pipeline) is the most compute-hungry one. Most of the computation in this form of text-to-image generation is spent on this flow model. Unlike LLMs, these models are compute-bound. This means their speed is primarily limited by the ability to perform the vast number of iterative calculations on high-dimensional spaces representing images, videos, or their latents. This is different from LLMs, which are often memory-bottlenecked from loading the massive weights of their text-based Transformer architectures. Consequently, applying optimization techniques designed for memory-intensive LLMs to compute-bound generative models may yield suboptimal results or even none at all, highlighting the need for tailored strategies. Unless otherwise specified, all optimization techniques discussed are for this flow model.
+
+For image generation, when using the Bfloat16 data-type and placing all these components on the hardware accelerator memory, it takes about 33.828 GBs to go from a prompt to a 1024x1024 image. In terms of generation speed, on an H100 GPU, it is \~7 seconds.
+
+Taking the example of an open and high-quality video model like Wan 2.1 (14B) [@wan2.1], the timing and memory get even worse. A 5-second (16 FPS) 720P video takes \~30 minutes to generate. 
+
+We’re operating locally. With decent models, each image takes about 7 seconds to generate, and each video takes 30 minutes\! If these models were to be operationalized, their generation speed most definitely needs to be improved quite a bit so that they can deliver seamless user experiences.
+
+However, is it just that? I.e., we improve generation speed without sacrificing quality, and we’re done? What can there possibly be beyond this factor? If you have made it this far, thank you\! We’re going to find that out next and work our way from there.
+
+The figure below provides an overview of the different themes we will address.   
+
+```{=html}
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image2.png" width=400/>
+<p><small><b>Figure 2</b>: Different axes of optimization in generative diffusion-based models for images and videos. SLA refers to service-level agreement, which pushes the axes up and right, i.e., fast and reasonably good.</small></p>
+</div>
+```
+
+## Selecting the model
+
+We know the use case(s) we want to serve, but we haven’t settled on a model. This can refer to the base model architecture itself or to different parameterizations of the same base model architecture. This can also refer to selecting a pre-trained checkpoint for a given model architecture. As we will see, selection of a model is a non-trivial aspect of the workflow, and when done correctly, can be quite beneficial. Therefore, unless explicitly specified, the approaches discussed in this section will apply to both training and inference.
+
+### Hardware awareness
+
+Assuming we know the serving hardware, it makes sense to incorporate *hardware awareness* while developing the model architecture to maximize throughput while optimizing for quality. 
+
+In ModernBERT [@warner2024smarterbetterfasterlonger], for example, the authors decided on the dimensions (number of attention heads, number of Transformer blocks, hidden dimension, and expansion factor) of the Transformer block in a way that provided a good balance between downstream performance and hardware utilization. 
+
+One way to think about this is by starting with the specifications of the hardware. For example, if the given GPU has tensor cores and if we want to leverage them (and we should), the size of each dimension weight matrix should be a multiple of 64\. 
+
+Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors[^3] (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al. provide an excellent study on the math behind designing optimal model configurations for available hardware.
+
+Several other works have also used neural architecture search for hardware-aware inference-optimized model design [@Xiong_2021_CVPR],
+[@bercovich2025puzzledistillationbasednasinferenceoptimized].
+
+**A note on efficiency**  
+Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works [@10.5555/3600270.3602446], it is possible
+that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.
+
+It is common to think that small models are more efficient than larger models. However, what is efficiency in this context? Is it the carbon footprint of a model? Is it the memory consumption of a model? Do models with fewer parameters obtain better throughput than models with more parameters?
+
+As thoroughly studied by [@dehghani2022efficiencymisnomer], there is no clear trend, as Figure 2 clearly illustrates.
+
+```{=html}
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image3.png" width=800/>
+<p><small><b>Figure 3</b>: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et al</a>. For particular classes of models, a larger number of parameters doesn’t necessarily mean more FLOPs and better throughput. More examples are available in the paper.</small></p>
+</div>
+```
+
+Therefore, when deriving the efficiency of the architecture, always prefer obtaining three metrics: number of parameters, FLOP, and throughput. In the context of optimization:
+
+* The *number of parameters* usually correlates heavily with the memory footprint of the model.   
+* *FLOPs* provide an idea of the computational costs.  
+* *Throughput* dictates the real-world performance. 
+
+### Architectural flexibility
+
+A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis. 
+
+For high-resolution synthesis, even this latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have \`(batch\_size, num\_latent\_channels, 512, 512)\` dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal. 
+
+Even when not operating with high resolutions, for videos, the problem gets even worse. The outputs are now spatio-temporal. This means we need to compute full 3D attention between tokens[^4]. For moderate-sized videos (5 seconds long, 512x768 resolution), we might have to deal with \`(batch\_size, num\_latent\_channels, num\_compressed\_temporal\_channels, 64, 96)\` dimensional latents.
+
+Works like LTX-Video [@hacohen2024ltxvideorealtimevideolatent] and SANA [@xie2025sana] operate on highly compressed latent spaces, thereby reducing the memory requirements, while also improving latency. While operating on highly compressed latent spaces significantly reduces memory and latency, it's a critical design choice, as excessive compression can lead to information loss in the representation, consequently impacting the fidelity or detail of the generated output. Both LTX-Video and SANA have their own ways to compensate for that. Amongst other things,
+
+* LTX-Video tasks the decoder to perform both latent-to-pixel conversion and the final denoising step.  
+* SANA employs specialized blocks (dubbed Mix-FFN) in its Transformer architecture.
+
+One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control [@blackforestlabs2024flux1tools]) and additional image inputs (Flux Kontext
+[@blackforestlabs2025flux1kontextdev]). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.
+
+It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).
+
+At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.
+
+## Model is decided – what is next?
+
+Once a capable base model is selected, the focus shifts from general performance to optimizing for the specific **use case** — that is, tailoring the model's behavior to the practical context in which it will be served. This means looking beyond standard benchmarks to enhance the qualities that are the most relevant for the application's success. 
+
+For example, imagine a model that already performs well on standard text-to-image generation benchmarks. If the use case is creating photorealistic marketing images, the goal would be to improve specific attributes like photorealism and text-to-image alignment. Conversely, if the use case is an interactive avatar generator, the most critical factor might be real-time interaction, demanding the lowest possible latency.
+
+In this section, we look at some approaches to identifying and fine-tuning for the specific demands of an application, i.e., *optimizing the use case*.
+
+### Post-training
+
+Despite all the standard metrics available for image (or video) generation, in order for a use case to grow, it is quite important to have evaluation metrics centered around the use case. For the above example, we would want to particularly look for metrics that faithfully cover photorealism and text-to-image alignment. If preference data can be obtained, it could also be beneficial to do a round of preference learning [@black2023ddpo; @Wallace_2024_CVPR] and to see if that helps in further improvements. 
+
+Preference datasets can also be used for supervised fine-tuning (SFT) since we have an understanding of which image is “preferred” given a prompt. We can take our base model and fine-tune on the pairs of prompts and the preferred images. 
+
+Preference learning leverages human feedback on model outputs to guide further training towards preferred styles or qualities, whereas supervised fine-tuning (SFT) uses curated datasets of prompt-output pairs to directly teach the model desired behaviors. However, when to use what, i.e., typical preference learning or SFT, is still very much an open question.
+
+Note that post-training in these models can also come in other ways, such as ControlNets [@zhang2023addingconditionalcontroltexttoimage], and they deserve a separate post on their own.
+
+### Latency optimization
+
+Before the model meets with actual deployment, it typically goes through some kind of latency-based optimization. Additionally, these techniques also amortize the long training durations over the course of serving a model. Examples of these techniques include compilation, integration of any specialized kernels to target input shapes and the available hardware, use of exotic parallelism techniques, and many more. Some optimization would be inference-only (post-training quantization, for example), while some would apply to both training and inference
+(flash-attention [@dao2022flashattentionfastmemoryefficientexact], for example). 
+
+Many optimization techniques in this regard would be quite hardware-dependent. For example, Flash Attention 3 [@shah2024flashattention3fastaccurateattention] is currently only supported for the Hopper GPU architecture, while the FP8 dynamic quantization scheme needs GPUs with a compute capability of at least 8.9. So, we may now appreciate why keeping hardware awareness in mind can be truly helpful.
+
+It is also a good exercise to have an estimate of the theoretical throughput possible for the model with sample inputs and the available hardware. This can then be used to inform the optimization process in this stage if the realized throughput is significantly lower than the theoretical one.
+
+Distillation is another popular way to optimize latency. We discuss distillation in a later section of the post.
+
+### Inference-time scaling
+
+If training is out of scope, inference-time scaling [@Ma_2025_CVPR; @zhuo2025reflectionperfectionscalinginferencetime] could be another promising avenue to explore. We scale the compute during inference by “searching” for better outputs, leading to potentially improved metrics (prompt following ability, for example) of choice. But what do we search for? 
+
+Recollect that during inference, flow models start with a random Gaussian noise, which is denoised over a few iterations. We can always search for a better noise at initialization and see what leads to better quality outputs, as different initial noise seeds can lead to significantly varied final outputs, and optimizing this starting point can guide the generation process towards higher quality results. If the search plays out well, it might even be possible to use a smaller model with inference-time scaling to offset the costs of serving a much larger model [@singhal2025generalframeworkinferencetimescaling]. 
+
+### Prompting
+
+Multiple works [@betker2023improvingimagegenerationwithbettercaptions; @segalis2023pictureworththousandwords; @liu2024playgroundv3improvingtexttoimage] have
+shown that better captions can also lead to improved outputs. What accounts for a “better” caption is highly use case dependent, but there are some general guidelines:
+
+* What is the image medium? Is it a photo, a painting, a 3D illustration, or something else?  
+* What is the image subject? Is it a person, animal, object, or scene?  
+* What details would you like to see in the image?
+
+When we cannot expect highly detailed captions from the users, a specialized captioner model could be used to turn short user prompts into highly detailed ones. Figure 3 provides a comparative example of the outputs obtained through a simple and a detailed prompt.
+
+```{=html}
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image4.png" width=700/>
+<p><small><b>Figure 4</b>: An example of using detailed prompts as opposed to using shallow prompts.</small></p>
+</div>
+```
+
+This idea of using detailed prompts to potentially improve the output quality is often referred to as “caption upsampling” [@betker2023improvingimagegenerationwithbettercaptions]. To benefit from using caption upsampling, the assumption is that the model was shown similar data during training [@segalis2023pictureworththousandwords; @10.1007/978-3-031-72670-5_12]. Caption upsampling could also be considered an inference-time scaling technique, wherein we start with a seed user prompt and gradually improve it until a threshold of a desired metric is met. 
+
+Among the two broad approaches (post-training and inference-time scaling) discussed in this section, it remains unclear when to use each. Can we even combine post-training and inference-time scaling for these kinds of generative models? Are these two things complementary to one another? This is still an open question.
+
+So far, in the previous sections, we covered architectural choices, post-training, and inference-time tweaks. Distillation offers a path to create fundamentally faster models by learning from larger, more powerful ones.
+
+## Advanced model optimization – Distillation 
+
+Previously, we noted that distillation is a popular way to optimize latency. It is a powerful technique that deserves a closer look, as it allows us to create smaller and faster models by transferring knowledge from a larger 'teacher' model to a compact 'student' model. This process directly tackles the speed-memory-performance trade-off and comes in two primary forms for the class of models we have been discussing. 
+
+### Architectural compression
+
+Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper [@hinton2015distillingknowledgeneuralnetwork]. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.
+
+When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial [@sreenivas2024llmpruningdistillationpractice]. This phase is often known as “teacher correction”.
+
+A distilled model could be slightly worse than its teacher, but it could be significantly more memory-efficient and faster than the teacher. This could be particularly beneficial when model-serving resources are limited. Distilled models, in the premise of image and video generation, could be leveraged for real-time use cases. They could even be used as a proxy for the quality that users can expect. For example, during the first round of incoming requests, an application could show outputs from a distilled model. If the users are satisfied with the outputs, then we reduce costs by not invoking the larger model. 
+
+### Timestep distillation
+
+Flow models take a number of steps to denoise to provide a reasonable output. However, too many steps can get in the way of use cases that benefit from instantaneity. A number of techniques [@salimans2022progressivedistillationfastsampling; @yin2024improveddistributionmatchingdistillation;
+@song2023consistencymodels; @chen2025sanasprintonestepdiffusioncontinuoustime] have emerged to tackle this problem, and together, they’re known as “timestep distillation”. Timestep distilled models aim at reducing the number of steps it takes to obtain reasonable results. 
+
+The teacher model, being used to guide the distillation process, can still be superior to the distilled model in terms of quality. Hence, the same two-model philosophy discussed just above applies to timestep-distilled models, too. In the literature of flow models, one can also combine timestep distillation with architectural compression through classic distillation to take the best of both worlds [@song2024sdxsrealtimeonesteplatent].  
+   
+It is worth pointing out that distillation only becomes viable when we have a sufficiently well-performing teacher model. So, the techniques discussed above won’t be eliminated by distillation at all. Additionally, most of the techniques discussed above would be complementary to using distillation. 
+
+Guidance or more broadly, “classifier-free guidance” (CFG) [@ho2022classifierfreediffusionguidance], is a vital component of flow-based generative models. It is used to steer the model output more towards the direction of the input conditions (such as text prompts), improving the overall output quality. The disadvantage is that we need two model forward passes to make CFG work. For a few iterations, this can add significant overhead to both memory consumption and inference latency. Therefore, guidance can also be distilled [@meng2023distillationguideddiffusionmodels] into a student model from a teacher trained with CFG. It can also be further combined with timestep distillation, providing both memory and latency benefits.
+
+Timestep distillation or guidance distillation is usually done by fully fine-tuning a base model. Some works have explored the use of LoRA
+[@ren2024hypersdtrajectorysegmentedconsistency] in this regard. This path offers a cheaper alternative to full fine-tuning while still retaining the core benefits of such distillation mechanisms.
+
+## Generation speed: The endgame(?)
+
+What is optimization in the context of image or video generation models? Is it just improving inference latency when user experiences are also considered? 
+
+Well, probably not. It is a no-brainer to aim for a model that is fast, performant, and memory-efficient. However, this speed-memory-performance trade-off is governed by the use case and the resources to support it. Below is a non-exhaustive list of the aspects that become apparent in this regard:
+
+* What is the expected SLA around latency for the use case being served?  
+* What is our current traffic? Do we have enough hardware accelerators to support that traffic while meeting the expected SLA?  
+* Can we quantify model performance and tie it to an improvement in the use case? We could optimize specifically for those aspects. For example, if the use case primarily benefits from good text rendering abilities, the design decisions would be devised differently from those mainly optimizing fine-grained color control.  
+* Do users always want the best-quality images/videos?   
+* Does providing a little less with a better latency still satisfy users, especially when it could cost much less? OpenAI’s serving model is a great example here. They have different tiers of models, from small and fast to larger and slower ones. Each of them comes with different price points, with small models costing less and larger models costing more. If a small model can perform the user task well, then you also end up serving the user well, but at a lower cost.
+
+Whatever end model we end up with, we still want speed, though. That can never be out of place. Hopefully, this section has convinced you that while speed is paramount, there are other aspects worth considering.
+
+## Conclusion
+
+We took a deeper look into what it means to optimize image and video generation models and their use cases. We covered a couple of model-level approaches while also focusing on how to go beyond them, taking the use cases at the center. Throughout the post, the following theme became apparent: optimizing a model and optimizing its use cases are quite intertwined. Since we touched upon various connected components in the mix, below are some key points:
+
+* Incorporate hardware awareness while designing the model architecture. For example, select matrix multiples of 64 and minimise tiling overhead  
+* Chase architectural flexibility for greater future-proofing: consider the kinds of use cases you want to serve, their inputs, and expected outcomes; incorporate these aspects into the architecture design process.  
+* Complement architectural benefits with latency optimization techniques, as these are often a free lunch.  
+* Spend time optimizing for use cases, either through post-training or inference-time scaling or both.  
+* If the use case demands it, operationalize distillation, either at the architectural level or at the timestep level, or both.     
+
+*Acknowledgements: Thanks to Sanchit Gandhi and Sander Dieleman for their reviews on the early post draft.*
+
+[^1]:  Or maybe [not](https://diffusionflow.github.io/). 
+
+[^2]:  Parallel strategies [exist](https://huggingface.co/papers/2305.16317) but they are not used in practice very much.
+
+[^3]:  This is specific to shared-memory GPU architectures.
+
+[^4]:  Sparser variants exist but they often lead to sub-optimal results.
