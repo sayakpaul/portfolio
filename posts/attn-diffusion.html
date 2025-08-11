@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.7.33">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -89,14 +89,14 @@ div.csl-indent {
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-0348920b7671f696dc9078d39bff215e.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-234273d1456647dabc34a594ac50e507.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d329e753491efaeac79c98c4b193a686.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-5993c0768a418c1fa588ba3b152bcfd1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-f060b39a08df269e325d6ebd4a5fa945.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-5993c0768a418c1fa588ba3b152bcfd1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-91bba82e95280a7f1db205ea0ebeb0b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-dd87854f08b71a945ffcb47d1b6e3f0a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-91bba82e95280a7f1db205ea0ebeb0b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -455,8 +455,8 @@ window.Quarto = {
 <p>Readers are expected to be familiar with diffusion-based image generation models and encoder-based transformer architectures.</p>
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/llama_header.png" width="700/">
-<p><small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small>
-</p></div>
+<p><small>Image generated with <a href="https://huggingface.co/black-forest-labs/FLUX.1-dev">Flux.1-Dev</a>.</small></p>
+</div>
 <section id="self-attention" class="level2">
 <h2 class="anchored" data-anchor-id="self-attention">Self-attention</h2>
 <p>For the sake of completeness, let’s take a quick look at how self-attention is implemented. This will help us understand how it can be evolved to cross-attention and others.</p>
@@ -750,7 +750,7 @@ window.Quarto = {
 <li>linear self-attention for the noisy latents,</li>
 <li>regular cross-attention for the noisy latents (<code>x</code>) and the condition representations (<code>context</code>).</li>
 </ol>
-<p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign">[<a href="#ref-xie2021segformersimpleefficientdesign" role="doc-biblioref">13</a>]</span>, <span class="citation" data-cites="liu2023efficientvitmemoryefficientvision">[<a href="#ref-liu2023efficientvitmemoryefficientvision" role="doc-biblioref">14</a>]</span>.</p>
+<p>To facilitate local interactions between the tokens, it used “Mix-FFN” blocks <span class="citation" data-cites="xie2021segformersimpleefficientdesign liu2023efficientvitmemoryefficientvision">[<a href="#ref-xie2021segformersimpleefficientdesign" role="doc-biblioref">13</a>, <a href="#ref-liu2023efficientvitmemoryefficientvision" role="doc-biblioref">14</a>]</span>.</p>
 <div align="center">
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width="600/">
 <p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small>

@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2025-08-11">
+<meta name="description" content="Optimizing flow-based image and video generation models beyond just speed.">
+
+<title>Optimizing the Full Stack: Thoughts with Image and Video Generation Models – Sayak Paul</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-d329e753491efaeac79c98c4b193a686.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-59898bd1c6b9d2bb783127feaa000c76.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-91bba82e95280a7f1db205ea0ebeb0b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-dd87854f08b71a945ffcb47d1b6e3f0a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-91bba82e95280a7f1db205ea0ebeb0b8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Optimizing the Full Stack: Thoughts with Image and Video Generation Models – Sayak Paul">
+<meta property="og:description" content="Optimizing flow-based image and video generation models beyond just speed.">
+<meta property="og:image" content="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/header.jpeg">
+<meta property="og:site_name" content="Sayak Paul">
+<meta name="twitter:title" content="Optimizing the Full Stack: Thoughts with Image and Video Generation Models – Sayak Paul">
+<meta name="twitter:description" content="Optimizing flow-based image and video generation models beyond just speed.">
+<meta name="twitter:image" content="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/header.jpeg">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Optimizing the Full Stack: Thoughts with Image and Video Generation Models</h1>
+                  <div>
+        <div class="description">
+          Optimizing flow-based image and video generation models beyond just speed.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">diffusion</div>
+                <div class="quarto-category">flow-matching</div>
+                <div class="quarto-category">optimization</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 11, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#skeleton-of-a-common-generation-pipeline" id="toc-skeleton-of-a-common-generation-pipeline" class="nav-link active" data-scroll-target="#skeleton-of-a-common-generation-pipeline">Skeleton of a common generation pipeline</a></li>
+  <li><a href="#selecting-the-model" id="toc-selecting-the-model" class="nav-link" data-scroll-target="#selecting-the-model">Selecting the model</a>
+  <ul class="collapse">
+  <li><a href="#hardware-awareness" id="toc-hardware-awareness" class="nav-link" data-scroll-target="#hardware-awareness">Hardware awareness</a></li>
+  <li><a href="#architectural-flexibility" id="toc-architectural-flexibility" class="nav-link" data-scroll-target="#architectural-flexibility">Architectural flexibility</a></li>
+  </ul></li>
+  <li><a href="#model-is-decided-what-is-next" id="toc-model-is-decided-what-is-next" class="nav-link" data-scroll-target="#model-is-decided-what-is-next">Model is decided – what is next?</a>
+  <ul class="collapse">
+  <li><a href="#post-training" id="toc-post-training" class="nav-link" data-scroll-target="#post-training">Post-training</a></li>
+  <li><a href="#latency-optimization" id="toc-latency-optimization" class="nav-link" data-scroll-target="#latency-optimization">Latency optimization</a></li>
+  <li><a href="#inference-time-scaling" id="toc-inference-time-scaling" class="nav-link" data-scroll-target="#inference-time-scaling">Inference-time scaling</a></li>
+  <li><a href="#prompting" id="toc-prompting" class="nav-link" data-scroll-target="#prompting">Prompting</a></li>
+  </ul></li>
+  <li><a href="#advanced-model-optimization-distillation" id="toc-advanced-model-optimization-distillation" class="nav-link" data-scroll-target="#advanced-model-optimization-distillation">Advanced model optimization – Distillation</a>
+  <ul class="collapse">
+  <li><a href="#architectural-compression" id="toc-architectural-compression" class="nav-link" data-scroll-target="#architectural-compression">Architectural compression</a></li>
+  <li><a href="#timestep-distillation" id="toc-timestep-distillation" class="nav-link" data-scroll-target="#timestep-distillation">Timestep distillation</a></li>
+  </ul></li>
+  <li><a href="#generation-speed-the-endgame" id="toc-generation-speed-the-endgame" class="nav-link" data-scroll-target="#generation-speed-the-endgame">Generation speed: The endgame(?)</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/flow_optim.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<p>For the past few years, the space of synthetic image and video generation has been on the rise. The results have been nothing short of extraordinary, and they continue to get better. At the center of this revolution lies a class of models – flow-matching – known for its unique framework to connect noise to data through a straight line<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="citation" data-cites="lipman2023flow">[<a href="#ref-lipman2023flow" role="doc-biblioref">1</a>]</span>.</p>
+<p>Typically, these generative models take different forms of input conditions, and natural language is perhaps the most popular one. Being able to generate images and videos just from natural language descriptions is liberating. You may already recall some popular models / organizations in this line: DALL-E 3, Stable Diffusion, Flux, Pika, Midjourney, etc. You may also know them to be “diffusion models” <span class="citation" data-cites="NEURIPS2020_4c5bcfec">[<a href="#ref-NEURIPS2020_4c5bcfec" role="doc-biblioref">2</a>]</span>. Flow-matching subsumes diffusion as a special case <span class="citation" data-cites="lipman2023flow">[<a href="#ref-lipman2023flow" role="doc-biblioref">1</a>]</span>. This means that the principles and optimizations discussed for flow-based models are often directly applicable to diffusion models, as they represent a specific instance within the broader flow-matching framework.</p>
+<p>Unlike GANs (Generative Adversarial Networks) <span class="citation" data-cites="NIPS2014_f033ed80">[<a href="#ref-NIPS2014_f033ed80" role="doc-biblioref">3</a>]</span>, these models are not one-shot. They are typically invoked multiple times over a fixed number of iterations to reach a reasonable output. By design, these steps cannot be parallelized<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Therefore, despite extremely convincing results, these models are believed to be notoriously difficult to optimize when it comes to serving.</p>
+<p>These models often become standalone practical applications or become a part of some larger application. They become a part of the user experience. For instance, this involves analyzing trade-offs like whether a faster generation speed better serves a user with slightly lower quality, or if the use case demands the highest possible quality even at the cost of higher latency and expense. It also includes considering whether to offer different tiers of models—from small and fast to larger and slower — to best match a user’s specific needs and budget. We discuss perspectives on optimizing these models by keeping such user-facing decisions at the center.</p>
+<p>We start by looking at the steps involved in a standard text-to-image generation pipeline. We then analyze the memory and latency costs to build the ground for optimization. We then dive into different approaches that can be taken to not only optimize the speed-memory trade-offs but also the user experiences surrounding these models. Since the post doesn’t account for the fundamentals of flow-matching or the classes of models that implement it, readers are expected to have some level of familiarity with diffusion or flow-matching family of models. <a href="https://www.youtube.com/watch?v=DDq_pIfHqLs">This short video</a> does a great job of introducing the topics.</p>
+<p>We will discuss most of the approaches by keeping image generation in mind. Unless explicitly specified, these methods should also apply to video generation. Similarly, the approaches are applicable to both flow and diffusion models. Additionally, we will focus on open models, as closed-source models like Veo and Sora already come with optimized user experiences. This focus allows us to concretely analyze their individual components, reference different strategies, and explore how these techniques can be combined into a more holistic optimization process.</p>
+<section id="skeleton-of-a-common-generation-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="skeleton-of-a-common-generation-pipeline">Skeleton of a common generation pipeline</h2>
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image1.png">
+<p><small><b>Figure 1</b>: Outline of the text-to-image generation process with Flux.1-Dev.</small></p>
+</div>
+<p>Unlike large-language models (LLMs), modern image or video generation models are never single models. They are composed of multiple models. For example, the Flux model <span class="citation" data-cites="blackforestlabs2024announcing">[<a href="#ref-blackforestlabs2024announcing" role="doc-biblioref">4</a>]</span> we see in Figure 1 is composed of two text encoders, a Transformer-based <span class="citation" data-cites="NIPS2017_3f5ee243 pmlr-v235-esser24a">[<a href="#ref-NIPS2017_3f5ee243" role="doc-biblioref">5</a>, <a href="#ref-pmlr-v235-esser24a" role="doc-biblioref">6</a>]</span> flow model, aka the Flux Transformer, and a decoder.</p>
+<p>In the case of text-to-image generation, we first embed the input prompt with text encoder(s). The prompt embeddings and an initial noisy latents (drawn from a Gaussian distribution) become the inputs to the flow model, responsible for denoising the noisy latents iteratively. The flow model is also conditioned on the current iteration it is operating on. Once it is done with the entire course of the iterations, the refined latents are passed to the decoder to obtain the final image pixels <span class="citation" data-cites="Rombach_2022_CVPR">[<a href="#ref-Rombach_2022_CVPR" role="doc-biblioref">7</a>]</span>.</p>
+<p>Below is the memory footprint of these individual model-level components involved in Flux:</p>
+<ul>
+<li>Text encoders
+<ul>
+<li>T5-XXL: 8.87 GB<br>
+</li>
+<li>CLIP-L: 0.229 GB<br>
+</li>
+</ul></li>
+<li>Transformer: 22.168 GB<br>
+</li>
+<li>Decoder: 0.156 GB</li>
+</ul>
+<p>It is worth mentioning that amongst these models, the Transformer (aka the flow model that is the crux of the entire pipeline) is the most compute-hungry one. Most of the computation in this form of text-to-image generation is spent on this flow model. Unlike LLMs, these models are compute-bound. This means their speed is primarily limited by the ability to perform the vast number of iterative calculations on high-dimensional spaces representing images, videos, or their latents. This is different from LLMs, which are often memory-bottlenecked from loading the massive weights of their text-based Transformer architectures. Consequently, applying optimization techniques designed for memory-intensive LLMs to compute-bound generative models may yield suboptimal results or even none at all, highlighting the need for tailored strategies. Unless otherwise specified, all optimization techniques discussed are for this flow model.</p>
+<p>For image generation, when using the Bfloat16 data-type and placing all these components on the hardware accelerator memory, it takes about 33.828 GBs to go from a prompt to a 1024x1024 image. In terms of generation speed, on an H100 GPU, it is ~7 seconds.</p>
+<p>Taking the example of an open and high-quality video model like Wan 2.1 (14B) <span class="citation" data-cites="wan2.1">[<a href="#ref-wan2.1" role="doc-biblioref">8</a>]</span>, the timing and memory get even worse. A 5-second (16 FPS) 720P video takes ~30 minutes to generate.</p>
+<p>We’re operating locally. With decent models, each image takes about 7 seconds to generate, and each video takes 30 minutes! If these models were to be operationalized, their generation speed most definitely needs to be improved quite a bit so that they can deliver seamless user experiences.</p>
+<p>However, is it just that? I.e., we improve generation speed without sacrificing quality, and we’re done? What can there possibly be beyond this factor? If you have made it this far, thank you! We’re going to find that out next and work our way from there.</p>
+<p>The figure below provides an overview of the different themes we will address.</p>
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image2.png" width="400/">
+<p><small><b>Figure 2</b>: Different axes of optimization in generative diffusion-based models for images and videos. SLA refers to service-level agreement, which pushes the axes up and right, i.e., fast and reasonably good.</small></p>
+</div>
+</section>
+<section id="selecting-the-model" class="level2">
+<h2 class="anchored" data-anchor-id="selecting-the-model">Selecting the model</h2>
+<p>We know the use case(s) we want to serve, but we haven’t settled on a model. This can refer to the base model architecture itself or to different parameterizations of the same base model architecture. This can also refer to selecting a pre-trained checkpoint for a given model architecture. As we will see, selection of a model is a non-trivial aspect of the workflow, and when done correctly, can be quite beneficial. Therefore, unless explicitly specified, the approaches discussed in this section will apply to both training and inference.</p>
+<section id="hardware-awareness" class="level3">
+<h3 class="anchored" data-anchor-id="hardware-awareness">Hardware awareness</h3>
+<p>Assuming we know the serving hardware, it makes sense to incorporate <em>hardware awareness</em> while developing the model architecture to maximize throughput while optimizing for quality.</p>
+<p>In ModernBERT <span class="citation" data-cites="warner2024smarterbetterfasterlonger">[<a href="#ref-warner2024smarterbetterfasterlonger" role="doc-biblioref">9</a>]</span>, for example, the authors decided on the dimensions (number of attention heads, number of Transformer blocks, hidden dimension, and expansion factor) of the Transformer block in a way that provided a good balance between downstream performance and hardware utilization.</p>
+<p>One way to think about this is by starting with the specifications of the hardware. For example, if the given GPU has tensor cores and if we want to leverage them (and we should), the size of each dimension weight matrix should be a multiple of 64.</p>
+<p>Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al.&nbsp;provide an excellent study on the math behind designing optimal model configurations for available hardware.</p>
+<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[<a href="#ref-Xiong_2021_CVPR" role="doc-biblioref">10</a>]</span>, <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[<a href="#ref-bercovich2025puzzledistillationbasednasinferenceoptimized" role="doc-biblioref">11</a>]</span>.</p>
+<p><strong>A note on efficiency</strong><br>
+Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works <span class="citation" data-cites="10.5555/3600270.3602446">[<a href="#ref-10.5555/3600270.3602446" role="doc-biblioref">12</a>]</span>, it is possible that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.</p>
+<p>It is common to think that small models are more efficient than larger models. However, what is efficiency in this context? Is it the carbon footprint of a model? Is it the memory consumption of a model? Do models with fewer parameters obtain better throughput than models with more parameters?</p>
+<p>As thoroughly studied by <span class="citation" data-cites="dehghani2022efficiencymisnomer">[<a href="#ref-dehghani2022efficiencymisnomer" role="doc-biblioref">13</a>]</span>, there is no clear trend, as Figure 2 clearly illustrates.</p>
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image3.png" width="800/">
+<p><small><b>Figure 3</b>: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et al</a>. For particular classes of models, a larger number of parameters doesn’t necessarily mean more FLOPs and better throughput. More examples are available in the paper.</small></p>
+</div>
+<p>Therefore, when deriving the efficiency of the architecture, always prefer obtaining three metrics: number of parameters, FLOP, and throughput. In the context of optimization:</p>
+<ul>
+<li>The <em>number of parameters</em> usually correlates heavily with the memory footprint of the model.<br>
+</li>
+<li><em>FLOPs</em> provide an idea of the computational costs.<br>
+</li>
+<li><em>Throughput</em> dictates the real-world performance.</li>
+</ul>
+</section>
+<section id="architectural-flexibility" class="level3">
+<h3 class="anchored" data-anchor-id="architectural-flexibility">Architectural flexibility</h3>
+<p>A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis.</p>
+<p>For high-resolution synthesis, even this latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have `(batch_size, num_latent_channels, 512, 512)` dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal.</p>
+<p>Even when not operating with high resolutions, for videos, the problem gets even worse. The outputs are now spatio-temporal. This means we need to compute full 3D attention between tokens<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. For moderate-sized videos (5 seconds long, 512x768 resolution), we might have to deal with `(batch_size, num_latent_channels, num_compressed_temporal_channels, 64, 96)` dimensional latents.</p>
+<p>Works like LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[<a href="#ref-hacohen2024ltxvideorealtimevideolatent" role="doc-biblioref">14</a>]</span> and SANA <span class="citation" data-cites="xie2025sana">[<a href="#ref-xie2025sana" role="doc-biblioref">15</a>]</span> operate on highly compressed latent spaces, thereby reducing the memory requirements, while also improving latency. While operating on highly compressed latent spaces significantly reduces memory and latency, it’s a critical design choice, as excessive compression can lead to information loss in the representation, consequently impacting the fidelity or detail of the generated output. Both LTX-Video and SANA have their own ways to compensate for that. Amongst other things,</p>
+<ul>
+<li>LTX-Video tasks the decoder to perform both latent-to-pixel conversion and the final denoising step.<br>
+</li>
+<li>SANA employs specialized blocks (dubbed Mix-FFN) in its Transformer architecture.</li>
+</ul>
+<p>One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control <span class="citation" data-cites="blackforestlabs2024flux1tools">[<a href="#ref-blackforestlabs2024flux1tools" role="doc-biblioref">16</a>]</span>) and additional image inputs (Flux Kontext <span class="citation" data-cites="blackforestlabs2025flux1kontextdev">[<a href="#ref-blackforestlabs2025flux1kontextdev" role="doc-biblioref">17</a>]</span>). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.</p>
+<p>It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).</p>
+<p>At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.</p>
+</section>
+</section>
+<section id="model-is-decided-what-is-next" class="level2">
+<h2 class="anchored" data-anchor-id="model-is-decided-what-is-next">Model is decided – what is next?</h2>
+<p>Once a capable base model is selected, the focus shifts from general performance to optimizing for the specific <strong>use case</strong> — that is, tailoring the model’s behavior to the practical context in which it will be served. This means looking beyond standard benchmarks to enhance the qualities that are the most relevant for the application’s success.</p>
+<p>For example, imagine a model that already performs well on standard text-to-image generation benchmarks. If the use case is creating photorealistic marketing images, the goal would be to improve specific attributes like photorealism and text-to-image alignment. Conversely, if the use case is an interactive avatar generator, the most critical factor might be real-time interaction, demanding the lowest possible latency.</p>
+<p>In this section, we look at some approaches to identifying and fine-tuning for the specific demands of an application, i.e., <em>optimizing the use case</em>.</p>
+<section id="post-training" class="level3">
+<h3 class="anchored" data-anchor-id="post-training">Post-training</h3>
+<p>Despite all the standard metrics available for image (or video) generation, in order for a use case to grow, it is quite important to have evaluation metrics centered around the use case. For the above example, we would want to particularly look for metrics that faithfully cover photorealism and text-to-image alignment. If preference data can be obtained, it could also be beneficial to do a round of preference learning <span class="citation" data-cites="black2023ddpo Wallace_2024_CVPR">[<a href="#ref-black2023ddpo" role="doc-biblioref">18</a>, <a href="#ref-Wallace_2024_CVPR" role="doc-biblioref">19</a>]</span> and to see if that helps in further improvements.</p>
+<p>Preference datasets can also be used for supervised fine-tuning (SFT) since we have an understanding of which image is “preferred” given a prompt. We can take our base model and fine-tune on the pairs of prompts and the preferred images.</p>
+<p>Preference learning leverages human feedback on model outputs to guide further training towards preferred styles or qualities, whereas supervised fine-tuning (SFT) uses curated datasets of prompt-output pairs to directly teach the model desired behaviors. However, when to use what, i.e., typical preference learning or SFT, is still very much an open question.</p>
+<p>Note that post-training in these models can also come in other ways, such as ControlNets <span class="citation" data-cites="zhang2023addingconditionalcontroltexttoimage">[<a href="#ref-zhang2023addingconditionalcontroltexttoimage" role="doc-biblioref">20</a>]</span>, and they deserve a separate post on their own.</p>
+</section>
+<section id="latency-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="latency-optimization">Latency optimization</h3>
+<p>Before the model meets with actual deployment, it typically goes through some kind of latency-based optimization. Additionally, these techniques also amortize the long training durations over the course of serving a model. Examples of these techniques include compilation, integration of any specialized kernels to target input shapes and the available hardware, use of exotic parallelism techniques, and many more. Some optimization would be inference-only (post-training quantization, for example), while some would apply to both training and inference (flash-attention <span class="citation" data-cites="dao2022flashattentionfastmemoryefficientexact">[<a href="#ref-dao2022flashattentionfastmemoryefficientexact" role="doc-biblioref">21</a>]</span>, for example).</p>
+<p>Many optimization techniques in this regard would be quite hardware-dependent. For example, Flash Attention 3 <span class="citation" data-cites="shah2024flashattention3fastaccurateattention">[<a href="#ref-shah2024flashattention3fastaccurateattention" role="doc-biblioref">22</a>]</span> is currently only supported for the Hopper GPU architecture, while the FP8 dynamic quantization scheme needs GPUs with a compute capability of at least 8.9. So, we may now appreciate why keeping hardware awareness in mind can be truly helpful.</p>
+<p>It is also a good exercise to have an estimate of the theoretical throughput possible for the model with sample inputs and the available hardware. This can then be used to inform the optimization process in this stage if the realized throughput is significantly lower than the theoretical one.</p>
+<p>Distillation is another popular way to optimize latency. We discuss distillation in a later section of the post.</p>
+</section>
+<section id="inference-time-scaling" class="level3">
+<h3 class="anchored" data-anchor-id="inference-time-scaling">Inference-time scaling</h3>
+<p>If training is out of scope, inference-time scaling <span class="citation" data-cites="Ma_2025_CVPR zhuo2025reflectionperfectionscalinginferencetime">[<a href="#ref-Ma_2025_CVPR" role="doc-biblioref">23</a>, <a href="#ref-zhuo2025reflectionperfectionscalinginferencetime" role="doc-biblioref">24</a>]</span> could be another promising avenue to explore. We scale the compute during inference by “searching” for better outputs, leading to potentially improved metrics (prompt following ability, for example) of choice. But what do we search for?</p>
+<p>Recollect that during inference, flow models start with a random Gaussian noise, which is denoised over a few iterations. We can always search for a better noise at initialization and see what leads to better quality outputs, as different initial noise seeds can lead to significantly varied final outputs, and optimizing this starting point can guide the generation process towards higher quality results. If the search plays out well, it might even be possible to use a smaller model with inference-time scaling to offset the costs of serving a much larger model <span class="citation" data-cites="singhal2025generalframeworkinferencetimescaling">[<a href="#ref-singhal2025generalframeworkinferencetimescaling" role="doc-biblioref">25</a>]</span>.</p>
+</section>
+<section id="prompting" class="level3">
+<h3 class="anchored" data-anchor-id="prompting">Prompting</h3>
+<p>Multiple works <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions segalis2023pictureworththousandwords liu2024playgroundv3improvingtexttoimage">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">26</a>–<a href="#ref-liu2024playgroundv3improvingtexttoimage" role="doc-biblioref">28</a>]</span> have shown that better captions can also lead to improved outputs. What accounts for a “better” caption is highly use case dependent, but there are some general guidelines:</p>
+<ul>
+<li>What is the image medium? Is it a photo, a painting, a 3D illustration, or something else?<br>
+</li>
+<li>What is the image subject? Is it a person, animal, object, or scene?<br>
+</li>
+<li>What details would you like to see in the image?</li>
+</ul>
+<p>When we cannot expect highly detailed captions from the users, a specialized captioner model could be used to turn short user prompts into highly detailed ones. Figure 3 provides a comparative example of the outputs obtained through a simple and a detailed prompt.</p>
+<div align="center">
+<img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image4.png" width="700/">
+<p><small><b>Figure 4</b>: An example of using detailed prompts as opposed to using shallow prompts.</small></p>
+</div>
+<p>This idea of using detailed prompts to potentially improve the output quality is often referred to as “caption upsampling” <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">26</a>]</span>. To benefit from using caption upsampling, the assumption is that the model was shown similar data during training <span class="citation" data-cites="segalis2023pictureworththousandwords 10.1007/978-3-031-72670-5_12">[<a href="#ref-segalis2023pictureworththousandwords" role="doc-biblioref">27</a>, <a href="#ref-10.1007/978-3-031-72670-5_12" role="doc-biblioref">29</a>]</span>. Caption upsampling could also be considered an inference-time scaling technique, wherein we start with a seed user prompt and gradually improve it until a threshold of a desired metric is met.</p>
+<p>Among the two broad approaches (post-training and inference-time scaling) discussed in this section, it remains unclear when to use each. Can we even combine post-training and inference-time scaling for these kinds of generative models? Are these two things complementary to one another? This is still an open question.</p>
+<p>So far, in the previous sections, we covered architectural choices, post-training, and inference-time tweaks. Distillation offers a path to create fundamentally faster models by learning from larger, more powerful ones.</p>
+</section>
+</section>
+<section id="advanced-model-optimization-distillation" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-model-optimization-distillation">Advanced model optimization – Distillation</h2>
+<p>Previously, we noted that distillation is a popular way to optimize latency. It is a powerful technique that deserves a closer look, as it allows us to create smaller and faster models by transferring knowledge from a larger ‘teacher’ model to a compact ‘student’ model. This process directly tackles the speed-memory-performance trade-off and comes in two primary forms for the class of models we have been discussing.</p>
+<section id="architectural-compression" class="level3">
+<h3 class="anchored" data-anchor-id="architectural-compression">Architectural compression</h3>
+<p>Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper <span class="citation" data-cites="hinton2015distillingknowledgeneuralnetwork">[<a href="#ref-hinton2015distillingknowledgeneuralnetwork" role="doc-biblioref">30</a>]</span>. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.</p>
+<p>When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial <span class="citation" data-cites="sreenivas2024llmpruningdistillationpractice">[<a href="#ref-sreenivas2024llmpruningdistillationpractice" role="doc-biblioref">31</a>]</span>. This phase is often known as “teacher correction”.</p>
+<p>A distilled model could be slightly worse than its teacher, but it could be significantly more memory-efficient and faster than the teacher. This could be particularly beneficial when model-serving resources are limited. Distilled models, in the premise of image and video generation, could be leveraged for real-time use cases. They could even be used as a proxy for the quality that users can expect. For example, during the first round of incoming requests, an application could show outputs from a distilled model. If the users are satisfied with the outputs, then we reduce costs by not invoking the larger model.</p>
+</section>
+<section id="timestep-distillation" class="level3">
+<h3 class="anchored" data-anchor-id="timestep-distillation">Timestep distillation</h3>
+<p>Flow models take a number of steps to denoise to provide a reasonable output. However, too many steps can get in the way of use cases that benefit from instantaneity. A number of techniques <span class="citation" data-cites="salimans2022progressivedistillationfastsampling yin2024improveddistributionmatchingdistillation song2023consistencymodels chen2025sanasprintonestepdiffusioncontinuoustime">[<a href="#ref-salimans2022progressivedistillationfastsampling" role="doc-biblioref">32</a>–<a href="#ref-chen2025sanasprintonestepdiffusioncontinuoustime" role="doc-biblioref">35</a>]</span> have emerged to tackle this problem, and together, they’re known as “timestep distillation”. Timestep distilled models aim at reducing the number of steps it takes to obtain reasonable results.</p>
+<p>The teacher model, being used to guide the distillation process, can still be superior to the distilled model in terms of quality. Hence, the same two-model philosophy discussed just above applies to timestep-distilled models, too. In the literature of flow models, one can also combine timestep distillation with architectural compression through classic distillation to take the best of both worlds <span class="citation" data-cites="song2024sdxsrealtimeonesteplatent">[<a href="#ref-song2024sdxsrealtimeonesteplatent" role="doc-biblioref">36</a>]</span>.</p>
+<p>It is worth pointing out that distillation only becomes viable when we have a sufficiently well-performing teacher model. So, the techniques discussed above won’t be eliminated by distillation at all. Additionally, most of the techniques discussed above would be complementary to using distillation.</p>
+<p>Guidance or more broadly, “classifier-free guidance” (CFG) <span class="citation" data-cites="ho2022classifierfreediffusionguidance">[<a href="#ref-ho2022classifierfreediffusionguidance" role="doc-biblioref">37</a>]</span>, is a vital component of flow-based generative models. It is used to steer the model output more towards the direction of the input conditions (such as text prompts), improving the overall output quality. The disadvantage is that we need two model forward passes to make CFG work. For a few iterations, this can add significant overhead to both memory consumption and inference latency. Therefore, guidance can also be distilled <span class="citation" data-cites="meng2023distillationguideddiffusionmodels">[<a href="#ref-meng2023distillationguideddiffusionmodels" role="doc-biblioref">38</a>]</span> into a student model from a teacher trained with CFG. It can also be further combined with timestep distillation, providing both memory and latency benefits.</p>
+<p>Timestep distillation or guidance distillation is usually done by fully fine-tuning a base model. Some works have explored the use of LoRA <span class="citation" data-cites="ren2024hypersdtrajectorysegmentedconsistency">[<a href="#ref-ren2024hypersdtrajectorysegmentedconsistency" role="doc-biblioref">39</a>]</span> in this regard. This path offers a cheaper alternative to full fine-tuning while still retaining the core benefits of such distillation mechanisms.</p>
+</section>
+</section>
+<section id="generation-speed-the-endgame" class="level2">
+<h2 class="anchored" data-anchor-id="generation-speed-the-endgame">Generation speed: The endgame(?)</h2>
+<p>What is optimization in the context of image or video generation models? Is it just improving inference latency when user experiences are also considered?</p>
+<p>Well, probably not. It is a no-brainer to aim for a model that is fast, performant, and memory-efficient. However, this speed-memory-performance trade-off is governed by the use case and the resources to support it. Below is a non-exhaustive list of the aspects that become apparent in this regard:</p>
+<ul>
+<li>What is the expected SLA around latency for the use case being served?<br>
+</li>
+<li>What is our current traffic? Do we have enough hardware accelerators to support that traffic while meeting the expected SLA?<br>
+</li>
+<li>Can we quantify model performance and tie it to an improvement in the use case? We could optimize specifically for those aspects. For example, if the use case primarily benefits from good text rendering abilities, the design decisions would be devised differently from those mainly optimizing fine-grained color control.<br>
+</li>
+<li>Do users always want the best-quality images/videos?<br>
+</li>
+<li>Does providing a little less with a better latency still satisfy users, especially when it could cost much less? OpenAI’s serving model is a great example here. They have different tiers of models, from small and fast to larger and slower ones. Each of them comes with different price points, with small models costing less and larger models costing more. If a small model can perform the user task well, then you also end up serving the user well, but at a lower cost.</li>
+</ul>
+<p>Whatever end model we end up with, we still want speed, though. That can never be out of place. Hopefully, this section has convinced you that while speed is paramount, there are other aspects worth considering.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>We took a deeper look into what it means to optimize image and video generation models and their use cases. We covered a couple of model-level approaches while also focusing on how to go beyond them, taking the use cases at the center. Throughout the post, the following theme became apparent: optimizing a model and optimizing its use cases are quite intertwined. Since we touched upon various connected components in the mix, below are some key points:</p>
+<ul>
+<li>Incorporate hardware awareness while designing the model architecture. For example, select matrix multiples of 64 and minimise tiling overhead<br>
+</li>
+<li>Chase architectural flexibility for greater future-proofing: consider the kinds of use cases you want to serve, their inputs, and expected outcomes; incorporate these aspects into the architecture design process.<br>
+</li>
+<li>Complement architectural benefits with latency optimization techniques, as these are often a free lunch.<br>
+</li>
+<li>Spend time optimizing for use cases, either through post-training or inference-time scaling or both.<br>
+</li>
+<li>If the use case demands it, operationalize distillation, either at the architectural level or at the timestep level, or both.</li>
+</ul>
+<p><em>Acknowledgements: Thanks to Sanchit Gandhi and Sander Dieleman for their reviews on the early post draft.</em></p>
+
+
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-lipman2023flow" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Lipman Y, Chen RTQ, Ben-Hamu H, Nickel M, Le M (2023) <a href="https://openreview.net/forum?id=PqvMRDCJT9t">Flow matching for generative modeling</a>. In: The eleventh international conference on learning representations</div>
+</div>
+<div id="ref-NEURIPS2020_4c5bcfec" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Ho J, Jain A, Abbeel P (2020) <a href="https://proceedings.neurips.cc/paper_files/paper/2020/file/4c5bcfec8584af0d967f1ab10179ca4b-Paper.pdf">Denoising diffusion probabilistic models</a>. In: Larochelle H, Ranzato M, Hadsell R, Balcan MF, Lin H (eds) Advances in neural information processing systems. Curran Associates, Inc., pp 6840–6851</div>
+</div>
+<div id="ref-NIPS2014_f033ed80" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Goodfellow IJ, Pouget-Abadie J, Mirza M, et al (2014) <a href="https://proceedings.neurips.cc/paper_files/paper/2014/file/f033ed80deb0234979a61f95710dbe25-Paper.pdf">Generative adversarial nets</a>. In: Ghahramani Z, Welling M, Cortes C, Lawrence N, Weinberger KQ (eds) Advances in neural information processing systems. Curran Associates, Inc.</div>
+</div>
+<div id="ref-blackforestlabs2024announcing" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Black Forest Labs (2024) Announcing black forest labs. <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">https://blackforestlabs.ai/announcing-black-forest-labs/</a></div>
+</div>
+<div id="ref-NIPS2017_3f5ee243" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Vaswani A, Shazeer N, Parmar N, et al (2017) <a href="https://proceedings.neurips.cc/paper_files/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">Attention is all you need</a>. In: Guyon I, Luxburg UV, Bengio S, et al (eds) Advances in neural information processing systems. Curran Associates, Inc.</div>
+</div>
+<div id="ref-pmlr-v235-esser24a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Esser P, Kulal S, Blattmann A, et al (2024) <a href="https://proceedings.mlr.press/v235/esser24a.html">Scaling rectified flow transformers for high-resolution image synthesis</a>. In: Salakhutdinov R, Kolter Z, Heller K, et al (eds) Proceedings of the 41st international conference on machine learning. PMLR, pp 12606–12633</div>
+</div>
+<div id="ref-Rombach_2022_CVPR" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Rombach R, Blattmann A, Lorenz D, Esser P, Ommer B (2022) High-resolution image synthesis with latent diffusion models. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 10684–10695</div>
+</div>
+<div id="ref-wan2.1" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Team W (2025) Wan: Open and advanced large-scale video generative models</div>
+</div>
+<div id="ref-warner2024smarterbetterfasterlonger" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Warner B, Chaffin A, Clavié B, et al (2024) <a href="https://arxiv.org/abs/2412.13663">Smarter, better, faster, longer: A modern bidirectional encoder for fast, memory efficient, and long context finetuning and inference</a></div>
+</div>
+<div id="ref-Xiong_2021_CVPR" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Xiong Y, Liu H, Gupta S, et al (2021) MobileDets: Searching for object detection architectures for mobile accelerators. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 3825–3834</div>
+</div>
+<div id="ref-bercovich2025puzzledistillationbasednasinferenceoptimized" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Bercovich A, Ronen T, Abramovich T, et al (2025) <a href="https://arxiv.org/abs/2411.19146">Puzzle: Distillation-based NAS for inference-optimized LLMs</a></div>
+</div>
+<div id="ref-10.5555/3600270.3602446" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Hoffmann J, Borgeaud S, Mensch A, et al (2022) Training compute-optimal large language models. In: Proceedings of the 36th international conference on neural information processing systems. Curran Associates Inc., Red Hook, NY, USA</div>
+</div>
+<div id="ref-dehghani2022efficiencymisnomer" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Dehghani M, Arnab A, Beyer L, Vaswani A, Tay Y (2022) <a href="https://arxiv.org/abs/2110.12894">The efficiency misnomer</a></div>
+</div>
+<div id="ref-hacohen2024ltxvideorealtimevideolatent" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
+</div>
+<div id="ref-xie2025sana" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Xie E, Chen J, Chen J, et al (2025) <a href="https://openreview.net/forum?id=N8Oj1XhtYZ"><span>SANA</span>: Efficient high-resolution text-to-image synthesis with linear diffusion transformers</a>. In: The thirteenth international conference on learning representations</div>
+</div>
+<div id="ref-blackforestlabs2024flux1tools" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Black Forest Labs (2024) Introducing FLUX.1 tools. <a href="https://bfl.ai/announcements/24-11-21-tools">https://bfl.ai/announcements/24-11-21-tools</a></div>
+</div>
+<div id="ref-blackforestlabs2025flux1kontextdev" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Black Forest Labs (2025) FLUX.1 kontext [dev] – open weights for image editing. <a href="https://bfl.ai/announcements/flux-1-kontext-dev">https://bfl.ai/announcements/flux-1-kontext-dev</a></div>
+</div>
+<div id="ref-black2023ddpo" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Black K, Janner M, Du Y, Kostrikov I, Levine S (2023) <a href="https://arxiv.org/abs/2305.13301">Training diffusion models with reinforcement learning</a></div>
+</div>
+<div id="ref-Wallace_2024_CVPR" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Wallace B, Dang M, Rafailov R, et al (2024) Diffusion model alignment using direct preference optimization. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 8228–8238</div>
+</div>
+<div id="ref-zhang2023addingconditionalcontroltexttoimage" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Zhang L, Rao A, Agrawala M (2023) <a href="https://arxiv.org/abs/2302.05543">Adding conditional control to text-to-image diffusion models</a></div>
+</div>
+<div id="ref-dao2022flashattentionfastmemoryefficientexact" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Dao T, Fu DY, Ermon S, Rudra A, Ré C (2022) <a href="https://arxiv.org/abs/2205.14135">FlashAttention: Fast and memory-efficient exact attention with IO-awareness</a></div>
+</div>
+<div id="ref-shah2024flashattention3fastaccurateattention" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Shah J, Bikshandi G, Zhang Y, Thakkar V, Ramani P, Dao T (2024) <a href="https://arxiv.org/abs/2407.08608">FlashAttention-3: Fast and accurate attention with asynchrony and low-precision</a></div>
+</div>
+<div id="ref-Ma_2025_CVPR" class="csl-entry" role="listitem">
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Ma N, Tong S, Jia H, et al (2025) Scaling inference time compute for diffusion models. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 2523–2534</div>
+</div>
+<div id="ref-zhuo2025reflectionperfectionscalinginferencetime" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Zhuo L, Zhao L, Paul S, et al (2025) <a href="https://arxiv.org/abs/2504.16080">From reflection to perfection: Scaling inference-time optimization for text-to-image diffusion models via reflection tuning</a></div>
+</div>
+<div id="ref-singhal2025generalframeworkinferencetimescaling" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Singhal R, Horvitz Z, Teehan R, et al (2025) <a href="https://arxiv.org/abs/2501.06848">A general framework for inference-time scaling and steering of diffusion models</a></div>
+</div>
+<div id="ref-betker2023improvingimagegenerationwithbettercaptions" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Betker J, Jun H, Ouyang L, Goh G, Ramesh A, et al (2023) <a href="https://cdn.openai.com/papers/dall-e-3.pdf">Improving image generation with better captions</a></div>
+</div>
+<div id="ref-segalis2023pictureworththousandwords" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Segalis E, Valevski D, Lumen D, Matias Y, Leviathan Y (2023) <a href="https://arxiv.org/abs/2310.16656">A picture is worth a thousand words: Principled recaptioning improves image generation</a></div>
+</div>
+<div id="ref-liu2024playgroundv3improvingtexttoimage" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Liu B, Akhgari E, Visheratin A, et al (2024) <a href="https://arxiv.org/abs/2409.10695">Playground v3: Improving text-to-image alignment with deep-fusion large language models</a></div>
+</div>
+<div id="ref-10.1007/978-3-031-72670-5_12" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Chatterjee A, Stan GBM, Aflalo E, et al (2024) <a href="https://doi.org/10.1007/978-3-031-72670-5_12">Getting it right: Improving spatial consistency in&amp;nbsp;text-to-image models</a>. In: Computer vision – ECCV 2024: 18th european conference, milan, italy, september 29 – october 4, 2024, proceedings, part XXII. Springer-Verlag, Berlin, Heidelberg, pp 204–222</div>
+</div>
+<div id="ref-hinton2015distillingknowledgeneuralnetwork" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Hinton G, Vinyals O, Dean J (2015) <a href="https://arxiv.org/abs/1503.02531">Distilling the knowledge in a neural network</a></div>
+</div>
+<div id="ref-sreenivas2024llmpruningdistillationpractice" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Sreenivas ST, Muralidharan S, Joshi R, et al (2024) <a href="https://arxiv.org/abs/2408.11796">LLM pruning and distillation in practice: The minitron approach</a></div>
+</div>
+<div id="ref-salimans2022progressivedistillationfastsampling" class="csl-entry" role="listitem">
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Salimans T, Ho J (2022) <a href="https://arxiv.org/abs/2202.00512">Progressive distillation for fast sampling of diffusion models</a></div>
+</div>
+<div id="ref-yin2024improveddistributionmatchingdistillation" class="csl-entry" role="listitem">
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Yin T, Gharbi M, Park T, et al (2024) <a href="https://arxiv.org/abs/2405.14867">Improved distribution matching distillation for fast image synthesis</a></div>
+</div>
+<div id="ref-song2023consistencymodels" class="csl-entry" role="listitem">
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Song Y, Dhariwal P, Chen M, Sutskever I (2023) <a href="https://arxiv.org/abs/2303.01469">Consistency models</a></div>
+</div>
+<div id="ref-chen2025sanasprintonestepdiffusioncontinuoustime" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Chen J, Xue S, Zhao Y, et al (2025) <a href="https://arxiv.org/abs/2503.09641">SANA-sprint: One-step diffusion with continuous-time consistency distillation</a></div>
+</div>
+<div id="ref-song2024sdxsrealtimeonesteplatent" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Song Y, Sun Z, Yin X (2024) <a href="https://arxiv.org/abs/2403.16627">SDXS: Real-time one-step latent diffusion models with image conditions</a></div>
+</div>
+<div id="ref-ho2022classifierfreediffusionguidance" class="csl-entry" role="listitem">
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Ho J, Salimans T (2022) <a href="https://arxiv.org/abs/2207.12598">Classifier-free diffusion guidance</a></div>
+</div>
+<div id="ref-meng2023distillationguideddiffusionmodels" class="csl-entry" role="listitem">
+<div class="csl-left-margin">38. </div><div class="csl-right-inline">Meng C, Rombach R, Gao R, et al (2023) <a href="https://arxiv.org/abs/2210.03142">On distillation of guided diffusion models</a></div>
+</div>
+<div id="ref-ren2024hypersdtrajectorysegmentedconsistency" class="csl-entry" role="listitem">
+<div class="csl-left-margin">39. </div><div class="csl-right-inline">Ren Y, Xia X, Lu Y, et al (2024) <a href="https://arxiv.org/abs/2404.13686">Hyper-SD: Trajectory segmented consistency model for efficient image synthesis</a></div>
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>Or maybe <a href="https://diffusionflow.github.io/">not</a>.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Parallel strategies <a href="https://huggingface.co/papers/2305.16317">exist</a> but they are not used in practice very much.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>This is specific to shared-memory GPU architectures.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Sparser variants exist but they often lead to sub-optimal results.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sayak\.dev\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/flow_optim.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

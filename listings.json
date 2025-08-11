@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/flow-optim.html",
       "/posts/attn-diffusion.html",
       "/posts/streamlined-releases.html",
       "/posts/ml-practice.html",
