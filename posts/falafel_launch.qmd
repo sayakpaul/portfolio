@@ -8,7 +8,7 @@ badges: false
 toc: true
 categories:
   - SaaS
-  - Diffusion Model
+  - Diffusion
   - Video Editing
   - Open Source
 date: '2025-08-11'
