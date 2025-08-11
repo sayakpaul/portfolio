@@ -10,7 +10,73 @@
 <atom:link href="https://www.heyyanshuman.com/ml-blog.xml" rel="self" type="application/rss+xml"/>
 <description>Introductions Anshuman Mishra.</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Sun, 03 Aug 2025 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 10 Aug 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Introducing Falafel: AI Video Generation in DaVinci Resolve</title>
+  <link>https://www.heyyanshuman.com/posts/falafel_launch.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>I’m super excited to announce the launch of <strong>Falafel</strong>, a new tool designed to bridge the gap between powerful AI video generation and professional video editing.</p>
+<p>If you’ve ever wanted to generate stunning video clips from an image using diffusion models and bring them directly into your DaVinci Resolve timeline without a cumbersome export/import process, Falafel is for you.</p>
+<section id="what-is-falafel" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-falafel">What is Falafel?</h3>
+<p>Falafel is a free, open-source desktop application that acts as a bridge between your DaVinci Resolve media pool and the powerful models available on <a href="https://fal.ai">Fal.ai</a>. It streamlines the creative process, letting you focus on editing, not file management.</p>
+<p>The name ‘Falafel’ is a fun nod to its core—it’s a wrapper for <strong>Fal</strong> AI. The project is built with Electron and the source code is available for everyone on <a href="https://github.com/kanpuriyanawab/falafel">GitHub</a>.</p>
+</section>
+<section id="how-it-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-it-works">How It Works</h3>
+<p>Getting started is simple. The entire workflow is designed to keep you in your creative zone.</p>
+<ol type="1">
+<li><p><strong>Install &amp; Setup</strong> Download and install the Falafel desktop app. On the first launch, you’ll be prompted to sign in with Google to get started.</p></li>
+<li><p><strong>Connect to DaVinci Resolve</strong> Inside Resolve, navigate to the menu: <code>Workspace</code> -&gt; <code>Scripts</code> -&gt; <code>Falafel</code>. This action starts a local server that allows the two applications to communicate.</p></li>
+<li><p><strong>Select Your Source Image</strong> In the DaVinci Resolve Media Pool, simply click on the image you want to use as your source.</p></li>
+<li><p><strong>Generate in Falafel</strong> Switch over to the Falafel app.</p>
+<ul>
+<li>Click the <strong><code>Select Image from Media Pool</code></strong> button. Your chosen image will appear in the app.</li>
+<li>Enter your Fal AI API Key.</li>
+<li>Write a descriptive prompt for the video you want to create.</li>
+<li>Click <strong><code>Generate Video</code></strong> and let the AI work its magic. <img src="https://www.heyyanshuman.com/posts/assets/falafel/import_to_falafel.png" class="img-fluid"></li>
+</ul></li>
+<li><p><strong>Import to Resolve</strong> Once the generation is complete, a new button, <strong><code>Import to Media Pool</code></strong>, will appear in Falafel. Clicking this will send the newly created video file directly into your DaVinci Resolve Media Pool, ready to be dropped into your timeline.</p></li>
+</ol>
+<p><img src="https://www.heyyanshuman.com/posts/assets/falafel/import_to_media_pool.png" class="img-fluid"></p>
+</section>
+<section id="key-features" class="level3">
+<h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
+<ul>
+<li><strong>Seamless Integration</strong>: A direct link between your Resolve project and AI models. No more saving, exporting, finding, and importing files.</li>
+<li><strong>Privacy-Focused</strong>: Your API keys are yours alone and are not stored or transmitted to any third-party server besides Fal.ai.</li>
+<li><strong>Open Source</strong>: Built for the community, by the community. You can inspect the code, contribute, and suggest features on <a href="https://github.com/kanpuriyanawab/falafel">GitHub</a>.</li>
+<li><strong>Free to Use</strong>: Falafel is completely free. You only need an API key from Fal.ai for the generation service itself.</li>
+</ul>
+</section>
+<section id="get-started-now" class="level3">
+<h3 class="anchored" data-anchor-id="get-started-now">Get Started Now</h3>
+<p>Ready to supercharge your editing workflow? You can download the latest version of Falafel and find the source code on the official GitHub repository.</p>
+<p><strong><a href="./assets/falafel/Falafel-1.0.0-arm64.dmg">Download Falafel</a></strong></p>
+</section>
+<section id="the-road-ahead" class="level3">
+<h3 class="anchored" data-anchor-id="the-road-ahead">The Road Ahead</h3>
+<p>This is just the beginning for Falafel. Future plans include support for more models, batch processing, and even more configuration options directly within the app.</p>
+<p>I built Falafel to solve a problem I had, and I hope it helps you too. I welcome any feedback, bug reports, and contributions. Please feel free to open an issue or pull request on GitHub.</p>
+<p>Thank you for checking it out!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>SaaS</category>
+  <category>Diffusion Model</category>
+  <category>Video Editing</category>
+  <category>Open Source</category>
+  <guid>https://www.heyyanshuman.com/posts/falafel_launch.html</guid>
+  <pubDate>Sun, 10 Aug 2025 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>Training LLMs to Think</title>
   <link>https://www.heyyanshuman.com/posts/post_training_reasoning_model.html</link>
@@ -2169,6 +2235,12 @@ Key Takeaways
 </ul>
 </div>
 </div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li><a href="https://colab.research.google.com/github/unslothai/notebooks/blob/main/nb/Qwen3_(4B)-GRPO.ipynb">Unsloth AI</a></li>
+</ol>
 
 
 </section>
@@ -5163,6 +5235,337 @@ torch.Size([1, 5, 8, 8])</code></pre>
   <category>Julia</category>
   <guid>https://www.heyyanshuman.com/posts/flux_is_so_flexible.html</guid>
   <pubDate>Fri, 30 Dec 2022 18:30:00 GMT</pubDate>
+</item>
+<item>
+  <title>RAG Foundations: Building and Evaluating Your First QA System</title>
+  <dc:creator>Your Name</dc:creator>
+  <link>https://www.heyyanshuman.com/posts/rag_zero_to_hero.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<section id="rag-foundations-building-and-evaluating-your-first-qa-system" class="level1">
+<h1>RAG Foundations: Building and Evaluating Your First QA System</h1>
+<p>Retrieval-Augmented Generation (RAG) has rapidly become the cornerstone of modern AI applications, enabling Large Language Models (LLMs) to reason over private, real-time data. While the basic idea is simple—find relevant information and give it to an LLM to generate an answer—the journey from a proof-of-concept to a robust, production-ready system is filled with nuance and complexity.</p>
+<p>This guide is the first of a two-part series designed to take you from zero to hero in building advanced RAG systems. In this post, we’ll lay the groundwork by building a complete, functional RAG pipeline from scratch. We’ll take a hands-on, code-first approach, covering everything from data ingestion to the critical process of evaluation. Let’s get started.</p>
+<section id="part-1-the-ingestion-pipeline---preparing-your-knowledge" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-the-ingestion-pipeline---preparing-your-knowledge">Part 1: The Ingestion Pipeline - Preparing Your Knowledge</h2>
+<p>At its heart, a RAG pipeline has two core components: a <strong>Retriever</strong> and a <strong>Generator</strong>. But before either can do their job, we need to prepare the knowledge base they will operate on. This is the data ingestion pipeline. Your RAG system is only as good as the data it has access to.</p>
+<section id="loading-data" class="level3">
+<h3 class="anchored" data-anchor-id="loading-data">Loading Data</h3>
+<p>The first step is always to load and prepare your source documents. For our example, we’ll use the Weights &amp; Biases documentation, which consists of several markdown files.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: Loading Documents">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: Loading Documents
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This Python snippet uses the <code>pathlib</code> library to interact with the file system.</p>
+<ol type="1">
+<li><code>pathlib.Path(...)</code> creates an object representing the directory containing our documentation.</li>
+<li><code>.rglob("*.md")</code> recursively finds all files ending with <code>.md</code> (markdown) in that directory.</li>
+<li>We then loop through each file path, read its content using <code>.read_text()</code>, and store it in a list of dictionaries. Each dictionary contains the raw <code>content</code> and some <code>metadata</code>, like the file’s original <code>source</code> path.</li>
+</ol>
+</div>
+</div>
+<p>import pathlib</p>
+</section>
+</section>
+</section>
+<section id="assuming-the-data-has-been-downloaded-to-this-directory" class="level1">
+<h1>Assuming the data has been downloaded to this directory</h1>
+<p>docs_dir = pathlib.Path(“../data/wandb_docs”) docs_files = sorted(docs_dir.rglob(“*.md”))</p>
+<p>print(f”Number of files: {len(docs_files)}“)</p>
+</section>
+<section id="store-the-files-as-dictionaries-with-content-and-metadata" class="level1">
+<h1>Store the files as dictionaries with content and metadata</h1>
+<p>data = [] for file in docs_files: content = file.read_text() data.append( { “content”: content, “metadata”: { “source”: str(file.relative_to(docs_dir)), # A naive token count for now “raw_tokens”: len(content.split()), }, } )</p>
+<p>print(“Example document structure:”) print(data[0])</p>
+<p>Chunking Strategies LLMs have a finite context window, meaning they can only process a certain amount of text at once. Furthermore, feeding them smaller, more relevant pieces of text is more efficient and often leads to better results. This is where chunking comes in. We split our large documents into smaller, manageable chunks. A simple strategy is to split the text by a fixed number of tokens.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: Simple Chunking">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: Simple Chunking
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The split_into_chunks function implements a basic fixed-size, overlapping chunking strategy.</p>
+<p>It first splits the entire text into a list of words (or “tokens” in this naive case).</p>
+<p>It then iterates through the list, grabbing a chunk_size number of words at a time.</p>
+<p>The chunk_overlap parameter makes the next chunk start a few words before the previous one ended. This can help preserve context that might otherwise be lost at the boundary of two chunks.</p>
+<p>Finally, we apply this function to every document we loaded, creating a new, much larger list of chunked_data.</p>
+</div>
+</div>
+<p>from typing import List</p>
+</section>
+<section id="these-are-hyperparameters-of-our-ingestion-pipeline" class="level1">
+<h1>These are hyperparameters of our ingestion pipeline</h1>
+<p>CHUNK_SIZE = 300 CHUNK_OVERLAP = 0</p>
+<p>def split_into_chunks( text: str, chunk_size: int = CHUNK_SIZE, chunk_overlap: int = CHUNK_OVERLAP ) -&gt; List[str]: “““A simple function to split text into overlapping chunks.”“” tokens = text.split() chunks = [] start = 0 while start &lt; len(tokens): end = start + chunk_size chunk = tokens[start:end] chunks.append(” “.join(chunk)) start = end - chunk_overlap return chunks</p>
+</section>
+<section id="lets-chunk-all-our-documents" class="level1">
+<h1>Let’s chunk all our documents</h1>
+<p>chunked_data = [] for doc in data: chunks = split_into_chunks(doc[“content”]) for chunk in chunks: chunked_data.append( { “content”: chunk, “metadata”: { “source”: doc[“metadata”][“source”], “raw_tokens”: len(chunk.split()), }, } )</p>
+<p>print(f”Original documents: {len(data)}“) print(f”Total chunks: {len(chunked_data)}“)</p>
+<p>Data Preprocessing Raw text often contains formatting artifacts, special characters, or other “noise” that can confuse an LLM. A crucial preprocessing step is to clean the text to make it as “pure” as possible for the model.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: Text Cleaning">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: Text Cleaning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This function, make_text_tokenization_safe, performs a few simple cleaning steps using Python’s built-in re (regular expressions) and string libraries.</p>
+<p>text.lower() converts everything to lowercase to ensure consistency.</p>
+<p>re.sub(r”[^\w\s\d]“,” “, text) removes any character that is not a word character, whitespace, or digit.</p>
+<p>text.translate(…) is an efficient way to remove all punctuation.</p>
+<p>re.sub(r”+“,” “, text).strip() collapses multiple whitespace characters into a single space and removes leading/trailing spaces.</p>
+</div>
+</div>
+<p>import re import string</p>
+<p>def make_text_tokenization_safe(text: str) -&gt; str: “““Removes special characters and normalizes whitespace.”“” # A simplified cleaning function text = text.lower() text = re.sub(r”[^\w\s\d]“,” “, text) text = text.translate(str.maketrans(”“,”“, string.punctuation)) text = re.sub(r”+“,” “, text).strip() return text</p>
+<p>cleaned_data = [] for doc in chunked_data: cleaned_doc = doc.copy() cleaned_doc[“cleaned_content”] = make_text_tokenization_safe(doc[“content”]) cleaned_data.append(cleaned_doc)</p>
+<p>print(“Original chunk:”) print(chunked_data[100][‘content’]) print(“chunk:”) print(cleaned_data[100][‘cleaned_content’])</p>
+<p>Part 2: Building a Simple Retriever Now that we have clean, chunked data, we need a way to retrieve the chunks that are most relevant to a user’s query. This is the job of the retriever.</p>
+<p>TF-IDF Retriever We’ll start with a classic information retrieval technique: TF-IDF (Term Frequency-Inverse Document Frequency). TF-IDF vectorizes text by giving more weight to words that are frequent in a specific document but rare across all documents. It’s a great, simple baseline.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: TF-IDF Retriever">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: TF-IDF Retriever
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This TFIDFRetriever class encapsulates the logic for TF-IDF retrieval.</p>
+<p>index_data: This method takes our list of cleaned documents and uses scikit-learn’s TfidfVectorizer to convert them into a numerical matrix (self.index). This only needs to be done once.</p>
+<p>search: This method takes a new user query. It first transforms the query into a TF-IDF vector using the same vectorizer. Then, it uses scipy’s cdist to compute the cosine distance between the query vector and all the document vectors in the index.</p>
+<p>argsort()[:k] finds the indices of the k documents with the smallest distance (i.e., the most similar ones).</p>
+<p>Finally, it formats the results, including the original text and a similarity score.</p>
+</div>
+</div>
+<p>import weave from sklearn.feature_extraction.text import TfidfVectorizer from scipy.spatial.distance import cdist</p>
+</section>
+<section id="by-inheriting-from-weave.model-we-can-track-our-retrievers-experiments" class="level1">
+<h1>By inheriting from weave.Model, we can track our retriever’s experiments</h1>
+<p>class TFIDFRetriever(weave.Model): vectorizer: TfidfVectorizer = TfidfVectorizer() index: list = None data: list = None</p>
+<pre><code>def index_data(self, data):
+    """Builds the TF-IDF index from the documents."""
+    self.data = data
+    docs = [doc["cleaned_content"] for doc in data]
+    self.index = self.vectorizer.fit_transform(docs)
+
+@weave.op()
+def search(self, query, k=5):
+    """Searches the index for the most relevant documents."""
+    query_vec = self.vectorizer.transform([query])
+    # Using cosine distance to find the closest vectors
+    cosine_distances = cdist(
+        query_vec.todense(), self.index.todense(), metric="cosine"
+    )[0]
+    top_k_indices = cosine_distances.argsort()[:k]
+    
+    output = []
+    for idx in top_k_indices:
+        output.append(
+            {
+                "source": self.data[idx]["metadata"]["source"],
+                "text": self.data[idx]["cleaned_content"],
+                "score": 1 - cosine_distances[idx],
+            }
+        )
+    return output
+
+@weave.op()
+def predict(self, query: str, k: int):
+    return self.search(query, k)</code></pre>
+</section>
+<section id="lets-test-it" class="level1">
+<h1>Let’s test it</h1>
+<p>retriever = TFIDFRetriever() retriever.index_data(cleaned_data) query = “How do I log metrics in my training script?” search_results = retriever.predict(query, k=3)</p>
+<p>for result in search_results: print(f”Score: {result[‘score’]:.4f}, Source: {result[‘source’]}“) print(f”Text: {result[‘text’][:100]}…“)</p>
+<p>A Better Baseline: The BM25 Retriever While TF-IDF is a good start, BM25 (Best Matching 25) is a more advanced sparse retrieval algorithm that often outperforms it. It improves upon TF-IDF by considering term frequency saturation (a term appearing 10 times isn’t 10 times as relevant as it appearing once) and document length normalization.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: BM25 Retriever">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: BM25 Retriever
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This class uses the bm25s library, a fast implementation of the BM25 algorithm.</p>
+<p>index_data: Instead of vectorizing, BM25 works directly with tokenized text. We use bm25s.tokenize to prepare the corpus and then call .index() to build the BM25 index.</p>
+<p>predict: Similarly, the query is tokenized. The .retrieve() method efficiently finds the top-k documents and their corresponding BM25 scores. The logic is similar to TF-IDF but often yields more relevant results.</p>
+</div>
+</div>
+<p>import bm25s</p>
+<p>class BM25Retriever(weave.Model): index: bm25s.BM25 = bm25s.BM25() data: list = None</p>
+<pre><code>def index_data(self, data):
+    self.data = data
+    corpus = [doc["cleaned_content"] for doc in data]
+    # BM25 works on tokenized text
+    corpus_tokens = bm25s.tokenize(corpus)
+    self.index.index(corpus_tokens)
+
+@weave.op()
+def predict(self, query: str, k: int):
+    query_tokens = bm25s.tokenize(query)
+    results, scores = self.index.retrieve(query_tokens, corpus=self.data, k=k)
+    
+    # `results` will be a list of the actual documents
+    # `scores` will be their corresponding BM25 scores
+    # ... formatting the output ...
+    return results[0] # Simplified for brevity</code></pre>
+<p>Part 3: Generating Answers The final step is to take the user’s query and the retrieved context and generate a coherent answer. We’ll use a powerful LLM for this, accessed via an API (in this case, Cohere’s command-r model).</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: Response Generator">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: Response Generator
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The SimpleResponseGenerator class handles the interaction with the LLM.</p>
+<p><strong>init</strong>: It initializes the Cohere client with an API key. It also stores the LLM model name and a prompt string.</p>
+<p>create_messages: This method formats the input for the LLM. Most chat models expect a list of messages, each with a role (system, user, or assistant). The system prompt gives the LLM its high-level instructions.</p>
+<p>predict: This is the main method. It takes the user query and the context from our retriever. It formats the context into the special documents parameter that Cohere’s API uses for RAG. It then calls the client.chat method and returns the generated text.</p>
+</div>
+</div>
+<p>import os import cohere</p>
+<p>class SimpleResponseGenerator(weave.Model): model: str prompt: str client: cohere.Client = None</p>
+<pre><code>def __init__(self, model: str, prompt: str):
+    super().__init__(model=model, prompt=prompt)
+    self.client = cohere.Client(os.environ.get("COHERE_API_KEY"))
+
+def create_messages(self, query: str):
+    return [
+        {"role": "system", "content": self.prompt},
+        {"role": "user", "content": query},
+    ]
+
+@weave.op()
+def predict(self, query: str, context: List[Dict[str, any]]):
+    documents = [{"source": item["source"], "text": item["text"]} for item in context]
+    messages = self.create_messages(query)
+    response = self.client.chat(
+        messages=messages,
+        model=self.model,
+        documents=documents,
+        temperature=0.1,
+    )
+    return response.chat_message.message</code></pre>
+</section>
+<section id="a-simple-prompt-to-guide-the-llm" class="level1">
+<h1>A simple prompt to guide the LLM</h1>
+<p>INITIAL_PROMPT = “Answer the following question about W&amp;B. Provide a helpful and complete answer based only on the provided documents.”</p>
+<p>response_generator = SimpleResponseGenerator(model=“command-r”, prompt=INITIAL_PROMPT) answer = response_generator.predict(query, search_results) print(answer)</p>
+<p>Putting It All Together: The SimpleRAGPipeline We can encapsulate this entire workflow into a single class. This makes our system modular and easy to run.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: The Full Pipeline">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: The Full Pipeline
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The SimpleRAGPipeline class is a straightforward container that orchestrates the two main components.</p>
+<p>It holds an instance of our retriever and our response_generator.</p>
+<p>The predict method defines the core RAG logic: it takes a query, calls the retriever to get the context, and then passes both the query and the context to the response generator to get the final answer.</p>
+</div>
+</div>
+<p>class SimpleRAGPipeline(weave.Model): retriever: TFIDFRetriever response_generator: SimpleResponseGenerator top_k: int = 5</p>
+<pre><code>@weave.op()
+def predict(self, query: str):
+    context = self.retriever.predict(query, self.top_k)
+    return self.response_generator.predict(query, context)</code></pre>
+</section>
+<section id="initialize-and-run-the-full-pipeline" class="level1">
+<h1>Initialize and run the full pipeline</h1>
+<p>rag_pipeline = SimpleRAGPipeline( retriever=retriever, response_generator=response_generator, top_k=5 ) response = rag_pipeline.predict(“How do I get get started with wandb?”) print(response)</p>
+<p>Part 4: The Golden Rule - If You Can’t Measure It, You Can’t Improve It Building a RAG system is an iterative science. To improve our pipeline, we need a robust way to evaluate its performance. We’ll break down evaluation into two parts: Retrieval Evaluation and Response Evaluation.</p>
+<p>Evaluating the Retriever The goal of the retriever is to find the most relevant documents. We can measure this using classic information retrieval metrics. To do this, we need an evaluation dataset with questions and corresponding “ground truth” relevant documents.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: Retrieval Metrics">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: Retrieval Metrics
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These functions calculate two common retrieval metrics.</p>
+<p>compute_hit_rate: It checks if there’s any overlap between the set of retrieved document sources and the set of known relevant sources. It returns 1.0 for a “hit” and 0.0 for a “miss”.</p>
+<p>compute_mrr: It finds the rank of the first relevant document in the retrieved list. The score is the reciprocal of that rank (e.g., rank 1 = 1.0, rank 2 = 0.5, rank 3 = 0.33). If no relevant document is found, the score is 0.</p>
+<p>These metrics can be run across an entire evaluation dataset to get an average score for the retriever’s performance.</p>
+</div>
+</div>
+<p>from typing import Any, Dict, List import numpy as np</p>
+<p><span class="citation" data-cites="weave.op">@weave.op</span> def compute_hit_rate(output: List[Dict[str, Any]], contexts: List[Dict[str, Any]]) -&gt; float: retrieved_sources = {doc[“source”] for doc in output} relevant_sources = {ctx[“source”] for ctx in contexts if ctx.get(“relevance”, 1) &gt; 0} return 1.0 if retrieved_sources.intersection(relevant_sources) else 0.0</p>
+<p><span class="citation" data-cites="weave.op">@weave.op</span> def compute_mrr(output: List[Dict[str, Any]], contexts: List[Dict[str, Any]]) -&gt; float: relevant_sources = {ctx[“source”] for ctx in contexts if ctx.get(“relevance”, 1) &gt; 0} for i, doc in enumerate(output): if doc[“source”] in relevant_sources: return 1.0 / (i + 1) return 0.0</p>
+<p>Evaluating the Final Response Evaluating the generated response is more complex. We care about correctness, relevance, and faithfulness to the source documents. A powerful approach is to use another, more powerful LLM to “judge” the quality of the generated answer based on a set of criteria.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="Code Breakdown: LLM as a Judge">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Code Breakdown: LLM as a Judge
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This function outlines the “LLM as a Judge” pattern.</p>
+<p>It constructs a detailed prompt for a powerful “judge” LLM.</p>
+<p>This prompt includes the original question, the ideal reference_answer, and the generated_answer from our RAG system.</p>
+<p>It asks the judge LLM to provide a structured evaluation (e.g., a numerical score and a text reason) in a specific format like JSON.</p>
+<p>The function would then make an API call to this judge LLM and parse its response. This automates the process of getting a qualitative score for our generated answers.</p>
+</div>
+</div>
+</section>
+<section id="this-is-a-simplified-example-of-the-logic" class="level1">
+<h1>This is a simplified example of the logic</h1>
+</section>
+<section id="the-full-implementation-involves-careful-prompt-engineering" class="level1">
+<h1>The full implementation involves careful prompt engineering</h1>
+<p><span class="citation" data-cites="weave.op">@weave.op</span> async def llm_correctness_scorer(output: str, question: str, answer: str) -&gt; dict: # <code>prompt</code> would contain instructions for the LLM judge # to score the <code>output</code> against the <code>answer</code> for the given <code>question</code> # and return a score and a reason in JSON format. prompt = f”“” Evaluate the following generated answer for correctness. Question: {question} Reference Answer: {answer} Generated Answer: {output}</p>
+<pre><code>Provide a score from 0 (incorrect) to 2 (perfectly correct) and a reason.
+Return JSON with keys "score" and "reason".
+"""
+# This would be an API call to a powerful LLM
+# evaluation_result = call_llm_judge(prompt) 
+# return evaluation_result
+
+# Placeholder for demonstration
+return {"score": 2, "reason": "The answer is factually correct and complete."}</code></pre>
+<p>Conclusion &amp; What’s Next We’ve successfully built and learned how to evaluate a foundational RAG system. We started with raw documents and ended with a pipeline that can ingest data, retrieve relevant context, and generate answers. Most importantly, we established a framework for measuring performance, which is the key to systematic improvement.</p>
+<p>In the next post, “Advanced RAG: Production-Ready Techniques for Retrieval and Agentic Systems,” we will take this foundation and elevate it. We’ll dive into state-of-the-art techniques like semantic chunking, dense and hybrid retrieval, re-ranking, and the exciting world of agentic RAG with tool use. Stay tuned!</p>
+
+
+</section>
+
+ ]]></description>
+  <guid>https://www.heyyanshuman.com/posts/rag_zero_to_hero.html</guid>
+  <pubDate>Mon, 11 Aug 2025 16:53:32 GMT</pubDate>
 </item>
 </channel>
 </rss>

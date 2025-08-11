@@ -1,2 +1,4 @@
 /.quarto/
+*.dmg
+_site/posts/assets/*.dmg
 # /_site/

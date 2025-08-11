@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-08-11">
+<meta name="description" content="Bringing FalAI to davinci resolve">
 
-<title>ML Blog – Introductions</title>
+<title>Introducing Falafel: AI Video Generation in DaVinci Resolve – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,28 +25,26 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<link href="./assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-1fe59c23d1fe1481fdb73e4aec199ce9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-528b3b847ede7b4c0e4bacedee6dd6ec.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
-<link href="site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../assets/images/pfp/varkala.jpg" rel="icon" type="image/jpeg">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed09741bc9a4bc7923efc7a27dab3f48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-ed09741bc9a4bc7923efc7a27dab3f48.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed09741bc9a4bc7923efc7a27dab3f48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e09a65fd212fc7ece53c3ff344569000.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-da1e500cad1d9fa44bbb15cae6850b58.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e09a65fd212fc7ece53c3ff344569000.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/all.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/academicons-1.9.4/size.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -60,35 +60,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-36H2NR8FB7"></script>
 
 <script type="text/javascript">
@@ -99,42 +70,21 @@ gtag('js', new Date());
 gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Introductions" href="ml-blog.xml" data-external="1"><meta property="og:title" content="ML Blog – Introductions">
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="Introducing Falafel: AI Video Generation in DaVinci Resolve – Introductions">
+<meta property="og:description" content="Bringing FalAI to davinci resolve">
+<meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/falafel/import_to_falafel.png">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="ML Blog – Introductions">
+<meta property="og:image:height" content="952">
+<meta property="og:image:width" content="1068">
+<meta name="twitter:title" content="Introducing Falafel: AI Video Generation in DaVinci Resolve – Introductions">
+<meta name="twitter:description" content="Bringing FalAI to davinci resolve">
+<meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/falafel/import_to_falafel.png">
 <meta name="twitter:creator" content="@athleticKoder">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image-height" content="952">
+<meta name="twitter:image-width" content="1068">
 </head>
 
 <body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
@@ -302,11 +252,11 @@ window.Quarto = {
   </script>
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top">
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Introductions</span>
     </a>
   </div>
@@ -316,11 +266,11 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./pages/work.html"> 
+    <a class="nav-link" href="../pages/work.html"> 
 <span class="menu-text">Work</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./ml-blog.html" aria-current="page"> 
+    <a class="nav-link" href="../ml-blog.html"> 
 <span class="menu-text">ML Blog</span></a>
   </li>  
 </ul>
@@ -363,383 +313,112 @@ window.Quarto = {
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Introducing Falafel: AI Video Generation in DaVinci Resolve</h1>
+                  <div>
+        <div class="description">
+          Bringing FalAI to davinci resolve
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">SaaS</div>
+                <div class="quarto-category">Diffusion Model</div>
+                <div class="quarto-category">Video Editing</div>
+                <div class="quarto-category">Open Source</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">August 11, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(11)</span></div><div class="category" data-category="QWdlbnRz">Agents <span class="quarto-category-count">(2)</span></div><div class="category" data-category="RGlmZnVzaW9u">Diffusion <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RGlmZnVzaW9uJTIwTW9kZWw=">Diffusion Model <span class="quarto-category-count">(1)</span></div><div class="category" data-category="RmluZS10dW5pbmc=">Fine-tuning <span class="quarto-category-count">(1)</span></div><div class="category" data-category="SnVsaWE=">Julia <span class="quarto-category-count">(1)</span></div><div class="category" data-category="S2VyYXNIdWI=">KerasHub <span class="quarto-category-count">(1)</span></div><div class="category" data-category="TExNcw==">LLMs <span class="quarto-category-count">(6)</span></div><div class="category" data-category="TW9kZWwlMjBBcmNoaXRlY3R1cmU=">Model Architecture <span class="quarto-category-count">(1)</span></div><div class="category" data-category="T3BlbiUyMFNvdXJjZQ==">Open Source <span class="quarto-category-count">(1)</span></div><div class="category" data-category="T3BlcmF0aW5nLXN5c3RlbQ==">Operating-system <span class="quarto-category-count">(1)</span></div><div class="category" data-category="U2FhUw==">SaaS <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VmlkZW8lMjBFZGl0aW5n">Video Editing <span class="quarto-category-count">(1)</span></div><div class="category" data-category="VkxNcw==">VLMs <span class="quarto-category-count">(1)</span></div><div class="category" data-category="V2FuZGI=">Wandb <span class="quarto-category-count">(2)</span></div></div></div>
-<!-- main -->
-<main class="content column-page-left" id="quarto-document-content">
-
-
-<header id="title-block-header" class="quarto-title-block default">
-<div class="quarto-title">
-<h1 class="title">ML Blog</h1>
-</div>
-
-
-
-<div class="quarto-title-meta column-page-left">
-
-    
-  
-    
-  </div>
-  
-
-
-</header>
-
-
-
-
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="listing-actions-group">
-   <div class="input-group input-group-sm quarto-listing-sort">
-    <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
-    <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
-      <option value="" disabled="" selected="" hidden="">Order By</option>
-      <option value="index" data-direction="asc">Default</option>
-      <option value="listing-title" data-direction="asc">
-        Title
-      </option>
-      <option value="listing-date-sort" data-direction="asc">
-        Date - Oldest
-      </option>
-      <option value="listing-date-sort" data-direction="desc">
-        Date - Newest
-      </option>
-      <option value="listing-author" data-direction="asc">
-        Author
-      </option>
-    </select>
-  </div>
-    <div class="input-group input-group-sm quarto-listing-filter">
-      <span class="input-group-text"><i class="bi bi-search"></i></span>
-      <input type="text" class="search form-control" placeholder="Filter">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#what-is-falafel" id="toc-what-is-falafel" class="nav-link active" data-scroll-target="#what-is-falafel">What is Falafel?</a></li>
+  <li><a href="#how-it-works" id="toc-how-it-works" class="nav-link" data-scroll-target="#how-it-works">How It Works</a></li>
+  <li><a href="#key-features" id="toc-key-features" class="nav-link" data-scroll-target="#key-features">Key Features</a></li>
+  <li><a href="#get-started-now" id="toc-get-started-now" class="nav-link" data-scroll-target="#get-started-now">Get Started Now</a></li>
+  <li><a href="#the-road-ahead" id="toc-the-road-ahead" class="nav-link" data-scroll-target="#the-road-ahead">The Road Ahead</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/falafel_launch.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
-</div>
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-file-modified-sort="1754455953328" data-listing-reading-time-sort="17" data-listing-word-count-sort="3211">
-<div class="thumbnail"><a href="./posts/rag_zero_to_hero.html" class="no-external">
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/rag_zero_to_hero.html" class="no-external">RAG Foundations: Building and Evaluating Your First QA System</a>
-</h3>
-<div class="delink listing-description"><a href="./posts/rag_zero_to_hero.html" class="no-external">
-Retrieval-Augmented Generation (RAG) has rapidly become the cornerstone of modern AI applications, enabling Large Language Models (LLMs) to reason over private, real-time…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/rag_zero_to_hero.html" class="no-external">
-<div class="listing-author">
-Your Name
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="U2FhUyUyQ0RpZmZ1c2lvbiUyME1vZGVsJTJDVmlkZW8lMjBFZGl0aW5nJTJDT3BlbiUyMFNvdXJjZQ==" data-listing-date-sort="1754850600000" data-listing-file-modified-sort="1754931211110" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523">
-<div class="thumbnail"><a href="./posts/falafel_launch.html" class="no-external">
 
-<p class="card-img-top"><img src="posts/assets/falafel/import_to_falafel.png"  class="thumbnail-image card-img"/></p>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/falafel_launch.html" class="no-external">Introducing Falafel: AI Video Generation in DaVinci Resolve</a>
-</h3>
-<div class="listing-categories">
 
-<div class="listing-category" onclick="window.quartoListingCategory('U2FhUw=='); return false;">SaaS</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('RGlmZnVzaW9uJTIwTW9kZWw='); return false;">Diffusion Model</div>
+<p>I’m super excited to announce the launch of <strong>Falafel</strong>, a new tool designed to bridge the gap between powerful AI video generation and professional video editing.</p>
+<p>If you’ve ever wanted to generate stunning video clips from an image using diffusion models and bring them directly into your DaVinci Resolve timeline without a cumbersome export/import process, Falafel is for you.</p>
+<section id="what-is-falafel" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-falafel">What is Falafel?</h3>
+<p>Falafel is a free, open-source desktop application that acts as a bridge between your DaVinci Resolve media pool and the powerful models available on <a href="https://fal.ai">Fal.ai</a>. It streamlines the creative process, letting you focus on editing, not file management.</p>
+<p>The name ‘Falafel’ is a fun nod to its core—it’s a wrapper for <strong>Fal</strong> AI. The project is built with Electron and the source code is available for everyone on <a href="https://github.com/kanpuriyanawab/falafel">GitHub</a>.</p>
+</section>
+<section id="how-it-works" class="level3">
+<h3 class="anchored" data-anchor-id="how-it-works">How It Works</h3>
+<p>Getting started is simple. The entire workflow is designed to keep you in your creative zone.</p>
+<ol type="1">
+<li><p><strong>Install &amp; Setup</strong> Download and install the Falafel desktop app. On the first launch, you’ll be prompted to sign in with Google to get started.</p></li>
+<li><p><strong>Connect to DaVinci Resolve</strong> Inside Resolve, navigate to the menu: <code>Workspace</code> -&gt; <code>Scripts</code> -&gt; <code>Falafel</code>. This action starts a local server that allows the two applications to communicate.</p></li>
+<li><p><strong>Select Your Source Image</strong> In the DaVinci Resolve Media Pool, simply click on the image you want to use as your source.</p></li>
+<li><p><strong>Generate in Falafel</strong> Switch over to the Falafel app.</p>
+<ul>
+<li>Click the <strong><code>Select Image from Media Pool</code></strong> button. Your chosen image will appear in the app.</li>
+<li>Enter your Fal AI API Key.</li>
+<li>Write a descriptive prompt for the video you want to create.</li>
+<li>Click <strong><code>Generate Video</code></strong> and let the AI work its magic. <img src="./assets/falafel/import_to_falafel.png" class="img-fluid"></li>
+</ul></li>
+<li><p><strong>Import to Resolve</strong> Once the generation is complete, a new button, <strong><code>Import to Media Pool</code></strong>, will appear in Falafel. Clicking this will send the newly created video file directly into your DaVinci Resolve Media Pool, ready to be dropped into your timeline.</p></li>
+</ol>
+<p><img src="./assets/falafel/import_to_media_pool.png" class="img-fluid"></p>
+</section>
+<section id="key-features" class="level3">
+<h3 class="anchored" data-anchor-id="key-features">Key Features</h3>
+<ul>
+<li><strong>Seamless Integration</strong>: A direct link between your Resolve project and AI models. No more saving, exporting, finding, and importing files.</li>
+<li><strong>Privacy-Focused</strong>: Your API keys are yours alone and are not stored or transmitted to any third-party server besides Fal.ai.</li>
+<li><strong>Open Source</strong>: Built for the community, by the community. You can inspect the code, contribute, and suggest features on <a href="https://github.com/kanpuriyanawab/falafel">GitHub</a>.</li>
+<li><strong>Free to Use</strong>: Falafel is completely free. You only need an API key from Fal.ai for the generation service itself.</li>
+</ul>
+</section>
+<section id="get-started-now" class="level3">
+<h3 class="anchored" data-anchor-id="get-started-now">Get Started Now</h3>
+<p>Ready to supercharge your editing workflow? You can download the latest version of Falafel and find the source code on the official GitHub repository.</p>
+<p><strong><a href="./assets/falafel/Falafel-1.0.0-arm64.dmg">Download Falafel</a></strong></p>
+</section>
+<section id="the-road-ahead" class="level3">
+<h3 class="anchored" data-anchor-id="the-road-ahead">The Road Ahead</h3>
+<p>This is just the beginning for Falafel. Future plans include support for more models, batch processing, and even more configuration options directly within the app.</p>
+<p>I built Falafel to solve a problem I had, and I hope it helps you too. I welcome any feedback, bug reports, and contributions. Please feel free to open an issue or pull request on GitHub.</p>
+<p>Thank you for checking it out!</p>
 
-<div class="listing-category" onclick="window.quartoListingCategory('VmlkZW8lMjBFZGl0aW5n'); return false;">Video Editing</div>
 
-<div class="listing-category" onclick="window.quartoListingCategory('T3BlbiUyMFNvdXJjZQ=='); return false;">Open Source</div>
+</section>
 
-</div>
-<div class="delink listing-description"><a href="./posts/falafel_launch.html" class="no-external">
-<p>Bringing FalAI to davinci resolve</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/falafel_launch.html" class="no-external">
-<div class="listing-date">
-Aug 11, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="TExNcw==" data-listing-date-sort="1754245800000" data-listing-file-modified-sort="1754315892217" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="24" data-listing-word-count-sort="4798">
-<div class="thumbnail"><a href="./posts/post_training_reasoning_model.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/rl_fine_tuning/grpo_vs_ppo.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/post_training_reasoning_model.html" class="no-external">Training LLMs to Think</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/post_training_reasoning_model.html" class="no-external">
-<p>Post training a LLM for reasoning with GRPO using Unsloth</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/post_training_reasoning_model.html" class="no-external">
-<div class="listing-date">
-Aug 4, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="TExNcw==" data-listing-date-sort="1753554600000" data-listing-file-modified-sort="1753616440346" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1485">
-<div class="thumbnail"><a href="./posts/what_is_gspo.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/what_is_gspo/grpo_1.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/what_is_gspo.html" class="no-external">What is GSPO?</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/what_is_gspo.html" class="no-external">
-<p>How does Group Sequence Policy Optimization work?</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/what_is_gspo.html" class="no-external">
-<div class="listing-date">
-Jul 27, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="VkxNcyUyQ0ZpbmUtdHVuaW5n" data-listing-date-sort="1753554600000" data-listing-file-modified-sort="1753610797407" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2297">
-<div class="thumbnail"><a href="./posts/fine-tuning-vlm.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/finetune_vlm/gemma3_arch.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/fine-tuning-vlm.html" class="no-external">Fine-Tuning a Vision Language Model in 2025</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('VkxNcw=='); return false;">VLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('RmluZS10dW5pbmc='); return false;">Fine-tuning</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/fine-tuning-vlm.html" class="no-external">
-<p>How to fine-tune Gemma3 vision on consumer hardware with 4-bit quantization (QLoRA)</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/fine-tuning-vlm.html" class="no-external">
-<div class="listing-date">
-Jul 27, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1749148200000" data-listing-file-modified-sort="1753561135420" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1643">
-<div class="thumbnail"><a href="./posts/text2sql_agent.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/text2sql_agent/db_schema.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/text2sql_agent.html" class="no-external">Building Production Ready Text-to-SQL Agent from Scratch</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/text2sql_agent.html" class="no-external">
-<p>Tired of Writing SQL? Let’s Build an AI That Does It For You.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/text2sql_agent.html" class="no-external">
-<div class="listing-date">
-Jun 6, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="6" data-categories="TExNcyUyQ0FnZW50cw==" data-listing-date-sort="1748889000000" data-listing-file-modified-sort="1753561103853" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="18" data-listing-word-count-sort="3401">
-<div class="thumbnail"><a href="./posts/agent_memory_101.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/agent_memory_101/memory_1.jpg"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/agent_memory_101.html" class="no-external">The AI Memory Layer Will Change Everything</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('QWdlbnRz'); return false;">Agents</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/agent_memory_101.html" class="no-external">
-<p>How Stateful Memory is Revolutionizing AI Agents and Applications</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/agent_memory_101.html" class="no-external">
-<div class="listing-date">
-Jun 3, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="7" data-categories="TExNcyUyQ09wZXJhdGluZy1zeXN0ZW0=" data-listing-date-sort="1701541800000" data-listing-file-modified-sort="1749308882776" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1200">
-<div class="thumbnail"><a href="./posts/illustrated_llmos.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/illustrated_llmos/karpathy_ss.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/illustrated_llmos.html" class="no-external">Illustrated LLM OS</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('T3BlcmF0aW5nLXN5c3RlbQ=='); return false;">Operating-system</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/illustrated_llmos.html" class="no-external">
-<p>An Implementational Perspective of LLMs as Operating Systems</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/illustrated_llmos.html" class="no-external">
-<div class="listing-date">
-Dec 3, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="8" data-categories="RGlmZnVzaW9uJTJDV2FuZGI=" data-listing-date-sort="1696185000000" data-listing-file-modified-sort="1749374943003" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
-<div class="thumbnail"><a href="./posts/sd_next.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/sd_next.html" class="no-external">Generating High-quality Images with SD.Next, HuggingFace Diffusers and W&amp;B</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('RGlmZnVzaW9u'); return false;">Diffusion</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/sd_next.html" class="no-external">
-<p>A walkthrough of using SD.Next (Advanced webUI for Stable Diffusion) for generating high-quality images using HuggingFace Diffusers and managing experiments with W&amp;B.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/sd_next.html" class="no-external">
-<div class="listing-date">
-Oct 2, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="9" data-categories="S2VyYXNIdWIlMkNMTE1zJTJDV2FuZGI=" data-listing-date-sort="1693593000000" data-listing-file-modified-sort="1749374954894" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="3">
-<div class="thumbnail"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">Predicting Semantic Similarity using KerasNLP</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('S2VyYXNIdWI='); return false;">KerasHub</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('TExNcw=='); return false;">LLMs</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('V2FuZGI='); return false;">Wandb</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-<p>This report demonstrates how to use the Weights&amp;Biases to speedup experiments with Keras</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/semantic_sim_kerasnlp.html" class="no-external">
-<div class="listing-date">
-Sep 2, 2023
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="10" data-categories="TW9kZWwlMjBBcmNoaXRlY3R1cmUlMkNKdWxpYQ==" data-listing-date-sort="1672425000000" data-listing-file-modified-sort="1753561107884" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="894">
-<div class="thumbnail"><a href="./posts/flux_is_so_flexible.html" class="no-external">
-
-<p class="card-img-top"><img src="posts/assets/flux_is_flexible/unet_full.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/flux_is_so_flexible.html" class="no-external">Deep Learning in&nbsp;Julia</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('TW9kZWwlMjBBcmNoaXRlY3R1cmU='); return false;">Model Architecture</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('SnVsaWE='); return false;">Julia</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/flux_is_so_flexible.html" class="no-external">
-<p>Implementing ML models in Flux, the Julia Deep Learning&nbsp;Package!</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/flux_is_so_flexible.html" class="no-external">
-<div class="listing-date">
-Dec 31, 2022
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1157,4 +836,4 @@ Dec 31, 2022
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/ml-blog.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/falafel_launch.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
