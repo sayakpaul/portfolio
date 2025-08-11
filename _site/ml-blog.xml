@@ -58,7 +58,7 @@
 <section id="get-started-now" class="level3">
 <h3 class="anchored" data-anchor-id="get-started-now">Get Started Now</h3>
 <p>Ready to supercharge your editing workflow? You can download the latest version of Falafel and find the source code on the official GitHub repository.</p>
-<p><strong><a href="./assets/falafel/Falafel-1.0.0-arm64.dmg">Download Falafel</a></strong></p>
+<p><strong><a href="https://github.com/kanpuriyanawab/falafel/releases/tag/v1.0.0">Download Falafel</a></strong></p>
 </section>
 <section id="the-road-ahead" class="level3">
 <h3 class="anchored" data-anchor-id="the-road-ahead">The Road Ahead</h3>
@@ -71,7 +71,7 @@
 
  ]]></description>
   <category>SaaS</category>
-  <category>Diffusion Model</category>
+  <category>Diffusion</category>
   <category>Video Editing</category>
   <category>Open Source</category>
   <guid>https://www.heyyanshuman.com/posts/falafel_launch.html</guid>
@@ -5275,7 +5275,7 @@ Code Breakdown: Loading Documents
 </ol>
 </div>
 </div>
-<p>import pathlib</p>
+<p>```{python} import pathlib</p>
 </section>
 </section>
 </section>
@@ -5565,7 +5565,7 @@ return {"score": 2, "reason": "The answer is factually correct and complete."}</
 
  ]]></description>
   <guid>https://www.heyyanshuman.com/posts/rag_zero_to_hero.html</guid>
-  <pubDate>Mon, 11 Aug 2025 16:53:32 GMT</pubDate>
+  <pubDate>Mon, 11 Aug 2025 17:10:01 GMT</pubDate>
 </item>
 </channel>
 </rss>
