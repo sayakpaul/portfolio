@@ -64,7 +64,7 @@ Getting started is simple. The entire workflow is designed to keep you in your c
 
 Ready to supercharge your editing workflow? You can download the latest version of Falafel and find the source code on the official GitHub repository.
 
-**[Download Falafel](./assets/falafel/Falafel-1.0.0-arm64.dmg)**
+**[Download Falafel](https://github.com/kanpuriyanawab/falafel/releases/tag/v1.0.0)**
 
 ### The Road Ahead
 
