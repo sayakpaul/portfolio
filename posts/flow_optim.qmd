@@ -1,8 +1,6 @@
 ---
 aliases:
 - /flow-optim
-permalink: /flow-optim
-badges: false
 toc: true
 highlight-style: github
 categories:
@@ -14,7 +12,6 @@ description: Optimizing flow-based image and video generation models beyond just
 image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/header.jpeg
 hide: false
 output-file: flow-optim.html
-search_exclude: false
 bibliography: bibs/flow_optim_references.bib
 csl: citation_styles/diabetologia.csl
 title: 'Optimizing the Full Stack: Thoughts with Image and Video Generation Models'
@@ -61,7 +58,7 @@ We will discuss most of the approaches by keeping image generation in mind. Unle
 ```
 
 Unlike large-language models (LLMs), modern image or video generation models are never single models. They are composed of multiple models. For example, the Flux model
-[@blackforestlabs2024announcing] we see in Figure 1 is composed of two text encoders, a Transformer-based [@NIPS2017_3f5ee243; @pmlr-v235-esser24a] flow model, aka the Flux Transformer, and a decoder. 
+[@blackforestlabs2024announcing] we see in Figure 1 is composed of two text encoders, a Transformer-based [@NIPS2017_3f5ee243; @pmlr-v235-esser24a] flow model i.e., the Flux Transformer, and a decoder. 
 
 In the case of text-to-image generation, we first embed the input prompt with text encoder(s). The prompt embeddings and an initial noisy latents (drawn from a Gaussian distribution) become the inputs to the flow model, responsible for denoising the noisy latents iteratively. The flow model is also conditioned on the current iteration it is operating on. Once it is done with the entire course of the iterations, the refined latents are passed to the decoder to obtain the final image pixels [@Rombach_2022_CVPR].
 
@@ -73,7 +70,7 @@ Below is the memory footprint of these individual model-level components involve
 * Transformer: 22.168 GB  
 * Decoder: 0.156 GB
 
-It is worth mentioning that amongst these models, the Transformer (aka the flow model that is the crux of the entire pipeline) is the most compute-hungry one. Most of the computation in this form of text-to-image generation is spent on this flow model. Unlike LLMs, these models are compute-bound. This means their speed is primarily limited by the ability to perform the vast number of iterative calculations on high-dimensional spaces representing images, videos, or their latents. This is different from LLMs, which are often memory-bottlenecked from loading the massive weights of their text-based Transformer architectures. Consequently, applying optimization techniques designed for memory-intensive LLMs to compute-bound generative models may yield suboptimal results or even none at all, highlighting the need for tailored strategies. Unless otherwise specified, all optimization techniques discussed are for this flow model.
+It is worth mentioning that amongst these models, the Transformer (the flow model that is the crux of the entire pipeline) is the most compute-hungry one. Most of the computation in this form of text-to-image generation is spent on this flow model. Unlike LLMs, these models are compute-bound. This means their speed is primarily limited by the ability to perform the vast number of iterative calculations on high-dimensional spaces representing images, videos, or their latents. This is different from LLMs, which are often memory-bottlenecked from loading the massive weights of their text-based Transformer architectures. Consequently, applying optimization techniques designed for memory-intensive LLMs to compute-bound generative models may yield suboptimal results or even none at all, highlighting the need for tailored strategies. Unless otherwise specified, all optimization techniques discussed are for this flow model.
 
 For image generation, when using the Bfloat16 data-type and placing all these components on the hardware accelerator memory, it takes about 33.828 GBs to go from a prompt to a 1024x1024 image. In terms of generation speed, on an H100 GPU, it is \~7 seconds.
 
