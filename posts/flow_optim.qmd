@@ -79,7 +79,7 @@ However, is it just that? I.e., we improve generation speed without sacrificing 
 
 @fig-techniques provides an overview of the different themes we will address.   
 
-![Different axes of optimization in generative diffusion-based models for images and videos. SLA refers to service-level agreement, which pushes the axes up and right, i.e., fast and reasonably good.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image2.png){#fig-techniques width=80%}
+![Different axes of optimization in generative diffusion-based models for images and videos. SLA refers to service-level agreement, which pushes the axes up and right, i.e., fast and reasonably good.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/optimizing_flow/image2.png){#fig-techniques width=75%}
 
 ## Selecting the model
 
