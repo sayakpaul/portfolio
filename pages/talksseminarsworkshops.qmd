@@ -81,6 +81,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **LLaMADuo: Marrying small language models with larger ones**, GCCD Kolkata, India (August 17, 2024). Slides are [here](https://docs.google.com/presentation/d/1pdNBbZKdinZTZhUr9fEAPEzHRTck88MeTKx1h9AA7Ws/edit?usp=sharing).
 - **Democratizing Diffusion Models with Diffusers**, Open-Source Summit, Japan (October 28, 2024). Slides are [here](https://docs.google.com/presentation/d/1Jzcnvgcwl45OJyqDP3MtUBZGSlsXDoZrzRIpNmNxFEs/edit?usp=sharing). Recording is [here](https://www.youtube.com/watch?v=xm1qt8k0bvE).
 - **Crafting pixels in the wild with Flux 🧨**, [Practical GenAI: Image and Diffusion Models](https://rsvp.withgoogle.com/events/gen-ai-labs-image-hf-gcp), Google Bangalore, India (January 25, 2025). Slides are [here](https://docs.google.com/presentation/d/1ZUbM6dSzv-YSKzRXVgl-I7hRKqKLwxJmDNloFdsxfPI/edit?usp=sharing).
+- **State of Open Video Generation Models 🎥**, AI_dev, Amsterdam (August 29, 2025). Slides are [here](https://docs.google.com/presentation/d/1XuywKs0XTqU5sjaJuXK5zyCxpktfWRK2Dn-kPD5Ne1I/edit?usp=sharing).
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
