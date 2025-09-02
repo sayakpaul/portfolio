@@ -156,7 +156,7 @@ and for blog posts.
 
 **Blogs**
 
-You can check out the article I have written or co-written on the hf.co/blog platform by visiting
+You can check out the articles I have written or co-written on the hf.co/blog platform by visiting
 [this link](https://huggingface.co/sayakpaul/activity/articles). Below are some of my favorite ones:
 
 - [The State of Computer Vision at Hugging Face 🤗](https://huggingface.co/blog/cv_state)
@@ -172,7 +172,7 @@ You can check out the article I have written or co-written on the hf.co/blog pla
 
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
-Blog posts outside the Hugging Face blogging platform:
+Blog posts outside of the Hugging Face blogging platform:
 
 * [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with Merve Noyan)
 * [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
