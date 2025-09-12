@@ -3,6 +3,7 @@ title: Authoring
 aliases: 
   - /authoring
 toc: false
+callout-appearance: minimal
 ---
 Authored the following liveProjects with [Manning](https://www.manning.com/):  
 
@@ -142,17 +143,21 @@ and for blog posts.
 
 ### Hugging Face 🤗
 
+::: {.callout-note collapse="true"}
 **Series on the deployment of TF vision models in 🤗**
 
 - [Deploying TensorFlow Vision Models in Hugging Face with TF Serving](https://huggingface.co/blog/tf-serving-vision)
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
 - [Deploying 🤗 ViT on Vertex AI](https://huggingface.co/blog/deploy-vertex-ai) (with [Chansung Park](https://github.com/deep-diver))
+:::
 
+::: {.callout-note collapse="true"}
 **Series on Diffusers x quantization**
 
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers)
 - [In our previous post, Exploring Quantization Backends in Diffusers](https://huggingface.co/blog/diffusers-quantization)
 - [(LoRA) Fine-Tuning FLUX.1-dev on Consumer Hardware](https://huggingface.co/blog/flux-qlora)
+:::
 
 **Blogs**
 
@@ -178,6 +183,7 @@ Blog posts outside of the Hugging Face blogging platform:
 * [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
 * [Presenting Flux Fast: Making Flux go brrr on H100s](https://pytorch.org/blog/presenting-flux-fast-making-flux-go-brrr-on-h100s/). [Tweet](https://x.com/PyTorch/status/1937904983254446325) from PyTorch.
 * [torch.compile and Diffusers: A Hands-On Guide to Peak Performance](https://pytorch.org/blog/torch-compile-and-diffusers-a-hands-on-guide-to-peak-performance/). [Tweet](https://x.com/PyTorch/status/1945928992315277549) from PyTorch.
+* [Reducing AoT cold start compilation time with regional compilation](https://docs.pytorch.org/tutorials/recipes/regional_aot.html) (with Charles and Angela)
 
 ### [Carted](https://www.carted.com/blog)
 
@@ -192,6 +198,7 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 - [Better Hardware Provisioning for ML Experiments](https://www.carted.com/blog/better-hardware-provisioning-for-ml-experiments)
 
 
+::: {.callout-note collapse="true"}
 ### Others
 
 -   [Lessons learned from a Deep Learning Hackathon](http://bit.ly/2YfnZhI) 
@@ -204,7 +211,7 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 -   Multi-part tutorial series on **Create Artistic Effect by Stylizing Image Background** (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz) and [George Soloupis](https://www.linkedin.com/in/george-soloupis/)) - [Part I](https://medium.com/google-developer-experts/image-background-stylizer-part-1-project-intro-d68c4547e7e3), [Part II](https://medium.com/google-developer-experts/create-artistic-effect-by-stylizing-image-background-part-2-tensorflow-lite-models-e614af91944d), [Part III](https://farmaker47.medium.com/android-part-of-create-artistic-effect-by-stylizing-an-image-segment-2a646da2d39a) [^15]
 -   [Load-testing TensorFlow Serving and FastAPI on GKE](https://medium.com/google-developer-experts/load-testing-tensorflow-serving-and-fastapi-on-gke-411bc14d96b2) (with [Chansung Park](https://github.com/deep-diver)) [^16]
 -   [[ML Story] DreamBoothing Your Way into Greatness](https://medium.com/google-developer-experts/ml-story-dreamboothing-your-way-into-greatness-d087608e6119)
-
+:::
 
 [^10]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1446611368078086144).
 [^11]:In collaboration with the [Neural Structured Learning](https://github.com/tensorflow/neural-structured-learning) team at Google.
