@@ -144,7 +144,7 @@ and for blog posts.
 ### Hugging Face 🤗
 
 ::: {.callout-note collapse="true"}
-**Series on the deployment of TF vision models in 🤗**
+Series on the deployment of TF vision models in 🤗
 
 - [Deploying TensorFlow Vision Models in Hugging Face with TF Serving](https://huggingface.co/blog/tf-serving-vision)
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
@@ -152,7 +152,7 @@ and for blog posts.
 :::
 
 ::: {.callout-note collapse="true"}
-**Series on Diffusers x quantization**
+Series on Diffusers x quantization
 
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers)
 - [In our previous post, Exploring Quantization Backends in Diffusers](https://huggingface.co/blog/diffusers-quantization)
@@ -177,6 +177,7 @@ You can check out the articles I have written or co-written on the hf.co/blog pl
 
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
+::: {.callout-note collapse="true"}
 Blog posts outside of the Hugging Face blogging platform:
 
 * [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with Merve Noyan)
@@ -184,6 +185,7 @@ Blog posts outside of the Hugging Face blogging platform:
 * [Presenting Flux Fast: Making Flux go brrr on H100s](https://pytorch.org/blog/presenting-flux-fast-making-flux-go-brrr-on-h100s/). [Tweet](https://x.com/PyTorch/status/1937904983254446325) from PyTorch.
 * [torch.compile and Diffusers: A Hands-On Guide to Peak Performance](https://pytorch.org/blog/torch-compile-and-diffusers-a-hands-on-guide-to-peak-performance/). [Tweet](https://x.com/PyTorch/status/1945928992315277549) from PyTorch.
 * [Reducing AoT cold start compilation time with regional compilation](https://docs.pytorch.org/tutorials/recipes/regional_aot.html) (with Charles and Angela)
+:::
 
 ### [Carted](https://www.carted.com/blog)
 
