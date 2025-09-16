@@ -2,6 +2,7 @@
   {
     "listing": "/ml-blog.html",
     "items": [
+      "/posts/building_ai_environments_with_verifiers.html",
       "/posts/falafel_launch.html",
       "/posts/post_training_reasoning_model.html",
       "/posts/what_is_gspo.html",

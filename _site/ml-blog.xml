@@ -10,7 +10,2036 @@
 <atom:link href="https://www.heyyanshuman.com/ml-blog.xml" rel="self" type="application/rss+xml"/>
 <description>Introductions Anshuman Mishra.</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Sun, 10 Aug 2025 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 14 Sep 2025 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>Building AI Evaluation Environments with Verifiers: A Deep Dive into LiveCodeBench</title>
+  <dc:creator>Anshuman Mishra</dc:creator>
+  <link>https://www.heyyanshuman.com/posts/building_ai_environments_with_verifiers.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>The landscape of AI agent development has evolved dramatically in recent years. As Large Language Models (LLMs) become increasingly capable, we need sophisticated frameworks to train, evaluate, and improve them systematically. This is where <strong>Verifiers</strong> comes in—a powerful Python library for creating modular RL environments and training LLM agents.</p>
+<p>In this comprehensive guide, we’ll explore how to build robust AI evaluation environments using Verifiers, with <strong>LiveCodeBench</strong> as our detailed case study. We’ll start with the fundamentals of computer use agents, explore the history and potential of this technology, then dive deep into both using and building environments with the Verifiers framework.</p>
+<section id="the-rise-of-computer-use-agents" class="level2">
+<h2 class="anchored" data-anchor-id="the-rise-of-computer-use-agents">The Rise of Computer Use Agents</h2>
+<section id="what-are-computer-use-agents" class="level3">
+<h3 class="anchored" data-anchor-id="what-are-computer-use-agents">What Are Computer Use Agents?</h3>
+<p>Computer use agents represent a paradigm shift in AI capabilities. Unlike traditional LLMs that simply generate text, these agents can interact with digital environments, execute code, use tools, and perform complex multi-step tasks. They bridge the gap between language understanding and actionable intelligence.</p>
+<p>Think of them as AI assistants that can: - Write and execute code in real-time - Navigate user interfaces - Use APIs and external tools - Solve complex problems through iterative reasoning - Learn from feedback and improve over time</p>
+</section>
+<section id="the-evolution-and-potential" class="level3">
+<h3 class="anchored" data-anchor-id="the-evolution-and-potential">The Evolution and Potential</h3>
+<p>The journey from static language models to dynamic agents represents one of the most significant advances in AI:</p>
+<p><strong>Early Days (2018-2020)</strong>: Models like GPT-2 could generate coherent text but had no way to interact with the world.</p>
+<p><strong>The Breakthrough (2020-2022)</strong>: GPT-3 and similar models showed remarkable reasoning capabilities, but still operated in isolation.</p>
+<p><strong>The Agent Era (2022-Present)</strong>: Models like GPT-4, Claude, and specialized agent frameworks began demonstrating the ability to use tools, write code, and interact with external systems.</p>
+<p><strong>The Future</strong>: We’re moving toward agents that can autonomously handle complex software engineering tasks, scientific research, and real-world problem solving.</p>
+<p>This evolution requires sophisticated evaluation frameworks—which is exactly what Verifiers provides.</p>
+</section>
+</section>
+<section id="livecodebench-a-real-world-coding-environment" class="level2">
+<h2 class="anchored" data-anchor-id="livecodebench-a-real-world-coding-environment">LiveCodeBench: A Real-World Coding Environment</h2>
+<p>Before diving into how to build environments, let’s understand LiveCodeBench—a state-of-the-art coding evaluation benchmark that perfectly demonstrates the power of the Verifiers framework.</p>
+<section id="what-is-livecodebench" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-livecodebench">What is LiveCodeBench?</h3>
+<p>LiveCodeBench is a dynamic coding evaluation platform that: - Collects new programming problems over time - Tests LLMs on three distinct scenarios - Uses secure sandboxes for safe code execution - Provides comprehensive metrics for model performance</p>
+</section>
+<section id="the-three-evaluation-modes" class="level3">
+<h3 class="anchored" data-anchor-id="the-three-evaluation-modes">The Three Evaluation Modes</h3>
+<p>LiveCodeBench supports three complementary evaluation scenarios:</p>
+<section id="code-generation-code-generation" class="level4">
+<h4 class="anchored" data-anchor-id="code-generation-code-generation">1. Code Generation (<code>code-generation</code>)</h4>
+<p>The most comprehensive mode where the LLM must write a complete program that solves a given problem specification and passes all test cases.</p>
+<p><strong>Example Task:</strong></p>
+<pre><code>Title: Two Sum
+Problem: Given an array of integers and a target, return indices of two numbers that add up to target.
+
+Input: [2,7,11,15], target = 9
+Expected: [0,1] (because nums[0] + nums[1] = 2 + 7 = 9)</code></pre>
+<p>The agent must generate working Python code that handles all edge cases.</p>
+</section>
+<section id="code-execution-code-execution" class="level4">
+<h4 class="anchored" data-anchor-id="code-execution-code-execution">2. Code Execution (<code>code-execution</code>)</h4>
+<p>The LLM receives a function and input, then predicts the output without actually running the code.</p>
+<p><strong>Example:</strong></p>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> fibonacci(n):</span>
+<span id="cb2-2">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> n <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>:</span>
+<span id="cb2-3">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> n</span>
+<span id="cb2-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> fibonacci(n<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> fibonacci(n<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb2-5"></span>
+<span id="cb2-6">Input: fibonacci(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>)</span>
+<span id="cb2-7">Expected Output: <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span></span></code></pre></div>
+</section>
+<section id="test-output-prediction-output-prediction" class="level4">
+<h4 class="anchored" data-anchor-id="test-output-prediction-output-prediction">3. Test Output Prediction (<code>output-prediction</code>)</h4>
+<p>Similar to code execution, but the LLM only receives a natural language description of the function.</p>
+<p><strong>Example:</strong></p>
+<pre><code>Function Description: Returns the nth Fibonacci number using recursion
+Input: n=5
+Expected Output: 5</code></pre>
+</section>
+</section>
+<section id="running-livecodebench-evaluations" class="level3">
+<h3 class="anchored" data-anchor-id="running-livecodebench-evaluations">Running LiveCodeBench Evaluations</h3>
+<p>The beauty of Verifiers is how simple it makes running evaluations:</p>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Code Generation (requires Prime sandboxes for safe execution)</span></span>
+<span id="cb4-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> run vf-eval livecodebench <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-a</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{"mode": "code-generation"}'</span> <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-c</span> 5</span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Code Execution</span></span>
+<span id="cb4-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> run vf-eval livecodebench <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-a</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{"mode": "code-execution"}'</span></span>
+<span id="cb4-6"></span>
+<span id="cb4-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Output Prediction</span></span>
+<span id="cb4-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> run vf-eval livecodebench <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-a</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{"mode": "output-prediction"}'</span></span></code></pre></div>
+</section>
+<section id="environment-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="environment-configuration">Environment Configuration</h3>
+<p>LiveCodeBench offers extensive customization options:</p>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Example configuration for advanced usage</span></span>
+<span id="cb5-2">config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb5-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"mode"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-generation"</span>,</span>
+<span id="cb5-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"medium"</span>,           <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Filter by difficulty</span></span>
+<span id="cb5-5">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"start_date"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2024-01-01"</span>,      <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Filter by date range</span></span>
+<span id="cb5-6">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end_date"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"2024-12-31"</span>,</span>
+<span id="cb5-7">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"use_think"</span>: <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,               <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Enable chain-of-thought</span></span>
+<span id="cb5-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"version"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"v6"</span>,                 <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Dataset version</span></span>
+<span id="cb5-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"max_concurrent_sandboxes"</span>: <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Control resource usage</span></span>
+<span id="cb5-10">}</span></code></pre></div>
+</section>
+</section>
+<section id="understanding-the-verifiers-framework" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-the-verifiers-framework">Understanding the Verifiers Framework</h2>
+<p>Now that we’ve seen LiveCodeBench in action, let’s explore how the Verifiers framework makes this possible.</p>
+<section id="core-architecture" class="level3">
+<h3 class="anchored" data-anchor-id="core-architecture">Core Architecture</h3>
+<p>Verifiers follows a modular design with four key components:</p>
+<section id="environments---the-foundation" class="level4">
+<h4 class="anchored" data-anchor-id="environments---the-foundation">1. <strong>Environments</strong> - The Foundation</h4>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> SingleTurnEnv, MultiTurnEnv, ToolEnv</span>
+<span id="cb6-2"></span>
+<span id="cb6-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> MyEnvironment(SingleTurnEnv):</span>
+<span id="cb6-4">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, dataset, system_prompt, parser, rubric):</span>
+<span id="cb6-5">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">super</span>().<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(dataset, system_prompt, parser, rubric)</span></code></pre></div>
+<p>Environments define the structure of your evaluation task: - <strong>SingleTurnEnv</strong>: For one-shot tasks like code generation - <strong>MultiTurnEnv</strong>: For interactive tasks requiring multiple exchanges - <strong>ToolEnv</strong>: For agents that need to use external tools</p>
+</section>
+<section id="parsers---extracting-meaning" class="level4">
+<h4 class="anchored" data-anchor-id="parsers---extracting-meaning">2. <strong>Parsers</strong> - Extracting Meaning</h4>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Parser, ThinkParser, XMLParser</span>
+<span id="cb7-2"></span>
+<span id="cb7-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Custom parser for code extraction</span></span>
+<span id="cb7-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> extract_python_code(completion: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="cb7-5">    pattern <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"```python</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">```"</span></span>
+<span id="cb7-6">    matches <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.findall(pattern, completion, re.DOTALL)</span>
+<span id="cb7-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> matches[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> matches <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> completion</span>
+<span id="cb7-8"></span>
+<span id="cb7-9">parser <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Parser(extract_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>extract_python_code)</span></code></pre></div>
+<p>Parsers handle the complex task of extracting structured information from LLM outputs.</p>
+</section>
+<section id="rubrics---defining-success" class="level4">
+<h4 class="anchored" data-anchor-id="rubrics---defining-success">3. <strong>Rubrics</strong> - Defining Success</h4>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Rubric</span>
+<span id="cb8-2"></span>
+<span id="cb8-3"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> correctness_score(completion, info, state, parser):</span>
+<span id="cb8-4">    code <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> parser.parse_answer(completion)</span>
+<span id="cb8-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Run tests and return score between 0.0 and 1.0</span></span>
+<span id="cb8-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> test_results_score</span>
+<span id="cb8-7"></span>
+<span id="cb8-8"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> pass_score(state):</span>
+<span id="cb8-9">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Binary: 1.0 if all tests pass, 0.0 otherwise</span></span>
+<span id="cb8-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"correctness_score"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb8-11"></span>
+<span id="cb8-12">rubric <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Rubric(</span>
+<span id="cb8-13">    funcs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[correctness_score, pass_score],</span>
+<span id="cb8-14">    weights<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>],  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Only pass_score affects final reward</span></span>
+<span id="cb8-15">    parser<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>parser</span>
+<span id="cb8-16">)</span></code></pre></div>
+<p>Rubrics encapsulate the logic for evaluating agent performance.</p>
+</section>
+<section id="utilities---the-support-system" class="level4">
+<h4 class="anchored" data-anchor-id="utilities---the-support-system">4. <strong>Utilities</strong> - The Support System</h4>
+<ul>
+<li><strong>Model utilities</strong>: Easy loading of models and tokenizers</li>
+<li><strong>Data utilities</strong>: Dataset loading and preprocessing</li>
+<li><strong>Training utilities</strong>: GRPO trainer for RL fine-tuning</li>
+</ul>
+</section>
+</section>
+<section id="how-livecodebench-leverages-verifiers" class="level3">
+<h3 class="anchored" data-anchor-id="how-livecodebench-leverages-verifiers">How LiveCodeBench Leverages Verifiers</h3>
+<p>Let’s examine how LiveCodeBench implements these concepts:</p>
+<section id="environment-structure" class="level4">
+<h4 class="anchored" data-anchor-id="environment-structure">Environment Structure</h4>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># From livecodebench/livecodebench.py</span></span>
+<span id="cb9-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> load_environment(</span>
+<span id="cb9-3">    mode: Literal[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-execution"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-generation"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"output-prediction"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-generation"</span>,</span>
+<span id="cb9-4">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs,</span>
+<span id="cb9-5">) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> vf.Environment:</span>
+<span id="cb9-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">match</span> mode:</span>
+<span id="cb9-7">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">case</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-execution"</span>:</span>
+<span id="cb9-8">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> load_code_execution_environment(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs)</span>
+<span id="cb9-9">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">case</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"code-generation"</span>:</span>
+<span id="cb9-10">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> load_code_generation_environment(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs)</span>
+<span id="cb9-11">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">case</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"output-prediction"</span>:</span>
+<span id="cb9-12">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> load_output_prediction_environment(<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs)</span></code></pre></div>
+<p>The main entry point demonstrates Verifiers’ flexibility—one codebase supports three different evaluation modes.</p>
+</section>
+<section id="custom-parser-implementation" class="level4">
+<h4 class="anchored" data-anchor-id="custom-parser-implementation">Custom Parser Implementation</h4>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># From code_generation.py</span></span>
+<span id="cb10-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> extract_code(completion: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, lang: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>, strict: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">bool</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="cb10-3">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Find all generic code blocks</span></span>
+<span id="cb10-4">    code_block_pattern <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"```</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[A-Za-z]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">```"</span></span>
+<span id="cb10-5">    code_blocks <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.findall(code_block_pattern, completion, re.DOTALL)</span>
+<span id="cb10-6"></span>
+<span id="cb10-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> lang <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb10-8">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> code_blocks:</span>
+<span id="cb10-9">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> code_blocks[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].strip()</span>
+<span id="cb10-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> strict <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> completion</span>
+<span id="cb10-11"></span>
+<span id="cb10-12">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Language-specific extraction...</span></span>
+<span id="cb10-13">    lang_code_block_pattern <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">rf"```</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>lang<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">```"</span></span>
+<span id="cb10-14">    lang_code_blocks <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.findall(lang_code_block_pattern, completion, re.DOTALL)</span>
+<span id="cb10-15"></span>
+<span id="cb10-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> lang_code_blocks:</span>
+<span id="cb10-17">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> lang_code_blocks[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].strip()</span>
+<span id="cb10-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> strict <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> (code_blocks[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> code_blocks <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> completion)</span>
+<span id="cb10-19"></span>
+<span id="cb10-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Usage in environment</span></span>
+<span id="cb10-21">extract_fn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> partial(extract_code, lang<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"python"</span>, strict<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb10-22">parser <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> vf.ThinkParser(extract_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>extract_fn) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> use_think <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> vf.Parser(extract_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>extract_fn)</span></code></pre></div>
+<p>This parser intelligently extracts Python code from markdown-formatted LLM responses.</p>
+</section>
+<section id="sophisticated-rubric-design" class="level4">
+<h4 class="anchored" data-anchor-id="sophisticated-rubric-design">Sophisticated Rubric Design</h4>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># From code_generation.py</span></span>
+<span id="cb11-2"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> correctness_score(completion: Messages, info: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>, state: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>, parser: vf.Parser) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>:</span>
+<span id="cb11-3">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Load verification data from cache</span></span>
+<span id="cb11-4">    verification_key <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> info.get(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"verification_key"</span>)</span>
+<span id="cb11-5">    verification_file <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> verification_cache[verification_key]</span>
+<span id="cb11-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">open</span>(verification_file, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"rb"</span>) <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> f:</span>
+<span id="cb11-7">        verification_data <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pickle.load(f)</span>
+<span id="cb11-8"></span>
+<span id="cb11-9">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Parse the generated code</span></span>
+<span id="cb11-10">    parsed_code <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> parser.parse_answer(completion)</span>
+<span id="cb11-11">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> parsed_code:</span>
+<span id="cb11-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb11-13"></span>
+<span id="cb11-14">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Execute in secure sandbox</span></span>
+<span id="cb11-15">    sandbox_ctx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sandbox_context"</span>]()</span>
+<span id="cb11-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> sandbox_ctx <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> (sandbox_client, sandbox):</span>
+<span id="cb11-17">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb11-18">            results <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">await</span> run_tests_in_sandbox(</span>
+<span id="cb11-19">                code<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>parsed_code,</span>
+<span id="cb11-20">                sandbox_client<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>sandbox_client,</span>
+<span id="cb11-21">                sandbox<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>sandbox,</span>
+<span id="cb11-22">                <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>verification_data,</span>
+<span id="cb11-23">            )</span>
+<span id="cb11-24">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">Exception</span> <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> e:</span>
+<span id="cb11-25">            logger.error(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Error during verification: </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>e<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb11-26">            results <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb11-27"></span>
+<span id="cb11-28">    score <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">sum</span>(results) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(results) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> results <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb11-29">    state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"correctness_score"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> score</span>
+<span id="cb11-30">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> score</span>
+<span id="cb11-31"></span>
+<span id="cb11-32"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> pass_score(state: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>:</span>
+<span id="cb11-33">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Returns 1.0 if all test cases pass, 0.0 otherwise"""</span></span>
+<span id="cb11-34">    raw_score <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"correctness_score"</span>]</span>
+<span id="cb11-35">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> raw_score <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb11-36"></span>
+<span id="cb11-37"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Combine into rubric</span></span>
+<span id="cb11-38">rubric <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> vf.Rubric(</span>
+<span id="cb11-39">    funcs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[correctness_score, pass_score],</span>
+<span id="cb11-40">    weights<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span>, <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>],  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Only pass_score contributes to final reward</span></span>
+<span id="cb11-41">    parser<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>parser,</span>
+<span id="cb11-42">    parallelize_scoring<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sandboxes need sequential execution</span></span>
+<span id="cb11-43">)</span></code></pre></div>
+<p>This rubric demonstrates advanced features: - <strong>Asynchronous scoring</strong>: Handles time-intensive operations - <strong>Sandbox integration</strong>: Safe code execution - <strong>State management</strong>: Sharing data between scoring functions - <strong>Multiple metrics</strong>: Both fine-grained and binary success measures</p>
+</section>
+<section id="dataset-management" class="level4">
+<h4 class="anchored" data-anchor-id="dataset-management">Dataset Management</h4>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># From code_generation.py</span></span>
+<span id="cb12-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> load_dataset(dataset_name: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, version: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb12-3">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> load_jsonl_file(jsonl_file: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb12-4">        file_path <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> hf_hub_download(repo_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>dataset_name, filename<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>jsonl_file, repo_type<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dataset"</span>)</span>
+<span id="cb12-5">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">with</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">open</span>(file_path, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"r"</span>) <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> f:</span>
+<span id="cb12-6">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [json.loads(line.strip()) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> line <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> f.readlines()]</span>
+<span id="cb12-7"></span>
+<span id="cb12-8">    examples <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb12-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> jsonl_file <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> ALLOWED_FILES[version]:</span>
+<span id="cb12-10">        examples.extend(load_jsonl_file(jsonl_file))</span>
+<span id="cb12-11"></span>
+<span id="cb12-12">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> Dataset.from_list(examples)</span>
+<span id="cb12-13"></span>
+<span id="cb12-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Process and filter dataset</span></span>
+<span id="cb12-15">dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> load_dataset(dataset_name, version).<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">map</span>(process_example, with_indices<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>)</span>
+<span id="cb12-16"></span>
+<span id="cb12-17"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> difficulty <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb12-18">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> x: x[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"info"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> difficulty)</span>
+<span id="cb12-19"></span>
+<span id="cb12-20"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> start_date <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">is</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">not</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb12-21">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">filter</span>(</span>
+<span id="cb12-22">        <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> x: datetime.strptime(start_date, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%Y-%m-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%d</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb12-23">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;=</span> datetime.strptime(x[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"info"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"contest_date"</span>], <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"%Y-%m-</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">%d</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb12-24">    )</span></code></pre></div>
+<p>The data loading showcases Verifiers’ integration with HuggingFace datasets and sophisticated filtering capabilities.</p>
+</section>
+</section>
+</section>
+<section id="building-your-own-environment-with-verifiers" class="level2">
+<h2 class="anchored" data-anchor-id="building-your-own-environment-with-verifiers">Building Your Own Environment with Verifiers</h2>
+<p>Now let’s walk through creating a custom environment from scratch. We’ll build a simple math problem solver as an example.</p>
+<section id="step-1-project-setup" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-project-setup">Step 1: Project Setup</h3>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create new environment</span></span>
+<span id="cb13-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">prime</span> env init math-solver</span>
+<span id="cb13-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">cd</span> math-solver</span>
+<span id="cb13-4"></span>
+<span id="cb13-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Install dependencies</span></span>
+<span id="cb13-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> add verifiers<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span>=0.1.3</span></code></pre></div>
+</section>
+<section id="step-2-define-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-define-the-dataset">Step 2: Define the Dataset</h3>
+<p>Create a simple dataset of math problems:</p>
+<div class="sourceCode" id="cb14" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># math_solver/data_utils.py</span></span>
+<span id="cb14-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> datasets <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Dataset</span>
+<span id="cb14-3"></span>
+<span id="cb14-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> create_math_dataset():</span>
+<span id="cb14-5">    problems <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb14-6">        {</span>
+<span id="cb14-7">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"question"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"What is 15 + 27?"</span>,</span>
+<span id="cb14-8">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"42"</span>,</span>
+<span id="cb14-9">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"easy"</span></span>
+<span id="cb14-10">        },</span>
+<span id="cb14-11">        {</span>
+<span id="cb14-12">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"question"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"If f(x) = 2x² + 3x - 1, what is f(4)?"</span>,</span>
+<span id="cb14-13">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"43"</span>,</span>
+<span id="cb14-14">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"medium"</span></span>
+<span id="cb14-15">        },</span>
+<span id="cb14-16">        {</span>
+<span id="cb14-17">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"question"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Solve for x: 3x + 7 = 22"</span>,</span>
+<span id="cb14-18">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"5"</span>,</span>
+<span id="cb14-19">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"medium"</span></span>
+<span id="cb14-20">        }</span>
+<span id="cb14-21">    ]</span>
+<span id="cb14-22"></span>
+<span id="cb14-23">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> Dataset.from_list([</span>
+<span id="cb14-24">        {</span>
+<span id="cb14-25">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prompt"</span>: problem[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"question"</span>],</span>
+<span id="cb14-26">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>: problem[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>],</span>
+<span id="cb14-27">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"info"</span>: {<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>: problem[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>]}</span>
+<span id="cb14-28">        }</span>
+<span id="cb14-29">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> problem <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> problems</span>
+<span id="cb14-30">    ])</span></code></pre></div>
+</section>
+<section id="step-3-create-custom-parser" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-custom-parser">Step 3: Create Custom Parser</h3>
+<div class="sourceCode" id="cb15" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># math_solver/parser.py</span></span>
+<span id="cb15-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> re</span>
+<span id="cb15-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Parser</span>
+<span id="cb15-4"></span>
+<span id="cb15-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> extract_numerical_answer(completion: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="cb15-6">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Extract numerical answer from completion."""</span></span>
+<span id="cb15-7">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Look for patterns like "The answer is 42" or "= 42"</span></span>
+<span id="cb15-8">    patterns <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [</span>
+<span id="cb15-9">        <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"</span>(?:<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">answer is</span><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">equals</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">=</span>)<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\s</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[+-]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>(?:<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>,</span>
+<span id="cb15-10">        <span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[+-]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>(?:<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\s</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span>(?:<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">is the answer</span><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">$</span>)<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb15-11">    ]</span>
+<span id="cb15-12"></span>
+<span id="cb15-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> pattern <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> patterns:</span>
+<span id="cb15-14">        match <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.search(pattern, completion, re.IGNORECASE)</span>
+<span id="cb15-15">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> match:</span>
+<span id="cb15-16">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> match.group(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).strip()</span>
+<span id="cb15-17"></span>
+<span id="cb15-18">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Fallback: extract last number</span></span>
+<span id="cb15-19">    numbers <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.findall(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[+-]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>(?:<span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\.</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, completion)</span>
+<span id="cb15-20">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> numbers[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> numbers <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span></span>
+<span id="cb15-21"></span>
+<span id="cb15-22"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> MathParser(Parser):</span>
+<span id="cb15-23">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>):</span>
+<span id="cb15-24">        <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">super</span>().<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">__init__</span>(extract_fn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>extract_numerical_answer)</span></code></pre></div>
+</section>
+<section id="step-4-define-scoring-rubric" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-define-scoring-rubric">Step 4: Define Scoring Rubric</h3>
+<div class="sourceCode" id="cb16" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># math_solver/rubric.py</span></span>
+<span id="cb16-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Rubric</span>
+<span id="cb16-3"></span>
+<span id="cb16-4"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> correctness_score(completion, info, state, parser):</span>
+<span id="cb16-5">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Score based on exact numerical match."""</span></span>
+<span id="cb16-6">    predicted <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> parser.parse_answer(completion)</span>
+<span id="cb16-7">    expected <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> info.get(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"answer"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>)</span>
+<span id="cb16-8"></span>
+<span id="cb16-9">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">try</span>:</span>
+<span id="cb16-10">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Handle floating point comparison</span></span>
+<span id="cb16-11">        pred_num <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(predicted)</span>
+<span id="cb16-12">        exp_num <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(expected)</span>
+<span id="cb16-13">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">abs</span>(pred_num <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> exp_num) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e-6</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb16-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">except</span> (<span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ValueError</span>, <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">TypeError</span>):</span>
+<span id="cb16-15">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># String comparison fallback</span></span>
+<span id="cb16-16">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> predicted.strip() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> expected.strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb16-17"></span>
+<span id="cb16-18"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> create_math_rubric(parser):</span>
+<span id="cb16-19">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> Rubric(</span>
+<span id="cb16-20">        funcs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[correctness_score],</span>
+<span id="cb16-21">        weights<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[<span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>],</span>
+<span id="cb16-22">        parser<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>parser</span>
+<span id="cb16-23">    )</span></code></pre></div>
+</section>
+<section id="step-5-implement-the-environment" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-implement-the-environment">Step 5: Implement the Environment</h3>
+<div class="sourceCode" id="cb17" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># math_solver/math_solver.py</span></span>
+<span id="cb17-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> vf</span>
+<span id="cb17-3"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> .data_utils <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> create_math_dataset</span>
+<span id="cb17-4"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> .parser <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> MathParser</span>
+<span id="cb17-5"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> .rubric <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> create_math_rubric</span>
+<span id="cb17-6"></span>
+<span id="cb17-7"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> load_environment(</span>
+<span id="cb17-8">    difficulty: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>,</span>
+<span id="cb17-9">    system_prompt: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"You are a helpful math tutor. Solve the given problem step by step."</span>,</span>
+<span id="cb17-10">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs</span>
+<span id="cb17-11">) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> vf.Environment:</span>
+<span id="cb17-12">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Load the math solver environment."""</span></span>
+<span id="cb17-13"></span>
+<span id="cb17-14">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Load and filter dataset</span></span>
+<span id="cb17-15">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> create_math_dataset()</span>
+<span id="cb17-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> difficulty:</span>
+<span id="cb17-17">        dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">filter</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">lambda</span> x: x[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"info"</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"difficulty"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> difficulty)</span>
+<span id="cb17-18"></span>
+<span id="cb17-19">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Setup parser and rubric</span></span>
+<span id="cb17-20">    parser <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> MathParser()</span>
+<span id="cb17-21">    rubric <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> create_math_rubric(parser)</span>
+<span id="cb17-22"></span>
+<span id="cb17-23">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Create environment</span></span>
+<span id="cb17-24">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> vf.SingleTurnEnv(</span>
+<span id="cb17-25">        eval_dataset<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>dataset,</span>
+<span id="cb17-26">        system_prompt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>system_prompt,</span>
+<span id="cb17-27">        parser<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>parser,</span>
+<span id="cb17-28">        rubric<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>rubric,</span>
+<span id="cb17-29">        <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs</span>
+<span id="cb17-30">    )</span></code></pre></div>
+</section>
+<section id="step-6-package-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="step-6-package-configuration">Step 6: Package Configuration</h3>
+<div class="sourceCode" id="cb18" style="background: #f1f3f5;"><pre class="sourceCode toml code-with-copy"><code class="sourceCode toml"><span id="cb18-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># pyproject.toml</span></span>
+<span id="cb18-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">[project]</span></span>
+<span id="cb18-3"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">name</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"math-solver"</span></span>
+<span id="cb18-4"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">description</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Math problem solving environment"</span></span>
+<span id="cb18-5"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">tags</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"single-turn"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"math"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"eval"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb18-6"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">version</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"0.1.0"</span></span>
+<span id="cb18-7"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">requires-python</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&gt;=3.11"</span></span>
+<span id="cb18-8"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">dependencies</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[</span></span>
+<span id="cb18-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"verifiers&gt;=0.1.3"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span></span>
+<span id="cb18-10">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"datasets&gt;=2.0.0"</span></span>
+<span id="cb18-11"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb18-12"></span>
+<span id="cb18-13"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">[build-system]</span></span>
+<span id="cb18-14"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">requires</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">[</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hatchling"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">]</span></span>
+<span id="cb18-15"><span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">build-backend</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hatchling.build"</span></span></code></pre></div>
+</section>
+<section id="step-7-entry-point" class="level3">
+<h3 class="anchored" data-anchor-id="step-7-entry-point">Step 7: Entry Point</h3>
+<div class="sourceCode" id="cb19" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># math_solver/__init__.py</span></span>
+<span id="cb19-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> .math_solver <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> load_environment</span>
+<span id="cb19-3"></span>
+<span id="cb19-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__all__</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"load_environment"</span>]</span></code></pre></div>
+</section>
+<section id="step-8-testing-your-environment" class="level3">
+<h3 class="anchored" data-anchor-id="step-8-testing-your-environment">Step 8: Testing Your Environment</h3>
+<div class="sourceCode" id="cb20" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb20-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Install your environment</span></span>
+<span id="cb20-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> pip install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-e</span> .</span>
+<span id="cb20-3"></span>
+<span id="cb20-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Run evaluation</span></span>
+<span id="cb20-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> run vf-eval math-solver <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-a</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'{"difficulty": "easy"}'</span></span>
+<span id="cb20-6"></span>
+<span id="cb20-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># View results</span></span>
+<span id="cb20-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> run vf-tui</span></code></pre></div>
+</section>
+</section>
+<section id="advanced-verifiers-features" class="level2">
+<h2 class="anchored" data-anchor-id="advanced-verifiers-features">Advanced Verifiers Features</h2>
+<section id="multi-turn-environments" class="level3">
+<h3 class="anchored" data-anchor-id="multi-turn-environments">Multi-Turn Environments</h3>
+<p>For interactive tasks, use <code>MultiTurnEnv</code>:</p>
+<div class="sourceCode" id="cb21" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> MultiTurnEnv</span>
+<span id="cb21-2"></span>
+<span id="cb21-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> TutorEnvironment(MultiTurnEnv):</span>
+<span id="cb21-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> is_completed(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, messages, state, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs):</span>
+<span id="cb21-5">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Define completion criteria</span></span>
+<span id="cb21-6">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"responses"</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">or</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"final answer"</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> messages[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>][<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span>].lower()</span>
+<span id="cb21-7"></span>
+<span id="cb21-8">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> env_response(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, messages, state, <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>kwargs):</span>
+<span id="cb21-9">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Generate environment's response to continue conversation</span></span>
+<span id="cb21-10">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(state[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"responses"</span>]) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>:</span>
+<span id="cb21-11">            <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"role"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"user"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Can you explain your reasoning?"</span>}], state</span>
+<span id="cb21-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> [{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"role"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"user"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"content"</span>: <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Please provide your final answer."</span>}], state</span></code></pre></div>
+</section>
+<section id="tool-environments" class="level3">
+<h3 class="anchored" data-anchor-id="tool-environments">Tool Environments</h3>
+<p>For agents that need external tools:</p>
+<div class="sourceCode" id="cb22" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> ToolEnv</span>
+<span id="cb22-2"></span>
+<span id="cb22-3"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">class</span> CodeAnalysisEnv(ToolEnv):</span>
+<span id="cb22-4">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> setup_tools(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>):</span>
+<span id="cb22-5">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {</span>
+<span id="cb22-6">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"run_code"</span>: <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.run_code_tool,</span>
+<span id="cb22-7">            <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"analyze_ast"</span>: <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.analyze_ast_tool</span>
+<span id="cb22-8">        }</span>
+<span id="cb22-9"></span>
+<span id="cb22-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">async</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> run_code_tool(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>, code: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb22-11">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Implement safe code execution</span></span>
+<span id="cb22-12">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">pass</span></span></code></pre></div>
+</section>
+<section id="training-with-grpo" class="level3">
+<h3 class="anchored" data-anchor-id="training-with-grpo">Training with GRPO</h3>
+<p>Verifiers includes a GRPO (Generalized Reward from Process and Outcome) trainer:</p>
+<div class="sourceCode" id="cb23" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> verifiers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> GRPOTrainer, GRPOConfig</span>
+<span id="cb23-2"></span>
+<span id="cb23-3">config <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> GRPOConfig(</span>
+<span id="cb23-4">    learning_rate<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1e-5</span>,</span>
+<span id="cb23-5">    batch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">32</span>,</span>
+<span id="cb23-6">    num_epochs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span></span>
+<span id="cb23-7">)</span>
+<span id="cb23-8"></span>
+<span id="cb23-9">trainer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> GRPOTrainer(</span>
+<span id="cb23-10">    model<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>model,</span>
+<span id="cb23-11">    tokenizer<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tokenizer,</span>
+<span id="cb23-12">    config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>config</span>
+<span id="cb23-13">)</span>
+<span id="cb23-14"></span>
+<span id="cb23-15">trainer.train(environment)</span></code></pre></div>
+</section>
+</section>
+<section id="best-practices-and-tips" class="level2">
+<h2 class="anchored" data-anchor-id="best-practices-and-tips">Best Practices and Tips</h2>
+<section id="dataset-design" class="level3">
+<h3 class="anchored" data-anchor-id="dataset-design">1. <strong>Dataset Design</strong></h3>
+<ul>
+<li>Start small and iterate</li>
+<li>Include diverse difficulty levels</li>
+<li>Provide rich metadata in the <code>info</code> field</li>
+<li>Use HuggingFace datasets for easy sharing</li>
+</ul>
+</section>
+<section id="parser-implementation" class="level3">
+<h3 class="anchored" data-anchor-id="parser-implementation">2. <strong>Parser Implementation</strong></h3>
+<ul>
+<li>Handle edge cases gracefully</li>
+<li>Provide fallback extraction methods</li>
+<li>Use regex carefully—test thoroughly</li>
+<li>Consider using <code>ThinkParser</code> for chain-of-thought</li>
+</ul>
+</section>
+<section id="rubric-design" class="level3">
+<h3 class="anchored" data-anchor-id="rubric-design">3. <strong>Rubric Design</strong></h3>
+<ul>
+<li>Separate concerns: multiple simple functions vs.&nbsp;one complex function</li>
+<li>Use appropriate weights for different metrics</li>
+<li>Handle async operations properly</li>
+<li>Cache expensive computations in state</li>
+</ul>
+</section>
+<section id="testing-and-validation" class="level3">
+<h3 class="anchored" data-anchor-id="testing-and-validation">4. <strong>Testing and Validation</strong></h3>
+<ul>
+<li>Test with different model types and sizes</li>
+<li>Validate against known baselines</li>
+<li>Use <code>vf-eval -s</code> to save outputs for analysis</li>
+<li>Monitor performance across different difficulty levels</li>
+</ul>
+</section>
+<section id="performance-optimization" class="level3">
+<h3 class="anchored" data-anchor-id="performance-optimization">5. <strong>Performance Optimization</strong></h3>
+<ul>
+<li>Use <code>parallelize_scoring=True</code> when possible</li>
+<li>Implement caching for repeated computations</li>
+<li>Consider batch processing for similar tasks</li>
+<li>Monitor resource usage, especially with sandboxes</li>
+</ul>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>The Verifiers framework represents a significant advancement in LLM evaluation and training infrastructure. Through our exploration of LiveCodeBench, we’ve seen how sophisticated evaluation environments can be built with relatively simple, modular components.</p>
+<p>Key takeaways:</p>
+<ol type="1">
+<li><p><strong>Modularity Matters</strong>: Verifiers’ separation of concerns makes environments easy to build, test, and maintain.</p></li>
+<li><p><strong>Real-World Complexity</strong>: LiveCodeBench demonstrates how to handle complex scenarios like secure code execution and multi-modal evaluation.</p></li>
+<li><p><strong>Extensibility</strong>: The framework easily adapts to new task types and evaluation criteria.</p></li>
+<li><p><strong>Production Ready</strong>: Features like async scoring, sandbox integration, and RL training make Verifiers suitable for serious research and development.</p></li>
+</ol>
+<p>As AI agents become more capable, frameworks like Verifiers will be essential for ensuring they develop safely and effectively. Whether you’re building simple math solvers or complex multi-turn coding environments, Verifiers provides the foundation you need.</p>
+<p>The future of AI lies in agents that can interact with the world effectively. With tools like Verifiers, we can build the evaluation infrastructure needed to get there safely and systematically.</p>
+</section>
+<section id="resources-and-next-steps" class="level2">
+<h2 class="anchored" data-anchor-id="resources-and-next-steps">Resources and Next Steps</h2>
+<ul>
+<li><strong>Verifiers Documentation</strong>: <a href="https://verifiers.readthedocs.io/">Read the docs</a></li>
+<li><strong>LiveCodeBench Paper</strong>: <a href="https://arxiv.org/pdf/2403.07974">Research details</a></li>
+<li><strong>Prime Environments</strong>: <a href="https://github.com/PrimeIntellect-ai/prime-environments">Official repository</a></li>
+<li><strong>Community</strong>: Join discussions and share your environments</li>
+</ul>
+<p>Start building your own environments today, and contribute to the future of AI agent evaluation!</p>
+
+
+</section>
+
+ ]]></description>
+  <category>AI</category>
+  <category>LLM</category>
+  <category>Reinforcement Learning</category>
+  <category>Evaluation</category>
+  <category>Framework</category>
+  <guid>https://www.heyyanshuman.com/posts/building_ai_environments_with_verifiers.html</guid>
+  <pubDate>Sun, 14 Sep 2025 18:30:00 GMT</pubDate>
+</item>
 <item>
   <title>Introducing Falafel: AI Video Generation in DaVinci Resolve</title>
   <link>https://www.heyyanshuman.com/posts/falafel_launch.html</link>

@@ -4,7 +4,7 @@ description: "Learn how to create robust RL environments for training and evalua
 author: "Anshuman Mishra"
 date: "2025-09-15"
 categories: [AI, LLM, Reinforcement Learning, Evaluation, Framework]
-image: "assets/verifiers_architecture.png"
+# image: "assets/verifiers_architecture.png"
 draft: false
 ---
 
