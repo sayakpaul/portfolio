@@ -1,63 +1,184 @@
 ---
-title: "Building AI Evaluation Environments with Verifiers: A Deep Dive into LiveCodeBench"
-description: "Learn how to create robust RL environments for training and evaluating LLM agents using the Verifiers framework, with LiveCodeBench as our comprehensive example"
+title: "Building AI Evaluation Environments with Verifiers: The Complete Guide"
+description: "Master the art of creating sophisticated RL environments for training and evaluating LLM agents using the Verifiers framework - from simple Q&A to complex multi-turn tool-using agents"
 author: "Anshuman Mishra"
 date: "2025-09-15"
-categories: [AI, LLM, Reinforcement Learning, Evaluation, Framework]
+categories: [AI, LLM, Reinforcement Learning, Evaluation, Framework, GRPO, Training]
+highlight-style: dracula
+badges: false
+toc: true
 # image: "assets/verifiers_architecture.png"
 draft: false
 ---
 
+The landscape of AI agent development has evolved dramatically in recent years. As Large Language Models (LLMs) become increasingly capable, we need sophisticated frameworks to train, evaluate, and improve them systematically. This is where **Verifiers** comes in—a revolutionary Python library that transforms how we create RL environments for LLM training and evaluation.
 
-The landscape of AI agent development has evolved dramatically in recent years. As Large Language Models (LLMs) become increasingly capable, we need sophisticated frameworks to train, evaluate, and improve them systematically. This is where **Verifiers** comes in—a powerful Python library for creating modular RL environments and training LLM agents.
+::: {.callout-important title="Why This Guide Matters"}
+Traditional evaluation approaches fall short when dealing with complex, multi-step reasoning tasks. As an ML engineer or researcher, you need frameworks that can:
 
-In this comprehensive guide, we'll explore how to build robust AI evaluation environments using Verifiers, with **LiveCodeBench** as our detailed case study. We'll start with the fundamentals of computer use agents, explore the history and potential of this technology, then dive deep into both using and building environments with the Verifiers framework.
+- **Define custom interaction protocols** between models and environments
+- **Evaluate responses using multiple criteria** simultaneously
+- **Handle everything** from simple Q&A to complex tool-using agents
+- **Scale seamlessly** from quick prototypes to production training pipelines
+:::
 
-## The Rise of Computer Use Agents
+In this comprehensive guide, we'll explore every aspect of building robust AI evaluation environments using Verifiers. From fundamental concepts to advanced training techniques, you'll learn to create environments that can truly measure and improve LLM capabilities.
 
-### What Are Computer Use Agents?
+## Understanding the Challenge: Why Traditional Evaluation Falls Short
 
-Computer use agents represent a paradigm shift in AI capabilities. Unlike traditional LLMs that simply generate text, these agents can interact with digital environments, execute code, use tools, and perform complex multi-step tasks. They bridge the gap between language understanding and actionable intelligence.
+### The Problem with Static Evaluation
 
-Think of them as AI assistants that can:
-- Write and execute code in real-time
-- Navigate user interfaces
-- Use APIs and external tools
-- Solve complex problems through iterative reasoning
-- Learn from feedback and improve over time
+Most ML evaluation follows a simple pattern: input → model → output → score. This works well for classification or simple generation tasks, but breaks down when evaluating intelligent agents that need to:
 
-### The Evolution and Potential
+- **Reason through multi-step problems** (like debugging code or solving math problems)
+- **Use tools dynamically** (like searching, calculating, or executing code)
+- **Adapt their approach** based on intermediate feedback
+- **Handle complex interaction protocols** (like games, tutoring, or collaborative problem-solving)
 
-The journey from static language models to dynamic agents represents one of the most significant advances in AI:
+::: {.callout-note title="Traditional vs. Agent Evaluation"}
+**Traditional:** Single-turn evaluation with fixed input/output pairs
+```
+Prompt → Model → Response → Score
+```
 
-**Early Days (2018-2020)**: Models like GPT-2 could generate coherent text but had no way to interact with the world.
+**Agent-based:** Dynamic interaction with environmental feedback
+```
+Prompt → Model → Action → Environment → Feedback → Model → Action → ...
+```
+:::
 
-**The Breakthrough (2020-2022)**: GPT-3 and similar models showed remarkable reasoning capabilities, but still operated in isolation.
+### What Makes Agent Evaluation Different
 
-**The Agent Era (2022-Present)**: Models like GPT-4, Claude, and specialized agent frameworks began demonstrating the ability to use tools, write code, and interact with external systems.
+Agent evaluation requires thinking about **interaction protocols**—the structured ways agents and environments communicate. This is where **Verifiers** shines by providing:
 
-**The Future**: We're moving toward agents that can autonomously handle complex software engineering tasks, scientific research, and real-world problem solving.
+1. **Flexible interaction protocols** via environment types
+2. **Multi-criteria evaluation** through sophisticated rubric systems
+3. **Seamless integration** with existing ML workflows
+4. **Production-ready scaling** from prototypes to training pipelines
 
-This evolution requires sophisticated evaluation frameworks—which is exactly what Verifiers provides.
+### The Verifiers Philosophy: Protocol-First Design
 
-## LiveCodeBench: A Real-World Coding Environment
+Verifiers encourages you to think **protocol-first**:
+- When should the environment respond to the model?
+- What information should it provide?
+- How should the conversation end?
+- What constitutes success across multiple dimensions?
 
-Before diving into how to build environments, let's understand LiveCodeBench—a state-of-the-art coding evaluation benchmark that perfectly demonstrates the power of the Verifiers framework.
+This approach makes complex evaluation scenarios tractable and reusable.
+
+## What is Verifiers? Core Concepts and Architecture
+
+Verifiers is a flexible framework for defining custom interaction protocols between LLMs and environments, enabling sophisticated multi-turn reasoning, tool use, and interactive evaluation.
+
+::: {.callout-tip title="Key Features"}
+- **First-class OpenAI compatibility** for `ChatCompletions` and `Completions`
+- **Extensible multi-turn interactions** via `MultiTurnEnv`
+- **Native tool calling** support with `ToolEnv`
+- **Modular reward functions** through `Rubric` classes
+- **End-to-end async compatibility** with sync support where needed
+- **Full-spectrum scaling** from CPU evaluations to multi-node GPU RL training
+- **Environments as Python modules** for easy installation, sharing, and reuse
+:::
+
+### The Three Pillars of Verifiers
+
+Every environment in Verifiers is built on three fundamental components:
+
+#### 1. **Dataset** - Your Input/Output Pairs
+```python
+# Can be strings or structured chat messages
+dataset = [
+    {
+        "prompt": "What is 2 + 2?",
+        "answer": "4",
+        "info": {"difficulty": "easy"}
+    }
+]
+```
+
+#### 2. **Rubric** - Your Evaluation Logic
+```python
+# One or more reward functions
+def correctness(completion, answer, **kwargs):
+    return 1.0 if answer in completion[-1]['content'] else 0.0
+
+rubric = vf.Rubric(funcs=[correctness])
+```
+
+#### 3. **Interaction Protocol** - Your Environment Logic
+```python
+# Extends from SingleTurnEnv, MultiTurnEnv, or ToolEnv
+class MyEnvironment(vf.MultiTurnEnv):
+    async def env_response(self, messages, state):
+        # Define how environment responds
+        return response_messages, updated_state
+```
+
+### Environment Types: Choose Your Interaction Pattern
+
+Verifiers provides three base environment types to handle different interaction patterns:
+
+#### **SingleTurnEnv**: Simple Q&A Tasks
+Perfect for straightforward evaluation without interaction:
+
+```python
+env = vf.SingleTurnEnv(
+    dataset=dataset,
+    system_prompt="Answer the question.",
+    rubric=rubric,
+)
+```
+
+#### **MultiTurnEnv**: Custom Interaction Protocols
+Maximum flexibility for defining your own interaction patterns:
+
+```python
+class GameEnv(vf.MultiTurnEnv):
+    async def env_response(self, messages, state):
+        # Custom game logic here
+        return game_feedback, updated_state
+
+    async def is_completed(self, messages, state):
+        return state.get("game_over", False)
+```
+
+#### **ToolEnv**: Native Tool Calling
+Leverages models' built-in function calling for agentic workflows:
+
+```python
+def search(query: str) -> str:
+    """Search for information."""
+    return search_results
+
+env = vf.ToolEnv(
+    tools=[search, calculate],  # Automatically converted to schemas
+    dataset=dataset,
+    rubric=rubric
+)
+```
+
+## LiveCodeBench: A Real-World Case Study
+
+Before diving into how to build environments, let's examine LiveCodeBench—a state-of-the-art coding evaluation benchmark that perfectly demonstrates Verifiers' power and flexibility.
 
 ### What is LiveCodeBench?
 
-LiveCodeBench is a dynamic coding evaluation platform that:
-- Collects new programming problems over time
-- Tests LLMs on three distinct scenarios
-- Uses secure sandboxes for safe code execution
-- Provides comprehensive metrics for model performance
+LiveCodeBench is a dynamic coding evaluation platform built with Verifiers that demonstrates advanced environment design:
+
+::: {.callout-note title="LiveCodeBench Features"}
+- **Dynamic dataset**: Collects new programming problems over time
+- **Multi-modal evaluation**: Tests LLMs on three distinct scenarios
+- **Secure execution**: Uses Prime sandboxes for safe code execution
+- **Comprehensive metrics**: Provides detailed performance analytics
+- **Real-world complexity**: Handles edge cases, timeouts, and error conditions
+:::
 
 ### The Three Evaluation Modes
 
-LiveCodeBench supports three complementary evaluation scenarios:
+LiveCodeBench showcases Verifiers' flexibility by supporting three complementary evaluation scenarios within a single framework:
 
 #### 1. Code Generation (`code-generation`)
-The most comprehensive mode where the LLM must write a complete program that solves a given problem specification and passes all test cases.
+A `SingleTurnEnv` where the LLM must write complete programs that pass all test cases.
 
 **Example Task:**
 ```
@@ -68,10 +189,8 @@ Input: [2,7,11,15], target = 9
 Expected: [0,1] (because nums[0] + nums[1] = 2 + 7 = 9)
 ```
 
-The agent must generate working Python code that handles all edge cases.
-
 #### 2. Code Execution (`code-execution`)
-The LLM receives a function and input, then predicts the output without actually running the code.
+A `SingleTurnEnv` where the LLM predicts code output without execution.
 
 **Example:**
 ```python
@@ -85,7 +204,7 @@ Expected Output: 5
 ```
 
 #### 3. Test Output Prediction (`output-prediction`)
-Similar to code execution, but the LLM only receives a natural language description of the function.
+A `SingleTurnEnv` where the LLM only receives natural language descriptions.
 
 **Example:**
 ```
@@ -96,22 +215,32 @@ Expected Output: 5
 
 ### Running LiveCodeBench Evaluations
 
-The beauty of Verifiers is how simple it makes running evaluations:
+The beauty of Verifiers is how simple it makes running complex evaluations:
 
 ```bash
-# Code Generation (requires Prime sandboxes for safe execution)
-uv run vf-eval livecodebench -a '{"mode": "code-generation"}' -c 5
+# Install LiveCodeBench environment
+vf-install livecodebench --from-repo
+
+# Code Generation (requires sandboxes for safe execution)
+vf-eval livecodebench -a '{"mode": "code-generation"}' -n 50
 
 # Code Execution
-uv run vf-eval livecodebench -a '{"mode": "code-execution"}'
+vf-eval livecodebench -a '{"mode": "code-execution"}' -n 100
 
 # Output Prediction
-uv run vf-eval livecodebench -a '{"mode": "output-prediction"}'
+vf-eval livecodebench -a '{"mode": "output-prediction"}' -n 100
 ```
 
-### Environment Configuration
+::: {.callout-tip title="Evaluation CLI Options"}
+- `-n 50`: Run on 50 examples
+- `-s`: Save results for later analysis with `vf-tui`
+- `-m gpt-4o`: Specify model (defaults to `gpt-4o-mini`)
+- `-r 3`: Run 3 rollouts per example for statistical significance
+:::
 
-LiveCodeBench offers extensive customization options:
+### Advanced LiveCodeBench Configuration
+
+LiveCodeBench demonstrates sophisticated environment customization:
 
 ```python
 # Example configuration for advanced usage
@@ -120,37 +249,72 @@ config = {
     "difficulty": "medium",           # Filter by difficulty
     "start_date": "2024-01-01",      # Filter by date range
     "end_date": "2024-12-31",
-    "use_think": True,               # Enable chain-of-thought
+    "use_think": True,               # Enable chain-of-thought with ThinkParser
     "version": "v6",                 # Dataset version
     "max_concurrent_sandboxes": 10   # Control resource usage
 }
+
+# Load with custom configuration
+env = vf.load_environment("livecodebench", **config)
 ```
 
-## Understanding the Verifiers Framework
+## Deep Dive: Verifiers Framework Components
 
-Now that we've seen LiveCodeBench in action, let's explore how the Verifiers framework makes this possible.
+Now that we've seen LiveCodeBench in action, let's explore the complete Verifiers framework and understand how to leverage every component effectively.
 
-### Core Architecture
+### Installation and Setup
 
-Verifiers follows a modular design with four key components:
+```bash
+# Basic installation for evaluation
+uv add verifiers
 
-#### 1. **Environments** - The Foundation
-```python
-from verifiers import SingleTurnEnv, MultiTurnEnv, ToolEnv
+# Full installation with training support
+uv add 'verifiers[all]' && uv pip install flash-attn --no-build-isolation
 
-class MyEnvironment(SingleTurnEnv):
-    def __init__(self, dataset, system_prompt, parser, rubric):
-        super().__init__(dataset, system_prompt, parser, rubric)
+# Development setup
+git clone https://github.com/willccbb/verifiers.git
+cd verifiers
+uv sync --all-extras && uv pip install flash-attn --no-build-isolation
+uv run pre-commit install
 ```
 
-Environments define the structure of your evaluation task:
-- **SingleTurnEnv**: For one-shot tasks like code generation
-- **MultiTurnEnv**: For interactive tasks requiring multiple exchanges
-- **ToolEnv**: For agents that need to use external tools
+::: {.callout-tip title="Installation Options"}
+- **Basic**: Core evaluation functionality
+- **Training**: Includes GRPO trainer and vLLM support
+- **Development**: Full setup for contributing to Verifiers
+:::
 
-#### 2. **Parsers** - Extracting Meaning
+### Core Architecture: The Four Pillars
+
+Verifiers follows a modular design with four key components that work together seamlessly:
+
+#### 1. **Environments** - The Interaction Orchestrator
+
+Environments define the structure and flow of your evaluation task:
+
 ```python
-from verifiers import Parser, ThinkParser, XMLParser
+import verifiers as vf
+
+# SingleTurnEnv: For one-shot tasks like code generation
+env = vf.SingleTurnEnv(dataset=dataset, rubric=rubric)
+
+# MultiTurnEnv: For interactive tasks requiring multiple exchanges
+class GameEnv(vf.MultiTurnEnv):
+    async def env_response(self, messages, state):
+        return game_feedback, updated_state
+
+# ToolEnv: For agents that need to use external tools
+env = vf.ToolEnv(tools=[search, calculate], dataset=dataset, rubric=rubric)
+```
+
+#### 2. **Parsers** - Extracting Structured Information
+
+Parsers handle the complex task of extracting structured information from LLM outputs:
+
+```python
+# Built-in parsers
+parser = vf.ThinkParser(extract_fn=extract_number)  # Separates reasoning from answers
+parser = vf.XMLParser(fields=["think", "answer"])   # Extracts XML-tagged content
 
 # Custom parser for code extraction
 def extract_python_code(completion: str) -> str:
@@ -158,189 +322,78 @@ def extract_python_code(completion: str) -> str:
     matches = re.findall(pattern, completion, re.DOTALL)
     return matches[-1].strip() if matches else completion
 
-parser = Parser(extract_fn=extract_python_code)
+parser = vf.Parser(extract_fn=extract_python_code)
 ```
 
-Parsers handle the complex task of extracting structured information from LLM outputs.
+#### 3. **Rubrics** - Multi-Criteria Evaluation
 
-#### 3. **Rubrics** - Defining Success
+Rubrics define how to evaluate model responses through multiple criteria:
+
 ```python
-from verifiers import Rubric
+# Simple reward function
+def correctness(completion, answer, **kwargs):
+    return 1.0 if answer in completion[-1]['content'] else 0.0
 
-async def correctness_score(completion, info, state, parser):
+# Complex async reward function
+async def code_quality(completion, info, state, parser):
     code = parser.parse_answer(completion)
-    # Run tests and return score between 0.0 and 1.0
-    return test_results_score
+    # Run static analysis, tests, etc.
+    return quality_score
 
-def pass_score(state):
-    # Binary: 1.0 if all tests pass, 0.0 otherwise
-    return 1.0 if state["correctness_score"] == 1.0 else 0.0
-
-rubric = Rubric(
-    funcs=[correctness_score, pass_score],
-    weights=[0.0, 1.0],  # Only pass_score affects final reward
-    parser=parser
-)
-```
-
-Rubrics encapsulate the logic for evaluating agent performance.
-
-#### 4. **Utilities** - The Support System
-- **Model utilities**: Easy loading of models and tokenizers
-- **Data utilities**: Dataset loading and preprocessing
-- **Training utilities**: GRPO trainer for RL fine-tuning
-
-### How LiveCodeBench Leverages Verifiers
-
-Let's examine how LiveCodeBench implements these concepts:
-
-#### Environment Structure
-```python
-# From livecodebench/livecodebench.py
-def load_environment(
-    mode: Literal["code-execution", "code-generation", "output-prediction"] = "code-generation",
-    **kwargs,
-) -> vf.Environment:
-    match mode:
-        case "code-execution":
-            return load_code_execution_environment(**kwargs)
-        case "code-generation":
-            return load_code_generation_environment(**kwargs)
-        case "output-prediction":
-            return load_output_prediction_environment(**kwargs)
-```
-
-The main entry point demonstrates Verifiers' flexibility—one codebase supports three different evaluation modes.
-
-#### Custom Parser Implementation
-```python
-# From code_generation.py
-def extract_code(completion: str, lang: str | None = None, strict: bool = False) -> str:
-    # Find all generic code blocks
-    code_block_pattern = r"```[A-Za-z]*\n(.*?)\n```"
-    code_blocks = re.findall(code_block_pattern, completion, re.DOTALL)
-
-    if lang is None:
-        if code_blocks:
-            return code_blocks[-1].strip()
-        return "" if strict else completion
-
-    # Language-specific extraction...
-    lang_code_block_pattern = rf"```{lang}\n(.*?)\n```"
-    lang_code_blocks = re.findall(lang_code_block_pattern, completion, re.DOTALL)
-
-    if lang_code_blocks:
-        return lang_code_blocks[-1].strip()
-    return "" if strict else (code_blocks[-1].strip() if code_blocks else completion)
-
-# Usage in environment
-extract_fn = partial(extract_code, lang="python", strict=True)
-parser = vf.ThinkParser(extract_fn=extract_fn) if use_think else vf.Parser(extract_fn=extract_fn)
-```
-
-This parser intelligently extracts Python code from markdown-formatted LLM responses.
-
-#### Sophisticated Rubric Design
-```python
-# From code_generation.py
-async def correctness_score(completion: Messages, info: dict, state: dict, parser: vf.Parser) -> float:
-    # Load verification data from cache
-    verification_key = info.get("verification_key")
-    verification_file = verification_cache[verification_key]
-    with open(verification_file, "rb") as f:
-        verification_data = pickle.load(f)
-
-    # Parse the generated code
-    parsed_code = parser.parse_answer(completion)
-    if not parsed_code:
-        return 0.0
-
-    # Execute in secure sandbox
-    sandbox_ctx = state["sandbox_context"]()
-    async with sandbox_ctx as (sandbox_client, sandbox):
-        try:
-            results = await run_tests_in_sandbox(
-                code=parsed_code,
-                sandbox_client=sandbox_client,
-                sandbox=sandbox,
-                **verification_data,
-            )
-        except Exception as e:
-            logger.error(f"Error during verification: {e}")
-            results = []
-
-    score = sum(results) / len(results) if results else 0.0
-    state["correctness_score"] = score
-    return score
-
-def pass_score(state: dict) -> float:
-    """Returns 1.0 if all test cases pass, 0.0 otherwise"""
-    raw_score = state["correctness_score"]
-    return 1.0 if raw_score == 1.0 else 0.0
-
-# Combine into rubric
+# Combine multiple criteria with weights
 rubric = vf.Rubric(
-    funcs=[correctness_score, pass_score],
-    weights=[0.0, 1.0],  # Only pass_score contributes to final reward
-    parser=parser,
-    parallelize_scoring=False  # Sandboxes need sequential execution
+    funcs=[correctness, code_quality, efficiency],
+    weights=[1.0, 0.3, 0.1]  # Relative importance
 )
 ```
 
-This rubric demonstrates advanced features:
-- **Asynchronous scoring**: Handles time-intensive operations
-- **Sandbox integration**: Safe code execution
-- **State management**: Sharing data between scoring functions
-- **Multiple metrics**: Both fine-grained and binary success measures
+#### 4. **State Management** - Tracking Interaction Context
 
-#### Dataset Management
+Environments maintain rich state throughout interactions:
+
 ```python
-# From code_generation.py
-def load_dataset(dataset_name: str, version: str):
-    def load_jsonl_file(jsonl_file: str):
-        file_path = hf_hub_download(repo_id=dataset_name, filename=jsonl_file, repo_type="dataset")
-        with open(file_path, "r") as f:
-            return [json.loads(line.strip()) for line in f.readlines()]
+state = {
+    # Automatically managed by Verifiers
+    "prompt": prompt,      # Input from dataset
+    "completion": [],      # Full conversation trajectory
+    "answer": answer,      # Ground truth answer
+    "info": info,         # Additional metadata
+    "responses": [],      # Raw API responses
+    "turn": 0,           # Current turn number
 
-    examples = []
-    for jsonl_file in ALLOWED_FILES[version]:
-        examples.extend(load_jsonl_file(jsonl_file))
-
-    return Dataset.from_list(examples)
-
-# Process and filter dataset
-dataset = load_dataset(dataset_name, version).map(process_example, with_indices=True)
-
-if difficulty is not None:
-    dataset = dataset.filter(lambda x: x["info"]["difficulty"] == difficulty)
-
-if start_date is not None:
-    dataset = dataset.filter(
-        lambda x: datetime.strptime(start_date, "%Y-%m-%d")
-        <= datetime.strptime(x["info"]["contest_date"], "%Y-%m-%d")
-    )
+    # Custom state for your environment
+    "lives_remaining": 3,
+    "inventory": {"tool1": 1, "tool2": 2},
+    "game_score": 0
+}
 ```
 
-The data loading showcases Verifiers' integration with HuggingFace datasets and sophisticated filtering capabilities.
+## Building Your First Environment: Step-by-Step Tutorial
 
-## Building Your Own Environment with Verifiers
+Let's create a comprehensive math problem solver to understand how all these concepts work together in practice.
 
-Now let's walk through creating a custom environment from scratch. We'll build a simple math problem solver as an example.
-
-### Step 1: Project Setup
+### Step 1: Environment Setup
 
 ```bash
-# Create new environment
-prime env init math-solver
-cd math-solver
+# Create new environment from template
+vf-init math-solver
+cd environments/math_solver
 
-# Install dependencies
-uv add verifiers>=0.1.3
+# Install for development
+vf-install math-solver
 ```
 
-### Step 2: Define the Dataset
+This creates the standard environment structure:
+```
+environments/math_solver/
+├── math_solver.py      # Main implementation
+├── pyproject.toml      # Dependencies and metadata
+└── README.md           # Documentation
+```
 
-Create a simple dataset of math problems:
+### Step 2: Dataset Creation
+
+Create a structured dataset with various math problems:
 
 ```python
 # math_solver/data_utils.py
@@ -351,17 +404,20 @@ def create_math_dataset():
         {
             "question": "What is 15 + 27?",
             "answer": "42",
-            "difficulty": "easy"
+            "difficulty": "easy",
+            "type": "arithmetic"
         },
         {
             "question": "If f(x) = 2x² + 3x - 1, what is f(4)?",
             "answer": "43",
-            "difficulty": "medium"
+            "difficulty": "medium",
+            "type": "algebra"
         },
         {
             "question": "Solve for x: 3x + 7 = 22",
             "answer": "5",
-            "difficulty": "medium"
+            "difficulty": "medium",
+            "type": "equation"
         }
     ]
 
@@ -369,70 +425,112 @@ def create_math_dataset():
         {
             "prompt": problem["question"],
             "answer": problem["answer"],
-            "info": {"difficulty": problem["difficulty"]}
+            "info": {
+                "difficulty": problem["difficulty"],
+                "type": problem["type"]
+            }
         }
         for problem in problems
     ])
 ```
 
-### Step 3: Create Custom Parser
+### Step 3: Custom Parser Implementation
+
+Create a robust parser for extracting numerical answers:
 
 ```python
 # math_solver/parser.py
 import re
-from verifiers import Parser
+import verifiers as vf
 
-def extract_numerical_answer(completion: str) -> str:
-    """Extract numerical answer from completion."""
-    # Look for patterns like "The answer is 42" or "= 42"
-    patterns = [
-        r"(?:answer is|equals?|=)\s*([+-]?\d+(?:\.\d+)?)",
-        r"([+-]?\d+(?:\.\d+)?)\s*(?:is the answer|$)"
-    ]
+class MathParser(vf.Parser):
+    """Extract numerical answers from mathematical responses."""
 
-    for pattern in patterns:
-        match = re.search(pattern, completion, re.IGNORECASE)
-        if match:
-            return match.group(1).strip()
-
-    # Fallback: extract last number
-    numbers = re.findall(r"([+-]?\d+(?:\.\d+)?)", completion)
-    return numbers[-1] if numbers else ""
-
-class MathParser(Parser):
     def __init__(self):
-        super().__init__(extract_fn=extract_numerical_answer)
+        super().__init__(extract_fn=self.extract_numerical_answer)
+
+    def extract_numerical_answer(self, completion: str) -> str:
+        """Extract numerical answer from completion."""
+        if isinstance(completion, list):
+            completion = completion[-1]['content']
+
+        # Look for patterns like "The answer is 42" or "= 42"
+        patterns = [
+            r"(?:answer is|equals?|=)\s*([+-]?\d+(?:\.\d+)?)",
+            r"([+-]?\d+(?:\.\d+)?)\s*(?:is the answer|$)",
+            r"\\boxed\{([+-]?\d+(?:\.\d+)?)\}",  # LaTeX boxed answers
+        ]
+
+        for pattern in patterns:
+            match = re.search(pattern, completion, re.IGNORECASE)
+            if match:
+                return match.group(1).strip()
+
+        # Fallback: extract last number
+        numbers = re.findall(r"([+-]?\d+(?:\.\d+)?)", completion)
+        return numbers[-1] if numbers else ""
 ```
 
-### Step 4: Define Scoring Rubric
+### Step 4: Multi-Criteria Rubric Design
+
+Create sophisticated evaluation with multiple criteria:
 
 ```python
 # math_solver/rubric.py
-from verifiers import Rubric
+import verifiers as vf
 
-async def correctness_score(completion, info, state, parser):
+def exact_match_score(parser, completion, answer, **kwargs):
     """Score based on exact numerical match."""
     predicted = parser.parse_answer(completion)
-    expected = info.get("answer", "")
 
     try:
         # Handle floating point comparison
         pred_num = float(predicted)
-        exp_num = float(expected)
+        exp_num = float(answer)
         return 1.0 if abs(pred_num - exp_num) < 1e-6 else 0.0
     except (ValueError, TypeError):
         # String comparison fallback
-        return 1.0 if predicted.strip() == expected.strip() else 0.0
+        return 1.0 if predicted.strip() == answer.strip() else 0.0
+
+def work_shown_score(completion, **kwargs):
+    """Reward for showing mathematical work."""
+    if isinstance(completion, list):
+        text = completion[-1]['content']
+    else:
+        text = completion
+
+    # Count mathematical operations and steps
+    operations = len(re.findall(r'[+\-*/=]', text))
+    steps = text.count('\n') + 1
+
+    # Normalize score
+    return min(1.0, (operations + steps) / 10)
 
 def create_math_rubric(parser):
-    return Rubric(
-        funcs=[correctness_score],
-        weights=[1.0],
+    """Create comprehensive math evaluation rubric."""
+
+    # Base rubric with exact match and work-showing
+    base_rubric = vf.Rubric(
+        funcs=[exact_match_score, work_shown_score],
+        weights=[1.0, 0.2],  # Correctness is primary, work shown is bonus
         parser=parser
     )
+
+    # Judge rubric for mathematical reasoning quality
+    judge_rubric = vf.JudgeRubric(
+        judge_prompt="""Evaluate the mathematical reasoning quality:
+        1. Are the steps logically correct?
+        2. Is the mathematical notation appropriate?
+        3. Is the explanation clear and complete?
+
+        Rate from 0.0 to 1.0."""
+    )
+
+    # Combine rubrics for comprehensive evaluation
+    return vf.RubricGroup([base_rubric, judge_rubric])
 ```
 
-### Step 5: Implement the Environment
+### Step 5: Complete Environment Implementation
 
 ```python
 # math_solver/math_solver.py
@@ -443,189 +541,1010 @@ from .rubric import create_math_rubric
 
 def load_environment(
     difficulty: str | None = None,
-    system_prompt: str = "You are a helpful math tutor. Solve the given problem step by step.",
+    problem_type: str | None = None,
+    use_tools: bool = False,
+    system_prompt: str = "You are a helpful math tutor. Solve the problem step by step and clearly state your final answer.",
     **kwargs
 ) -> vf.Environment:
-    """Load the math solver environment."""
+    """Load the math solver environment with various configurations."""
 
     # Load and filter dataset
     dataset = create_math_dataset()
+
     if difficulty:
         dataset = dataset.filter(lambda x: x["info"]["difficulty"] == difficulty)
+
+    if problem_type:
+        dataset = dataset.filter(lambda x: x["info"]["type"] == problem_type)
 
     # Setup parser and rubric
     parser = MathParser()
     rubric = create_math_rubric(parser)
 
-    # Create environment
-    return vf.SingleTurnEnv(
-        eval_dataset=dataset,
-        system_prompt=system_prompt,
-        parser=parser,
-        rubric=rubric,
+    # Conditionally add calculator tool
+    if use_tools:
+        def calculate(expression: str) -> float:
+            """Safely evaluate mathematical expressions."""
+            try:
+                # In production, use a safe math parser
+                import ast
+                return eval(expression, {"__builtins__": {}}, {})
+            except:
+                return "Error: Invalid expression"
+
+        return vf.ToolEnv(
+            dataset=dataset,
+            tools=[calculate],
+            system_prompt=system_prompt,
+            parser=parser,
+            rubric=rubric,
+            **kwargs
+        )
+    else:
+        return vf.SingleTurnEnv(
+            dataset=dataset,
+            system_prompt=system_prompt,
+            parser=parser,
+            rubric=rubric,
+            **kwargs
+        )
+```
+
+### Step 6: Testing Your Environment
+
+```bash
+# Test with easy problems
+vf-eval math-solver -a '{"difficulty": "easy"}' -n 5 -s
+
+# Test with tool usage
+vf-eval math-solver -a '{"use_tools": true}' -n 10
+
+# View results interactively
+vf-tui
+```
+
+::: {.callout-tip title="Testing Best Practices"}
+- Start with small sample sizes (`-n 5`) during development
+- Use `-s` to save results for analysis
+- Test different configurations to understand behavior
+- Use `vf-tui` to explore results interactively
+:::
+
+## Advanced Environment Patterns
+
+### MultiTurnEnv: Interactive Tutoring System
+
+Let's build an interactive math tutoring environment that provides hints and feedback:
+
+```python
+from verifiers.types import Messages, State
+from typing import Tuple
+import verifiers as vf
+
+class MathTutorEnv(vf.MultiTurnEnv):
+    """Interactive math tutoring with hints and feedback."""
+
+    def __init__(self, max_attempts=3, **kwargs):
+        super().__init__(**kwargs)
+        self.max_attempts = max_attempts
+
+    async def env_response(self, messages: Messages, state: State) -> Tuple[Messages, State]:
+        """Provide tutoring feedback based on student responses."""
+
+        # Initialize on first turn
+        if state.get("turn", 0) == 0:
+            state["turn"] = 1
+            state["attempts"] = 0
+            return [{"role": "user", "content": state["prompt"]}], state
+
+        # Get student's latest response
+        last_msg = messages[-1]
+        if last_msg["role"] != "assistant":
+            return [], state
+
+        student_answer = last_msg["content"]
+        state["attempts"] += 1
+
+        # Parse and evaluate answer
+        parsed_answer = self.parser.parse_answer(student_answer)
+        correct_answer = state["answer"]
+
+        is_correct = self.check_answer(parsed_answer, correct_answer)
+
+        if is_correct:
+            state["solved"] = True
+            response = [{"role": "user", "content": "Excellent! That's correct. Great work!"}]
+            return response, state
+
+        elif state["attempts"] >= self.max_attempts:
+            state["failed"] = True
+            response = [{"role": "user", "content": f"Let's work through this together. The answer is {correct_answer}. Here's how to solve it: [detailed explanation]"}]
+            return response, state
+
+        else:
+            # Provide hint based on attempt number
+            hint = self.generate_hint(state["prompt"], state["attempts"])
+            remaining = self.max_attempts - state["attempts"]
+            response = [{"role": "user", "content": f"Not quite right. {hint} You have {remaining} attempts remaining."}]
+            return response, state
+
+    async def is_completed(self, messages: Messages, state: State) -> bool:
+        """Check if tutoring session is complete."""
+        return state.get("solved", False) or state.get("failed", False)
+
+    def generate_hint(self, problem: str, attempt_num: int) -> str:
+        """Generate progressive hints based on attempt number."""
+        hints = {
+            1: "Try breaking the problem into smaller steps.",
+            2: "Check your arithmetic carefully.",
+            3: "Consider the order of operations."
+        }
+        return hints.get(attempt_num, "Think about what mathematical concepts apply here.")
+
+    def check_answer(self, parsed: str, correct: str) -> bool:
+        """Check if parsed answer matches correct answer."""
+        try:
+            return abs(float(parsed) - float(correct)) < 1e-6
+        except:
+            return parsed.strip() == correct.strip()
+
+# Usage
+def load_tutoring_environment(**kwargs):
+    return MathTutorEnv(
+        dataset=create_math_dataset(),
+        parser=MathParser(),
+        rubric=create_math_rubric(MathParser()),
         **kwargs
     )
 ```
 
-### Step 6: Package Configuration
+### ToolEnv: Research Assistant with Multiple Tools
 
-```toml
-# pyproject.toml
-[project]
-name = "math-solver"
-description = "Math problem solving environment"
-tags = ["single-turn", "math", "eval"]
-version = "0.1.0"
-requires-python = ">=3.11"
-dependencies = [
-    "verifiers>=0.1.3",
-    "datasets>=2.0.0"
-]
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-```
-
-### Step 7: Entry Point
+Create a sophisticated research environment with multiple interconnected tools:
 
 ```python
-# math_solver/__init__.py
-from .math_solver import load_environment
+import asyncio
+import aiohttp
+import verifiers as vf
 
-__all__ = ["load_environment"]
+def wikipedia_search(query: str, max_results: int = 3) -> str:
+    """Search Wikipedia for information."""
+    try:
+        import wikipedia
+        results = wikipedia.search(query, results=max_results)
+        if results:
+            page = wikipedia.page(results[0])
+            return f"Title: {page.title}\n\nSummary: {page.summary[:500]}..."
+        return "No results found."
+    except Exception as e:
+        return f"Search error: {str(e)}"
+
+def calculate_advanced(expression: str) -> str:
+    """Perform advanced mathematical calculations."""
+    try:
+        import sympy as sp
+        result = sp.sympify(expression)
+        return str(result.evalf())
+    except Exception as e:
+        return f"Calculation error: {str(e)}"
+
+async def web_search(query: str, max_results: int = 5) -> str:
+    """Search the web for current information."""
+    # Placeholder - implement with actual search API
+    return f"Web search results for '{query}': [mock results]"
+
+def load_research_environment(**kwargs):
+    """Create a research assistant environment with multiple tools."""
+
+    # Create dataset of research questions
+    research_dataset = Dataset.from_list([
+        {
+            "prompt": "What is the current population of Tokyo and how has it changed over the last decade?",
+            "info": {"requires_tools": ["web_search", "calculate_advanced"]}
+        },
+        {
+            "prompt": "Explain the mathematical concept of derivatives and provide an example calculation.",
+            "info": {"requires_tools": ["wikipedia_search", "calculate_advanced"]}
+        }
+    ])
+
+    # Tool usage rubric
+    tool_rubric = vf.ToolRubric(
+        tools=[wikipedia_search, calculate_advanced, web_search]
+    )
+
+    # Quality assessment rubric
+    quality_rubric = vf.JudgeRubric(
+        judge_prompt="""Evaluate the research response on:
+        1. Accuracy of information
+        2. Proper use of tools
+        3. Completeness of answer
+        4. Citation of sources
+
+        Rate from 0.0 to 1.0."""
+    )
+
+    # Combined evaluation
+    combined_rubric = vf.RubricGroup([tool_rubric, quality_rubric])
+
+    return vf.ToolEnv(
+        dataset=research_dataset,
+        tools=[wikipedia_search, calculate_advanced, web_search],
+        rubric=combined_rubric,
+        max_turns=10,
+        **kwargs
+    )
 ```
 
-### Step 8: Testing Your Environment
+### EnvGroup: Multi-Domain Training
+
+Combine multiple environments for comprehensive training:
+
+```python
+def load_comprehensive_math_suite(**kwargs):
+    """Create a comprehensive math environment covering multiple domains."""
+
+    # Arithmetic environment
+    arithmetic_env = vf.SingleTurnEnv(
+        dataset=load_arithmetic_dataset(),
+        system_prompt="Solve this arithmetic problem.",
+        rubric=vf.Rubric(funcs=[exact_match_score])
+    )
+
+    # Algebra environment with tools
+    algebra_env = vf.ToolEnv(
+        dataset=load_algebra_dataset(),
+        tools=[calculate_advanced],
+        system_prompt="Solve this algebra problem. You can use the calculator if needed.",
+        rubric=vf.RubricGroup([
+            vf.Rubric(funcs=[exact_match_score]),
+            vf.ToolRubric(tools=[calculate_advanced])
+        ])
+    )
+
+    # Interactive geometry tutoring
+    geometry_env = MathTutorEnv(
+        dataset=load_geometry_dataset(),
+        system_prompt="Let's work through this geometry problem together.",
+        max_attempts=3
+    )
+
+    # Combine all environments
+    return vf.EnvGroup(
+        envs=[arithmetic_env, algebra_env, geometry_env],
+        env_names=["arithmetic", "algebra", "geometry"],
+        **kwargs
+    )
+```
+
+## Advanced Components Deep Dive
+
+Now let's explore the sophisticated components that make Verifiers truly powerful for complex evaluation scenarios.
+
+### Advanced Rubrics
+
+#### JudgeRubric: LLM-Based Evaluation
+
+When rule-based scoring isn't sufficient, use language models to evaluate responses:
+
+```python
+# Basic usage with default prompt
+judge_rubric = vf.JudgeRubric()
+
+# Custom evaluation criteria
+judge_rubric = vf.JudgeRubric(
+    judge_prompt="""Evaluate the response based on:
+    1. Accuracy of the solution
+    2. Clarity of explanation
+    3. Appropriate use of mathematical notation
+
+    Rate from 0.0 to 1.0.""",
+    judge_model="gpt-4o"  # Use better model for judging
+)
+```
+
+::: {.callout-note title="When to Use JudgeRubric"}
+- **Complex reasoning tasks** where simple rules don't capture quality
+- **Open-ended responses** that require subjective evaluation
+- **Multi-criteria assessment** of style, clarity, and correctness
+- **Domain expertise** that's hard to encode in rules
+:::
+
+#### RubricGroup: Combining Multiple Evaluation Approaches
+
+Aggregate scores from different rubrics for comprehensive evaluation:
+
+```python
+# Multi-step math evaluation
+correctness_rubric = vf.Rubric(
+    funcs=[exact_match_score],
+    weights=[2.0]  # High weight for correctness
+)
+
+style_rubric = vf.JudgeRubric(
+    judge_prompt="Rate the mathematical style and clarity (0-1)",
+    weights=[1.0]
+)
+
+efficiency_rubric = vf.Rubric(
+    funcs=[step_efficiency_score],
+    weights=[0.5]  # Lower weight for efficiency
+)
+
+# Combine all evaluation approaches
+combined_rubric = vf.RubricGroup([
+    correctness_rubric,
+    style_rubric,
+    efficiency_rubric
+])
+```
+
+#### ToolRubric: Tracking Tool Usage Patterns
+
+Monitor and evaluate how agents use tools:
+
+```python
+# Define tools for tracking
+def search(query: str) -> str: ...
+def calculate(expr: str) -> float: ...
+def code_executor(code: str) -> str: ...
+
+# Track tool usage with rewards/penalties
+tool_rubric = vf.ToolRubric(
+    tools=[search, calculate, code_executor]
+)
+
+# Optional: customize rewards for tool usage
+tool_rubric.reward_weights[0] = -0.1   # Penalize excessive total tool calls
+tool_rubric.reward_weights[1] = 0.2    # Reward search usage
+tool_rubric.reward_weights[3] = -0.3   # Penalize code execution (safety)
+```
+
+### Advanced Parsers
+
+#### XMLParser: Structured Output Extraction
+
+Extract specific fields from XML-formatted responses:
+
+```python
+# Define expected XML structure
+parser = vf.XMLParser(
+    fields=["thinking", ("answer", "solution")],  # "answer" or "solution" tags
+    answer_field="answer"
+)
+
+# Example response:
+response = """
+<thinking>
+Let me break this down step by step...
+</thinking>
+<answer>42</answer>
+"""
+
+parsed = parser.parse_answer(response)  # Returns "42"
+```
+
+#### ThinkParser: Chain-of-Thought Processing
+
+Separate reasoning from final answers:
+
+```python
+def extract_boxed_answer(text: str) -> str:
+    """Extract answers from \boxed{} LaTeX format."""
+    import re
+    match = re.search(r'\\boxed\{([^}]+)\}', text)
+    return match.group(1) if match else ""
+
+# Strip thinking, then apply extraction
+parser = vf.ThinkParser(extract_fn=extract_boxed_answer)
+
+# Automatically provides format reward for proper <think> usage
+format_reward = parser.get_format_reward_func()
+```
+
+#### Custom Parser Patterns
+
+Create domain-specific parsers for complex scenarios:
+
+```python
+class CodeAnalysisParser(vf.Parser):
+    """Parse code blocks and extract quality metrics."""
+
+    def parse_answer(self, response: str) -> str:
+        """Extract main code block."""
+        code_blocks = re.findall(r'```python\n(.*?)\n```', response, re.DOTALL)
+        return code_blocks[-1].strip() if code_blocks else ""
+
+    def get_complexity_score(self, response: str) -> float:
+        """Calculate code complexity as additional metric."""
+        code = self.parse_answer(response)
+        lines = len(code.split('\n'))
+        functions = len(re.findall(r'def \w+', code))
+        return min(1.0, (lines + functions * 5) / 50)
+
+    def get_format_reward_func(self):
+        """Reward proper code formatting."""
+        def format_reward(completion, **kwargs):
+            if isinstance(completion, list):
+                text = completion[-1]['content']
+            else:
+                text = completion
+
+            # Check for code blocks
+            has_code_block = '```python' in text and '```' in text
+            has_docstring = '"""' in text or "'''" in text
+
+            score = 0.0
+            if has_code_block:
+                score += 0.5
+            if has_docstring:
+                score += 0.5
+
+            return score
+
+        return format_reward
+```
+
+## Training with Verifiers: From Evaluation to Improvement
+
+One of Verifiers' most powerful features is its seamless integration with GRPO (Group Relative Policy Optimization) training. Let's explore how to train models using your custom environments.
+
+### GRPO Training Basics
+
+GRPO is a reinforcement learning algorithm specifically designed for training language models on complex tasks:
+
+::: {.callout-important title="Why GRPO for LLM Training?"}
+- **Group-based optimization**: Compares multiple completions for the same prompt
+- **Reward-guided learning**: Uses your environment's rubric scores to improve responses
+- **Stable training**: More stable than traditional RL methods for language models
+- **Multi-turn support**: Handles complex interaction protocols
+:::
+
+### Quick Start: Training Your Math Environment
+
+```python
+import verifiers as vf
+
+# 1. Create your environment
+env = vf.load_environment("math-solver", difficulty="medium")
+
+# 2. Load model and tokenizer
+model, tokenizer = vf.get_model_and_tokenizer("Qwen/Qwen2.5-1.5B-Instruct")
+
+# 3. Configure training arguments
+args = vf.grpo_defaults(run_name="math-solver-training")
+
+# Key training parameters
+args.per_device_train_batch_size = 4      # Prompts per GPU per step
+args.num_generations = 16                 # Completions per prompt (group size)
+args.gradient_accumulation_steps = 8      # Effective batch size multiplier
+args.max_steps = 1000                     # Total training steps
+args.learning_rate = 1e-6                 # Conservative learning rate
+
+# 4. Create trainer and start training
+trainer = vf.GRPOTrainer(
+    model=model,
+    processing_class=tokenizer,
+    env=env,
+    args=args,
+)
+
+trainer.train()
+```
+
+### Infrastructure Setup for Training
+
+#### vLLM Inference Server
+
+GRPO requires fast inference during training. Set up a vLLM server:
 
 ```bash
-# Install your environment
-uv pip install -e .
-
-# Run evaluation
-uv run vf-eval math-solver -a '{"difficulty": "easy"}'
-
-# View results
-uv run vf-tui
+# Start inference server (6 GPUs for generation)
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5 vf-vllm \
+    --model Qwen/Qwen2.5-7B-Instruct \
+    --data-parallel-size 6 \
+    --enforce-eager \
+    --disable-log-requests
 ```
 
-## Advanced Verifiers Features
+#### Training Launch
 
-### Multi-Turn Environments
-
-For interactive tasks, use `MultiTurnEnv`:
-
-```python
-from verifiers import MultiTurnEnv
-
-class TutorEnvironment(MultiTurnEnv):
-    async def is_completed(self, messages, state, **kwargs):
-        # Define completion criteria
-        return len(state["responses"]) >= 3 or "final answer" in messages[-1]["content"].lower()
-
-    async def env_response(self, messages, state, **kwargs):
-        # Generate environment's response to continue conversation
-        if len(state["responses"]) == 1:
-            return [{"role": "user", "content": "Can you explain your reasoning?"}], state
-        return [{"role": "user", "content": "Please provide your final answer."}], state
+```bash
+# Launch training (2 GPUs for training)
+CUDA_VISIBLE_DEVICES=6,7 accelerate launch \
+    --config-file configs/zero3.yaml \
+    --num-processes 2 \
+    your_training_script.py
 ```
 
-### Tool Environments
+::: {.callout-tip title="GPU Resource Allocation"}
+- **Inference GPUs**: Need sufficient memory for model + batch size
+- **Training GPUs**: Need memory for model weights + gradients + optimizer states
+- **Typical split**: 2/3 GPUs for inference, 1/3 for training
+:::
 
-For agents that need external tools:
+### Advanced Training Configuration
+
+#### Batch Size and Memory Management
 
 ```python
-from verifiers import ToolEnv
+# Configure for your hardware constraints
+args.per_device_train_batch_size = 8      # Adjust based on GPU memory
+args.num_generations = 16                 # Higher = more diverse comparisons
+args.gradient_accumulation_steps = 4      # Effective batch = 8 * 2 GPUs * 4 = 64
 
-class CodeAnalysisEnv(ToolEnv):
-    def setup_tools(self):
-        return {
-            "run_code": self.run_code_tool,
-            "analyze_ast": self.analyze_ast_tool
-        }
-
-    async def run_code_tool(self, code: str):
-        # Implement safe code execution
-        pass
+# Must satisfy: effective_batch_size % num_generations == 0
+# Effective batch size = per_device_batch_size * num_gpus * gradient_accumulation_steps
 ```
 
-### Training with GRPO
-
-Verifiers includes a GRPO (Generalized Reward from Process and Outcome) trainer:
+#### Generation Parameters for Diversity
 
 ```python
-from verifiers import GRPOTrainer, GRPOConfig
+# Encourage diverse completions within groups
+args.temperature = 1.0          # Higher for more diversity
+args.top_p = 1.0               # Nucleus sampling
+args.max_tokens = 512          # Max per response
+args.max_completion_length = 1024  # Truncate long responses
+```
 
-config = GRPOConfig(
-    learning_rate=1e-5,
-    batch_size=32,
-    num_epochs=3
-)
+#### GRPO-Specific Hyperparameters
 
-trainer = GRPOTrainer(
+```python
+# KL regularization (prevents model from drifting too far)
+args.beta = 0.001              # KL penalty coefficient
+args.sync_ref_model = True     # Update reference model periodically
+args.ref_model_sync_steps = 100
+
+# Loss configuration
+args.loss_type = "dr_grpo"     # Recommended: no length bias
+args.epsilon = 0.2             # Clipping bound
+```
+
+#### Asynchronous Generation Pipeline
+
+```python
+# Overlap training and generation for efficiency
+args.num_batches_ahead = 1            # Generate next batch while training
+args.async_generation_timeout = 300.0 # Timeout for generation
+args.max_concurrent = 512             # Concurrent environment requests
+```
+
+### Training on Multi-Environment Suites
+
+Train on multiple environments simultaneously for general capability:
+
+```python
+# Create comprehensive training environment
+math_suite = load_comprehensive_math_suite()
+
+# Configure for multi-domain training
+args = vf.grpo_defaults(run_name="math-suite-training")
+args.max_steps = 2000  # More steps for diverse training
+
+trainer = vf.GRPOTrainer(
     model=model,
-    tokenizer=tokenizer,
-    config=config
+    processing_class=tokenizer,
+    env=math_suite,  # EnvGroup with multiple environments
+    args=args,
 )
 
-trainer.train(environment)
+trainer.train()
 ```
 
-## Best Practices and Tips
+### Monitoring Training Progress
 
-### 1. **Dataset Design**
-- Start small and iterate
-- Include diverse difficulty levels
-- Provide rich metadata in the `info` field
-- Use HuggingFace datasets for easy sharing
+```python
+# Enhanced logging and monitoring
+args.logging_steps = 1
+args.log_completions = True
+args.report_to = "wandb"
+args.num_completions_to_print = 3
 
-### 2. **Parser Implementation**
-- Handle edge cases gracefully
-- Provide fallback extraction methods
-- Use regex carefully—test thoroughly
-- Consider using `ThinkParser` for chain-of-thought
+# Evaluation during training
+args.eval_strategy = "steps"
+args.eval_steps = 100
+args.per_device_eval_batch_size = 16
+```
 
-### 3. **Rubric Design**
-- Separate concerns: multiple simple functions vs. one complex function
-- Use appropriate weights for different metrics
-- Handle async operations properly
-- Cache expensive computations in state
+### Training Best Practices
 
-### 4. **Testing and Validation**
-- Test with different model types and sizes
-- Validate against known baselines
-- Use `vf-eval -s` to save outputs for analysis
-- Monitor performance across different difficulty levels
+#### Task Difficulty and Model Capability
 
-### 5. **Performance Optimization**
-- Use `parallelize_scoring=True` when possible
-- Implement caching for repeated computations
-- Consider batch processing for similar tasks
-- Monitor resource usage, especially with sandboxes
+::: {.callout-warning title="Critical Success Factor"}
+**Task difficulty must match model capability!**
+
+- If baseline reward is 0%: Task is too hard, model will not learn effectively
+- If baseline reward is >80%: Task is too easy, little room for improvement
+- **Sweet spot**: 20-60% baseline performance for optimal learning
+:::
+
+#### Stability vs. Performance Trade-offs
+
+**For more aggressive training** (higher risk of instability):
+```python
+args.beta = 0                  # No KL penalty
+args.learning_rate = 5e-6      # Higher learning rate
+args.num_iterations = 2        # Multiple updates per batch
+```
+
+**For more stable training** (slower but safer):
+```python
+args.num_generations = 32      # Larger comparison groups
+args.gradient_accumulation_steps = 8  # Larger effective batches
+args.max_grad_norm = 0.01     # Aggressive gradient clipping
+args.learning_rate = 5e-7     # Very conservative learning rate
+```
+
+#### Common Training Issues and Solutions
+
+**Poor reward diversity:**
+```python
+# Increase temperature and check task difficulty
+args.temperature = 1.2
+# Ensure your rubric differentiates quality levels
+```
+
+**Training instability:**
+```python
+# Reduce learning rate and increase clipping
+args.learning_rate = 1e-7
+args.max_grad_norm = 0.005
+args.beta = 0.01  # Stronger KL regularization
+```
+
+**Out of memory errors:**
+```python
+# Reduce batch sizes and use gradient checkpointing
+args.per_device_train_batch_size = 4
+args.gradient_checkpointing = True
+args.num_generations = 8
+```
+
+## Production Deployment and Best Practices
+
+### Environment Development Workflow
+
+Follow this proven workflow for robust environment development:
+
+#### 1. Prototype and Test Locally
+
+```bash
+# Create environment from template
+vf-init my-environment
+cd environments/my_environment
+
+# Install for development
+vf-install my-environment
+
+# Quick test with small dataset
+vf-eval my-environment -n 5 -s
+
+# Analyze results
+vf-tui
+```
+
+#### 2. Iterate Based on Results
+
+```python
+# Common iterations:
+# - Adjust system prompts for better performance
+# - Refine parser logic for edge cases
+# - Add new reward functions to rubric
+# - Configure dataset filtering or sampling
+
+def load_environment(
+    difficulty="medium",  # Make configurable
+    num_examples=None,    # Allow dataset size control
+    **kwargs
+):
+    dataset = load_dataset()
+
+    # Add filtering capabilities
+    if difficulty != "all":
+        dataset = dataset.filter(lambda x: x["info"]["difficulty"] == difficulty)
+
+    if num_examples:
+        dataset = dataset.select(range(num_examples))
+
+    return MyEnvironment(dataset=dataset, **kwargs)
+```
+
+#### 3. Scale to Full Evaluation
+
+```bash
+# Test on larger dataset
+vf-eval my-environment -n 100 -r 3 -s
+
+# Test different model sizes
+vf-eval my-environment -m gpt-4o -n 50
+vf-eval my-environment -m claude-3-sonnet -n 50
+```
+
+### Environment Quality Checklist
+
+Before deploying to production, ensure your environment meets these criteria:
+
+::: {.callout-note title="Environment Quality Checklist"}
+**Dataset Quality:**
+- [ ] Diverse examples covering edge cases
+- [ ] Clear ground truth answers or evaluation criteria
+- [ ] Appropriate difficulty for target models
+- [ ] Rich metadata in `info` field for filtering
+
+**Parser Robustness:**
+- [ ] Handles various response formats gracefully
+- [ ] Provides fallback extraction methods
+- [ ] Tested on edge cases and malformed inputs
+- [ ] Includes format reward functions where appropriate
+
+**Rubric Design:**
+- [ ] Multiple evaluation criteria when relevant
+- [ ] Appropriate weights for different aspects
+- [ ] Handles async operations properly
+- [ ] Tested reward function edge cases
+
+**Code Quality:**
+- [ ] Clear documentation and examples
+- [ ] Error handling for external dependencies
+- [ ] Efficient implementation for large-scale evaluation
+- [ ] Version-pinned dependencies in pyproject.toml
+:::
+
+### Performance Optimization
+
+#### Efficient Rubric Design
+
+```python
+# Optimize expensive operations
+class OptimizedRubric(vf.Rubric):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        # Cache expensive resources
+        self.expensive_model = load_model()
+        self.precomputed_data = load_cache()
+
+    async def expensive_reward_func(self, completion, answer, **kwargs):
+        # Use cached resources
+        result = await self.expensive_model.evaluate(completion)
+        return result
+
+# Use parallel scoring when possible
+rubric = vf.Rubric(
+    funcs=[fast_func1, fast_func2, expensive_func],
+    parallelize_scoring=True  # Run independent functions in parallel
+)
+```
+
+#### Memory-Efficient Dataset Handling
+
+```python
+# For large datasets, use streaming and filtering
+def load_environment(max_examples=1000, **kwargs):
+    # Load dataset lazily
+    dataset = load_dataset("owner/dataset", streaming=True)
+
+    # Apply filters before materializing
+    filtered_dataset = dataset.filter(lambda x: x["difficulty"] == "medium")
+
+    # Take only what you need
+    final_dataset = Dataset.from_list(
+        list(itertools.islice(filtered_dataset, max_examples))
+    )
+
+    return MyEnvironment(dataset=final_dataset, **kwargs)
+```
+
+### Integration Patterns
+
+#### OpenAI-Compatible API Usage
+
+```python
+from openai import AsyncOpenAI
+
+# Works with any OpenAI-compatible endpoint
+async def evaluate_with_custom_endpoint():
+    client = AsyncOpenAI(
+        base_url="http://localhost:8000/v1",  # vLLM, Ollama, etc.
+        api_key="dummy"
+    )
+
+    env = vf.load_environment("my-environment")
+    results = await env.a_evaluate(
+        client=client,
+        model="llama-3.1-8b",
+        num_examples=100,
+        max_concurrent=32
+    )
+
+    return results
+```
+
+#### Batch Processing for Research
+
+```python
+async def evaluate_multiple_models():
+    """Evaluate multiple models on the same environment."""
+    env = vf.load_environment("comprehensive-math")
+    models = ["gpt-4o", "claude-3-sonnet", "llama-3.1-70b"]
+
+    results = {}
+    for model in models:
+        print(f"Evaluating {model}...")
+        client = get_client_for_model(model)
+
+        model_results = await env.a_evaluate(
+            client=client,
+            model=model,
+            num_examples=200,
+            rollouts_per_example=3
+        )
+
+        results[model] = model_results
+
+        # Save intermediate results
+        save_results(f"results_{model}.json", model_results)
+
+    return results
+```
+
+## Real-World Impact and Future Directions
+
+### Success Stories
+
+Verifiers has already enabled breakthrough research and applications:
+
+- **LiveCodeBench**: Dynamic coding evaluation that stays current with new problems
+- **Mathematical reasoning**: Training models on complex multi-step problems
+- **Tool-using agents**: Environments that teach proper API and calculator usage
+- **Interactive tutoring**: Multi-turn environments that provide personalized feedback
+
+### Integration with Modern AI Workflows
+
+#### With LangChain and LangGraph
+
+```python
+# Use Verifiers environments in LangChain workflows
+from langchain.agents import AgentExecutor
+import verifiers as vf
+
+def create_verified_agent():
+    # Load tools from Verifiers environment
+    env = vf.load_environment("research-assistant")
+    tools = env.tools  # Extract tools for LangChain
+
+    # Create agent with Verifiers evaluation
+    agent = AgentExecutor.from_agent_and_tools(
+        agent=create_react_agent(llm, tools),
+        tools=tools
+    )
+
+    # Evaluate agent performance using Verifiers
+    results = env.evaluate_agent(agent, num_examples=50)
+    return agent, results
+```
+
+#### With MLflow and Experiment Tracking
+
+```python
+import mlflow
+import verifiers as vf
+
+def tracked_evaluation():
+    with mlflow.start_run():
+        env = vf.load_environment("math-solver")
+
+        # Log environment configuration
+        mlflow.log_params({
+            "environment": "math-solver",
+            "difficulty": "medium",
+            "num_examples": 100
+        })
+
+        # Run evaluation
+        results = env.evaluate(client, model="gpt-4o", num_examples=100)
+
+        # Log metrics
+        mlflow.log_metrics({
+            "average_reward": results.mean_reward,
+            "success_rate": results.success_rate,
+            "total_examples": len(results.outputs)
+        })
+
+        return results
+```
+
+### Future Directions
+
+#### Multi-Agent Environments
+
+```python
+# Future: Multi-agent competitive environments
+class DebateEnv(vf.MultiTurnEnv):
+    """Two agents debate a topic with judge evaluation."""
+
+    async def env_response(self, messages, state):
+        # Coordinate between multiple agents
+        current_speaker = state.get("current_speaker", "agent_a")
+        next_speaker = "agent_b" if current_speaker == "agent_a" else "agent_a"
+
+        # Switch speakers and provide feedback
+        state["current_speaker"] = next_speaker
+        response = [{
+            "role": "user",
+            "content": f"Agent {next_speaker.upper()}, please respond to the previous argument."
+        }]
+
+        return response, state
+```
+
+#### Curriculum Learning Integration
+
+```python
+# Future: Adaptive difficulty based on model performance
+class AdaptiveMathEnv(vf.SingleTurnEnv):
+    def adapt_difficulty(self, recent_performance):
+        if recent_performance > 0.8:
+            self.difficulty = "hard"
+        elif recent_performance < 0.3:
+            self.difficulty = "easy"
+        else:
+            self.difficulty = "medium"
+
+        # Reload dataset with new difficulty
+        self.dataset = self.load_dataset_with_difficulty(self.difficulty)
+```
 
 ## Conclusion
 
-The Verifiers framework represents a significant advancement in LLM evaluation and training infrastructure. Through our exploration of LiveCodeBench, we've seen how sophisticated evaluation environments can be built with relatively simple, modular components.
+The Verifiers framework represents a fundamental shift in how we approach LLM evaluation and training. By providing a unified, protocol-first approach to creating environments, it bridges the gap between simple evaluation scripts and production-ready training pipelines.
 
-Key takeaways:
+### Key Takeaways
 
-1. **Modularity Matters**: Verifiers' separation of concerns makes environments easy to build, test, and maintain.
+::: {.callout-important title="Essential Insights"}
+1. **Protocol-First Design**: Think about interaction patterns before implementation details
+2. **Modular Architecture**: Separate concerns through environments, rubrics, and parsers
+3. **Real-World Complexity**: Handle edge cases, async operations, and multi-criteria evaluation
+4. **Training Integration**: Seamlessly move from evaluation to model improvement with GRPO
+5. **Production Readiness**: Scale from prototypes to production with proper monitoring and optimization
+:::
 
-2. **Real-World Complexity**: LiveCodeBench demonstrates how to handle complex scenarios like secure code execution and multi-modal evaluation.
+### Why This Matters for AI Development
 
-3. **Extensibility**: The framework easily adapts to new task types and evaluation criteria.
+As AI systems become more capable and are deployed in increasingly complex scenarios, we need evaluation frameworks that can:
 
-4. **Production Ready**: Features like async scoring, sandbox integration, and RL training make Verifiers suitable for serious research and development.
+- **Keep pace with capability growth**: Environments must be as sophisticated as the models they evaluate
+- **Handle real-world complexity**: Move beyond toy problems to scenarios with multiple stakeholders, tools, and constraints
+- **Enable rapid iteration**: Prototype quickly while maintaining production quality
+- **Support continuous improvement**: Train models on the same environments used for evaluation
 
-As AI agents become more capable, frameworks like Verifiers will be essential for ensuring they develop safely and effectively. Whether you're building simple math solvers or complex multi-turn coding environments, Verifiers provides the foundation you need.
+### Getting Started Today
 
-The future of AI lies in agents that can interact with the world effectively. With tools like Verifiers, we can build the evaluation infrastructure needed to get there safely and systematically.
+The best way to master Verifiers is to start building:
 
-## Resources and Next Steps
+1. **Choose a domain** you care about (math, coding, reasoning, tool use)
+2. **Start with SingleTurnEnv** for your first environment
+3. **Iterate rapidly** using `vf-eval` and `vf-tui`
+4. **Add complexity gradually** with MultiTurnEnv and ToolEnv
+5. **Train models** on your environments using GRPO
 
-- **Verifiers Documentation**: [Read the docs](https://verifiers.readthedocs.io/)
-- **LiveCodeBench Paper**: [Research details](https://arxiv.org/pdf/2403.07974)
-- **Prime Environments**: [Official repository](https://github.com/PrimeIntellect-ai/prime-environments)
-- **Community**: Join discussions and share your environments
+### Join the Community
 
-Start building your own environments today, and contribute to the future of AI agent evaluation!
+Verifiers is an open-source project with a growing community of researchers and practitioners:
+
+- **GitHub Repository**: [github.com/willccbb/verifiers](https://github.com/willccbb/verifiers)
+- **Documentation**: [verifiers.readthedocs.io](https://verifiers.readthedocs.io/)
+- **Environment Hub**: Share and discover environments with the community
+- **Discord/Slack**: Connect with other users and contributors
+
+The future of AI lies in agents that can interact with the world effectively. With Verifiers, you have the tools to build the evaluation infrastructure needed to get there safely and systematically.
+
+Start building your environments today, and contribute to the future of AI agent evaluation!
+
+---
+
+::: {.callout-tip title="Quick Start Resources"}
+- **[Verifiers Documentation](https://verifiers.readthedocs.io/)**: Complete API reference and guides
+- **[Environment Examples](https://github.com/willccbb/verifiers/tree/main/environments)**: Production-ready environment templates
+- **[Training Scripts](https://github.com/willccbb/verifiers/tree/main/examples)**: GRPO training examples
+- **[Community Hub](https://github.com/PrimeIntellect-ai/prime-environments)**: Discover and share environments
+:::
