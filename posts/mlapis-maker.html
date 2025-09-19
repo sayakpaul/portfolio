@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-439fd0b3ee6e2544d61d46b826a6b23b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-fb8ac4b46d264348deb6621fefe4d61e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -288,6 +289,8 @@ ga('send', {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -444,31 +447,31 @@ ga('send', {
 <p><img src="https://i.ibb.co/CMRMwMS/image2.png" title="Source: https://cloud.google.com/video-intelligence/docs/analyze-labels" class="img-fluid"></p>
 <p>I repurposed these code snippets for the workflows. The <a href="https://googleapis.dev/python/videointelligence/latest/index.html"><u>Python binding</u></a> of the Video Intelligence API is simple to use -</p>
 <p>You first instantiate the client and instruct what all you are interested in performing -</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>video_client <span class="op">=</span> videointelligence.VideoIntelligenceServiceClient()</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [videointelligence.enums.Feature.LABEL_DETECTION]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>video_client <span class="op">=</span> videointelligence.VideoIntelligenceServiceClient()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> [videointelligence.enums.Feature.LABEL_DETECTION]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>It provides a bag of different features like entity detection, logo recognition, text recognition, object tracking, and so on. Here I am only interested in performing entity detection on a per-segment basis. A user usually specifies segments if they are interested to only analyze a part of their videos. I didn’t specify any segments, and in that case, the Video Intelligence API handles the entire video as a segment. The API also allows you to perform label detection on more granular levels, i.e.&nbsp;on both shot and frame levels.</p>
 <p>After the initialization, it was only a matter of a few keystrokes till I made my first video annotation request -</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the mode in which label detection is to be performed</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the mode in which label detection is to be performed</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mode <span class="op">=</span> videointelligence.enums.LabelDetectionMode.SHOT_AND_FRAME_MODE</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>config <span class="op">=</span> videointelligence.types.LabelDetectionConfig(label_detection_mode<span class="op">=</span>mode)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>context <span class="op">=</span> videointelligence.types.VideoContext(label_detection_config<span class="op">=</span>config)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Make the request</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>operation <span class="op">=</span> video_client.annotate_video(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    input_uri<span class="op">=</span>gcs_path, features<span class="op">=</span>features, video_context<span class="op">=</span>context)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    input_uri<span class="op">=</span>gcs_path, features<span class="op">=</span>features, video_context<span class="op">=</span>context)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Here I am supplying a GCS bucket path of the video I wanted to infer on. Processing the results of the operation is also straightforward -</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process video/segment level label annotations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Process video/segment level label annotations</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the first response, since we sent only one video.</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>segment_labels <span class="op">=</span> operation.result.annotation_results[<span class="dv">0</span>].segment_label_annotations</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>video_labels <span class="op">=</span> []</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i, segment_label) <span class="kw">in</span> <span class="bu">enumerate</span>(segment_labels):</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Video label description: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(segment_label.entity.description))</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    video_labels.append(segment_label.entity.description)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    video_labels.append(segment_label.entity.description)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>After I got the entity labels on the entire video the next task was to use the Text-to-Speech API to generate an audio clip. For that, I simply followed the <a href="https://cloud.google.com/text-to-speech/docs/ssml-tutorial"><u>official tutorial</u></a> and reused the code.</p>
 <p>The logo detection pipeline is almost similar with some very minor changes. In case you want to catch all the details please follow this <a href="https://colab.research.google.com/github/sayakpaul/GCP-ML-API-Demos/blob/master/Video_Intelligence_TTS.ipynb"><u>Colab Notebook</u></a>.</p>
 <p>I tested the entire workflow on the following video and you can see the outputs right below it -</p>
 <div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/8mUIvDtxS_s" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Processing</span> video for label annotations:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Processing</span> video for label annotations:</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="ex">Finished</span> processing.</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="ex">Video</span> label description: sidewalk</span>
@@ -478,7 +481,7 @@ ga('send', {
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="ex">Processing</span> video for logo detection:</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Finished</span> processing.</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ex">Finished</span> processing.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>As for the audio clip, it got came out pretty nice -</p>
 <audio controls="">
 <source src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/labels.mp3" type="audio/mpeg">
@@ -497,7 +500,7 @@ ga('send', {
 <ul>
 <li><p>As I am only interested in dealing with the abstract of a paper, I first converted the entire PDF-formatted paper to PNG and serialized only the first page. I used the <code>pdf2png</code> library for this.</p></li>
 <li><p>Next, I used the Vision API to make a <code>document_text_detection()</code> request for getting the dense text blocks. The code for this is again, very straightforward -</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> vision.ImageAnnotatorClient()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>client <span class="op">=</span> vision.ImageAnnotatorClient()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bounds <span class="op">=</span> []</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> io.<span class="bu">open</span>(image_file, <span class="st">'rb'</span>) <span class="im">as</span> image_file:</span>
@@ -510,17 +513,17 @@ ga('send', {
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Segregate the blocks</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> page <span class="kw">in</span> document.pages:</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> page.blocks:</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        bounds.append(block.bounding_box)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div></li>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        bounds.append(block.bounding_box)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>Then I used the example presented <a href="https://cloud.google.com/vision/docs/fulltext-annotations"><u>here</u></a> to draw the bounding boxes on the input image which we saw earlier. I also reused these bounding boxes to segregate different blocks as inferred by the Vision API.</p></li>
 <li><p>I am not going to get into the gory details of how I did the segregation. The catch here is for dense text block detection, Vision API returns <em>polygon coordinates</em> and <em>not</em> rectangular coordinates. So, I had to take polygon crops to segregate the different text blocks. (Thanks to <a href="https://stackoverflow.com/questions/22588074/polygon-crop-clip-using-python-pil"><u>this StackOverflow thread</u></a>.)</p></li>
 <li><p>After the segregation part, I used <code>pytesseract</code> to perform OCR on the segregated text blocks. In <code>pytesseract</code> it’s literally doable with <code>text = pytesseract.image_to_string(image_block)</code>.</p></li>
 <li><p>Now, an abstract cannot be just a single character (if the OCR was performed correctly). So I only considered those OCR’d texts where the character length is greater than 1000.</p></li>
 <li><p>Even with this kind of thresholding, you’d end up with multiple text blocks where this criterion holds. To counter this, I first sorted the OCR’d text blocks with respect to their character lengths and checked if a text block contained only one or no reference to citations. If this criterion was matched then the text block is returned as the abstract.</p>
 <p>Here’s how I coded it up:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>texts_sorted <span class="op">=</span> <span class="bu">sorted</span>(texts, key<span class="op">=</span><span class="bu">len</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>texts_sorted <span class="op">=</span> <span class="bu">sorted</span>(texts, key<span class="op">=</span><span class="bu">len</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> text <span class="kw">in</span> texts_sorted:</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> text.split()[<span class="dv">0</span>].isupper() <span class="op">&amp;</span> text.count(<span class="st">"["</span>) <span class="op">&lt;=</span> <span class="dv">1</span>:</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        abstract <span class="op">=</span> text</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        abstract <span class="op">=</span> text</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The upper case criterion is there to ensure an abstract always starts with an uppercase letter.</p>
 <p>I am aware that these handcrafted rules can get broken for many instances. But I wanted to explore this possibility anyway.</p></li>
 <li><p>To make sure the Text-to-Speech API does not account for any citation I filtered out the raw text to escape them - <code>raw_lines = re.sub("[[\s*\d*\,*]*]", "", raw_lines)</code>.</p></li>
@@ -605,13 +608,14 @@ ga('send', {
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

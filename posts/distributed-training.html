@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-439fd0b3ee6e2544d61d46b826a6b23b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-fb8ac4b46d264348deb6621fefe4d61e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -122,7 +123,7 @@ const typesetMath = (el) => {
     var macros = [];
     for (var i = 0; i < mathElements.length; i++) {
       var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
         window.katex.render(texText.data, mathElements[i], {
           displayMode: mathElements[i].classList.contains('display'),
           throwOnError: false,
@@ -323,6 +324,8 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -486,7 +489,7 @@ Note
 </center>
 <p>As you might have already noticed that we have also thrown in another component in the mix – a GCS Bucket. We would need to store our data on a Google Cloud Storage (GCS) Bucket since the training code won’t be executed locally. We could have used other bucket services (like <a href="https://aws.amazon.com/s3/">AWS S3</a>) here but TensorFlow has very unified integrations with GCS Buckets, hence. We will be using the same GCS Bucket to store our trained model and also TensorBoard logs. The total <a href="https://cloud.google.com/storage/pricing">cost</a> to store all of these will be about <strong>$1.20</strong>.</p>
 <p>You are welcome to check out the corresponding code <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/create_tfrecords.py">here</a>. In order to streamline the TFRecords’ creation and upload process we will make use of a little <a href="https://www.shellscript.sh/">shell script</a>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Uploading TFRecords to Storage Bucket..."</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">"Uploading TFRecords to Storage Bucket..."</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> gs://<span class="va">${BUCKET_NAME}</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> ../trainer/create_tfrecords.py</span>
@@ -494,7 +497,7 @@ Note
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> <span class="at">-m</span> cp <span class="at">-r</span> train_tfr gs://<span class="va">${BUCKET_NAME}</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> <span class="at">-m</span> cp <span class="at">-r</span> validation_tfr gs://<span class="va">${BUCKET_NAME}</span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> ls <span class="at">-lh</span> gs://<span class="va">${BUCKET_NAME}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">gsutil</span> ls <span class="at">-lh</span> gs://<span class="va">${BUCKET_NAME}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>After creating the TFRecords we simply copy them over to a previously created GCS Bucket. You can create one by executing the following: <code>gsutil mb ${BUCKET_NAME}</code>.</p>
 <p><strong>Training</strong></p>
 <p>As for the training pipeline, we will follow the steps below: - Load the TFRecords from GCS using CPU in a parallelized way using <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset">tf.data.Dataset.map()</a> and feed batches of data to our model. For performance, we will also <a href="https://www.tensorflow.org/guide/data_performance#prefetching">prefetch</a> several future batches of data so that our model does not have to wait for the data to consume. Our data loader is present here in <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/data_loader.py">this script</a>. - We will be using a pre-trained model to unleash the power of <a href="https://ruder.io/transfer-learning/">transfer learning</a>. In particular, we will be using the <a href="https://arxiv.org/pdf/1608.06993">DenseNet121</a> model that is available inside <a href="https://www.tensorflow.org/api_docs/python/tf/keras/applications">tf.keras.applications</a>. - We will be training our model inside the <a href="https://www.tensorflow.org/api_docs/python/tf/distribute/MirroredStrategy">tf.distribute.MirroredStrategy</a> scope for distributed training. This strategy is applicable when we have a single host containing multiple GPUs. We will also be using <a href="https://docs.nvidia.com/deeplearning/performance/mixed-precision-training/index.html">mixed-precision training</a> to speed up the process. The code for realizing this is <a href="https://github.com/sayakpaul/Distributed-Training-in-TensorFlow-2-with-AI-Platform/blob/main/trainer/model_training.py">here</a>.</p>
@@ -588,14 +591,14 @@ $ gcloud ai-platform jobs submit training ${JOB_NAME} \
 <li><p><code>region</code>, that informs AI Platform about the region to be used for the training process. This very region is also going to be used to provision resources such as GPUs. If GPUs are to be used then it’s important to pass a region that has that support. You can know the regions that have this support from <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-regions">here</a>.</p></li>
 <li><p><code>master-image-uri</code> is the URI of our custom Docker image.</p></li>
 <li><p>Via <code>config</code>, we provide a specification of the kind of machine we want to use for training. This specification is provided using a <a href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML</a> file and ours looks like so:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">trainingInput</span><span class="kw">:</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode yaml code-with-copy"><code class="sourceCode yaml"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">trainingInput</span><span class="kw">:</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">scaleTier</span><span class="kw">:</span><span class="at"> CUSTOM</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">  # Configure a master worker with 2 V100 GPUs</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">masterType</span><span class="kw">:</span><span class="at"> n1-standard-8</span><span class="co"> # Specify the base machine type</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">masterConfig</span><span class="kw">:</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">acceleratorConfig</span><span class="kw">:</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">count</span><span class="kw">:</span><span class="at"> </span><span class="dv">2</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> NVIDIA_TESLA_V100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">type</span><span class="kw">:</span><span class="at"> NVIDIA_TESLA_V100</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The advantage of using specifications like this lies in the flexibility it provides. The <code>gcloud ai-platform jobs submit training</code> command has a <code>scale-tier</code> option through which we can <a href="https://cloud.google.com/sdk/gcloud/reference/ai-platform/jobs/submit/training">pass a pre-defined machine configuration</a>. But let’s say we want to train using multiple machines - 1 master, 3 workers, and 3 parameter servers each having different GPU and CPU configurations. The pre-defined values won’t cut here and this is where we can take the advantage of custom specifications. You can check <a href="https://cloud.google.com/ai-platform/training/docs/using-gpus#gpu-enabled-machine-types">here</a> to know the different machine types and configurations that can be provided to AI Platform.</p></li>
 </ul>
 <p><br></p>
@@ -738,13 +741,14 @@ Important
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

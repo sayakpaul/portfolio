@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-439fd0b3ee6e2544d61d46b826a6b23b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-fb8ac4b46d264348deb6621fefe4d61e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -294,6 +295,8 @@ ga('send', {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -406,8 +409,8 @@ ga('send', {
 
 <p>If you see the way deep learning research has progressed over the years, it has always been guided by the need of the hour. If I were to develop a chronology out of it, it would be something like - train better model -&gt; train them faster -&gt; get them good at generalizing well, and so on. With a stern increase in the demand for using deep learning more as just another technology stack, there could not have been a better time to think about how do we make our models <strong><em>infer faster</em></strong>. In this post, we are going to see how to use <strong>TensorRT</strong> to perform accelerated inference with TensorFlow (2) models. After all, making predictions with deep learning models is what makes you real 💰 and we would want to make sure that our bucks burned judiciously.</p>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:139}}" data-outputid="1604876a-056a-441e-fb62-e1944ddf5bdf">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mobilenet_v2 <span class="op">=</span> tf.keras.applications.MobileNetV2(weights<span class="op">=</span><span class="st">'imagenet'</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mobilenet_v2.save(<span class="st">'mobilenet_v2'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>mobilenet_v2 <span class="op">=</span> tf.keras.applications.MobileNetV2(weights<span class="op">=</span><span class="st">'imagenet'</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>mobilenet_v2.save(<span class="st">'mobilenet_v2'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/mobilenet_v2/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_1.0_224.h5
 14540800/14536120 [==============================] - 0s 0us/step
@@ -420,11 +423,11 @@ INFO:tensorflow:Assets written to: mobilenet_v2/assets</code></pre>
 <p>Here, <code>mobilenet_v2</code> is a directory and when you pass a directory to the save function, it serializes the model in the TensorFlow <a href="https://www.tensorflow.org/guide/saved_model"><u>SavedModel</u></a> format. This format makes it easier for us to be able to use it on different platforms - be it on GCP’s AI Platform, be it on TensorFlow JS, be it on TensorFlow Serving, and so on.</p>
 <p>Now, there are some basic preprocessing steps to be followed before we can actually feed an image to this model -</p>
 <div id="cell-9" class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the image for prediction</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the image for prediction</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> tf.keras.preprocessing.image.load_img(<span class="st">'elephant.jpg'</span>, target_size<span class="op">=</span>(<span class="dv">224</span>, <span class="dv">224</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.preprocessing.image.img_to_array(img)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.expand_dims(x, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Here’s how <code>elephant.jpg</code> looks like in case if anyone’s curious -</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:240}}" data-outputid="0bc7f8c6-d75d-4cc2-f6f6-8b73630c59c0">
@@ -438,9 +441,9 @@ INFO:tensorflow:Assets written to: mobilenet_v2/assets</code></pre>
 </div>
 <p>Now, running the prediction and decoding it is just a matter of two lines of code -</p>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:68}}" data-outputid="aec4f524-d843-4426-979b-8c8952005bd9">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> mobilenet_v2.predict(x)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Predicted:'</span>, tf.keras.applications.mobilenet_v2.decode_predictions(preds, top<span class="op">=</span><span class="dv">3</span>)[<span class="dv">0</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Predicted:'</span>, tf.keras.applications.mobilenet_v2.decode_predictions(preds, top<span class="op">=</span><span class="dv">3</span>)[<span class="dv">0</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Downloading data from https://storage.googleapis.com/download.tensorflow.org/data/imagenet_class_index.json
 40960/35363 [==================================] - 0s 0us/step
@@ -449,7 +452,7 @@ Predicted: [('n02504013', 'Indian_elephant', 0.70024925), ('n01871265', 'tusker'
 </div>
 <p>To find out how much time does this model take to predict a given image? Let’s write a short utility function to handle that -</p>
 <div id="cell-15" class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_my_model(model, data):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_my_model(model, data):</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> []</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">20</span>):</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        start_time <span class="op">=</span> time.time()</span>
@@ -458,7 +461,7 @@ Predicted: [('n02504013', 'Indian_elephant', 0.70024925), ('n01871265', 'tusker'
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        times.append(delta)</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    mean_delta <span class="op">=</span> np.array(times).mean()</span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    fps <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> mean_delta</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'average(sec):</span><span class="sc">{:.2f}</span><span class="st">,fps:</span><span class="sc">{:.2f}</span><span class="st">'</span>.<span class="bu">format</span>(mean_delta, fps))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'average(sec):</span><span class="sc">{:.2f}</span><span class="st">,fps:</span><span class="sc">{:.2f}</span><span class="st">'</span>.<span class="bu">format</span>(mean_delta, fps))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If we <code>run time_my_model</code> fives times the output would look like so -</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:102}}" data-outputid="11cdc83b-7e0d-4d7c-d4a8-80e826155aae">
@@ -484,9 +487,9 @@ average(sec):0.03,fps:31.67</code></pre>
 <ul>
 <li><strong>Setting up the optimization configuration</strong> -</li>
 </ul>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> trt.DEFAULT_TRT_CONVERSION_PARAMS._replace(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>params <span class="op">=</span> trt.DEFAULT_TRT_CONVERSION_PARAMS._replace(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    precision_mode<span class="op">=</span><span class="st">'FP16'</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    is_dynamic_op<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    is_dynamic_op<span class="op">=</span><span class="va">True</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>We use the <code>precision_mode</code> argument to specify the numerical precision of the model parameters we would want. In this case it is FP16 (float16). <code>is_dynamic_op</code> argument is set to True so that the shapes would be determined during runtime. Onto the next step.</p>
 <pre><code>(`trt` is aliased as `from tensorflow.python.compiler.tensorrt import trt_convert as trt`.)</code></pre>
 <ul>
@@ -514,9 +517,9 @@ Important
 <h1>Running inference with the optimized model</h1>
 <p>TensorFlow 2.x provides a convenient function <code>tf.saved_model.load</code> to load the models saved in <code>SavedModel</code>. We are only interested in performing inference with the model so we will load the respective signature from the model as a <a href="https://www.tensorflow.org/guide/concrete_function"><u>concrete function</u></a> -</p>
 <div id="cell-23" class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the particular signature from the TRT graph</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the particular signature from the TRT graph</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>root <span class="op">=</span> tf.saved_model.load(saved_model_dir_trt)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>concrete_func <span class="op">=</span> root.signatures[<span class="st">'serving_default'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>concrete_func <span class="op">=</span> root.signatures[<span class="st">'serving_default'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>You can inspect the structure of this function by running <code>concrete_func.structured_outputs</code> and the output would be -</p>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:34}}" data-outputid="9b4f0c46-340c-4a3f-e378-114c5314cb48">
@@ -527,16 +530,16 @@ Important
 <p>As we would expect, this function will yield a 1000-d vector which is nothing but probabilities distributed across the 1000 different classes of the ImageNet dataset. Also note the key of the above dictionary, it might not be ‘Logits’ always.</p>
 <p>Now, to be able to run the inference and decode them in a human-interpretable way, we first need to get the ImageNet dataset labels -</p>
 <div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:51}}" data-outputid="afe498dc-3d5d-42af-9bc0-c188d7bed3cf">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the ImageNet labels first and prepare them</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Gather the ImageNet labels first and prepare them</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>labels_path <span class="op">=</span> tf.keras.utils.get_file(<span class="st">'ImageNetLabels.txt'</span>, <span class="st">'https://storage.googleapis.com/download.tensorflow.org/data/ImageNetLabels.txt'</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>imagenet_labels <span class="op">=</span> np.array(<span class="bu">open</span>(labels_path).read().splitlines())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>imagenet_labels <span class="op">=</span> np.array(<span class="bu">open</span>(labels_path).read().splitlines())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Time for performing the inference -</p>
 <div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:51}}" data-outputid="db68e554-02fc-4005-cc03-bd2d4d4c41c7">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform inference</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform inference</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>labeling <span class="op">=</span> concrete_func(tf.constant(x.astype(<span class="st">'float32'</span>)))</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>activations <span class="op">=</span> tf.nn.softmax(labeling[<span class="st">'predictions'</span>])</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>imagenet_labels[np.argsort(activations)[<span class="dv">0</span>,::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">5</span>]<span class="op">+</span><span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>imagenet_labels[np.argsort(activations)[<span class="dv">0</span>,::<span class="op">-</span><span class="dv">1</span>][:<span class="dv">5</span>]<span class="op">+</span><span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>array(['Indian elephant', 'tusker', 'African elephant', 'bull mastiff',
        'Great Dane'], dtype='&lt;U30')</code></pre>
@@ -555,7 +558,7 @@ average(sec):0.03,fps:38.93
 average(sec):0.03,fps:37.24</code></pre>
 <p>Now, to time the performance of our optimized model, we will need to make little adjustments to the utility function we previously wrote. This is mainly because now, we will now be using a concrete function which takes a <code>tf.constant</code>.</p>
 <div id="cell-32" class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_trt_model():</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> time_trt_model():</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    image_input <span class="op">=</span> tf.constant(x.astype(<span class="st">'float32'</span>))</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    times <span class="op">=</span> []</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">20</span>):</span>
@@ -565,13 +568,13 @@ average(sec):0.03,fps:37.24</code></pre>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        times.append(delta)</span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    mean_delta <span class="op">=</span> np.array(times).mean()</span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    fps <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> mean_delta</span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'average(sec):</span><span class="sc">{:.2f}</span><span class="st">,fps:</span><span class="sc">{:.2f}</span><span class="st">'</span>.<span class="bu">format</span>(mean_delta, fps))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'average(sec):</span><span class="sc">{:.2f}</span><span class="st">,fps:</span><span class="sc">{:.2f}</span><span class="st">'</span>.<span class="bu">format</span>(mean_delta, fps))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>For convenience, here’s our x -</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> tf.keras.preprocessing.image.load_img(<span class="st">'elephant.jpg'</span>, target_size<span class="op">=</span>(<span class="dv">224</span>, <span class="dv">224</span>))</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> tf.keras.preprocessing.image.load_img(<span class="st">'elephant.jpg'</span>, target_size<span class="op">=</span>(<span class="dv">224</span>, <span class="dv">224</span>))</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.preprocessing.image.img_to_array(img)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.expand_dims(x, axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.keras.applications.mobilenet_v2.preprocess_input(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Let’s now <code>run time_trt_model()</code> for five times -</p>
 <div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:102}}" data-outputid="84c921f6-81d5-4625-f02f-d1ef074410e3">
 <div class="cell-output cell-output-stdout">
@@ -585,8 +588,8 @@ average(sec):0.00,fps:219.98</code></pre>
 <p>That’s quite a bit of improvement, isn’t it? Note that you may observe slower inference in your first call to <code>time_trt_model()</code>. It may happen because of the additional time a GPU takes to set itself up. When running comparisons like this, it’s a good practice to first warm up the base hardware by running a few test iterations on it and then run the actual iterations for comparison. Depending on the GPU you’re using, these numbers can vary (these experiments were performed a <strong>Tesla P100</strong>).</p>
 <p>Talking about the memory footprints of both the models, for the pre-trained model we have -</p>
 <div id="cell-37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:136}}" data-outputid="ec8a1a3d-69bc-4027-9636-046af7c85eff">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of the model files</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>du <span class="op">--</span><span class="bu">all</span> <span class="op">-</span>h mobilenet_v2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of the model files</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>du <span class="op">--</span><span class="bu">all</span> <span class="op">-</span>h mobilenet_v2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>96K mobilenet_v2/variables/variables.data-00000-of-00002
 14M mobilenet_v2/variables/variables.data-00001-of-00002
@@ -599,7 +602,7 @@ average(sec):0.00,fps:219.98</code></pre>
 </div>
 <p>We have a total of <strong>18 MB</strong> here. For the optimized model, we have -</p>
 <div id="cell-39" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:136}}" data-outputid="2cba2513-1432-41c9-a78e-73ee796d1d34">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>du <span class="op">--</span><span class="bu">all</span> <span class="op">-</span>h mobilenet_v2.trt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>du <span class="op">--</span><span class="bu">all</span> <span class="op">-</span>h mobilenet_v2.trt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>96K mobilenet_v2.trt/variables/variables.data-00000-of-00002
 14M mobilenet_v2.trt/variables/variables.data-00001-of-00002
@@ -698,13 +701,14 @@ Important
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

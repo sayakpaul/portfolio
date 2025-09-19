@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-439fd0b3ee6e2544d61d46b826a6b23b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-fb8ac4b46d264348deb6621fefe4d61e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -294,6 +295,8 @@ ga('send', {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -459,16 +462,16 @@ Important
 </div>
 </div>
 <p>So, for dynamic-range and <code>float16</code> quantization based conversions, we will be using the CPU variant only. This variant is available <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/tf1_detection_zoo.md#mobile-models">here</a> as <code>ssd_mobiledet_cpu_coco</code>. Once the model bundle is untar’d we get the following files -</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> model.ckpt-400000.data-00000-of-00001</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> model.ckpt-400000.data-00000-of-00001</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> model.ckpt-400000.index</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> model.ckpt-400000.meta</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> model.tflite</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> pipeline.config</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">├──</span> tflite_graph.pb</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> tflite_graph.pbtxt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="ex">└──</span> tflite_graph.pbtxt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><code>model.ckpt-*</code> files are the pre-trained checkpoints on the COCO dataset. If you train a MobileDet object detection model on your own dataset, you will have your own model checkpoint files. The <code>tflite_graph.pb</code> file is a frozen inference graph that is compatible with the TFLite operator set, which was exported from the pre-trained model checkpoints. <code>model.tflite</code> file is a TFLite model that was converted from the <code>tflite_graph.pb</code> frozen graph.</p>
 <p>In case if you ever train a MobileDet model on your dataset, here’s how you’d get the TFLite frozen graph file (based on <a href="https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/running_on_mobile_tensorflowlite.md"><u>this guide</u></a> mentioned above) -</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> PIPELINE_CONFIG=<span class="st">"checkpoint_name/pipeline.config"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> PIPELINE_CONFIG=<span class="st">"checkpoint_name/pipeline.config"</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> CKPT_PREFIX=<span class="st">"checkpoint_name/model.ckpt-400000"</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">$</span> OUTPUT_DIR=<span class="st">"tflite_graph"</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a> </span>
@@ -476,10 +479,10 @@ Important
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>   <span class="at">--pipeline_config_path</span><span class="op">=</span><span class="va">$PIPELINE_CONFIG</span> <span class="dt">\</span></span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   <span class="at">--trained_checkpoint_prefix</span><span class="op">=</span><span class="va">$CKPT_PREFIX</span> <span class="dt">\</span></span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>   <span class="at">--output_directory</span><span class="op">=</span><span class="va">$OUTPUT_DIR</span> <span class="dt">\</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="at">--add_postprocessing_op</span><span class="op">=</span>true</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>   <span class="at">--add_postprocessing_op</span><span class="op">=</span>true</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>You can see a fully worked out example in the <a href="https://colab.research.google.com/github/sayakpaul/Adventures-in-TensorFlow-Lite/blob/master/MobileDet_Conversion_TFLite.ipynb"><u>Colab Notebook</u></a> mentioned above. If everything goes well, then you should have the frozen graph file exported in <code>OUTPUT_DIR</code>. Let’s now proceed to the TFLite model conversion part.</p>
 <p>Here’s how the dynamic-range quantization would look like in TensorFlow 2 -</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter <span class="op">=</span> tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>converter <span class="op">=</span> tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    graph_def_file<span class="op">=</span>model_to_be_quantized,</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    input_arrays<span class="op">=</span>[<span class="st">'normalized_input_image_tensor'</span>],              </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    output_arrays<span class="op">=</span>[<span class="st">'TFLite_Detection_PostProcess'</span>,</span>
@@ -489,7 +492,7 @@ Important
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>   input_shapes<span class="op">=</span>{<span class="st">'normalized_input_image_tensor'</span>: [<span class="dv">1</span>, <span class="dv">320</span>, <span class="dv">320</span>, <span class="dv">3</span>]}</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>converter.optimizations <span class="op">=</span> [tf.lite.Optimize.DEFAULT]</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>tflite_model <span class="op">=</span> converter.convert()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>tflite_model <span class="op">=</span> converter.convert()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>A note about some of the parameters and their values from the above code listing -</p>
 <ul>
 <li><p><code>model_to_be_quantized</code> corresponds to the frozen graph file.</p></li>
@@ -507,7 +510,7 @@ Important
 <h3 class="anchored" data-anchor-id="representative-dataset">Representative dataset</h3>
 <p>Our first step toward doing full integer quantization is preparing a representative dataset. It is required to calibrate the activation ranges so that the quantized model is able to retain the original model performance as much as possible. For the purpose of this post, I sampled 100 images from the <a href="https://cocodataset.org/#download"><u>COCO training dataset</u></a> (<code>train2014</code> split). In my experience, 100 samples as the representative dataset have always been sufficient. I have hosted these images <a href="https://github.com/sayakpaul/Adventures-in-TensorFlow-Lite/releases/tag/v0.9.0"><u>here</u></a> in case you are interested to use them.</p>
 <p>The following code listing denotes a generator function that produces a preprocessed image to the TFLite converter -</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rep_ds <span class="op">=</span> tf.data.Dataset.list_files(<span class="st">"train_samples/*.jpg"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rep_ds <span class="op">=</span> tf.data.Dataset.list_files(<span class="st">"train_samples/*.jpg"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>HEIGHT, WIDTH <span class="op">=</span> <span class="dv">320</span>, <span class="dv">320</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a> </span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> representative_dataset_gen():</span>
@@ -517,7 +520,7 @@ Important
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>       img <span class="op">=</span> tf.image.convert_image_dtype(img, tf.float32)</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>       resized_img <span class="op">=</span> tf.image.resize(img, (HEIGHT, WIDTH))</span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>       resized_img <span class="op">=</span> resized_img[tf.newaxis, :]</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>       <span class="cf">yield</span> [resized_img]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>       <span class="cf">yield</span> [resized_img]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p><strong>Note</strong> that these preprocessing steps should be in sync with the actual preprocessing steps that would apply before running inference with your TFLite model. In case if you are interested to know about more complex representative dataset generators you may find <a href="https://github.com/sayakpaul/Adventures-in-TensorFlow-Lite/blob/master/Magenta_arbitrary_style_transfer_model_conversion.ipynb"><u>this notebook</u></a> useful.</p>
 <p>Also, note that dynamic-range and <code>float16</code> quantization of the EdgeTPU and DSP variants don’t have much of practical usage. The next section is going to be solely about full integer quantization of these different variants and the nitty-gritty to take into consideration for the conversion process.</p>
 </section>
@@ -532,7 +535,7 @@ Important
 <li>In order to convert the <code>uint8</code> models with full integer quantization, we need to set the input and output data type of the TFLite models to integer precision (typically <code>uint8</code> or <code>int8</code>). As per <a href="https://www.tensorflow.org/api_docs/python/tf/compat/v1/lite/TFLiteConverter#attributes"><u>this documentation</u></a>, we also need to specify the <code>quantized_input_stats</code> parameter during the conversion process. This is needed in order for the converted TFLite model to map the quantized input values to real values. More details are available <a href="https://www.tensorflow.org/lite/performance/quantization_spec"><u>here</u></a>.</li>
 </ul>
 <p>So, how do we realize all of these in code?</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>converter <span class="op">=</span> tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>converter <span class="op">=</span> tf.compat.v1.lite.TFLiteConverter.from_frozen_graph(</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>   graph_def_file<span class="op">=</span>model_to_be_quantized,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>   input_arrays<span class="op">=</span>[<span class="st">'normalized_input_image_tensor'</span>],</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>   output_arrays<span class="op">=</span>[<span class="st">'TFLite_Detection_PostProcess'</span>,</span>
@@ -543,20 +546,20 @@ Important
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>converter.inference_input_type <span class="op">=</span> tf.uint8</span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>converter.quantized_input_stats <span class="op">=</span> {<span class="st">"normalized_input_image_tensor"</span>: (<span class="dv">128</span>, <span class="dv">128</span>)}</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>tflite_model <span class="op">=</span> converter.convert()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>tflite_model <span class="op">=</span> converter.convert()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you’re thinking this does not look all that gory compared to the above code listing - it does not have to be! The tooling should help you do these things seamlessly. But catching these details during your project development may not be trivial. Note that we don’t specify <code>converter.inference_output_type</code>. Hold your breath, we will come to this in a moment.</p>
 <p>After successful execution, we get two full integer quantized models - EdgeTPU one is <strong>4.2 MB</strong> and the DSP one is <strong>7.0 MB</strong>.</p>
 </section>
 <section id="integer-quantization-for-cpu-variants-and-float32-precision-models" class="level3">
 <h3 class="anchored" data-anchor-id="integer-quantization-for-cpu-variants-and-float32-precision-models">Integer quantization for CPU variants and float32 precision models</h3>
 <p>The variants that don’t contain fake quantization nodes (CPU and all the models in <code>float32</code> precision) have a <em>relatively</em> simpler conversion process. Recollect that the EdgeTPU and DSP variants come in two different precisions - <code>uint8</code> and <code>float32</code>. For example, here’s how it would be for the <code>float32</code> precision models -</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>converter.representative_dataset <span class="op">=</span> representative_dataset_gen</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>converter.representative_dataset <span class="op">=</span> representative_dataset_gen</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>converter.inference_input_type <span class="op">=</span> tf.uint8</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>converter.optimizations <span class="op">=</span> [tf.lite.Optimize.DEFAULT]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>converter.optimizations <span class="op">=</span> [tf.lite.Optimize.DEFAULT]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Note that we are specifying a representative dataset here because the <code>float32</code> precision models weren’t trained using QAT. For the CPU variant model, the lines of code would slightly change -</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>converter.inference_input_type <span class="op">=</span> tf.uint8</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>converter.inference_input_type <span class="op">=</span> tf.uint8</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>converter.quantized_input_stats <span class="op">=</span> {<span class="st">"normalized_input_image_tensor"</span>: (<span class="dv">128</span>, <span class="dv">128</span>)}</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>converter.optimizations <span class="op">=</span> [tf.lite.Optimize.DEFAULT]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>converter.optimizations <span class="op">=</span> [tf.lite.Optimize.DEFAULT]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Honestly, I found this configuration by trial and error. I observed that if I specify a representative dataset then it hurts the predictions of the converted model. Also, I found out that specifying <code>converter.quantized_input_stats</code> helped improve the predictions of the converted model.</p>
 <p>We don’t specify <code>converter.inference_output_type</code> in this case as well. Let’s get to it now.</p>
 </section>
@@ -677,13 +680,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

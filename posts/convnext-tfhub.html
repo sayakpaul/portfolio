@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.34">
+<meta name="generator" content="quarto-1.8.24">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-befe23ebd2f54d8af2c8a89d1a1611f1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-c8ad9e5dbd60b7b70b38521ab19b7da4.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-439fd0b3ee6e2544d61d46b826a6b23b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-a7caf8a165a1d26e18127b5388d1be16.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-fb8ac4b46d264348deb6621fefe4d61e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-c6b423d777b953aa87d3a8de81db9518.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "language": {
     "search-no-results-text": "No results",
@@ -294,6 +295,8 @@ ga('send', {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
     <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Sayak Paul</span>
     </a>
@@ -431,12 +434,12 @@ ga('send', {
 <b>Figure 2</b>: ConvNeXt block (source: original paper).
 </center>
 <p>The skip connection is controlled with <a href="https://arxiv.org/abs/1603.09382">Stochastic Depth</a> to induce regularization <em>during</em> training. Different ConvNeXt variants correspond to different depths along with different channels used in each of the stages. For example, the “tiny” variant uses the following setup:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>depths <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">3</span>]</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dims <span class="op">=</span> [<span class="dv">96</span>, <span class="dv">192</span>, <span class="dv">384</span>, <span class="dv">768</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>depths <span class="op">=</span> [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">9</span>, <span class="dv">3</span>]</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>dims <span class="op">=</span> [<span class="dv">96</span>, <span class="dv">192</span>, <span class="dv">384</span>, <span class="dv">768</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>If you plan to populate the implemented models with the original parameters then it helps to align the architecture implementation with the official one as much as possible. Since I went with this approach I tried closely following <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext.py">the official implementation</a>. My final implementation is available in <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/models/convnext_tf.py">this script</a>. Note that, it does not yet include the <a href="https://github.com/facebookresearch/ConvNeXt/blob/main/models/convnext_isotropic.py">isotropic ConvNeXt models</a>.</p>
 <p>Coming to the weight porting part, this is usually the most interesting part because there’s no standard recipe that’d work for all the models. You’ll need to think about how to best align the original model parameters with your implementation.</p>
 <p>A ConvNeXt model is divided into three main parts: (1) stem which directly operates on the input image, (2) downsample blocks that reduce the resolution of feature maps as the network progresses, and (3) stages that apply the ConvNeXt blocks shown above. This is why I organized my weight porting script such that it has a correspondence between these different parts with the original parameters. Here is an example:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layer <span class="kw">in</span> stem_block.layers:</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layer <span class="kw">in</span> stem_block.layers:</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="bu">isinstance</span>(layer, tf.keras.layers.Conv2D):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        layer.kernel.assign(</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>            tf.Variable(param_list[<span class="dv">0</span>].numpy().transpose(<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">0</span>))</span>
@@ -444,7 +447,7 @@ ga('send', {
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        layer.bias.assign(tf.Variable(param_list[<span class="dv">1</span>].numpy()))</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> <span class="bu">isinstance</span>(layer, tf.keras.layers.LayerNormalization):</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        layer.gamma.assign(tf.Variable(param_list[<span class="dv">2</span>].numpy()))</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        layer.beta.assign(tf.Variable(param_list[<span class="dv">3</span>].numpy()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        layer.beta.assign(tf.Variable(param_list[<span class="dv">3</span>].numpy()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The most difficult bit was figuring out how to properly populate the weights of the convolutional layers in TensorFlow from PyTorch. In an earlier implementation, I was simply using <code>transpose()</code>. The resulting models were giving poorer performance than expected. <a href="https://in.linkedin.com/in/vasudevgupta7">Vasudev</a> helped me figure out the correct transposition of the weight axes and the models were then coming out as expected. More about the evaluation of these models in a moment.</p>
 <p>Once the weights were ported successfully, the next task was to verify if the outputs of the intermediate layers matched with their original counterparts. One minor detail to note here is that the outputs of layers are <strong>not</strong> the same as their parameters. So, even if you check if the parameters of your implemented model and the original model are matching, their outputs could still mismatch. This mainly happens because of mismatches between the layer configurations of your model and the original one.</p>
 <p>The final model conversion script is available <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/convert.py">here</a>.</p>
@@ -631,9 +634,9 @@ convnext_xlarge_21k_1k_384
 <p>Doing these things (especially the documentation part) for 30 models can be quite cumbersome. <a href="https://www.linkedin.com/in/willi-gierke/">Willi</a> from the TF-Hub team supported me in automatically generating documentation for 30 models. The script is available <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/hub_utilities/generate_doc.py">here</a>. This script was basically generated from a documentation template and can be used for generating documentation when publishing more than one model. Additionally, I worked on a <a href="https://github.com/sayakpaul/ConvNeXt-TF/blob/main/hub_utilities/export_to_hub.py">script</a> that can archive the TensorFlow SavedModels in a way accepted by TF-Hub.</p>
 <p>I hope these scripts will be beneficial for anyone planning to contribute models to TF-Hub.</p>
 <p>As of today, all 30 models are <a href="https://tfhub.dev/sayakpaul/collections/convnext/1">available on TF-Hub</a>. They come with Colab Notebooks and documentation so that it’s easier to get started. Moreover, these TF-Hub models are not black-box SavedModels. You can load them as <code>tf.keras.Model</code> objects for further inspection. Here’s an example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model_gcs_path <span class="op">=</span> <span class="st">"gs://tfhub-modules/sayakpaul/convnext_tiny_1k_224/1/uncompressed"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>model_gcs_path <span class="op">=</span> <span class="st">"gs://tfhub-modules/sayakpaul/convnext_tiny_1k_224/1/uncompressed"</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> tf.keras.models.load_model(model_gcs_path)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary(expand_nested<span class="op">=</span><span class="va">True</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model.summary(expand_nested<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="wrapping-up" class="level1">
 <h1>Wrapping up</h1>
@@ -716,13 +719,14 @@ convnext_xlarge_21k_1k_384
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
