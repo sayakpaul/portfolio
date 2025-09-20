@@ -17,6 +17,19 @@ and for blog posts.
 
 ### [Keras](https://keras.io/)
 
+Some favorites:
+
+-   [Knowledge distillation recipes](https://keras.io/examples/keras_recipes/better_knowledge_distillation/) [^1]
+-   [Point cloud segmentation with PointNet](https://keras.io/examples/vision/pointnet_segmentation/) (joint work with [Soumik Rakshit](https://github.com/soumik12345)) [^2]
+-   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
+-   [Vector-Quantized Variational Autoencoders](https://keras.io/examples/generative/vq_vae/)
+-   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/) [^3]
+-   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498)) [^4]
+
+::: {.callout-note collapse="true"}
+
+### Others
+
 -   [MixUp augmentation for image classification](https://keras.io/examples/vision/mixup/) 
 -   [RandAugment for Image Classification for Improved Robustness](https://keras.io/examples/vision/randaugment/) 
 -   [Self-supervised contrastive learning with SimSiam](https://keras.io/examples/vision/simsiam)
@@ -28,33 +41,35 @@ and for blog posts.
 -   [Semi-supervision and domain adaptation with AdaMatch](https://keras.io/examples/vision/adamatch/)
 -   [Compact Convolutional Transformers](https://keras.io/examples/vision/cct/)
 -   [Conditional GAN](https://keras.io/examples/generative/conditional_gan/)
--   [Vector-Quantized Variational Autoencoders](https://keras.io/examples/generative/vq_vae/)
--   [Knowledge distillation recipes](https://keras.io/examples/keras_recipes/better_knowledge_distillation/) [^1]
 -   [Multimodal entailment](https://keras.io/examples/nlp/multimodal_entailment/)
--   [Handwriting recognition](https://keras.io/examples/vision/handwriting_recognition/) (joint work with [Aakash Kumar Nain](https://twitter.com/A_K_Nain))
 -   [Near-duplicate image search](https://keras.io/examples/vision/near_dup_search/)
 -   [Large-scale multi-label text classification](https://keras.io/examples/nlp/multi_label_classification/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
 -   [FixRes: Fixing train-test resolution discrepancy](https://keras.io/examples/vision/fixres/)
 -   [Image classification with ConvMixer](https://keras.io/examples/vision/convmixer/)
 -   [MobileViT: A mobile-friendly Transformer-based model for image classification](https://keras.io/examples/vision/mobilevit/)
--   [Point cloud segmentation with PointNet](https://keras.io/examples/vision/pointnet_segmentation/) (joint work with [Soumik Rakshit](https://github.com/soumik12345)) [^2]
 -   [Masked image modeling with Autoencoders](https://keras.io/examples/vision/masked_image_modeling/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [Learning to tokenize in Vision Transformers](https://keras.io/examples/vision/token_learner/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498))
 -   [GauGAN for conditional image generation](https://keras.io/examples/generative/gaugan/) (joint work with [Soumik Rakshit](https://github.com/soumik12345))
--   [Distilling Vision Transformers](https://keras.io/examples/vision/deit/) [^3]
--   [Investigating Vision Transformer representations](https://keras.io/examples/vision/probing_vits/) (joint work with [Aritra Roy Gosthipaty](https://twitter.com/arig23498)) [^4]
 -   [Class Attention Image Transformers with LayerScale](https://keras.io/examples/vision/cait/)
 -   [Fine-tuning Stable Diffusion](https://keras.io/examples/generative/finetune_stable_diffusion/) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Semantic segmentation with SegFormer and Hugging Face Transformers](https://keras.io/examples/vision/segformer/)
 -   [DreamBooth](https://keras.io/examples/generative/dreambooth/) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Training a language model from scratch with 🤗 Transformers and TPUs](https://keras.io/examples/nlp/mlm_training_tpus/) (joint work with [Matthew Carrigan](https://twitter.com/carrigmat))
 -   [Segment Anything Model with 🤗 Transformers](https://keras.io/examples/vision/sam/) (joint work with [Merve Noyan](https://twitter.com/mervenoyann))
+:::
 
 ### [Datacamp](https://www.datacamp.com/)
+
+Some favorites:
 
 -   [Demystifying Crucial Statistics in Python](https://goo.gl/i2Wm5v) [^5]
 -   [Turning Machine Learning Models into APIs in Python](https://goo.gl/vwzqtA) [^6]
 -   [Essentials of Linear Regression in Python](https://goo.gl/5nuVmt) [^7]
+
+::: {.callout-note collapse="true"}
+
+### Others 
+
 -   [Simplifying Sentiment Analysis in Python](https://goo.gl/62mEJo)
 -   [Introduction to Indexing in SQL](https://goo.gl/7dcnE7) 
 -   [Understanding Recursive Functions in Python](https://goo.gl/u1U2eH) 
@@ -76,6 +91,7 @@ and for blog posts.
 -   [Ten Important Updates from TensorFlow 2.0](http://bit.ly/2EHENWL)
 -   [Implementing Neural Style Transfer using TensorFlow 2.0](http://bit.ly/2J1mmxv)
 -   [TensorFlow 2.0 Case Study](http://bit.ly/2U0yjZA)
+:::
 
 [^1]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1428433434972618754).
 [^2]:#TFCommunitySpotlight [awarded](https://twitter.com/TensorFlow/status/1460321709488152579).
@@ -87,16 +103,35 @@ and for blog posts.
 
 ### [FloydHub](https://www.floydhub.com/)
 
--   [Introduction to Anomaly Detection in Python](https://floydhub.ghost.io/introduction-to-anomaly-detection-in-python/)
--   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://floydhub.ghost.io/introduction-to-k-means-clustering-in-python-with-scikit-learn/)
+Some favorites:
+
 -   [An introduction to Q-Learning: Reinforcement Learning](https://floydhub.ghost.io/an-introduction-to-q-learning-reinforcement-learning/)
 -   [How to plan and execute your ML and DL projects](https://floydhub.ghost.io/structuring-and-planning-your-machine-learning-project/)
+
+::: {.callout-note collapse="true"}
+
+### Others 
+
+-   [Introduction to Anomaly Detection in Python](https://floydhub.ghost.io/introduction-to-anomaly-detection-in-python/)
+-   [Introduction to K-Means Clustering in Python with `scikit-learn`](https://floydhub.ghost.io/introduction-to-k-means-clustering-in-python-with-scikit-learn/)
 -   [Becoming One With the Data](https://floydhub.ghost.io/becoming-one-with-the-data/) [^8]
 -   [Training Neural Nets: a Hacker’s Perspective](https://floydhub.ghost.io/training-neural-nets-a-hackers-perspective/)
+:::
 
-[^8]:Featured in  [Sebastian Ruder](http://www.google.com/url?q=http%3A%2F%2Fruder.io%2F&sa=D&sntz=1&usg=AFQjCNFQ0bOiqC7-bafcYwaCLKmMXkBnmA)'s [monthly newsletter](http://www.google.com/url?q=http%3A%2F%2Fnewsletter.ruder.io%2Fissues%2Fbigger-vs-smaller-models-powerful-vs-dumb-models-190768&sa=D&sntz=1&usg=AFQjCNGAAnCn_dxXbyQ-3Rb1r5XcXOVdOQ).
+[^8]:Featured in  Sebastian Ruder's [monthly newsletter](https://newsletter.ruder.io/p/bigger-vs-smaller-models-powerful-vs-dumb-models-190768).
 
-### [Weights and Biases](https://www.wandb.com/)
+### Weights and Biases
+
+Some favorites:
+
+-   [Understanding the Effectivity of Ensembles in Deep Learning](https://bit.ly/deep-ensembles) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
+-   [An Introduction to Adversarial Examples in Deep Learning](https://bit.ly/3b2zss2) [^9]
+-   [Distilling Knowledge in Neural Networks](https://bit.ly/3mvsbGn)
+-   [Keras XLA Benchmarks](http://wandb.me/keras-xla-benchmark) (in collaboration with [Soumik Rakshit](https://in.linkedin.com/in/soumikrakshit) and [Ayush Thakur](https://in.linkedin.com/in/ayush-thakur-731914149))
+
+::: {.callout-note collapse="true"}
+
+### Others 
 
 -   [Running Hyperparameter Sweeps to Pick the Best Model](http://bit.ly/2MKHR7K)
 -   [arXiv Search: Generating Tags from Paper Titles](http://bit.ly/2WQ8sFh)
@@ -118,33 +153,39 @@ and for blog posts.
 -   [Understanding the Effectivity of Ensembles in Deep Learning](https://bit.ly/deep-ensembles) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
 -   [An Introduction to Adversarial Examples in Deep Learning](https://bit.ly/3b2zss2) [^9]
 -   [Unsupervised Visual Representation Learning with SwAV](http://bit.ly/swav-tf) (joint work with [Ayush Thakur](https://twitter.com/ayushthakur0))
--   [Distilling Knowledge in Neural Networks](https://bit.ly/3mvsbGn)
--   [Keras XLA Benchmarks](http://wandb.me/keras-xla-benchmark) (in collaboration with [Soumik Rakshit](https://in.linkedin.com/in/soumikrakshit) and [Ayush Thakur](https://in.linkedin.com/in/ayush-thakur-731914149))
+:::
 
 [^9]:This one ranked eighth at a [blogging competition](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 
-### [Google Cloud Platform](https://cloud.google.com/blog)
+### Google Cloud Platform
 
 - [Streamline your ML training workflow with Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/streamline-your-ml-training-workflow-vertex-ai) (joint work with [Karl Weinmeister](https://twitter.com/kweinmeister) of Google)
--   [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
--   [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^10]
--   Model training as a CI/CD system - [Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i), [Part II](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (joint work with [Chansung Park](https://github.com/deep-diver))
+- [Image search with natural language queries](https://cloud.google.com/blog/topics/developers-practitioners/image-search-natural-language-queries) (joint work with [Chansung Park](https://github.com/deep-diver))
+- [Dual deployments on Vertex AI](https://cloud.google.com/blog/topics/developers-practitioners/dual-deployments-vertex-ai) (joint work with [Chansung Park](https://github.com/deep-diver)) [^10]
+- Model training as a CI/CD system - [Part I](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-i), [Part II](https://cloud.google.com/blog/topics/developers-practitioners/model-training-cicd-system-part-ii) (joint work with [Chansung Park](https://github.com/deep-diver))
 
 ### TensorFlow
 
+Some favorites:
+
 -   [How to Create a Cartoonizer with TensorFlow Lite](http://bit.ly/cartoonizer-app) (joint work with [Margaret Maynard-Reid](https://twitter.com/margaretmz))
+-   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
+-   [Serving With TF and GKE: Stable Diffusion](https://blog.tensorflow.org/2023/04/serving-with-tf-and-gke-stable-diffusion.html) (joint work with [Chansung Park](https://github.com/deep-diver))
+
+::: {.callout-note collapse="true"}
+### Others 
+
 -   [TensorFlow Addons Optimizers: CyclicalLearningRate](https://www.tensorflow.org/addons/tutorials/optimizers_cyclicallearningrate)
 -   [Graph regularization for image classification using synthesized graphs](https://github.com/tensorflow/neural-structured-learning/blob/master/neural_structured_learning/examples/notebooks/graph_keras_cnn_flowers.ipynb) [^11]
 -   [Continuous Adaptation for Machine Learning System to Data Changes](https://blog.tensorflow.org/2021/12/continuous-adaptation-for-machine.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^12]
--   [Load-testing TensorFlow Serving’s REST Interface](https://blog.tensorflow.org/2022/07/load-testing-TensorFlow-Servings-REST-interface.html) (joint work with [Chansung Park](https://github.com/deep-diver))
 -   [Automated Deployment of TensorFlow Models with TensorFlow Serving and GitHub Actions](https://blog.tensorflow.org/2022/09/automated-deployment-of-tensorflow-models-with-tensorflow-serving-and-github-actions.html) (joint work with [Chansung Park](https://github.com/deep-diver)) 
 -   [End-to-End Pipeline for Segmentation with TFX, Google Cloud, and Hugging Face](https://blog.tensorflow.org/2023/01/end-to-end-pipeline-for-segmentation-tfx-google-cloud-hugging-face.html) (joint work with [Chansung Park](https://github.com/deep-diver)) [^13]
--   [Serving With TF and GKE: Stable Diffusion](https://blog.tensorflow.org/2023/04/serving-with-tf-and-gke-stable-diffusion.html) (joint work with [Chansung Park](https://github.com/deep-diver))
+:::
 
 ### Hugging Face 🤗
 
 ::: {.callout-note collapse="true"}
-Series on the deployment of TF vision models in 🤗
+### Series on the deployment of TF vision models in 🤗
 
 - [Deploying TensorFlow Vision Models in Hugging Face with TF Serving](https://huggingface.co/blog/tf-serving-vision)
 - [Deploying 🤗 ViT on Kubernetes with TF Serving](https://huggingface.co/blog/deploy-tfserving-kubernetes) (with [Chansung Park](https://github.com/deep-diver))
@@ -152,14 +193,12 @@ Series on the deployment of TF vision models in 🤗
 :::
 
 ::: {.callout-note collapse="true"}
-Series on Diffusers x quantization
+### Series on Diffusers x quantization
 
 - [Memory-efficient Diffusion Transformers with Quanto and Diffusers](https://huggingface.co/blog/quanto-diffusers)
 - [In our previous post, Exploring Quantization Backends in Diffusers](https://huggingface.co/blog/diffusers-quantization)
 - [(LoRA) Fine-Tuning FLUX.1-dev on Consumer Hardware](https://huggingface.co/blog/flux-qlora)
 :::
-
-**Blogs**
 
 You can check out the articles I have written or co-written on the hf.co/blog platform by visiting
 [this link](https://huggingface.co/sayakpaul/activity/articles). Below are some of my favorite ones:
@@ -178,7 +217,7 @@ You can check out the articles I have written or co-written on the hf.co/blog pl
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
 ::: {.callout-note collapse="true"}
-Blog posts outside of the Hugging Face blogging platform:
+### Blog posts outside of the Hugging Face blogging platform:
 
 * [Controlling Stable Diffusion with JAX, diffusers, and Cloud TPUs](https://opensource.googleblog.com/2023/06/controlling-stable-diffusion-with-jax-diffusers-and-cloud-tpus.html) (with Merve Noyan)
 * [Accelerating Generative AI Part III: Diffusion, Fast](https://pytorch.org/blog/accelerating-generative-ai-3/) (with [Patrick von Platen](https://fr.linkedin.com/in/patrick-von-platen-343401123)). [Tweet](https://x.com/PyTorch/status/1742647700183458156?s=20) from PyTorch.
@@ -199,9 +238,8 @@ The first four posts were co-authored with [Nilabhra Roy Chowdhury](https://www.
 - [Building an Efficient Machine Learning API](https://www.carted.com/blog/building-an-efficient-machine-learning-api/)
 - [Better Hardware Provisioning for ML Experiments](https://www.carted.com/blog/better-hardware-provisioning-for-ml-experiments)
 
-
 ::: {.callout-note collapse="true"}
-### Others
+### Misc
 
 -   [Lessons learned from a Deep Learning Hackathon](http://bit.ly/2YfnZhI) 
 -   [“Reparameterization” trick in Variational Autoencoders](https://bit.ly/2RjoWnM)
