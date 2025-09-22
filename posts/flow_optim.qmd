@@ -121,7 +121,7 @@ Therefore, when deriving the efficiency of the architecture, always prefer obtai
 A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of
 high-resolution synthesis of images and videos. 
 
-For high-resolution synthesis, even this latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have `(batch_size, num_latent_channels, 512, 512)` dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal. 
+For high-resolution synthesis, the latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have `(batch_size, num_latent_channels, 512, 512)` dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal. 
 
 Even when not operating with high resolutions, for videos, the problem gets even worse. The outputs are now spatio-temporal. This means we need to compute full 3D attention between tokens[^4]. For moderate-sized videos (5 seconds long, 512x768 resolution), we might have to deal with `(batch_size, num_latent_channels, num_compressed_temporal_channels, 64, 96)` dimensional latents.
 
