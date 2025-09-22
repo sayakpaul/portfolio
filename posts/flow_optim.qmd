@@ -95,8 +95,10 @@ One way to think about this is by starting with the specifications of the hardwa
 
 Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors[^3] (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al. provide an excellent study on the math behind designing optimal model configurations for available hardware.
 
-Several other works have also used neural architecture search for hardware-aware inference-optimized model design [@Xiong_2021_CVPR],
+::: {.callout-tip}
+Several other works have also used neural architecture search for hardware-aware inference-optimized model design [@Xiong_2021_CVPR], [@anthony2024casecodesigningmodelarchitectures], and
 [@bercovich2025puzzledistillationbasednasinferenceoptimized].
+...
 
 **A note on efficiency**  
 Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works [@10.5555/3600270.3602446], it is possible
