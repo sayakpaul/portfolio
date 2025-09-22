@@ -118,7 +118,8 @@ Therefore, when deriving the efficiency of the architecture, always prefer obtai
 
 ### Architectural flexibility
 
-A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis. 
+A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of
+high-resolution synthesis of images and videos. 
 
 For high-resolution synthesis, even this latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have `(batch_size, num_latent_channels, 512, 512)` dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal. 
 
