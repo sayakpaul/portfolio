@@ -377,22 +377,7 @@ ga('send', {
   <li><a href="#selecting-the-model" id="toc-selecting-the-model" class="nav-link" data-scroll-target="#selecting-the-model">Selecting the model</a>
   <ul class="collapse">
   <li><a href="#hardware-awareness" id="toc-hardware-awareness" class="nav-link" data-scroll-target="#hardware-awareness">Hardware awareness</a></li>
-  <li><a href="#architectural-flexibility" id="toc-architectural-flexibility" class="nav-link" data-scroll-target="#architectural-flexibility">Architectural flexibility</a></li>
   </ul></li>
-  <li><a href="#model-is-decided-what-is-next" id="toc-model-is-decided-what-is-next" class="nav-link" data-scroll-target="#model-is-decided-what-is-next">Model is decided – what is next?</a>
-  <ul class="collapse">
-  <li><a href="#post-training" id="toc-post-training" class="nav-link" data-scroll-target="#post-training">Post-training</a></li>
-  <li><a href="#latency-optimization" id="toc-latency-optimization" class="nav-link" data-scroll-target="#latency-optimization">Latency optimization</a></li>
-  <li><a href="#inference-time-scaling" id="toc-inference-time-scaling" class="nav-link" data-scroll-target="#inference-time-scaling">Inference-time scaling</a></li>
-  <li><a href="#prompting" id="toc-prompting" class="nav-link" data-scroll-target="#prompting">Prompting</a></li>
-  </ul></li>
-  <li><a href="#advanced-model-optimization-distillation" id="toc-advanced-model-optimization-distillation" class="nav-link" data-scroll-target="#advanced-model-optimization-distillation">Advanced model optimization – Distillation</a>
-  <ul class="collapse">
-  <li><a href="#architectural-compression" id="toc-architectural-compression" class="nav-link" data-scroll-target="#architectural-compression">Architectural compression</a></li>
-  <li><a href="#timestep-distillation" id="toc-timestep-distillation" class="nav-link" data-scroll-target="#timestep-distillation">Timestep distillation</a></li>
-  </ul></li>
-  <li><a href="#generation-speed-the-endgame" id="toc-generation-speed-the-endgame" class="nav-link" data-scroll-target="#generation-speed-the-endgame">Generation speed: The endgame(?)</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/flow_optim.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -458,16 +443,26 @@ Figure&nbsp;2: Different axes of optimization in generative diffusion-based mode
 <h2 class="anchored" data-anchor-id="selecting-the-model">Selecting the model</h2>
 <p>We know the use case(s) we want to serve, but we haven’t settled on a model. This can refer to the base model architecture itself or to different parameterizations of the same base model architecture. This can also refer to selecting a pre-trained checkpoint for a given model architecture. As we will see, selection of a model is a non-trivial aspect of the workflow, and when done correctly, can be quite beneficial. Therefore, unless explicitly specified, the approaches discussed in this section will apply to both training and inference.</p>
 <section id="hardware-awareness" class="level3">
-<h3 class="anchored" data-anchor-id="hardware-awareness">Hardware awareness</h3>
+<h3 class="anchored">Hardware awareness</h3>
 <p>Assuming we know the serving hardware, it makes sense to incorporate <em>hardware awareness</em> while developing the model architecture to maximize throughput while optimizing for quality.</p>
 <p>In ModernBERT <span class="citation" data-cites="warner2024smarterbetterfasterlonger">[<a href="#ref-warner2024smarterbetterfasterlonger" role="doc-biblioref">9</a>]</span>, for example, the authors decided on the dimensions (number of attention heads, number of Transformer blocks, hidden dimension, and expansion factor) of the Transformer block in a way that provided a good balance between downstream performance and hardware utilization.</p>
 <p>One way to think about this is by starting with the specifications of the hardware. For example, if the given GPU has tensor cores and if we want to leverage them (and we should), the size of each dimension weight matrix should be a multiple of 64.</p>
 <p>Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al.&nbsp;provide an excellent study on the math behind designing optimal model configurations for available hardware.</p>
-<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[<a href="#ref-Xiong_2021_CVPR" role="doc-biblioref">10</a>]</span>, <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[<a href="#ref-bercovich2025puzzledistillationbasednasinferenceoptimized" role="doc-biblioref">11</a>]</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[<a href="#ref-Xiong_2021_CVPR" role="doc-biblioref">10</a>]</span>, <span class="citation" data-cites="anthony2024casecodesigningmodelarchitectures">[<a href="#ref-anthony2024casecodesigningmodelarchitectures" role="doc-biblioref">11</a>]</span>, and <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[<a href="#ref-bercovich2025puzzledistillationbasednasinferenceoptimized" role="doc-biblioref">12</a>]</span>. …</p>
 <p><strong>A note on efficiency</strong><br>
-Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works <span class="citation" data-cites="10.5555/3600270.3602446">[<a href="#ref-10.5555/3600270.3602446" role="doc-biblioref">12</a>]</span>, it is possible that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.</p>
+Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works <span class="citation" data-cites="10.5555/3600270.3602446">[<a href="#ref-10.5555/3600270.3602446" role="doc-biblioref">13</a>]</span>, it is possible that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.</p>
 <p>It is common to think that small models are more efficient than larger models. However, what is efficiency in this context? Is it the carbon footprint of a model? Is it the memory consumption of a model? Do models with fewer parameters obtain better throughput than models with more parameters?</p>
-<p>As thoroughly studied by <span class="citation" data-cites="dehghani2022efficiencymisnomer">[<a href="#ref-dehghani2022efficiencymisnomer" role="doc-biblioref">13</a>]</span>, there is no clear trend, as <a href="#fig-efficiency-misnomer" class="quarto-xref">Figure&nbsp;3</a> clearly illustrates.</p>
+<p>As thoroughly studied by <span class="citation" data-cites="dehghani2022efficiencymisnomer">[<a href="#ref-dehghani2022efficiencymisnomer" role="doc-biblioref">14</a>]</span>, there is no clear trend, as <a href="#fig-efficiency-misnomer" class="quarto-xref">Figure&nbsp;3</a> clearly illustrates.</p>
 <div id="fig-efficiency-misnomer" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-efficiency-misnomer-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -486,22 +481,20 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 </li>
 <li><em>Throughput</em> dictates the real-world performance.</li>
 </ul>
-</section>
 <section id="architectural-flexibility" class="level3">
 <h3 class="anchored" data-anchor-id="architectural-flexibility">Architectural flexibility</h3>
 <p>A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis.</p>
 <p>For high-resolution synthesis, even this latent space can get very memory-hungry and also latency-intensive. For 4K generation, if we were to perform 8x compression on the latent space, we would have <code>(batch_size, num_latent_channels, 512, 512)</code> dimensional latents. If the underlying application prioritizes real-time generation, then this becomes far from ideal.</p>
 <p>Even when not operating with high resolutions, for videos, the problem gets even worse. The outputs are now spatio-temporal. This means we need to compute full 3D attention between tokens<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. For moderate-sized videos (5 seconds long, 512x768 resolution), we might have to deal with <code>(batch_size, num_latent_channels, num_compressed_temporal_channels, 64, 96)</code> dimensional latents.</p>
-<p>Works like LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[<a href="#ref-hacohen2024ltxvideorealtimevideolatent" role="doc-biblioref">14</a>]</span> and SANA <span class="citation" data-cites="xie2025sana">[<a href="#ref-xie2025sana" role="doc-biblioref">15</a>]</span> operate on highly compressed latent spaces, thereby reducing the memory requirements, while also improving latency. While operating on highly compressed latent spaces significantly reduces memory and latency, it’s a critical design choice, as excessive compression can lead to information loss in the representation, consequently impacting the fidelity or detail of the generated output. Both LTX-Video and SANA have their own ways to compensate for that. Amongst other things,</p>
+<p>Works like LTX-Video <span class="citation" data-cites="hacohen2024ltxvideorealtimevideolatent">[<a href="#ref-hacohen2024ltxvideorealtimevideolatent" role="doc-biblioref">15</a>]</span> and SANA <span class="citation" data-cites="xie2025sana">[<a href="#ref-xie2025sana" role="doc-biblioref">16</a>]</span> operate on highly compressed latent spaces, thereby reducing the memory requirements, while also improving latency. While operating on highly compressed latent spaces significantly reduces memory and latency, it’s a critical design choice, as excessive compression can lead to information loss in the representation, consequently impacting the fidelity or detail of the generated output. Both LTX-Video and SANA have their own ways to compensate for that. Amongst other things,</p>
 <ul>
 <li>LTX-Video tasks the decoder to perform both latent-to-pixel conversion and the final denoising step.<br>
 </li>
 <li>SANA employs specialized blocks (dubbed Mix-FFN) in its Transformer architecture.</li>
 </ul>
-<p>One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control <span class="citation" data-cites="blackforestlabs2024flux1tools">[<a href="#ref-blackforestlabs2024flux1tools" role="doc-biblioref">16</a>]</span>) and additional image inputs (Flux Kontext <span class="citation" data-cites="blackforestlabs2025flux1kontextdev">[<a href="#ref-blackforestlabs2025flux1kontextdev" role="doc-biblioref">17</a>]</span>). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.</p>
+<p>One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control <span class="citation" data-cites="blackforestlabs2024flux1tools">[<a href="#ref-blackforestlabs2024flux1tools" role="doc-biblioref">17</a>]</span>) and additional image inputs (Flux Kontext <span class="citation" data-cites="blackforestlabs2025flux1kontextdev">[<a href="#ref-blackforestlabs2025flux1kontextdev" role="doc-biblioref">18</a>]</span>). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.</p>
 <p>It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).</p>
 <p>At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.</p>
-</section>
 </section>
 <section id="model-is-decided-what-is-next" class="level2">
 <h2 class="anchored" data-anchor-id="model-is-decided-what-is-next">Model is decided – what is next?</h2>
@@ -510,26 +503,26 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 <p>In this section, we look at some approaches to identifying and fine-tuning for the specific demands of an application, i.e., <em>optimizing the use case</em>.</p>
 <section id="post-training" class="level3">
 <h3 class="anchored" data-anchor-id="post-training">Post-training</h3>
-<p>Despite all the standard metrics available for image (or video) generation, in order for a use case to grow, it is quite important to have evaluation metrics centered around the use case. For the above example, we would want to particularly look for metrics that faithfully cover photorealism and text-to-image alignment. If preference data can be obtained, it could also be beneficial to do a round of preference learning <span class="citation" data-cites="black2023ddpo Wallace_2024_CVPR">[<a href="#ref-black2023ddpo" role="doc-biblioref">18</a>, <a href="#ref-Wallace_2024_CVPR" role="doc-biblioref">19</a>]</span> and to see if that helps in further improvements.</p>
+<p>Despite all the standard metrics available for image (or video) generation, in order for a use case to grow, it is quite important to have evaluation metrics centered around the use case. For the above example, we would want to particularly look for metrics that faithfully cover photorealism and text-to-image alignment. If preference data can be obtained, it could also be beneficial to do a round of preference learning <span class="citation" data-cites="black2023ddpo Wallace_2024_CVPR">[<a href="#ref-black2023ddpo" role="doc-biblioref">19</a>, <a href="#ref-Wallace_2024_CVPR" role="doc-biblioref">20</a>]</span> and to see if that helps in further improvements.</p>
 <p>Preference datasets can also be used for supervised fine-tuning (SFT) since we have an understanding of which image is “preferred” given a prompt. We can take our base model and fine-tune on the pairs of prompts and the preferred images.</p>
 <p>Preference learning leverages human feedback on model outputs to guide further training towards preferred styles or qualities, whereas supervised fine-tuning (SFT) uses curated datasets of prompt-output pairs to directly teach the model desired behaviors. However, when to use what, i.e., typical preference learning or SFT, is still very much an open question.</p>
-<p>Note that post-training in these models can also come in other ways, such as ControlNets <span class="citation" data-cites="zhang2023addingconditionalcontroltexttoimage">[<a href="#ref-zhang2023addingconditionalcontroltexttoimage" role="doc-biblioref">20</a>]</span>, and they deserve a separate post on their own.</p>
+<p>Note that post-training in these models can also come in other ways, such as ControlNets <span class="citation" data-cites="zhang2023addingconditionalcontroltexttoimage">[<a href="#ref-zhang2023addingconditionalcontroltexttoimage" role="doc-biblioref">21</a>]</span>, and they deserve a separate post on their own.</p>
 </section>
 <section id="latency-optimization" class="level3">
 <h3 class="anchored" data-anchor-id="latency-optimization">Latency optimization</h3>
-<p>Before the model meets with actual deployment, it typically goes through some kind of latency-based optimization. Additionally, these techniques also amortize the long training durations over the course of serving a model. Examples of these techniques include compilation, integration of any specialized kernels to target input shapes and the available hardware, use of exotic parallelism techniques, and many more. Some optimization would be inference-only (post-training quantization, for example), while some would apply to both training and inference (flash-attention <span class="citation" data-cites="dao2022flashattentionfastmemoryefficientexact">[<a href="#ref-dao2022flashattentionfastmemoryefficientexact" role="doc-biblioref">21</a>]</span>, for example).</p>
-<p>Many optimization techniques in this regard would be quite hardware-dependent. For example, Flash Attention 3 <span class="citation" data-cites="shah2024flashattention3fastaccurateattention">[<a href="#ref-shah2024flashattention3fastaccurateattention" role="doc-biblioref">22</a>]</span> is currently only supported for the Hopper GPU architecture, while the FP8 dynamic quantization scheme needs GPUs with a compute capability of at least 8.9. So, we may now appreciate why keeping hardware awareness in mind can be truly helpful.</p>
+<p>Before the model meets with actual deployment, it typically goes through some kind of latency-based optimization. Additionally, these techniques also amortize the long training durations over the course of serving a model. Examples of these techniques include compilation, integration of any specialized kernels to target input shapes and the available hardware, use of exotic parallelism techniques, and many more. Some optimization would be inference-only (post-training quantization, for example), while some would apply to both training and inference (flash-attention <span class="citation" data-cites="dao2022flashattentionfastmemoryefficientexact">[<a href="#ref-dao2022flashattentionfastmemoryefficientexact" role="doc-biblioref">22</a>]</span>, for example).</p>
+<p>Many optimization techniques in this regard would be quite hardware-dependent. For example, Flash Attention 3 <span class="citation" data-cites="shah2024flashattention3fastaccurateattention">[<a href="#ref-shah2024flashattention3fastaccurateattention" role="doc-biblioref">23</a>]</span> is currently only supported for the Hopper GPU architecture, while the FP8 dynamic quantization scheme needs GPUs with a compute capability of at least 8.9. So, we may now appreciate why keeping hardware awareness in mind can be truly helpful.</p>
 <p>It is also a good exercise to have an estimate of the theoretical throughput possible for the model with sample inputs and the available hardware. This can then be used to inform the optimization process in this stage if the realized throughput is significantly lower than the theoretical one.</p>
 <p>Distillation is another popular way to optimize latency. We discuss distillation in a later section of the post.</p>
 </section>
 <section id="inference-time-scaling" class="level3">
 <h3 class="anchored" data-anchor-id="inference-time-scaling">Inference-time scaling</h3>
-<p>If training is out of scope, inference-time scaling <span class="citation" data-cites="Ma_2025_CVPR zhuo2025reflectionperfectionscalinginferencetime">[<a href="#ref-Ma_2025_CVPR" role="doc-biblioref">23</a>, <a href="#ref-zhuo2025reflectionperfectionscalinginferencetime" role="doc-biblioref">24</a>]</span> could be another promising avenue to explore. We scale the compute during inference by “searching” for better outputs, leading to potentially improved metrics (prompt following ability, for example) of choice. But what do we search for?</p>
-<p>Recollect that during inference, flow models start with a random Gaussian noise, which is denoised over a few iterations. We can always search for a better noise at initialization and see what leads to better quality outputs, as different initial noise seeds can lead to significantly varied final outputs, and optimizing this starting point can guide the generation process towards higher quality results. If the search plays out well, it might even be possible to use a smaller model with inference-time scaling to offset the costs of serving a much larger model <span class="citation" data-cites="singhal2025generalframeworkinferencetimescaling">[<a href="#ref-singhal2025generalframeworkinferencetimescaling" role="doc-biblioref">25</a>]</span>.</p>
+<p>If training is out of scope, inference-time scaling <span class="citation" data-cites="Ma_2025_CVPR zhuo2025reflectionperfectionscalinginferencetime">[<a href="#ref-Ma_2025_CVPR" role="doc-biblioref">24</a>, <a href="#ref-zhuo2025reflectionperfectionscalinginferencetime" role="doc-biblioref">25</a>]</span> could be another promising avenue to explore. We scale the compute during inference by “searching” for better outputs, leading to potentially improved metrics (prompt following ability, for example) of choice. But what do we search for?</p>
+<p>Recollect that during inference, flow models start with a random Gaussian noise, which is denoised over a few iterations. We can always search for a better noise at initialization and see what leads to better quality outputs, as different initial noise seeds can lead to significantly varied final outputs, and optimizing this starting point can guide the generation process towards higher quality results. If the search plays out well, it might even be possible to use a smaller model with inference-time scaling to offset the costs of serving a much larger model <span class="citation" data-cites="singhal2025generalframeworkinferencetimescaling">[<a href="#ref-singhal2025generalframeworkinferencetimescaling" role="doc-biblioref">26</a>]</span>.</p>
 </section>
 <section id="prompting" class="level3">
 <h3 class="anchored" data-anchor-id="prompting">Prompting</h3>
-<p>Multiple works <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions segalis2023pictureworththousandwords liu2024playgroundv3improvingtexttoimage">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">26</a>–<a href="#ref-liu2024playgroundv3improvingtexttoimage" role="doc-biblioref">28</a>]</span> have shown that better captions can also lead to improved outputs. What accounts for a “better” caption is highly use case dependent, but there are some general guidelines:</p>
+<p>Multiple works <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions segalis2023pictureworththousandwords liu2024playgroundv3improvingtexttoimage">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">27</a>–<a href="#ref-liu2024playgroundv3improvingtexttoimage" role="doc-biblioref">29</a>]</span> have shown that better captions can also lead to improved outputs. What accounts for a “better” caption is highly use case dependent, but there are some general guidelines:</p>
 <ul>
 <li>What is the image medium? Is it a photo, a painting, a 3D illustration, or something else?<br>
 </li>
@@ -548,7 +541,7 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 </figcaption>
 </figure>
 </div>
-<p>This idea of using detailed prompts to potentially improve the output quality is often referred to as “caption upsampling” <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">26</a>]</span>. To benefit from using caption upsampling, the assumption is that the model was shown similar data during training <span class="citation" data-cites="segalis2023pictureworththousandwords 10.1007/978-3-031-72670-5_12">[<a href="#ref-segalis2023pictureworththousandwords" role="doc-biblioref">27</a>, <a href="#ref-10.1007/978-3-031-72670-5_12" role="doc-biblioref">29</a>]</span>. Caption upsampling could also be considered an inference-time scaling technique, wherein we start with a seed user prompt and gradually improve it until a threshold of a desired metric is met.</p>
+<p>This idea of using detailed prompts to potentially improve the output quality is often referred to as “caption upsampling” <span class="citation" data-cites="betker2023improvingimagegenerationwithbettercaptions">[<a href="#ref-betker2023improvingimagegenerationwithbettercaptions" role="doc-biblioref">27</a>]</span>. To benefit from using caption upsampling, the assumption is that the model was shown similar data during training <span class="citation" data-cites="segalis2023pictureworththousandwords 10.1007/978-3-031-72670-5_12">[<a href="#ref-segalis2023pictureworththousandwords" role="doc-biblioref">28</a>, <a href="#ref-10.1007/978-3-031-72670-5_12" role="doc-biblioref">30</a>]</span>. Caption upsampling could also be considered an inference-time scaling technique, wherein we start with a seed user prompt and gradually improve it until a threshold of a desired metric is met.</p>
 <p>Among the two broad approaches (post-training and inference-time scaling) discussed in this section, it remains unclear when to use each. Can we even combine post-training and inference-time scaling for these kinds of generative models? Are these two things complementary to one another? This is still an open question.</p>
 <p>So far, in the previous sections, we covered architectural choices, post-training, and inference-time tweaks. Distillation offers a path to create fundamentally faster models by learning from larger, more powerful ones.</p>
 </section>
@@ -558,17 +551,17 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <p>Previously, we noted that distillation is a popular way to optimize latency. It is a powerful technique that deserves a closer look, as it allows us to create smaller and faster models by transferring knowledge from a larger ‘teacher’ model to a compact ‘student’ model. This process directly tackles the speed-memory-performance trade-off and comes in two primary forms for the class of models we have been discussing.</p>
 <section id="architectural-compression" class="level3">
 <h3 class="anchored" data-anchor-id="architectural-compression">Architectural compression</h3>
-<p>Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper <span class="citation" data-cites="hinton2015distillingknowledgeneuralnetwork">[<a href="#ref-hinton2015distillingknowledgeneuralnetwork" role="doc-biblioref">30</a>]</span>. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.</p>
-<p>When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial <span class="citation" data-cites="sreenivas2024llmpruningdistillationpractice">[<a href="#ref-sreenivas2024llmpruningdistillationpractice" role="doc-biblioref">31</a>]</span>. This phase is often known as “teacher correction”.</p>
+<p>Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper <span class="citation" data-cites="hinton2015distillingknowledgeneuralnetwork">[<a href="#ref-hinton2015distillingknowledgeneuralnetwork" role="doc-biblioref">31</a>]</span>. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.</p>
+<p>When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial <span class="citation" data-cites="sreenivas2024llmpruningdistillationpractice">[<a href="#ref-sreenivas2024llmpruningdistillationpractice" role="doc-biblioref">32</a>]</span>. This phase is often known as “teacher correction”.</p>
 <p>A distilled model could be slightly worse than its teacher, but it could be significantly more memory-efficient and faster than the teacher. This could be particularly beneficial when model-serving resources are limited. Distilled models, in the premise of image and video generation, could be leveraged for real-time use cases. They could even be used as a proxy for the quality that users can expect. For example, during the first round of incoming requests, an application could show outputs from a distilled model. If the users are satisfied with the outputs, then we reduce costs by not invoking the larger model.</p>
 </section>
 <section id="timestep-distillation" class="level3">
 <h3 class="anchored" data-anchor-id="timestep-distillation">Timestep distillation</h3>
-<p>Flow models take a number of steps to denoise to provide a reasonable output. However, too many steps can get in the way of use cases that benefit from instantaneity. A number of techniques <span class="citation" data-cites="salimans2022progressivedistillationfastsampling yin2024improveddistributionmatchingdistillation song2023consistencymodels chen2025sanasprintonestepdiffusioncontinuoustime">[<a href="#ref-salimans2022progressivedistillationfastsampling" role="doc-biblioref">32</a>–<a href="#ref-chen2025sanasprintonestepdiffusioncontinuoustime" role="doc-biblioref">35</a>]</span> have emerged to tackle this problem, and together, they’re known as “timestep distillation”. Timestep distilled models aim at reducing the number of steps it takes to obtain reasonable results.</p>
-<p>The teacher model, being used to guide the distillation process, can still be superior to the distilled model in terms of quality. Hence, the same two-model philosophy discussed just above applies to timestep-distilled models, too. In the literature of flow models, one can also combine timestep distillation with architectural compression through classic distillation to take the best of both worlds <span class="citation" data-cites="song2024sdxsrealtimeonesteplatent">[<a href="#ref-song2024sdxsrealtimeonesteplatent" role="doc-biblioref">36</a>]</span>.</p>
+<p>Flow models take a number of steps to denoise to provide a reasonable output. However, too many steps can get in the way of use cases that benefit from instantaneity. A number of techniques <span class="citation" data-cites="salimans2022progressivedistillationfastsampling yin2024improveddistributionmatchingdistillation song2023consistencymodels chen2025sanasprintonestepdiffusioncontinuoustime">[<a href="#ref-salimans2022progressivedistillationfastsampling" role="doc-biblioref">33</a>–<a href="#ref-chen2025sanasprintonestepdiffusioncontinuoustime" role="doc-biblioref">36</a>]</span> have emerged to tackle this problem, and together, they’re known as “timestep distillation”. Timestep distilled models aim at reducing the number of steps it takes to obtain reasonable results.</p>
+<p>The teacher model, being used to guide the distillation process, can still be superior to the distilled model in terms of quality. Hence, the same two-model philosophy discussed just above applies to timestep-distilled models, too. In the literature of flow models, one can also combine timestep distillation with architectural compression through classic distillation to take the best of both worlds <span class="citation" data-cites="song2024sdxsrealtimeonesteplatent">[<a href="#ref-song2024sdxsrealtimeonesteplatent" role="doc-biblioref">37</a>]</span>.</p>
 <p>It is worth pointing out that distillation only becomes viable when we have a sufficiently well-performing teacher model. So, the techniques discussed above won’t be eliminated by distillation at all. Additionally, most of the techniques discussed above would be complementary to using distillation.</p>
-<p>Guidance or more broadly, “classifier-free guidance” (CFG) <span class="citation" data-cites="ho2022classifierfreediffusionguidance">[<a href="#ref-ho2022classifierfreediffusionguidance" role="doc-biblioref">37</a>]</span>, is a vital component of flow-based generative models. It is used to steer the model output more towards the direction of the input conditions (such as text prompts), improving the overall output quality. The disadvantage is that we need two model forward passes to make CFG work. For a few iterations, this can add significant overhead to both memory consumption and inference latency. Therefore, guidance can also be distilled <span class="citation" data-cites="meng2023distillationguideddiffusionmodels">[<a href="#ref-meng2023distillationguideddiffusionmodels" role="doc-biblioref">38</a>]</span> into a student model from a teacher trained with CFG. It can also be further combined with timestep distillation, providing both memory and latency benefits.</p>
-<p>Timestep distillation or guidance distillation is usually done by fully fine-tuning a base model. Some works have explored the use of LoRA <span class="citation" data-cites="ren2024hypersdtrajectorysegmentedconsistency">[<a href="#ref-ren2024hypersdtrajectorysegmentedconsistency" role="doc-biblioref">39</a>]</span> in this regard. This path offers a cheaper alternative to full fine-tuning while still retaining the core benefits of such distillation mechanisms.</p>
+<p>Guidance or more broadly, “classifier-free guidance” (CFG) <span class="citation" data-cites="ho2022classifierfreediffusionguidance">[<a href="#ref-ho2022classifierfreediffusionguidance" role="doc-biblioref">38</a>]</span>, is a vital component of flow-based generative models. It is used to steer the model output more towards the direction of the input conditions (such as text prompts), improving the overall output quality. The disadvantage is that we need two model forward passes to make CFG work. For a few iterations, this can add significant overhead to both memory consumption and inference latency. Therefore, guidance can also be distilled <span class="citation" data-cites="meng2023distillationguideddiffusionmodels">[<a href="#ref-meng2023distillationguideddiffusionmodels" role="doc-biblioref">39</a>]</span> into a student model from a teacher trained with CFG. It can also be further combined with timestep distillation, providing both memory and latency benefits.</p>
+<p>Timestep distillation or guidance distillation is usually done by fully fine-tuning a base model. Some works have explored the use of LoRA <span class="citation" data-cites="ren2024hypersdtrajectorysegmentedconsistency">[<a href="#ref-ren2024hypersdtrajectorysegmentedconsistency" role="doc-biblioref">40</a>]</span> in this regard. This path offers a cheaper alternative to full fine-tuning while still retaining the core benefits of such distillation mechanisms.</p>
 </section>
 </section>
 <section id="generation-speed-the-endgame" class="level2">
@@ -605,7 +598,11 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <p><em>Acknowledgements: Thanks to Sanchit Gandhi and Sander Dieleman for their reviews on the early post draft.</em></p>
 
 
+</section>
+</div>
+</div>
 
+</section>
 </section>
 
 
@@ -640,92 +637,95 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <div id="ref-Xiong_2021_CVPR" class="csl-entry" role="listitem">
 <div class="csl-left-margin">10. </div><div class="csl-right-inline">Xiong Y, Liu H, Gupta S, et al (2021) MobileDets: Searching for object detection architectures for mobile accelerators. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 3825–3834</div>
 </div>
+<div id="ref-anthony2024casecodesigningmodelarchitectures" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Anthony Q, Hatef J, Narayanan D, et al (2024) <a href="https://arxiv.org/abs/2401.14489">The case for co-designing model architectures with hardware</a></div>
+</div>
 <div id="ref-bercovich2025puzzledistillationbasednasinferenceoptimized" class="csl-entry" role="listitem">
-<div class="csl-left-margin">11. </div><div class="csl-right-inline">Bercovich A, Ronen T, Abramovich T, et al (2025) <a href="https://arxiv.org/abs/2411.19146">Puzzle: Distillation-based NAS for inference-optimized LLMs</a></div>
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Bercovich A, Ronen T, Abramovich T, et al (2025) <a href="https://arxiv.org/abs/2411.19146">Puzzle: Distillation-based NAS for inference-optimized LLMs</a></div>
 </div>
 <div id="ref-10.5555/3600270.3602446" class="csl-entry" role="listitem">
-<div class="csl-left-margin">12. </div><div class="csl-right-inline">Hoffmann J, Borgeaud S, Mensch A, et al (2022) Training compute-optimal large language models. In: Proceedings of the 36th international conference on neural information processing systems. Curran Associates Inc., Red Hook, NY, USA</div>
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Hoffmann J, Borgeaud S, Mensch A, et al (2022) Training compute-optimal large language models. In: Proceedings of the 36th international conference on neural information processing systems. Curran Associates Inc., Red Hook, NY, USA</div>
 </div>
 <div id="ref-dehghani2022efficiencymisnomer" class="csl-entry" role="listitem">
-<div class="csl-left-margin">13. </div><div class="csl-right-inline">Dehghani M, Arnab A, Beyer L, Vaswani A, Tay Y (2022) <a href="https://arxiv.org/abs/2110.12894">The efficiency misnomer</a></div>
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Dehghani M, Arnab A, Beyer L, Vaswani A, Tay Y (2022) <a href="https://arxiv.org/abs/2110.12894">The efficiency misnomer</a></div>
 </div>
 <div id="ref-hacohen2024ltxvideorealtimevideolatent" class="csl-entry" role="listitem">
-<div class="csl-left-margin">14. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
 </div>
 <div id="ref-xie2025sana" class="csl-entry" role="listitem">
-<div class="csl-left-margin">15. </div><div class="csl-right-inline">Xie E, Chen J, Chen J, et al (2025) <a href="https://openreview.net/forum?id=N8Oj1XhtYZ"><span>SANA</span>: Efficient high-resolution text-to-image synthesis with linear diffusion transformers</a>. In: The thirteenth international conference on learning representations</div>
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Xie E, Chen J, Chen J, et al (2025) <a href="https://openreview.net/forum?id=N8Oj1XhtYZ"><span>SANA</span>: Efficient high-resolution text-to-image synthesis with linear diffusion transformers</a>. In: The thirteenth international conference on learning representations</div>
 </div>
 <div id="ref-blackforestlabs2024flux1tools" class="csl-entry" role="listitem">
-<div class="csl-left-margin">16. </div><div class="csl-right-inline">Black Forest Labs (2024) Introducing FLUX.1 tools. <a href="https://bfl.ai/announcements/24-11-21-tools">https://bfl.ai/announcements/24-11-21-tools</a></div>
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Black Forest Labs (2024) Introducing FLUX.1 tools. <a href="https://bfl.ai/announcements/24-11-21-tools">https://bfl.ai/announcements/24-11-21-tools</a></div>
 </div>
 <div id="ref-blackforestlabs2025flux1kontextdev" class="csl-entry" role="listitem">
-<div class="csl-left-margin">17. </div><div class="csl-right-inline">Black Forest Labs (2025) FLUX.1 kontext [dev] – open weights for image editing. <a href="https://bfl.ai/announcements/flux-1-kontext-dev">https://bfl.ai/announcements/flux-1-kontext-dev</a></div>
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Black Forest Labs (2025) FLUX.1 kontext [dev] – open weights for image editing. <a href="https://bfl.ai/announcements/flux-1-kontext-dev">https://bfl.ai/announcements/flux-1-kontext-dev</a></div>
 </div>
 <div id="ref-black2023ddpo" class="csl-entry" role="listitem">
-<div class="csl-left-margin">18. </div><div class="csl-right-inline">Black K, Janner M, Du Y, Kostrikov I, Levine S (2023) <a href="https://arxiv.org/abs/2305.13301">Training diffusion models with reinforcement learning</a></div>
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Black K, Janner M, Du Y, Kostrikov I, Levine S (2023) <a href="https://arxiv.org/abs/2305.13301">Training diffusion models with reinforcement learning</a></div>
 </div>
 <div id="ref-Wallace_2024_CVPR" class="csl-entry" role="listitem">
-<div class="csl-left-margin">19. </div><div class="csl-right-inline">Wallace B, Dang M, Rafailov R, et al (2024) Diffusion model alignment using direct preference optimization. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 8228–8238</div>
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Wallace B, Dang M, Rafailov R, et al (2024) Diffusion model alignment using direct preference optimization. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 8228–8238</div>
 </div>
 <div id="ref-zhang2023addingconditionalcontroltexttoimage" class="csl-entry" role="listitem">
-<div class="csl-left-margin">20. </div><div class="csl-right-inline">Zhang L, Rao A, Agrawala M (2023) <a href="https://arxiv.org/abs/2302.05543">Adding conditional control to text-to-image diffusion models</a></div>
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Zhang L, Rao A, Agrawala M (2023) <a href="https://arxiv.org/abs/2302.05543">Adding conditional control to text-to-image diffusion models</a></div>
 </div>
 <div id="ref-dao2022flashattentionfastmemoryefficientexact" class="csl-entry" role="listitem">
-<div class="csl-left-margin">21. </div><div class="csl-right-inline">Dao T, Fu DY, Ermon S, Rudra A, Ré C (2022) <a href="https://arxiv.org/abs/2205.14135">FlashAttention: Fast and memory-efficient exact attention with IO-awareness</a></div>
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Dao T, Fu DY, Ermon S, Rudra A, Ré C (2022) <a href="https://arxiv.org/abs/2205.14135">FlashAttention: Fast and memory-efficient exact attention with IO-awareness</a></div>
 </div>
 <div id="ref-shah2024flashattention3fastaccurateattention" class="csl-entry" role="listitem">
-<div class="csl-left-margin">22. </div><div class="csl-right-inline">Shah J, Bikshandi G, Zhang Y, Thakkar V, Ramani P, Dao T (2024) <a href="https://arxiv.org/abs/2407.08608">FlashAttention-3: Fast and accurate attention with asynchrony and low-precision</a></div>
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Shah J, Bikshandi G, Zhang Y, Thakkar V, Ramani P, Dao T (2024) <a href="https://arxiv.org/abs/2407.08608">FlashAttention-3: Fast and accurate attention with asynchrony and low-precision</a></div>
 </div>
 <div id="ref-Ma_2025_CVPR" class="csl-entry" role="listitem">
-<div class="csl-left-margin">23. </div><div class="csl-right-inline">Ma N, Tong S, Jia H, et al (2025) Scaling inference time compute for diffusion models. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 2523–2534</div>
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Ma N, Tong S, Jia H, et al (2025) Scaling inference time compute for diffusion models. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 2523–2534</div>
 </div>
 <div id="ref-zhuo2025reflectionperfectionscalinginferencetime" class="csl-entry" role="listitem">
-<div class="csl-left-margin">24. </div><div class="csl-right-inline">Zhuo L, Zhao L, Paul S, et al (2025) <a href="https://arxiv.org/abs/2504.16080">From reflection to perfection: Scaling inference-time optimization for text-to-image diffusion models via reflection tuning</a></div>
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Zhuo L, Zhao L, Paul S, et al (2025) <a href="https://arxiv.org/abs/2504.16080">From reflection to perfection: Scaling inference-time optimization for text-to-image diffusion models via reflection tuning</a></div>
 </div>
 <div id="ref-singhal2025generalframeworkinferencetimescaling" class="csl-entry" role="listitem">
-<div class="csl-left-margin">25. </div><div class="csl-right-inline">Singhal R, Horvitz Z, Teehan R, et al (2025) <a href="https://arxiv.org/abs/2501.06848">A general framework for inference-time scaling and steering of diffusion models</a></div>
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Singhal R, Horvitz Z, Teehan R, et al (2025) <a href="https://arxiv.org/abs/2501.06848">A general framework for inference-time scaling and steering of diffusion models</a></div>
 </div>
 <div id="ref-betker2023improvingimagegenerationwithbettercaptions" class="csl-entry" role="listitem">
-<div class="csl-left-margin">26. </div><div class="csl-right-inline">Betker J, Jun H, Ouyang L, Goh G, Ramesh A, et al (2023) <a href="https://cdn.openai.com/papers/dall-e-3.pdf">Improving image generation with better captions</a></div>
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Betker J, Jun H, Ouyang L, Goh G, Ramesh A, et al (2023) <a href="https://cdn.openai.com/papers/dall-e-3.pdf">Improving image generation with better captions</a></div>
 </div>
 <div id="ref-segalis2023pictureworththousandwords" class="csl-entry" role="listitem">
-<div class="csl-left-margin">27. </div><div class="csl-right-inline">Segalis E, Valevski D, Lumen D, Matias Y, Leviathan Y (2023) <a href="https://arxiv.org/abs/2310.16656">A picture is worth a thousand words: Principled recaptioning improves image generation</a></div>
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Segalis E, Valevski D, Lumen D, Matias Y, Leviathan Y (2023) <a href="https://arxiv.org/abs/2310.16656">A picture is worth a thousand words: Principled recaptioning improves image generation</a></div>
 </div>
 <div id="ref-liu2024playgroundv3improvingtexttoimage" class="csl-entry" role="listitem">
-<div class="csl-left-margin">28. </div><div class="csl-right-inline">Liu B, Akhgari E, Visheratin A, et al (2024) <a href="https://arxiv.org/abs/2409.10695">Playground v3: Improving text-to-image alignment with deep-fusion large language models</a></div>
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Liu B, Akhgari E, Visheratin A, et al (2024) <a href="https://arxiv.org/abs/2409.10695">Playground v3: Improving text-to-image alignment with deep-fusion large language models</a></div>
 </div>
 <div id="ref-10.1007/978-3-031-72670-5_12" class="csl-entry" role="listitem">
-<div class="csl-left-margin">29. </div><div class="csl-right-inline">Chatterjee A, Stan GBM, Aflalo E, et al (2024) <a href="https://doi.org/10.1007/978-3-031-72670-5_12">Getting it right: Improving spatial consistency in&amp;nbsp;text-to-image models</a>. In: Computer vision – ECCV 2024: 18th european conference, milan, italy, september 29 – october 4, 2024, proceedings, part XXII. Springer-Verlag, Berlin, Heidelberg, pp 204–222</div>
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Chatterjee A, Stan GBM, Aflalo E, et al (2024) <a href="https://doi.org/10.1007/978-3-031-72670-5_12">Getting it right: Improving spatial consistency in&amp;nbsp;text-to-image models</a>. In: Computer vision – ECCV 2024: 18th european conference, milan, italy, september 29 – october 4, 2024, proceedings, part XXII. Springer-Verlag, Berlin, Heidelberg, pp 204–222</div>
 </div>
 <div id="ref-hinton2015distillingknowledgeneuralnetwork" class="csl-entry" role="listitem">
-<div class="csl-left-margin">30. </div><div class="csl-right-inline">Hinton G, Vinyals O, Dean J (2015) <a href="https://arxiv.org/abs/1503.02531">Distilling the knowledge in a neural network</a></div>
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Hinton G, Vinyals O, Dean J (2015) <a href="https://arxiv.org/abs/1503.02531">Distilling the knowledge in a neural network</a></div>
 </div>
 <div id="ref-sreenivas2024llmpruningdistillationpractice" class="csl-entry" role="listitem">
-<div class="csl-left-margin">31. </div><div class="csl-right-inline">Sreenivas ST, Muralidharan S, Joshi R, et al (2024) <a href="https://arxiv.org/abs/2408.11796">LLM pruning and distillation in practice: The minitron approach</a></div>
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Sreenivas ST, Muralidharan S, Joshi R, et al (2024) <a href="https://arxiv.org/abs/2408.11796">LLM pruning and distillation in practice: The minitron approach</a></div>
 </div>
 <div id="ref-salimans2022progressivedistillationfastsampling" class="csl-entry" role="listitem">
-<div class="csl-left-margin">32. </div><div class="csl-right-inline">Salimans T, Ho J (2022) <a href="https://arxiv.org/abs/2202.00512">Progressive distillation for fast sampling of diffusion models</a></div>
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Salimans T, Ho J (2022) <a href="https://arxiv.org/abs/2202.00512">Progressive distillation for fast sampling of diffusion models</a></div>
 </div>
 <div id="ref-yin2024improveddistributionmatchingdistillation" class="csl-entry" role="listitem">
-<div class="csl-left-margin">33. </div><div class="csl-right-inline">Yin T, Gharbi M, Park T, et al (2024) <a href="https://arxiv.org/abs/2405.14867">Improved distribution matching distillation for fast image synthesis</a></div>
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Yin T, Gharbi M, Park T, et al (2024) <a href="https://arxiv.org/abs/2405.14867">Improved distribution matching distillation for fast image synthesis</a></div>
 </div>
 <div id="ref-song2023consistencymodels" class="csl-entry" role="listitem">
-<div class="csl-left-margin">34. </div><div class="csl-right-inline">Song Y, Dhariwal P, Chen M, Sutskever I (2023) <a href="https://arxiv.org/abs/2303.01469">Consistency models</a></div>
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Song Y, Dhariwal P, Chen M, Sutskever I (2023) <a href="https://arxiv.org/abs/2303.01469">Consistency models</a></div>
 </div>
 <div id="ref-chen2025sanasprintonestepdiffusioncontinuoustime" class="csl-entry" role="listitem">
-<div class="csl-left-margin">35. </div><div class="csl-right-inline">Chen J, Xue S, Zhao Y, et al (2025) <a href="https://arxiv.org/abs/2503.09641">SANA-sprint: One-step diffusion with continuous-time consistency distillation</a></div>
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Chen J, Xue S, Zhao Y, et al (2025) <a href="https://arxiv.org/abs/2503.09641">SANA-sprint: One-step diffusion with continuous-time consistency distillation</a></div>
 </div>
 <div id="ref-song2024sdxsrealtimeonesteplatent" class="csl-entry" role="listitem">
-<div class="csl-left-margin">36. </div><div class="csl-right-inline">Song Y, Sun Z, Yin X (2024) <a href="https://arxiv.org/abs/2403.16627">SDXS: Real-time one-step latent diffusion models with image conditions</a></div>
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Song Y, Sun Z, Yin X (2024) <a href="https://arxiv.org/abs/2403.16627">SDXS: Real-time one-step latent diffusion models with image conditions</a></div>
 </div>
 <div id="ref-ho2022classifierfreediffusionguidance" class="csl-entry" role="listitem">
-<div class="csl-left-margin">37. </div><div class="csl-right-inline">Ho J, Salimans T (2022) <a href="https://arxiv.org/abs/2207.12598">Classifier-free diffusion guidance</a></div>
+<div class="csl-left-margin">38. </div><div class="csl-right-inline">Ho J, Salimans T (2022) <a href="https://arxiv.org/abs/2207.12598">Classifier-free diffusion guidance</a></div>
 </div>
 <div id="ref-meng2023distillationguideddiffusionmodels" class="csl-entry" role="listitem">
-<div class="csl-left-margin">38. </div><div class="csl-right-inline">Meng C, Rombach R, Gao R, et al (2023) <a href="https://arxiv.org/abs/2210.03142">On distillation of guided diffusion models</a></div>
+<div class="csl-left-margin">39. </div><div class="csl-right-inline">Meng C, Rombach R, Gao R, et al (2023) <a href="https://arxiv.org/abs/2210.03142">On distillation of guided diffusion models</a></div>
 </div>
 <div id="ref-ren2024hypersdtrajectorysegmentedconsistency" class="csl-entry" role="listitem">
-<div class="csl-left-margin">39. </div><div class="csl-right-inline">Ren Y, Xia X, Lu Y, et al (2024) <a href="https://arxiv.org/abs/2404.13686">Hyper-SD: Trajectory segmented consistency model for efficient image synthesis</a></div>
+<div class="csl-left-margin">40. </div><div class="csl-right-inline">Ren Y, Xia X, Lu Y, et al (2024) <a href="https://arxiv.org/abs/2404.13686">Hyper-SD: Trajectory segmented consistency model for efficient image synthesis</a></div>
 </div>
 </div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
