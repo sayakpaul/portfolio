@@ -133,7 +133,9 @@ Works like LTX-Video [@hacohen2024ltxvideorealtimevideolatent] and SANA [@xie202
 One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control [@blackforestlabs2024flux1tools]) and additional image inputs (Flux Kontext
 [@blackforestlabs2025flux1kontextdev]). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.
 
+::: {.callout-tip}
 It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).
+:::
 
 At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.
 
