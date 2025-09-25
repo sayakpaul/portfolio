@@ -82,9 +82,11 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Democratizing Diffusion Models with Diffusers**, Open-Source Summit, Japan (October 28, 2024). Slides are [here](https://docs.google.com/presentation/d/1Jzcnvgcwl45OJyqDP3MtUBZGSlsXDoZrzRIpNmNxFEs/edit?usp=sharing). Recording is [here](https://www.youtube.com/watch?v=xm1qt8k0bvE).
 - **Crafting pixels in the wild with Flux 🧨**, [Practical GenAI: Image and Diffusion Models](https://rsvp.withgoogle.com/events/gen-ai-labs-image-hf-gcp), Google Bangalore, India (January 25, 2025). Slides are [here](https://docs.google.com/presentation/d/1ZUbM6dSzv-YSKzRXVgl-I7hRKqKLwxJmDNloFdsxfPI/edit?usp=sharing).
 - **State of Open Video Generation Models 🎥**, AI_dev, Amsterdam (August 29, 2025). Slides are [here](https://docs.google.com/presentation/d/1XuywKs0XTqU5sjaJuXK5zyCxpktfWRK2Dn-kPD5Ne1I/edit?usp=sharing). Recording is [here](https://www.youtube.com/watch?v=BLpzjJlv63s).
+- **Designing tests for ML libraries – lessons from the wild**, PyData Amsterdam (September 25, 2025). This talk was done in collaboration with [Benjamin Bossan](https://github.com/BenjaminBossan/) who also presented it in-person. Slides are [here](https://bit.ly/hf-tests).
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
+::: {.callout-note collapse="true"}
 ### Podcasts where I have appeared
 
 - **Machine Learning Street Talk**. [Spoke](https://bit.ly/ml-st-sayak) to Tim Scarfe, Connor Shorten, and Yannic Kilcher.
@@ -94,9 +96,11 @@ For more research-oriented talks, refer [here](https://sayak.dev/research/).
 - **Software Engineering Daily**, spoke to Sean Falconer. Podcast recording is [here](https://www.youtube.com/watch?v=Gq80wCzWuKo).
 - Appeared on the **Humans of Digital** podcast by CI&T. Find it [here](https://ciandt.com/us/en-us/podcast/humans-digital-models-ai-production).
 - Appeared on the College Street Kolkata podcast. Find it [here](https://www.youtube.com/live/m7Bm2EC_Ig0?si=-TVU86XgkoCq0VVs).
+:::
 
 ### ML Street Talk
 
+::: {.callout-note collapse="true"}
 I used to appear on one of the most popular podcasts in machine learning called the [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ). Below are the episodes where I have made  appearances. 
 
 -   [Spoke](http://bit.ly/mlst-mathilde) to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher.
@@ -106,7 +110,9 @@ I used to appear on one of the most popular podcasts in machine learning called 
 -   [Spoke](https://youtu.be/Q0kN_ZHHDQY) to **Lena Voita** (University of Edinburgh and University of Amsterdam) with Tim Scarfe and Yannic Kilcher.
 -   [Spoke](https://www.youtube.com/watch?v=_eHRICHlg1k) to **Hadi Salman** (MIT) with Tim Scarfe and Yannic Kilcher.
 -   [Spoke](https://www.youtube.com/watch?v=EXJmodhu4_4) to **Ishan Misra** (Facebook AI Research) with Tim Scarfe and Yannic Kilcher.
+:::
 
+::: {.callout-note collapse="true"}
 ### Co-organized by me
 
 -   [DevFest Kolkata](http://www.google.com/url?q=http%3A%2F%2Fdevfest.gdgkolkata.org&sa=D&sntz=1&usg=AFQjCNFJA0Xr03VP_q7oWUBG9RweQnHu_w), August 3, 2019.
@@ -117,5 +123,6 @@ I used to appear on one of the most popular podcasts in machine learning called 
 -   [Generative AI Meet-up](https://sites.google.com/huggingface.co/generative-ai-meetup) in collaboration with NVIDIA, April 29, 2023.
 -   [JAX/Diffusers Sprint](https://github.com/huggingface/community-events/edit/main/jax-controlnet-sprint/), March 29 - May 08, 2023. 
 -   [Deploying Generative AI Models](https://lu.ma/ijcugt4n) in collaboration with Inferless and Sequoia Capital, June 10, 2023. 
+:::
 
 **Note:** If you are interested to invite me as a speaker for your event, please get in touch by dropping an email at [spsayakpaul@gmail.com](mailto:spsayakpaul@gmail.com). If you are interested in having me submit a CFP first, that is absolutely fine! Please don't hesitate to ask that.
