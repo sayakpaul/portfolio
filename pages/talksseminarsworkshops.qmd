@@ -3,6 +3,7 @@ title: "Talks/Seminars/Workshops"
 aliases: 
   - /talksseminarsworkshops
 toc: false
+callout-appearance: minimal
 ---
 I love to attend developer meetups, conferences, workshops and learn from them as much as I can. I sometimes talk on a range of topics that I love the most. All the slides of my talks/sessions can be found below.
 
@@ -98,9 +99,9 @@ For more research-oriented talks, refer [here](https://sayak.dev/research/).
 - Appeared on the College Street Kolkata podcast. Find it [here](https://www.youtube.com/live/m7Bm2EC_Ig0?si=-TVU86XgkoCq0VVs).
 :::
 
+::: {.callout-note collapse="true"}
 ### ML Street Talk
 
-::: {.callout-note collapse="true"}
 I used to appear on one of the most popular podcasts in machine learning called the [ML Street Talk](https://www.youtube.com/channel/UCMLtBahI5DMrt0NPvDSoIRQ). Below are the episodes where I have made  appearances. 
 
 -   [Spoke](http://bit.ly/mlst-mathilde) to **Mathilde Caron** (Research Assistant at Facebook AI), with Ayush Thakur, Tim Scarfe, and Yannic Kilcher.
