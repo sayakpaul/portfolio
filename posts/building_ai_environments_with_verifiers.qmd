@@ -1,5 +1,5 @@
 ---
-title: "WIP - Building AI Evaluation Environments with Verifiers: The Complete Guide"
+title: "Evals are dead. Long live evals!"
 description: "Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines"
 author: "Anshuman Mishra"
 date: "2025-09-15"
@@ -21,8 +21,6 @@ This field is pretty new, as are agents. I found this cracked researcher [Will B
 > Verifiers provides a flexible framework for defining custom interaction protocols between LLMs and environments, enabling sophisticated multi-turn reasoning, tool use, and interactive evaluation.
 
 
-![Verifiers Framework Overview](./assets/verifiers_overview.png "A comprehensive diagram showing the Verifiers framework architecture with three main components: 1) Environment Types (SingleTurnEnv, MultiTurnEnv, ToolEnv) as interconnected hexagonal boxes in the center, 2) Core Components (Parsers, Rubrics, Datasets) as circular nodes surrounding them, and 3) Evaluation Pipeline flowing from Dataset → Environment → Model → Parser → Rubric → Score as a horizontal sequence with arrows. Use modern flat design with blue and green gradient color scheme, clean typography, and subtle shadows.")
-
 I have been exploring Verifiers lately and in this blog is my learning log for **conceptual understanding** with **practical implementation examples**. And by reading it you'll learn a few concepts, then see it in action through real environments from the prime-environments repository.
 
 ::: {.callout-note title="What You'll Learn"}
@@ -43,7 +41,7 @@ This works for classification or generation (chat etc.), but breaks down for int
 3. **Adapt based on feedback** (interactive debugging, tutoring)
 4. **Handle complex protocols** (games, negotiations, collaborative tasks)
 
-![Traditional vs Agent Evaluation](./assets/evaluation_comparison.png "Side-by-side comparison diagram showing Traditional Evaluation (left) as a simple linear flow: Dataset → Model → Static Output → Binary Score, versus Agent Evaluation (right) as a circular interactive loop: Environment State → Model → Action → Environment Response → Feedback → Updated State, with arrows forming a continuous cycle. Use contrasting colors - muted orange for traditional (linear) and vibrant blue for agent-based (circular). Include icons: database for dataset, brain for model, gear for environment.")
+
 
 ::: {.callout-important title="Traditional vs. Agent Evaluation"}
 **Traditional:** Fixed input/output pairs with static scoring
@@ -61,15 +59,13 @@ This is what **Verifiers** trying to solve - to provide the infrastructure for c
 
 ## The Building Blocks of Verifiers
 
-![Core Verifiers Components](./assets/core_components.png "A triangular diagram showing the three core Verifiers components: Environment (top vertex - purple hexagon with gear icon), Parser (bottom left vertex - blue circle with text extraction icon), and Rubric (bottom right vertex - green diamond with scoring icon). Arrows connect all three components showing their interactions. Each component has descriptive text: Environment 'Manages interaction', Parser 'Extracts structured data', Rubric 'Calculates scores'. Modern minimalist design with soft shadows and clean typography.")
-
 Every Verifiers environment is built from three fundamental components that work together seamlessly. Let's understand each one before seeing them in action.
 
 ### 1. Environments: Defining Interaction Protocols
 
 Environments orchestrate the interaction between models and tasks. In reinforcement learning, these environments provide the **state space**, **action space**, and **reward signals** that enable agents to learn complex behaviors. Verifiers provides three base types that map to different categories of RL problems:
 
-![Environment Types Hierarchy](./assets/environment_types.png "A hierarchical diagram showing three environment types as connected boxes: SingleTurnEnv (green box) labeled 'One-shot Q&A', MultiTurnEnv (blue box) labeled 'Interactive conversations', and ToolEnv (orange box) labeled 'Agent tool usage'. Each box includes example use cases below: SingleTurnEnv shows 'Math problems, Code completion', MultiTurnEnv shows 'Tutoring, Debugging', ToolEnv shows 'Research, Analysis'. Arrows show progression from simple to complex. Clean modern design with icons for each type.")
+
 
 #### **SingleTurnEnv**: One-Shot Evaluation
 For tasks where the agent provides a single response to be evaluated - essentially **contextual bandits** where each episode is independent:
@@ -742,7 +738,6 @@ Now let's see these concepts in action through real examples.
 
 ## Example 1: SimpleBench - SingleTurnEnv in Practice
 
-![SimpleBench Workflow](./assets/simplebench_workflow.png "A flowchart showing SimpleBench evaluation workflow: Start with 'Multiple Choice Question' (document icon) → 'Model processes with system prompt' (brain icon with gear) → 'Model generates response with reasoning' (chat bubble with text) → 'Parser extracts Final Answer' (magnifying glass icon) → 'Binary scoring: correct/incorrect' (checkmark/X icons) → 'Score: 1.0 or 0.0' (number display). Use clean flowchart design with rounded rectangles, arrows, and consistent blue color scheme.")
 
 Let's start with SimpleBench, a multiple-choice reasoning environment, to understand how SingleTurnEnv concepts work in practice. Rather than diving into code, let's understand the design decisions and why they matter.
 
@@ -871,7 +866,7 @@ def load_environment(data_url=DATA_URL, **env_args) -> vf.Environment:
 
 ## Multi-Turn Environments: Beyond Single Responses
 
-![MultiTurn Interaction Flow](./assets/multiturn_flow.png "A circular diagram showing multi-turn interaction flow: Starting with 'Initial Problem' (document icon) → 'Model Response' (chat bubble) → 'Environment Evaluation' (gear icon) → 'Dynamic Response/Hint' (lightbulb icon) → 'Updated State' (database icon) → back to 'Model Response', creating a continuous cycle. Include a 'Completion Check' decision diamond that can exit the loop. Use vibrant colors with purple and blue gradients, modern icons, and smooth curved arrows to emphasize the cyclical nature.")
+
 
 While SingleTurnEnv works great for Q&A, real AI agents often need **interactive conversations**. Consider a math tutoring scenario where the environment should:
 
@@ -923,7 +918,6 @@ state = {
 
 ## Example 2: AlphabetSort - MultiTurnEnv in Action
 
-![AlphabetSort Progressive Complexity](./assets/alphabetsort_progression.png "A three-stage progression diagram showing AlphabetSort complexity evolution: Stage 1 'Initial Sort' (3 names in green boxes: Alice, Bob, Charlie), Stage 2 'Add New Names' (5 names with Diana and Eve highlighted in orange as 'new'), Stage 3 'Continued Evolution' (7 names with Frank and Grace highlighted). Each stage shows the sorted output with // new name! tags. Use a timeline format with arrows between stages, and color coding for original vs new names.")
 
 AlphabetSort demonstrates MultiTurnEnv by creating an interactive sorting challenge that evolves across multiple turns. Let's understand the design thinking behind this more complex environment.
 
@@ -1179,7 +1173,6 @@ def load_environment(
 
 ## Tool Environments: Extending Agent Capabilities
 
-![Tool Environment Ecosystem](./assets/tool_ecosystem.png "A hub-and-spoke diagram showing an AI Agent (central brain icon) connected to various tools radiating outward: Code Execution (terminal icon), Web Search (globe icon), File System (folder icon), API Calls (network icon), Database (cylinder icon), and Math Calculator (calculator icon). Each tool shows bidirectional arrows indicating input/output flow. Use a modern network visualization style with the agent at center and tools as nodes around the perimeter.")
 
 Both SingleTurnEnv and MultiTurnEnv assume the model can solve tasks with just text generation. But modern AI agents often need **external capabilities**:
 
@@ -1241,7 +1234,7 @@ Tools enable sophisticated agent workflows:
 
 ## Example 3: ARC-AGI Tool - ToolEnv in Action
 
-![ARC-AGI Problem Solving Flow](./assets/arc_solving_flow.png "A workflow diagram showing ARC-AGI problem-solving stages: 1) 'Visual Pattern Analysis' (grid/matrix icon), 2) 'Code Exploration' (code editor icon), 3) 'Hypothesis Testing' (flask icon), 4) 'Function Development' (gear icon), 5) 'Validation' (checkmark icon), 6) 'Submission' (upload icon). Tools are shown alongside: python_tool, print_fn_outputs, test_fn_on_examples, submit_fn. Use a horizontal workflow layout with tools as sidebar elements. Colors progress from blue (analysis) to green (success).")
+
 
 ARC-AGI Tool represents the most sophisticated application of Verifiers concepts - a ToolEnv that enables models to solve visual pattern puzzles through iterative code exploration. The design choices here reveal how to build environments for complex problem-solving workflows.
 
@@ -1344,7 +1337,6 @@ print(f"Available: examples ({{len(examples)}} training), test_input, helper fun
 
 The sandbox setup demonstrates the safety-capability balance: provide everything needed for puzzle-solving (task data, helper functions) while maintaining complete isolation from the host system.
 
-![Sandbox Security Architecture](./assets/sandbox_architecture.png "A layered security diagram showing: Top layer 'Host System' (computer icon with green checkmark for secure), Middle layer 'Container Isolation Boundary' (dashed border box in orange), Bottom layer 'Sandbox Environment' (terminal window icon in blue). Arrows show secure data flow: Task Data and Helper Functions flowing in (green arrows), Execution Results flowing out (blue arrows), with blocked access symbols (red X) preventing network and file system access. Use security-focused color scheme with clear separation layers.")
 
 ### Tool Design: Progressive Scaffolding
 
@@ -1691,194 +1683,10 @@ LiveCodeBench embodies several production environment patterns. Async rubrics ha
 
 These production considerations aren't just performance optimizations - they're essential for reliable evaluation at scale. The environment design acknowledges that real evaluation workloads involve thousands of examples, limited resources, and inevitable failures that must be handled gracefully.
 
-## Building Your Own Environment: Lessons from the Examples
-
-![Environment Development Workflow](./assets/development_workflow.png "A flowchart showing the environment development process: Start with 'Define Evaluation Goal' (target icon) → 'Choose Environment Type' (decision diamond with SingleTurn/MultiTurn/Tool options) → 'Design Parser' (text extraction icon) → 'Create Rubric' (scoring icon) → 'Test & Iterate' (cycle icon) → 'Deploy to Production' (rocket icon). Include feedback loops from testing back to earlier stages. Use modern flowchart design with professional blue and green color scheme.")
-
-Now that you've seen four real environments in action, let's extract the key patterns for building your own.
-
-### The Environment Development Pattern
-
-All successful Verifiers environments follow this pattern:
-
-```python
-import verifiers as vf
-from datasets import Dataset
-
-def load_environment(**kwargs) -> vf.Environment:
-    # 1. Load/create dataset
-    dataset = load_your_data()
-
-    # 2. Create parser for expected output format
-    parser = YourCustomParser()
-
-    # 3. Define scoring rubric
-    rubric = vf.Rubric(funcs=[your_reward_functions], parser=parser)
-
-    # 4. Choose environment type and return
-    return vf.SingleTurnEnv(  # or MultiTurnEnv, ToolEnv
-        dataset=dataset,
-        parser=parser,
-        rubric=rubric,
-        system_prompt="Instructions for the model",
-        **kwargs
-    )
-```
-
-### Parser Design Patterns
-
-From our examples, here are the key parser patterns:
-
-**Simple Extraction:**
-```python
-class MyParser(vf.Parser):
-    def parse(self, text: str) -> str | None:
-        # Extract specific format like "Answer: X"
-        match = re.search(r"Answer:\s*(.+)", text)
-        return match.group(1).strip() if match else None
-```
-
-**XML Structure:**
-```python
-# For structured outputs
-parser = vf.XMLParser(fields=["thinking", "answer"], answer_field="answer")
-```
-
-**Chain-of-Thought:**
-```python
-# Separate reasoning from final answer
-parser = vf.ThinkParser(extract_fn=your_extraction_function)
-```
-
-### Rubric Design Patterns
-
-**Simple Binary Scoring:**
-```python
-def correct_answer(parser, completion, answer, **kwargs):
-    parsed = parser.parse_answer(completion)
-    return 1.0 if parsed == answer else 0.0
-```
-
-**Multi-Criteria Evaluation:**
-```python
-def accuracy(parser, completion, answer, **kwargs):
-    return compute_accuracy(parser.parse_answer(completion), answer)
-
-def format_score(completion, **kwargs):
-    return 1.0 if is_well_formatted(completion) else 0.0
-
-rubric = vf.Rubric(
-    funcs=[accuracy, format_score],
-    weights=[0.8, 0.2]  # Accuracy matters more
-)
-```
-
-**Async External Validation:**
-```python
-async def api_validation(completion, info, **kwargs):
-    # Call external API to validate response
-    result = await external_api.validate(completion, info)
-    return result.score
-```
-
-### When to Use Each Environment Type
-
-**SingleTurnEnv** - Use when:
-- Simple Q&A tasks
-- Code generation
-- Math problems
-- No interaction needed
-
-**MultiTurnEnv** - Use when:
-- Interactive debugging
-- Tutoring/coaching
-- Games or simulations
-- Iterative refinement needed
-
-**ToolEnv** - Use when:
-- Need external APIs
-- Require calculations
-- File system access
-- Code execution needed
-
-## Building Effective Environments: Design Principles
-
-Through our four examples, several key principles emerge for designing effective Verifiers environments. Understanding these principles will help you create environments that truly measure what you intend to evaluate.
-
-### Alignment Between Task and Evaluation
-
-The most successful environments achieve perfect alignment between the cognitive task they want to measure and the evaluation protocol they implement. SimpleBench succeeds because everything - the format requirement, the binary scoring, the system prompt - reinforces the goal of evaluating reasoning ability through clear decision-making.
-
-When designing your environment, ask: does every component support your core evaluation goal? If your rubric awards points for creativity but your task requires precision, you'll get confused results. If your parser accepts ambiguous responses but your task demands clarity, you'll struggle to measure real capability.
-
-### Progressive Complexity and Natural Workflows
-
-AlphabetSort and ARC-AGI Tool demonstrate the power of progressive complexity. Rather than throwing the full challenge at models immediately, they build complexity incrementally. AlphabetSort starts with simple sorting and adds multi-turn state management. ARC-AGI Tool provides tools that guide models from exploration to systematic testing to final submission.
-
-This progressive approach mirrors how humans learn and problem-solve. It also provides richer evaluation data - you can see where models succeed and where they fail in the workflow, rather than just getting a binary pass/fail result.
-
-### Tool Design as Cognitive Scaffolding
-
-The most effective tool environments don't just provide capabilities - they provide cognitive scaffolding that guides models toward productive workflows. ARC-AGI Tool's tools aren't just arbitrary functions; they represent a pedagogically-informed sequence that mirrors effective human problem-solving.
-
-When designing tools, think about the reasoning process you want to encourage. What would an expert human do when facing this challenge? How can your tools guide models through a similar process while still allowing creative approaches?
-
-### State Management for Complex Interactions
-
-Environments that handle complex interactions well use state management strategically. The state isn't just a data dump - it's a carefully curated representation of everything needed to evaluate the interaction fairly across turns. AlphabetSort stores ground truth for each turn separately, enabling turn-by-turn evaluation while maintaining overall coherence.
-
-Good state design also enables debugging and analysis. When an evaluation fails, rich state information helps you understand why and how to improve the environment.
-
-### Production Readiness Through Error Handling
-
-LiveCodeBench demonstrates that production environments must be designed for failure from the beginning. Network timeouts, sandbox crashes, malformed responses, and resource exhaustion aren't edge cases - they're inevitable parts of large-scale evaluation.
-
-The key insight is graceful degradation: when things go wrong, the environment should fail safely with clear diagnostics rather than crashing mysteriously. This robustness enables reliable evaluation at scale and builds trust in your results.
-
-## What You Can Build with Verifiers
-
-Understanding these design principles opens up numerous possibilities for sophisticated evaluation environments:
-
-**Educational Environments**: Create tutoring systems that provide adaptive feedback, track learning progress, and adjust difficulty dynamically. Use MultiTurnEnv to implement Socratic questioning or progressive hints.
-
-**Professional Skill Assessment**: Build environments that test real-world professional capabilities like code review, system design, or technical writing. Use ToolEnv to provide realistic professional tools and workflows.
-
-**Research and Analysis Tasks**: Design environments that test complex reasoning, literature review, hypothesis formation, and evidence evaluation. Combine multiple environment types for comprehensive assessment of research skills.
-
-**Creative and Open-Ended Tasks**: Create environments that evaluate creativity, storytelling, or design thinking while maintaining objective evaluation criteria. Use sophisticated rubrics that can assess multiple dimensions of creative work.
-
-### Getting Started with Your Own Environment
-
-The path to building effective environments starts with clarity about what you want to measure. Begin with a simple SingleTurnEnv that captures the core of your evaluation task. Focus on getting the parser and rubric right before adding complexity.
-
-Once your basic environment works reliably, consider whether your task would benefit from multi-turn interaction or tool usage. Add complexity incrementally, always ensuring that new features serve your core evaluation goals rather than just showing off technical capabilities.
-
-## Conclusion: Mastering Environment Design
-
-Through our journey from SimpleBench to LiveCodeBench, you've seen how thoughtful environment design can create powerful evaluation systems. The key insight is that effective evaluation isn't just about measuring performance - it's about understanding and encouraging the right kinds of reasoning.
-
-### Design Philosophy Recap
-
-The most successful environments share common design principles: perfect alignment between evaluation goals and implementation details, progressive complexity that builds understanding incrementally, and robust error handling that enables reliable evaluation at scale. These principles apply whether you're building simple Q&A systems or sophisticated multi-turn tool environments.
-
-### From Concepts to Practice
-
-You've learned how SingleTurnEnv provides the foundation for clear, focused evaluation; how MultiTurnEnv enables complex interactions that mirror real-world workflows; and how ToolEnv extends agent capabilities while maintaining evaluation rigor. More importantly, you've seen the reasoning behind key design decisions and how to apply these patterns to your own challenges.
-
-### The Path Forward
-
-Start with clarity about what cognitive capability you want to measure, then choose the simplest environment type that can capture that capability effectively. Focus on getting the core evaluation logic right before adding sophisticated features. Remember that the best environments feel natural to use while providing precise measurement of what matters.
-
-### Building the Future of Evaluation
-
-The AI field needs better evaluation frameworks that can measure real-world capabilities, handle complex interactions, and scale to production use. With Verifiers and the design principles you've learned, you have the tools to build these systems.
-
-The environments you create today will shape how we understand and improve AI capabilities tomorrow. Start building - the field is waiting for your contributions.
-
-### Resources for Continued Learning
+::: {.callout-note title="References"}
 
 - **Prime Environments**: [github.com/PrimeIntellect-ai/prime-environments](https://github.com/PrimeIntellect-ai/prime-environments) - Explore 40+ production environments
 - **Verifiers Documentation**: [verifiers.readthedocs.io](https://verifiers.readthedocs.io/) - Complete technical reference
 - **Community**: Connect with other environment builders and share your work
 
-Every sophisticated capability we want AI systems to have needs an environment that can measure and encourage that capability. Your environment designs are the foundation for building more capable, reliable, and useful AI systems.
+:::

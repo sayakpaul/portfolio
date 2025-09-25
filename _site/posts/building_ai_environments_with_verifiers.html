@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2025-09-15">
 <meta name="description" content="Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines">
 
-<title>WIP - Building AI Evaluation Environments with Verifiers: The Complete Guide – Introductions</title>
+<title>Evals are dead. Long live evals! – Introductions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -108,11 +108,11 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../styles.css">
-<meta property="og:title" content="WIP - Building AI Evaluation Environments with Verifiers: The Complete Guide – Introductions">
+<meta property="og:title" content="Evals are dead. Long live evals! – Introductions">
 <meta property="og:description" content="Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines">
 <meta property="og:image" content="https://www.heyyanshuman.com/posts/assets/verifiers_overview.png">
 <meta property="og:site_name" content="Introductions">
-<meta name="twitter:title" content="WIP - Building AI Evaluation Environments with Verifiers: The Complete Guide – Introductions">
+<meta name="twitter:title" content="Evals are dead. Long live evals! – Introductions">
 <meta name="twitter:description" content="Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines">
 <meta name="twitter:image" content="https://www.heyyanshuman.com/posts/assets/verifiers_overview.png">
 <meta name="twitter:creator" content="@athleticKoder">
@@ -348,7 +348,7 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">WIP - Building AI Evaluation Environments with Verifiers: The Complete Guide</h1>
+      <h1 class="title">Evals are dead. Long live evals!</h1>
                   <div>
         <div class="description">
           Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines
@@ -460,33 +460,6 @@ gtag('config', 'G-36H2NR8FB7', { 'anonymize_ip': true});
   <li><a href="#rubric-design-multi-layered-evaluation" id="toc-rubric-design-multi-layered-evaluation" class="nav-link" data-scroll-target="#rubric-design-multi-layered-evaluation">Rubric Design: Multi-Layered Evaluation</a></li>
   <li><a href="#configuration-philosophy-flexibility-without-complexity" id="toc-configuration-philosophy-flexibility-without-complexity" class="nav-link" data-scroll-target="#configuration-philosophy-flexibility-without-complexity">Configuration Philosophy: Flexibility Without Complexity</a></li>
   <li><a href="#production-considerations-robustness-and-performance" id="toc-production-considerations-robustness-and-performance" class="nav-link" data-scroll-target="#production-considerations-robustness-and-performance">Production Considerations: Robustness and Performance</a></li>
-  </ul></li>
-  <li><a href="#building-your-own-environment-lessons-from-the-examples" id="toc-building-your-own-environment-lessons-from-the-examples" class="nav-link" data-scroll-target="#building-your-own-environment-lessons-from-the-examples">Building Your Own Environment: Lessons from the Examples</a>
-  <ul class="collapse">
-  <li><a href="#the-environment-development-pattern" id="toc-the-environment-development-pattern" class="nav-link" data-scroll-target="#the-environment-development-pattern">The Environment Development Pattern</a></li>
-  <li><a href="#parser-design-patterns" id="toc-parser-design-patterns" class="nav-link" data-scroll-target="#parser-design-patterns">Parser Design Patterns</a></li>
-  <li><a href="#rubric-design-patterns" id="toc-rubric-design-patterns" class="nav-link" data-scroll-target="#rubric-design-patterns">Rubric Design Patterns</a></li>
-  <li><a href="#when-to-use-each-environment-type" id="toc-when-to-use-each-environment-type" class="nav-link" data-scroll-target="#when-to-use-each-environment-type">When to Use Each Environment Type</a></li>
-  </ul></li>
-  <li><a href="#building-effective-environments-design-principles" id="toc-building-effective-environments-design-principles" class="nav-link" data-scroll-target="#building-effective-environments-design-principles">Building Effective Environments: Design Principles</a>
-  <ul class="collapse">
-  <li><a href="#alignment-between-task-and-evaluation" id="toc-alignment-between-task-and-evaluation" class="nav-link" data-scroll-target="#alignment-between-task-and-evaluation">Alignment Between Task and Evaluation</a></li>
-  <li><a href="#progressive-complexity-and-natural-workflows" id="toc-progressive-complexity-and-natural-workflows" class="nav-link" data-scroll-target="#progressive-complexity-and-natural-workflows">Progressive Complexity and Natural Workflows</a></li>
-  <li><a href="#tool-design-as-cognitive-scaffolding" id="toc-tool-design-as-cognitive-scaffolding" class="nav-link" data-scroll-target="#tool-design-as-cognitive-scaffolding">Tool Design as Cognitive Scaffolding</a></li>
-  <li><a href="#state-management-for-complex-interactions" id="toc-state-management-for-complex-interactions" class="nav-link" data-scroll-target="#state-management-for-complex-interactions">State Management for Complex Interactions</a></li>
-  <li><a href="#production-readiness-through-error-handling" id="toc-production-readiness-through-error-handling" class="nav-link" data-scroll-target="#production-readiness-through-error-handling">Production Readiness Through Error Handling</a></li>
-  </ul></li>
-  <li><a href="#what-you-can-build-with-verifiers" id="toc-what-you-can-build-with-verifiers" class="nav-link" data-scroll-target="#what-you-can-build-with-verifiers">What You Can Build with Verifiers</a>
-  <ul class="collapse">
-  <li><a href="#getting-started-with-your-own-environment" id="toc-getting-started-with-your-own-environment" class="nav-link" data-scroll-target="#getting-started-with-your-own-environment">Getting Started with Your Own Environment</a></li>
-  </ul></li>
-  <li><a href="#conclusion-mastering-environment-design" id="toc-conclusion-mastering-environment-design" class="nav-link" data-scroll-target="#conclusion-mastering-environment-design">Conclusion: Mastering Environment Design</a>
-  <ul class="collapse">
-  <li><a href="#design-philosophy-recap" id="toc-design-philosophy-recap" class="nav-link" data-scroll-target="#design-philosophy-recap">Design Philosophy Recap</a></li>
-  <li><a href="#from-concepts-to-practice" id="toc-from-concepts-to-practice" class="nav-link" data-scroll-target="#from-concepts-to-practice">From Concepts to Practice</a></li>
-  <li><a href="#the-path-forward" id="toc-the-path-forward" class="nav-link" data-scroll-target="#the-path-forward">The Path Forward</a></li>
-  <li><a href="#building-the-future-of-evaluation" id="toc-building-the-future-of-evaluation" class="nav-link" data-scroll-target="#building-the-future-of-evaluation">Building the Future of Evaluation</a></li>
-  <li><a href="#resources-for-continued-learning" id="toc-resources-for-continued-learning" class="nav-link" data-scroll-target="#resources-for-continued-learning">Resources for Continued Learning</a></li>
   </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/kanpuriyanawab/edit/master/posts/building_ai_environments_with_verifiers.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/kanpuriyanawab/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -2211,158 +2184,23 @@ Complete ARC-AGI Tool Environment Code
 <h3 class="anchored" data-anchor-id="production-considerations-robustness-and-performance">Production Considerations: Robustness and Performance</h3>
 <p>LiveCodeBench embodies several production environment patterns. Async rubrics handle the latency of sandbox operations without blocking evaluation. Caching systems avoid redundant test case loading. Error handling gracefully manages sandbox failures, network timeouts, and malformed responses. Resource management ensures sandboxes are properly cleaned up even when errors occur.</p>
 <p>These production considerations aren’t just performance optimizations - they’re essential for reliable evaluation at scale. The environment design acknowledges that real evaluation workloads involve thousands of examples, limited resources, and inevitable failures that must be handled gracefully.</p>
-</section>
-</section>
-<section id="building-your-own-environment-lessons-from-the-examples" class="level2">
-<h2 class="anchored" data-anchor-id="building-your-own-environment-lessons-from-the-examples">Building Your Own Environment: Lessons from the Examples</h2>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="./assets/development_workflow.png" title="A flowchart showing the environment development process: Start with 'Define Evaluation Goal' (target icon) → 'Choose Environment Type' (decision diamond with SingleTurn/MultiTurn/Tool options) → 'Design Parser' (text extraction icon) → 'Create Rubric' (scoring icon) → 'Test &amp; Iterate' (cycle icon) → 'Deploy to Production' (rocket icon). Include feedback loops from testing back to earlier stages. Use modern flowchart design with professional blue and green color scheme." class="img-fluid figure-img"></p>
-<figcaption>Environment Development Workflow</figcaption>
-</figure>
+<div class="callout callout-style-default callout-note callout-titled" title="References">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
 </div>
-<p>Now that you’ve seen four real environments in action, let’s extract the key patterns for building your own.</p>
-<section id="the-environment-development-pattern" class="level3">
-<h3 class="anchored" data-anchor-id="the-environment-development-pattern">The Environment Development Pattern</h3>
-<p>All successful Verifiers environments follow this pattern:</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> verifiers <span class="im">as</span> vf</span>
-<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> Dataset</span>
-<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_environment(<span class="op">**</span>kwargs) <span class="op">-&gt;</span> vf.Environment:</span>
-<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 1. Load/create dataset</span></span>
-<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    dataset <span class="op">=</span> load_your_data()</span>
-<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 2. Create parser for expected output format</span></span>
-<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a>    parser <span class="op">=</span> YourCustomParser()</span>
-<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 3. Define scoring rubric</span></span>
-<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    rubric <span class="op">=</span> vf.Rubric(funcs<span class="op">=</span>[your_reward_functions], parser<span class="op">=</span>parser)</span>
-<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># 4. Choose environment type and return</span></span>
-<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> vf.SingleTurnEnv(  <span class="co"># or MultiTurnEnv, ToolEnv</span></span>
-<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>        dataset<span class="op">=</span>dataset,</span>
-<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>        parser<span class="op">=</span>parser,</span>
-<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>        rubric<span class="op">=</span>rubric,</span>
-<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>        system_prompt<span class="op">=</span><span class="st">"Instructions for the model"</span>,</span>
-<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>kwargs</span>
-<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="parser-design-patterns" class="level3">
-<h3 class="anchored" data-anchor-id="parser-design-patterns">Parser Design Patterns</h3>
-<p>From our examples, here are the key parser patterns:</p>
-<p><strong>Simple Extraction:</strong></p>
-<div class="sourceCode" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyParser(vf.Parser):</span>
-<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> parse(<span class="va">self</span>, text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span>:</span>
-<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract specific format like "Answer: X"</span></span>
-<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>        match <span class="op">=</span> re.search(<span class="vs">r"Answer:</span><span class="dv">\s</span><span class="op">*</span><span class="kw">(</span><span class="dv">.</span><span class="op">+</span><span class="kw">)</span><span class="vs">"</span>, text)</span>
-<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> match.group(<span class="dv">1</span>).strip() <span class="cf">if</span> match <span class="cf">else</span> <span class="va">None</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>XML Structure:</strong></p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For structured outputs</span></span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> vf.XMLParser(fields<span class="op">=</span>[<span class="st">"thinking"</span>, <span class="st">"answer"</span>], answer_field<span class="op">=</span><span class="st">"answer"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Chain-of-Thought:</strong></p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate reasoning from final answer</span></span>
-<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>parser <span class="op">=</span> vf.ThinkParser(extract_fn<span class="op">=</span>your_extraction_function)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="rubric-design-patterns" class="level3">
-<h3 class="anchored" data-anchor-id="rubric-design-patterns">Rubric Design Patterns</h3>
-<p><strong>Simple Binary Scoring:</strong></p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> correct_answer(parser, completion, answer, <span class="op">**</span>kwargs):</span>
-<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>    parsed <span class="op">=</span> parser.parse_answer(completion)</span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">1.0</span> <span class="cf">if</span> parsed <span class="op">==</span> answer <span class="cf">else</span> <span class="fl">0.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Multi-Criteria Evaluation:</strong></p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accuracy(parser, completion, answer, <span class="op">**</span>kwargs):</span>
-<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> compute_accuracy(parser.parse_answer(completion), answer)</span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_score(completion, <span class="op">**</span>kwargs):</span>
-<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="fl">1.0</span> <span class="cf">if</span> is_well_formatted(completion) <span class="cf">else</span> <span class="fl">0.0</span></span>
-<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>rubric <span class="op">=</span> vf.Rubric(</span>
-<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>    funcs<span class="op">=</span>[accuracy, format_score],</span>
-<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a>    weights<span class="op">=</span>[<span class="fl">0.8</span>, <span class="fl">0.2</span>]  <span class="co"># Accuracy matters more</span></span>
-<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><strong>Async External Validation:</strong></p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> api_validation(completion, info, <span class="op">**</span>kwargs):</span>
-<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Call external API to validate response</span></span>
-<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> <span class="cf">await</span> external_api.validate(completion, info)</span>
-<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> result.score</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="when-to-use-each-environment-type" class="level3">
-<h3 class="anchored" data-anchor-id="when-to-use-each-environment-type">When to Use Each Environment Type</h3>
-<p><strong>SingleTurnEnv</strong> - Use when: - Simple Q&amp;A tasks - Code generation - Math problems - No interaction needed</p>
-<p><strong>MultiTurnEnv</strong> - Use when: - Interactive debugging - Tutoring/coaching - Games or simulations - Iterative refinement needed</p>
-<p><strong>ToolEnv</strong> - Use when: - Need external APIs - Require calculations - File system access - Code execution needed</p>
-</section>
-</section>
-<section id="building-effective-environments-design-principles" class="level2">
-<h2 class="anchored" data-anchor-id="building-effective-environments-design-principles">Building Effective Environments: Design Principles</h2>
-<p>Through our four examples, several key principles emerge for designing effective Verifiers environments. Understanding these principles will help you create environments that truly measure what you intend to evaluate.</p>
-<section id="alignment-between-task-and-evaluation" class="level3">
-<h3 class="anchored" data-anchor-id="alignment-between-task-and-evaluation">Alignment Between Task and Evaluation</h3>
-<p>The most successful environments achieve perfect alignment between the cognitive task they want to measure and the evaluation protocol they implement. SimpleBench succeeds because everything - the format requirement, the binary scoring, the system prompt - reinforces the goal of evaluating reasoning ability through clear decision-making.</p>
-<p>When designing your environment, ask: does every component support your core evaluation goal? If your rubric awards points for creativity but your task requires precision, you’ll get confused results. If your parser accepts ambiguous responses but your task demands clarity, you’ll struggle to measure real capability.</p>
-</section>
-<section id="progressive-complexity-and-natural-workflows" class="level3">
-<h3 class="anchored" data-anchor-id="progressive-complexity-and-natural-workflows">Progressive Complexity and Natural Workflows</h3>
-<p>AlphabetSort and ARC-AGI Tool demonstrate the power of progressive complexity. Rather than throwing the full challenge at models immediately, they build complexity incrementally. AlphabetSort starts with simple sorting and adds multi-turn state management. ARC-AGI Tool provides tools that guide models from exploration to systematic testing to final submission.</p>
-<p>This progressive approach mirrors how humans learn and problem-solve. It also provides richer evaluation data - you can see where models succeed and where they fail in the workflow, rather than just getting a binary pass/fail result.</p>
-</section>
-<section id="tool-design-as-cognitive-scaffolding" class="level3">
-<h3 class="anchored" data-anchor-id="tool-design-as-cognitive-scaffolding">Tool Design as Cognitive Scaffolding</h3>
-<p>The most effective tool environments don’t just provide capabilities - they provide cognitive scaffolding that guides models toward productive workflows. ARC-AGI Tool’s tools aren’t just arbitrary functions; they represent a pedagogically-informed sequence that mirrors effective human problem-solving.</p>
-<p>When designing tools, think about the reasoning process you want to encourage. What would an expert human do when facing this challenge? How can your tools guide models through a similar process while still allowing creative approaches?</p>
-</section>
-<section id="state-management-for-complex-interactions" class="level3">
-<h3 class="anchored" data-anchor-id="state-management-for-complex-interactions">State Management for Complex Interactions</h3>
-<p>Environments that handle complex interactions well use state management strategically. The state isn’t just a data dump - it’s a carefully curated representation of everything needed to evaluate the interaction fairly across turns. AlphabetSort stores ground truth for each turn separately, enabling turn-by-turn evaluation while maintaining overall coherence.</p>
-<p>Good state design also enables debugging and analysis. When an evaluation fails, rich state information helps you understand why and how to improve the environment.</p>
-</section>
-<section id="production-readiness-through-error-handling" class="level3">
-<h3 class="anchored" data-anchor-id="production-readiness-through-error-handling">Production Readiness Through Error Handling</h3>
-<p>LiveCodeBench demonstrates that production environments must be designed for failure from the beginning. Network timeouts, sandbox crashes, malformed responses, and resource exhaustion aren’t edge cases - they’re inevitable parts of large-scale evaluation.</p>
-<p>The key insight is graceful degradation: when things go wrong, the environment should fail safely with clear diagnostics rather than crashing mysteriously. This robustness enables reliable evaluation at scale and builds trust in your results.</p>
-</section>
-</section>
-<section id="what-you-can-build-with-verifiers" class="level2">
-<h2 class="anchored" data-anchor-id="what-you-can-build-with-verifiers">What You Can Build with Verifiers</h2>
-<p>Understanding these design principles opens up numerous possibilities for sophisticated evaluation environments:</p>
-<p><strong>Educational Environments</strong>: Create tutoring systems that provide adaptive feedback, track learning progress, and adjust difficulty dynamically. Use MultiTurnEnv to implement Socratic questioning or progressive hints.</p>
-<p><strong>Professional Skill Assessment</strong>: Build environments that test real-world professional capabilities like code review, system design, or technical writing. Use ToolEnv to provide realistic professional tools and workflows.</p>
-<p><strong>Research and Analysis Tasks</strong>: Design environments that test complex reasoning, literature review, hypothesis formation, and evidence evaluation. Combine multiple environment types for comprehensive assessment of research skills.</p>
-<p><strong>Creative and Open-Ended Tasks</strong>: Create environments that evaluate creativity, storytelling, or design thinking while maintaining objective evaluation criteria. Use sophisticated rubrics that can assess multiple dimensions of creative work.</p>
-<section id="getting-started-with-your-own-environment" class="level3">
-<h3 class="anchored" data-anchor-id="getting-started-with-your-own-environment">Getting Started with Your Own Environment</h3>
-<p>The path to building effective environments starts with clarity about what you want to measure. Begin with a simple SingleTurnEnv that captures the core of your evaluation task. Focus on getting the parser and rubric right before adding complexity.</p>
-<p>Once your basic environment works reliably, consider whether your task would benefit from multi-turn interaction or tool usage. Add complexity incrementally, always ensuring that new features serve your core evaluation goals rather than just showing off technical capabilities.</p>
-</section>
-</section>
-<section id="conclusion-mastering-environment-design" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion-mastering-environment-design">Conclusion: Mastering Environment Design</h2>
-<p>Through our journey from SimpleBench to LiveCodeBench, you’ve seen how thoughtful environment design can create powerful evaluation systems. The key insight is that effective evaluation isn’t just about measuring performance - it’s about understanding and encouraging the right kinds of reasoning.</p>
-<section id="design-philosophy-recap" class="level3">
-<h3 class="anchored" data-anchor-id="design-philosophy-recap">Design Philosophy Recap</h3>
-<p>The most successful environments share common design principles: perfect alignment between evaluation goals and implementation details, progressive complexity that builds understanding incrementally, and robust error handling that enables reliable evaluation at scale. These principles apply whether you’re building simple Q&amp;A systems or sophisticated multi-turn tool environments.</p>
-</section>
-<section id="from-concepts-to-practice" class="level3">
-<h3 class="anchored" data-anchor-id="from-concepts-to-practice">From Concepts to Practice</h3>
-<p>You’ve learned how SingleTurnEnv provides the foundation for clear, focused evaluation; how MultiTurnEnv enables complex interactions that mirror real-world workflows; and how ToolEnv extends agent capabilities while maintaining evaluation rigor. More importantly, you’ve seen the reasoning behind key design decisions and how to apply these patterns to your own challenges.</p>
-</section>
-<section id="the-path-forward" class="level3">
-<h3 class="anchored" data-anchor-id="the-path-forward">The Path Forward</h3>
-<p>Start with clarity about what cognitive capability you want to measure, then choose the simplest environment type that can capture that capability effectively. Focus on getting the core evaluation logic right before adding sophisticated features. Remember that the best environments feel natural to use while providing precise measurement of what matters.</p>
-</section>
-<section id="building-the-future-of-evaluation" class="level3">
-<h3 class="anchored" data-anchor-id="building-the-future-of-evaluation">Building the Future of Evaluation</h3>
-<p>The AI field needs better evaluation frameworks that can measure real-world capabilities, handle complex interactions, and scale to production use. With Verifiers and the design principles you’ve learned, you have the tools to build these systems.</p>
-<p>The environments you create today will shape how we understand and improve AI capabilities tomorrow. Start building - the field is waiting for your contributions.</p>
-</section>
-<section id="resources-for-continued-learning" class="level3">
-<h3 class="anchored" data-anchor-id="resources-for-continued-learning">Resources for Continued Learning</h3>
+<div class="callout-title-container flex-fill">
+References
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
 <li><strong>Prime Environments</strong>: <a href="https://github.com/PrimeIntellect-ai/prime-environments">github.com/PrimeIntellect-ai/prime-environments</a> - Explore 40+ production environments</li>
 <li><strong>Verifiers Documentation</strong>: <a href="https://verifiers.readthedocs.io/">verifiers.readthedocs.io</a> - Complete technical reference</li>
 <li><strong>Community</strong>: Connect with other environment builders and share your work</li>
 </ul>
-<p>Every sophisticated capability we want AI systems to have needs an environment that can measure and encourage that capability. Your environment designs are the foundation for building more capable, reliable, and useful AI systems.</p>
+</div>
+</div>
 
 
 </section>
