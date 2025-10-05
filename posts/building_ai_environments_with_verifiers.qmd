@@ -11,10 +11,9 @@ toc: true
 draft: false
 ---
 
-We are rapidly moving towards chat models to agents. You would say : "Agent is just a wrapper". Hold on a minute.
-It is. But Chat interface is supposed to act as an assistant however Agents are meant to be "intelligence" for workflows - eg. Comet browser has feature to do shopping for you.
+We're moving from chat models to agents. Sure, agents are just wrappers around chat models. But there's a key difference: chat interfaces help you with tasks, while agents run entire workflows for you - think of Comet browser that can shop on your behalf.
 
-An important part of model development lifecycle has been "evals". But in the face of agents, classical eval metrics eg. Contextual Precision, Recall etc don't help much. We need to be able to evaluate our agent's performance on "workflows" or "user journeys", and it has to be simulated in some sort, that's where environments come in. RL environment are these simulated user journeys, with which our agent can interact with and learn from.
+Traditional evals don't work well for agents. Metrics like Contextual Precision and Recall measure chat performance, not workflow execution. For agents, we need to evaluate how well they handle complete user journeys. This is where environments come in. RL environments simulate these journeys - they give agents a place to interact, learn, and get better at solving real tasks.
 
 This field is pretty new, as are agents. I found this cracked researcher [Will Brown](https://x.com/willccbb) who has been working on this library [Verifiers](https://github.com/willccbb/verifiers).
 
@@ -29,12 +28,14 @@ I have been exploring Verifiers lately and in this blog is my learning log for *
 - Production Patterns
 :::
 
-Before we begin, I want to formalize state **Why Traditional Evaluation Fall flat in front of agents?**.
+Before we begin, I want to formalize the statement **Why Traditional Evaluation Fall flat in front of agents?**.
 
 
 As of now model evaluation follows a simple pattern: 
-> input → model → output → score. 
-This works for classification or generation (chat etc.), but breaks down for intelligent agents that need to:
+
+> input → model → output → score
+
+This works for tasks like classification or generation (chat etc.), but breaks down for intelligent agents that need to:
 
 1. **Reason through multi-step problems** (debugging code, solving math)
 2. **Use tools dynamically** (search, calculate, execute code)
@@ -43,32 +44,35 @@ This works for classification or generation (chat etc.), but breaks down for int
 
 
 
-::: {.callout-important title="Traditional vs. Agent Evaluation"}
-**Traditional:** Fixed input/output pairs with static scoring
-```
-Question → Model → Answer → Binary Score
-```
+Agents need a different evaluation pattern: **State → Model → Action → Environment → Feedback → Updated State → ...**
 
-**Agent-based:** Dynamic interaction with environmental feedback
-```
-State → Model → Action → Environment → Feedback → Updated State → ...
-```
-:::
+Why? Because agents don't just give one answer and stop. They take actions, see what happens, and adjust their next move based on feedback. A coding agent might write a function, run tests, see failures, and iterate until tests pass. A tutoring agent asks questions, gauges student understanding from responses, and adapts its teaching strategy. This cyclical interaction is how agents actually work.
 
-This is what **Verifiers** trying to solve - to provide the infrastructure for creating these dynamic, interactive evaluation environments.
+**Verifiers** provides the infrastructure for building these dynamic evaluation environments - places where agents can interact, get feedback, and be properly evaluated on their ability to handle complete workflows.
 
 ## The Building Blocks of Verifiers
 
-Every Verifiers environment is built from three fundamental components that work together seamlessly. Let's understand each one before seeing them in action.
+Every Verifiers environment is built from three fundamental components:
 
-### 1. Environments: Defining Interaction Protocols
+- **Environments** - Define how agents interact with tasks. They set up the rules: is it a single question-answer (SingleTurnEnv), a back-and-forth conversation (MultiTurnEnv), or does the agent need tools like search or code execution (ToolEnv)?
 
-Environments orchestrate the interaction between models and tasks. In reinforcement learning, these environments provide the **state space**, **action space**, and **reward signals** that enable agents to learn complex behaviors. Verifiers provides three base types that map to different categories of RL problems:
+- **Parsers** - Extract structure from messy model outputs. Models generate free-form text, but you need clean data to evaluate. Parsers pull out the actual answer from all the reasoning, explanations, and formatting.
+
+- **Rubrics** - Score agent performance. They're your reward functions. Rubrics decide what "good" looks like - whether it's binary pass/fail, partial credit for progress, or multi-dimensional scoring across correctness, efficiency, and style.
+
+Let's start with environments - they're the foundation everything else builds on.
+
+### 1. Environments:
+
+Environments orchestrate the interaction between models and tasks. In reinforcement learning, these environments provide the **state space**, **action space**, and **reward signals** that enable agents to learn complex behaviors. 
+
+Verifiers provides three base types that map to different categories of RL problems:
 
 
 
-#### **SingleTurnEnv**: One-Shot Evaluation
-For tasks where the agent provides a single response to be evaluated - essentially **contextual bandits** where each episode is independent:
+#### a. **SingleTurnEnv**: One-Shot Evaluation
+
+Some tasks don't need interaction - you present a problem, the agent responds, and you evaluate. That's SingleTurnEnv. Think of it like a contextual bandit problem: each episode is independent, no state carries over.
 
 ```python
 # Basic structure
@@ -80,31 +84,17 @@ env = vf.SingleTurnEnv(
 )
 ```
 
-**Real-World Examples:**
+**Where you'd use this:**
 
-- **Code Completion Agent**: Given a function signature and docstring, generate the complete implementation
-  ```
-  # State: incomplete function + context
-  # Action: complete code implementation
-  # Reward: execution correctness + style adherence
-  ```
+Say you're building a **code completion agent**. You give it a function signature and docstring, it generates the implementation, you run tests - done. One shot. The state is just the incomplete function and context. The action is the generated code. The reward is whether tests pass and if the code follows good practices.
 
-- **Mathematical Reasoning**: Solve complex word problems step-by-step
-  ```
-  # State: problem statement + constraints
-  # Action: solution with reasoning chain
-  # Reward: correctness of final answer + reasoning quality
-  ```
+Or a **math reasoning agent** - you present a word problem, it works through the solution step-by-step, and you check if the final answer is correct. The reasoning quality matters too, so you reward both the answer and the logical steps taken.
 
-- **Language Translation**: Translate technical documentation preserving meaning and context
-  ```
-  # State: source text + domain context
-  # Action: target language translation
-  # Reward: semantic similarity + fluency + terminology accuracy
-  ```
+Or **technical translation** - you feed it a technical doc in one language, it translates to another, and you measure semantic accuracy, fluency, and whether it preserves technical terminology. Single input, single output, evaluate and move on.
 
-#### **MultiTurnEnv**: Interactive Conversations
-For tasks requiring **sequential decision-making** with persistent state across multiple interactions:
+#### b. **MultiTurnEnv**: Interactive Conversations
+
+When agents need to maintain context across multiple interactions, you use MultiTurnEnv. Unlike SingleTurnEnv where everything happens in one shot, here the agent and environment have a back-and-forth conversation. State persists across turns, letting the agent build on previous exchanges.
 
 ```python
 class TutorEnv(vf.MultiTurnEnv):
@@ -117,42 +107,17 @@ class TutorEnv(vf.MultiTurnEnv):
         return completion_condition
 ```
 
-**Real-World Examples:**
+**Where you'd use this:**
 
-- **Terminal/Shell Agent**: Navigate file systems and execute complex command sequences
-  ```
-  # State: current directory + command history + file system state
-  # Action: shell command or file operation
-  # Reward: task completion + efficiency + safety measures
-  # Episode: complete workflow like "set up development environment"
-  ```
+A **terminal/shell agent** needs to remember what directory it's in, what commands it ran, and what the file system looks like. Each command builds on the previous state. The agent might `cd` into a directory, then `ls` to see files, then `cat` a specific file - each action depends on where you are and what you've done. You evaluate the complete workflow: did the agent set up the development environment correctly?
 
-- **Code Review Agent**: Iteratively improve code through feedback cycles
-  ```
-  # State: code diff + review history + project context
-  # Action: review comment or code suggestion
-  # Reward: bug detection + code quality improvement + reviewer satisfaction
-  # Episode: complete review process until code meets standards
-  ```
+Or a **code review agent** that goes back and forth with a developer. It suggests improvements, the developer responds or asks questions, the agent refines its suggestions based on feedback. The conversation continues until the code meets quality standards. State tracks the review history, what issues were found, what's been addressed.
 
-- **Debugging Assistant**: Help developers identify and fix issues through guided interaction
-  ```
-  # State: error logs + codebase state + conversation history
-  # Action: debugging question, code inspection, or fix suggestion
-  # Reward: problem resolution speed + explanation quality + learning value
-  # Episode: from bug report to working solution
-  ```
+A **debugging assistant** walks through a problem with you. It asks questions about the error, you provide logs, it suggests where to look, you show it that code, it proposes a fix. The whole conversation is one episode, from bug report to working solution. Each turn builds on what came before.
 
-- **Interactive Tutoring**: Adapt teaching strategy based on student responses
-  ```
-  # State: student knowledge model + learning objectives + interaction history
-  # Action: explanation, question, or exercise
-  # Reward: learning progress + engagement + concept mastery
-  # Episode: complete lesson with measurable learning outcomes
-  ```
+#### c. **ToolEnv**: Agents with Capabilities
 
-#### **ToolEnv**: External Capabilities
-For agents that need **hierarchical action spaces** with access to external tools and APIs:
+Text generation alone isn't enough for many tasks. Agents need external tools - search engines, code execution, file systems, APIs. ToolEnv extends agents with these capabilities by converting Python functions into tools the model can call.
 
 ```python
 def search(query: str) -> str:
@@ -166,43 +131,13 @@ env = vf.ToolEnv(
 )
 ```
 
-**Real-World Examples:**
+**Where you'd use this:**
 
-- **Cursor-Style Code Agent**: AI-powered development environment with file system access
-  ```
-  # Tools: file_read, file_write, git_operations, test_runner, linter
-  # State: project structure + current task + development context
-  # Action: tool selection + tool parameters
-  # Reward: feature completion + code quality + test coverage
-  # Episode: implement complete feature from specification to deployment
-  ```
+Think **Cursor-style code agent**. It needs to read files, write code, run tests, check with a linter, commit to git. Each tool is a capability - `file_read`, `file_write`, `test_runner`, `git_commit`. The agent picks which tool to use and what parameters to pass. You're evaluating the complete feature: did it implement what was asked, does the code pass tests, is it good quality?
 
-- **Data Science Agent**: Analyze datasets and build models end-to-end
-  ```
-  # Tools: data_loader, statistical_analysis, ml_trainer, visualization, report_generator
-  # State: dataset info + analysis progress + model performance
-  # Action: tool choice + analysis parameters
-  # Reward: insight quality + model accuracy + reproducibility
-  # Episode: complete data science pipeline from raw data to insights
-  ```
+Or a **data science agent** that loads data, runs statistical analysis, trains models, generates visualizations, writes reports. Each step requires a different tool. The agent decides the analysis strategy, picks tools in the right sequence, and produces insights. You measure insight quality, model accuracy, whether the work is reproducible.
 
-- **System Administration Agent**: Manage infrastructure and respond to incidents
-  ```
-  # Tools: server_monitor, log_analyzer, deployment_tool, alert_manager
-  # State: system health + incident severity + resource utilization
-  # Action: diagnostic tool + remediation action
-  # Reward: uptime improvement + incident resolution time + prevention measures
-  # Episode: handle complete incident lifecycle from detection to prevention
-  ```
-
-- **Research Agent**: Conduct literature reviews and synthesize findings
-  ```
-  # Tools: paper_search, pdf_reader, citation_tracker, knowledge_graph, report_writer
-  # State: research question + papers reviewed + findings accumulated
-  # Action: search strategy + paper analysis + synthesis approach
-  # Reward: comprehensiveness + insight novelty + citation accuracy
-  # Episode: complete research project from question to publishable findings
-  ```
+A **research agent** searching papers, reading PDFs, tracking citations, building a knowledge graph, writing synthesis. It's exploring a large information space using multiple tools to gather and organize knowledge. The complete research project - from question to findings - is one episode.
 
 ::: {.callout-note title="RL Environment Design Principles"}
 Each environment type maps to different RL paradigms:
@@ -212,209 +147,55 @@ Each environment type maps to different RL paradigms:
 - **ToolEnv**: Hierarchical RL - compose complex behaviors from primitive actions
 :::
 
-### 2. Parsers: Extracting Structure from Chaos
+### 2. Parsers:
 
-Language models produce free-form text, but RL training needs **consistent, structured reward signals**. Parsers are critical because they determine what gets rewarded - a lenient parser might reward partial attempts while a strict parser only rewards perfect formatting. This directly impacts learning dynamics.
+Models output free-form text, but RL training needs **consistent, structured reward signals**. Parsers bridge this gap by extracting the actual answer from all the reasoning and fluff.
 
-Let's see how different parsers handle the same model output for a math problem:
+Parsers determine what gets rewarded. A lenient parser might reward partial attempts while a strict parser only rewards perfect formatting. This directly impacts learning dynamics - what you parse is what the model learns to produce.
 
-::: {.callout-important title="Example Model Output"}
-```
-I need to solve this step by step.
-First, let me understand what we're looking for. The problem asks for the area of a circle with radius 5.
-The formula for area is A = π × r²
-So: A = π × 5² = π × 25 = 25π ≈ 78.54
-Therefore, the final answer is 25π.
-Actually, let me double-check this calculation...
-Yes, that's correct. Final Answer: 25π
-```
-:::
+**Example: ThinkParser**
 
-#### **Basic Parser**: Pattern Matching
+Say you want the model to show its reasoning but you only care about scoring the final answer. ThinkParser lets you separate the two:
+
 ```python
-class BasicParser(vf.Parser):
-    def parse(self, text: str) -> str | None:
-        # Extract specific format from model output
-        match = re.search(r"Final Answer:\s*(.+)", text)
-        return match.group(1).strip() if match else None
-```
-
-**Result**: `"25π"` ✅ **Success** - Found the exact pattern and extracted the answer
-
-This approach only rewards models that use the exact "Final Answer:" format, creating strong incentives for format compliance but potentially penalizing models that give correct answers in different formats.
-
-#### **Lenient Basic Parser**: Multiple Patterns
-```python
-class LenientParser(vf.Parser):
-    def parse(self, text: str) -> str | None:
-        # Try multiple common patterns
-        patterns = [
-            r"Final Answer:\s*(.+)",
-            r"Therefore,?\s*(?:the answer is)?\s*(.+?)(?:\.|$)",
-            r"(?:Answer|Result):\s*(.+)",
-            r"= ([^=\n]+)(?:\s*≈.*)?$"  # Last equation result
-        ]
-
-        for pattern in patterns:
-            match = re.search(pattern, text, re.IGNORECASE | re.MULTILINE)
-            if match:
-                return match.group(1).strip()
-        return None
-```
-
-**Result**: `"25π"` ✅ **Success** - Found answer from "Therefore, the final answer is 25π"
-
-This lenient approach rewards correct reasoning even with format variations, enabling more natural responses but potentially being too permissive for tasks requiring strict adherence to protocols.
-
-#### **XML Parser**: Structured Reasoning
-```python
-parser = vf.XMLParser(
-    fields=["reasoning", "calculation", "answer"],
-    answer_field="answer"
-)
-```
-
-**Expected Format**:
-```xml
-<reasoning>Need to find area of circle with radius 5</reasoning>
-<calculation>A = π × r² = π × 5² = 25π</calculation>
-<answer>25π</answer>
-```
-
-**Result**: `None` ❌ **Failure** - No XML tags found in the free-form response
-
-This forces models to learn structured output formatting through initially low rewards, driving them to adopt XML formatting that leads to more interpretable and parseable responses. This approach is essential for complex reasoning tasks where you need to evaluate intermediate steps separately.
-
-#### **Think Parser**: Separating Reasoning from Answers
-```python
-def extract_math_answer(text: str) -> str:
-    # Extract mathematical expressions and final numerical/symbolic answers
-    patterns = [
-        r"Final Answer:\s*(.+)",
-        r"= ([^=\n]+?)(?:\s*≈.*)?(?:\.|$)",
-        r"(\d+π|\d+\.\d+)"
-    ]
-
-    for pattern in patterns:
-        match = re.search(pattern, text)
-        if match:
-            return match.group(1).strip()
-    return None
-
 parser = vf.ThinkParser(extract_fn=extract_math_answer)
 ```
 
-**Expected Format**:
+**Model output:**
 ```
 <think>
-I need to solve this step by step.
-The formula for area is A = π × r²
+Let me work through this step by step.
+The formula for circle area is A = π × r²
 So: A = π × 5² = π × 25 = 25π ≈ 78.54
 </think>
 
 Final Answer: 25π
 ```
 
-**Result**: `"25π"` ✅ **Success** - Extracts from the final answer portion
+The parser ignores everything in `<think>` tags and extracts just *25π* from the final answer. This encourages chain-of-thought reasoning (which helps accuracy) while keeping evaluation clean.
 
-This encourages chain-of-thought reasoning while maintaining clean answer extraction. Models learn to separate detailed reasoning (which can be rewarded for quality) from final answers (rewarded for correctness), making this approach critical for mathematical and logical reasoning tasks.
-
-#### **Code Extraction Parser**: Handling Code Outputs
-```python
-class CodeParser(vf.Parser):
-    def parse(self, text: str) -> str | None:
-        # Extract code blocks with priority: python > any language > inline
-        patterns = [
-            r"```python\n(.*?)\n```",
-            r"```\w*\n(.*?)\n```",
-            r"`([^`\n]+)`"
-        ]
-
-        for pattern in patterns:
-            match = re.search(pattern, text, re.DOTALL)
-            if match:
-                return match.group(1).strip()
-        return None
-```
-
-**Example Model Output**:
-``````
-Here's the solution:
-
-```python
-def calculate_area(radius):
-    import math
-    return math.pi * radius ** 2
-
-result = calculate_area(5)
-print(f"Area: {result}")
-```
-
-The answer is 25π or approximately 78.54.
-``````
-
-**Result**:
-```python
-def calculate_area(radius):
-    import math
-    return math.pi * radius ** 2
-
-result = calculate_area(5)
-print(f"Area: {result}")
-```
-
-This parser is essential for coding environments because it only rewards executable code, driving models to learn proper syntax and structure. Unlike text-based math answers, code must be both syntactically correct and semantically meaningful to receive any reward.
-
-### Parser Impact on Learning Dynamics
-
-::: {.callout-tip title="Parser Design Principles"}
-**Strict Parsers** → **Precise Behavior**
-
-- Use for tasks requiring exact formatting (API calls, structured data)
-- High precision, potentially lower recall
-- Models learn rigid but reliable patterns
-
-**Lenient Parsers** → **Natural Communication**
-
-- Use for creative tasks or when format flexibility is desired
-- Higher recall, potentially lower precision
-- Models maintain natural expression while meeting requirements
-
-**Structured Parsers (XML/Think)** → **Interpretable Reasoning**
-
-- Use when you need to evaluate reasoning process, not just final answers
-- Enable separate rewards for reasoning quality vs. answer correctness
-- Critical for complex multi-step tasks
-:::
-
-The parser choice directly shapes what behaviors get reinforced during RL training. A lenient parser might reward a model for creative problem-solving even with non-standard formatting, while a strict parser forces adherence to precise protocols essential for integration with downstream systems.
+Verifiers also provides **XMLParser** for structured outputs, basic **regex parsers** for simple pattern matching, and you can write **custom parsers** for domain-specific formats. 
 
 ### 3. Rubrics
 
-Rubrics are the nothing but **reward functions**. 
+Rubrics are **reward functions**. They directly shape what behaviors agents learn - the rubric design determines whether agents optimize for correctness, efficiency, style, safety, or any combination.
 
-They directly shape what behaviors agents learn. The rubric design determines whether agents optimize for correctness, efficiency, style, safety, or any combination of factors. 
+**Types of Rubrics:**
 
-Let's explore how different rubric philosophies create vastly different learning incentives.
+- **Binary** - Pass/fail scoring for mission-critical tasks where "almost correct" is worthless
+- **Graduated** - Partial credit for incremental progress, encouraging experimentation
+- **Multi-Dimensional** - Score across multiple criteria simultaneously (correctness + efficiency + safety + style)
+- **Dynamic** - Adapt scoring based on task difficulty and learning trajectory
 
-#### **Binary Rubric**: 
+Let's see how each type shapes agent behavior through a running example: *"Write a function to find the maximum number in a list"*
 
-Binary rubrics are meant for Mission-Critical Reliability.
+#### a. Binary Rubrics:
 
-Some tasks demand perfect execution - there's no room for "almost correct". Eg.
+Think about a security scanner. If it catches 9 out of 10 SQL injection vulnerabilities, has it succeeded? No - it failed. That one missed vulnerability could compromise the entire system. Same with medical diagnosis systems, financial trading algorithms, safety-critical control systems. A 95% correct solution that fails on edge cases isn't just suboptimal - it's dangerous.
 
+Binary rubrics create agents that prioritize reliability over creativity. They're conservative by design: if you can't guarantee perfection, don't attempt the task.
 
-::: {.callout-tip title="Think"}
-
-- A medical diagnosis system, financial trading algorithm, or safety-critical control system. In these domains, a 95% correct solution that fails on edge cases isn't just suboptimal - it's dangerous.
-
-- An automated code review system that must catch security vulnerabilities. A reviewer that catches 9 out of 10 critical bugs but misses one SQL injection vulnerability has fundamentally failed its purpose.
-
-:::
-
-**Design Rationale**: Binary rubrics create agents that prioritize reliability and completeness over creativity or efficiency. They're conservative by design - if you can't guarantee perfection, don't attempt the task. This leads to robust, predictable behavior that errs on the side of caution.
-
-Let's see this applied to a coding task: *"Write a function to find the maximum number in a list"*
+**The implementation is simple - loop through all test cases, and the moment one fails, return 0.0:**
 
 ::: {.callout-note collapse="true" title="Code"}
 ```python
@@ -428,99 +209,66 @@ def exact_correctness(parser, completion, answer, info, **kwargs):
             if result != expected:
                 return 0.0  # Single failure = total failure
         except:
-            return 0.0
+            return 0.0  # Crashes also get zero
 
-    return 1.0  # All tests pass = full reward
+    return 1.0  # Only return 1.0 if ALL tests pass
 
 rubric = vf.Rubric(funcs=[exact_correctness])
 ```
 :::
 
-**How Solutions Get Evaluated**:
+**See how this plays out:**
 
-*Efficient Solution:*
 ```python
 def find_max(lst):
     return max(lst)
 ```
-**Reward**: `1.0` ✅ - Works perfectly on most cases
+**Reward**: `1.0` ✅ - Passes all tests including edge cases
 
-*Robust Solution:*
 ```python
 def find_max(lst):
-    if not lst:
-        raise ValueError("Empty list")
-    return max(lst)
+    return max(lst) if lst else None  # Returns None instead of raising error
 ```
-**Reward**: `1.0` ✅ - Handles all edge cases correctly
+**Reward**: `0.0` ❌ - Fails one edge case test, gets zero despite being 90% correct
 
-*Almost-Correct Solution:*
-```python
-def find_max(lst):
-    return max(lst) if lst else None  # Returns None instead of expected behavior
-```
-**Reward**: `0.0` ❌ - Fails edge case, gets no credit despite being 90% correct
+One failure = complete failure. This forces agents to be thorough and handle every case, which is exactly what you want for mission-critical tasks where "mostly working" isn't acceptable.
 
-This binary approach creates conservative agents that prioritize perfect correctness over elegance or efficiency. While this might seem harsh, it's exactly what you want for mission-critical applications where partial solutions are worthless.
+#### b. Graduated Rubrics:
 
-#### **Graduated Rubric**: 
+Binary rubrics force agents into an all-or-nothing scenario: pass all test cases or get zero reward. But for many tasks, partial success has real value. An agent that writes a function passing 8 out of 10 test cases has made progress toward the solution. Giving it zero credit wastes useful evaluation signal - you're not telling the agent "you're close, just handle these edge cases."
 
-These rubrics are meant for learning through incremental progress. Most real-world learning happens through incremental improvement, not binary success/failure. Eg.
+Graduated rubrics give partial credit proportional to how much of the task the agent completed successfully. For example, a code refactoring agent that needs to update deprecated API calls across a codebase. If it successfully updates 15 out of 20 files, that's valuable work even though it's incomplete. You want to reward the successful updates and encourage the agent to handle the remaining edge cases, not give it zero for not being perfect.
 
-::: {.callout-tip title="Think"}
-- A student doesn't go from knowing nothing about calculus to mastering it overnight. They build understanding gradually, with partial credit for partial understanding encouraging continued effort.
 
-- A coding education platform where students learn programming concepts. A student who writes a function that works for most cases but fails on edge cases has learned something valuable and should be encouraged to improve, not penalized with zero credit.
-:::
-
-Graduated rubrics encourage experimentation and risk-taking by providing feedback proportional to achievement. This creates a learning environment where agents can discover solutions incrementally, building on partial successes rather than starting from scratch after each failure.
 
 ::: {.callout-note collapse="true" title="Code"}
 
 ```python
 def test_passage_score(parser, completion, answer, info, **kwargs):
-    """Reward based on how many test cases pass"""
+    """Count passing tests, return ratio"""
     code = parser.parse_answer(completion)
-    test_cases = info["test_cases"]
-    passed = 0
-
-    for test_input, expected in test_cases:
-        try:
-            result = execute_code(code, test_input)
-            if result == expected:
-                passed += 1
-        except:
-            continue
-
-    return passed / len(test_cases)  # Partial credit for partial success
+    passed = sum(1 for test_input, expected in info["test_cases"]
+                 if execute_code(code, test_input) == expected)
+    return passed / len(info["test_cases"])  # 0.8 if 8/10 pass
 
 def code_quality_score(parser, completion, **kwargs):
-    """Reward good coding practices"""
+    """Bonus points for good practices"""
     code = parser.parse_answer(completion)
     score = 0.0
-
-    # Efficiency patterns
-    if "max(" in code:
-        score += 0.3  # Using built-in is efficient
-
-    # Readability
-    if len(code.split('\n')) <= 3:
-        score += 0.2  # Concise solution
-
-    # Edge case handling
-    if "if" in code and ("empty" in code.lower() or "not" in code):
-        score += 0.5  # Handles edge cases
-
+    if "max(" in code: score += 0.3  # Efficient
+    if len(code.split('\n')) <= 3: score += 0.2  # Concise
+    if "if" in code and "not" in code: score += 0.5  # Edge cases
     return score
 
+# Combine: 70% correctness + 30% quality
 rubric = vf.Rubric(
     funcs=[test_passage_score, code_quality_score],
-    weights=[0.7, 0.3]  # Correctness more important than style
+    weights=[0.7, 0.3]
 )
 ```
 :::
 
-**How Solutions Get Evaluated**:
+**Now watch how different solutions get graded:**
 
 *Quick-and-Dirty Solution:*
 ```python
@@ -559,84 +307,59 @@ def find_max(lst):
 
 This approach encourages agents to balance multiple objectives and provides meaningful feedback for partial progress, making it ideal for learning environments where improvement happens gradually.
 
-#### **Multi-Dimensional Rubric**: Production-Quality Code
+#### c. Multi-Dimensional Rubrics:
 
-**The Concept**: Professional software development isn't just about correctness - it's about writing maintainable, efficient, secure, and readable code that works in production environments. A function that works perfectly but is unreadable, inefficient, or insecure creates technical debt and future problems.
+Some tasks have multiple success criteria. A code generation agent shouldn't just produce working code - the code needs to be maintainable, efficient, secure, and readable. A function that passes all tests but has security holes or terrible performance hasn't fully solved the task.
 
-**Use Case Example**: A code generation system for a software company where generated code will be reviewed, maintained, and extended by human developers. The code needs to not just work, but be professional-quality that developers are happy to work with.
+For example, a code generation system for enterprise software. The generated code will be reviewed, maintained, and extended by developers. The agent needs to optimize for multiple dimensions: does it work (correctness), is it fast (efficiency), is it safe (security), can developers understand it (readability)?
 
-**Design Rationale**: Multi-dimensional rubrics create agents that optimize for multiple real-world software quality factors simultaneously. This produces code that's not just functionally correct but also efficient, secure, maintainable, and follows best practices - essentially mimicking the evaluation criteria used in professional code reviews.
+Multi-dimensional rubrics score across these criteria simultaneously - essentially mimicking how a senior developer reviews code. The agent gets separate scores for each dimension, then they're combined with weights reflecting what matters most for the task.
 
+**Each function scores one dimension - correctness, efficiency, safety, readability:**
 
 ::: {.callout-note collapse="true" title="Code"}
 
 ```python
 def correctness_score(parser, completion, info, **kwargs):
-    """Test functional correctness"""
+    """Does it work?"""
     code = parser.parse_answer(completion)
-    test_cases = info["test_cases"]
-    passed = sum(1 for test_input, expected in test_cases
+    passed = sum(1 for test_input, expected in info["test_cases"]
                 if safe_execute(code, test_input) == expected)
-    return passed / len(test_cases)
+    return passed / len(info["test_cases"])
 
 def efficiency_score(parser, completion, **kwargs):
-    """Evaluate algorithmic efficiency"""
+    """Is it fast?"""
     code = parser.parse_answer(completion)
-
-    if "max(" in code:
-        return 1.0  # O(n) built-in function
-    elif "for" in code and "for" not in code.split("for", 1)[1]:
-        return 0.8  # O(n) single loop
-    elif code.count("for") > 1:
-        return 0.3  # O(n²) nested loops
-    else:
-        return 0.5  # Unknown complexity
+    if "max(" in code: return 1.0  # O(n) built-in
+    elif code.count("for") == 1: return 0.8  # O(n) loop
+    elif code.count("for") > 1: return 0.3  # O(n²) nested
+    return 0.5
 
 def safety_score(parser, completion, **kwargs):
-    """Check for secure coding practices"""
+    """Is it secure?"""
     code = parser.parse_answer(completion)
     score = 1.0
-
-    # Penalize unsafe patterns
-    if "lst[0]" in code and "if" not in code:
-        score -= 0.5  # Potential index error
-    if "exec(" in code or "eval(" in code:
-        score -= 0.8  # Security risk
-    if "import os" in code or "import sys" in code:
-        score -= 0.6  # Unnecessary system access
-
+    if "lst[0]" in code and "if" not in code: score -= 0.5  # Index error risk
+    if "exec(" in code or "eval(" in code: score -= 0.8  # Security risk
     return max(0.0, score)
 
 def readability_score(parser, completion, **kwargs):
-    """Evaluate code maintainability"""
+    """Can devs maintain it?"""
     code = parser.parse_answer(completion)
-    lines = [line.strip() for line in code.split('\n') if line.strip()]
-
     score = 0.0
-    # Prefer concise solutions
-    if len(lines) <= 3:
-        score += 0.4
-    elif len(lines) <= 6:
-        score += 0.2
-
-    # Check for meaningful variable names
-    if any(len(var) > 2 for var in ['max_val', 'current', 'result'] if var in code):
-        score += 0.3
-
-    # Bonus for documentation
-    if '"""' in code or "'''" in code:
-        score += 0.3
-
+    if len(code.split('\n')) <= 3: score += 0.4  # Concise
+    if '"""' in code: score += 0.3  # Documented
     return min(1.0, score)
 
+# Weight correctness highest, then efficiency, safety, style
 rubric = vf.Rubric(
     funcs=[correctness_score, efficiency_score, safety_score, readability_score],
-    weights=[0.4, 0.3, 0.2, 0.1]  # Correctness > Efficiency > Safety > Style
+    weights=[0.4, 0.3, 0.2, 0.1]
 )
 ```
 :::
 
-**How Solutions Get Evaluated**:
+**Here's how the scoring combines:**
 
 *Professional-Quality Solution:*
 ```python
@@ -647,6 +370,7 @@ def find_max(lst):
     return max(lst)
 ```
 **Scores**: Correctness: `1.0`, Efficiency: `1.0`, Safety: `1.0`, Readability: `1.0`
+
 **Total**: `0.4×1.0 + 0.3×1.0 + 0.2×1.0 + 0.1×1.0 = 1.0` 🌟🌟🌟 - Ready for production
 
 *Clever but Problematic Solution:*
@@ -655,19 +379,18 @@ def find_max(lst):
     return lst[0] if len(lst) == 1 else max(lst[0], find_max(lst[1:]))
 ```
 **Scores**: Correctness: `0.8`, Efficiency: `0.3`, Safety: `0.5`, Readability: `0.2`
+
 **Total**: `0.4×0.8 + 0.3×0.3 + 0.2×0.5 + 0.1×0.2 = 0.51` ⭐ - Works but creates problems
 
 This comprehensive approach creates agents that think like senior developers, considering not just whether code works, but whether it's the kind of code you'd want to maintain and extend over time.
 
-#### **Dynamic Rubric**: Adaptive Learning Curriculum
+#### Dynamic Rubrics: Context-Aware Scoring
 
-**The Concept**: Learning isn't linear - what's challenging for a beginner is trivial for an expert. A dynamic rubric adjusts expectations based on the learner's current skill level, task difficulty, and learning trajectory. This creates personalized learning experiences that maintain appropriate challenge levels.
+Not all tasks have the same difficulty. An agent getting 60% on a hard coding problem shows progress, but 60% on a trivial string reversal means something's wrong. Fixed rubrics score both the same way.
 
-::: {.callout-tip collapse="true" title="Think"}
-An AI coding tutor that adapts to student progress. A student who's been struggling with basic loops shouldn't be penalized as harshly for mistakes as one who's been solving complex algorithms successfully. Conversely, an advanced student making basic errors needs stronger correction signals.
-:::
+Dynamic rubrics adjust expectations based on task difficulty and the agent's recent performance. For example, an AI coding tutor where tasks vary in complexity. If the agent has been acing complex algorithms, getting basic loops wrong signals regression - the rubric penalizes harder. If the agent has been struggling with basics, any progress on harder problems gets bonus rewards to encourage exploration.
 
-**Design Rationale**: Dynamic rubrics enable curriculum learning by providing context-aware feedback. They prevent both frustration (from impossibly high standards) and complacency (from unchanging low standards) by continuously calibrating difficulty to maintain optimal learning challenge.
+This enables adaptive evaluation. Harder tasks get more lenient scoring when the agent is still learning them. Easier tasks get stricter scoring as the agent improves. The agent is evaluated fairly based on task context, not just absolute performance.
 
 ::: {.callout-note collapse="true" title="Code"}
 ```python
@@ -734,334 +457,124 @@ This creates personalized learning experiences where agents are challenged at ap
 
 The rubric design is arguably the most critical component because it defines what "success" means during RL training. A well-designed rubric doesn't just measure performance - it actively shapes the kind of agent you'll end up with.
 
-Now let's see these concepts in action through real examples.
+Now let's see these concepts in action by building a complete environment from scratch.
 
-## Example 1: SimpleBench - SingleTurnEnv in Practice
+## Building an Environment: AlphabetSort
 
+We'll build AlphabetSort, a MultiTurnEnv that teaches all the key concepts - state management, dynamic interaction, parsers, and rubrics working together. MultiTurnEnv is the sweet spot for learning: more complex than SingleTurnEnv (one-shot Q&A), but simpler than ToolEnv (external capabilities). Plus, it shows how real agents work - maintaining context and building on previous interactions.
 
-Let's start with SimpleBench, a multiple-choice reasoning environment, to understand how SingleTurnEnv concepts work in practice. Rather than diving into code, let's understand the design decisions and why they matter.
+### The Task
 
-### The Problem: Evaluating Reasoning Ability
+Turn 1: Sort names alphabetically. 
 
-SimpleBench tackles a fundamental challenge: how do you reliably evaluate whether a model can reason through problems? The dataset contains questions like "A farmer has 17 sheep. All but 9 die. How many sheep are left?" with multiple choice options. The key insight is that many models can generate the right answer by chance, but consistently getting the format right while reasoning correctly is much harder.
+Turn 2+: Integrate new names into the sorted list and mark them with "// new name!". The agent must maintain context across turns.
 
-### Designing the Evaluation Protocol
-
-The first design decision was choosing SingleTurnEnv because reasoning problems don't need interaction - you present the problem, the model thinks through it, and provides an answer. This maps perfectly to the SingleTurnEnv pattern where the environment presents a prompt, receives a response, and evaluates it.
-
-The next challenge was output format. Simply asking "What's the answer?" leads to inconsistent responses: some models say "B", others say "The answer is B", and others write full explanations without clearly indicating their choice. The solution was requiring a specific format: "Final Answer: B". This forces the model to explicitly commit to a choice while still allowing reasoning in the response.
-
-### Parser Design: Extracting Commitment
-
-The SimpleBenchParser doesn't just look for any letter - it specifically searches for the "Final Answer:" pattern. This design choice reflects a key insight: we want to evaluate the model's ability to follow instructions and make clear decisions, not just generate relevant text. Here's how this design philosophy translates to code:
+Each dataset item stores ground truth answers for each turn, follow-up prompts, and expected outputs:
 
 ```python
-import re
-import verifiers as vf
-
-class SimpleBenchParser(vf.Parser):
-    def parse(self, text: str) -> str | None:
-        # Look specifically for "Final Answer:" pattern
-        match = re.search(r"Final Answer:\s*([A-F])", text.strip(), re.IGNORECASE | re.DOTALL)
-        return match.group(1).upper() if match else None
-```
-
-Why not just extract any letter from the response? Because that would reward models that mention multiple letters while being unsure. The "Final Answer:" requirement forces decisive reasoning - the model must commit to a specific choice after its reasoning process. The regex is deliberately strict but case-insensitive to handle minor variations while maintaining the format requirement.
-
-### Rubric Philosophy: Binary Success
-
-The reward function implements pure binary scoring: 1.0 for correct answers, 0.0 for wrong ones. This might seem harsh, but it reflects the nature of reasoning tasks - you either understand the problem and solve it correctly, or you don't. Partial credit would make the evaluation less meaningful because the goal is measuring reasoning capability, not writing ability.
-
-The rubric only has one criterion (correctness) because SimpleBench is designed to test a single capability. More complex environments might include format scoring, reasoning quality, or efficiency measures, but here the focus is purely on getting the right answer. Here's how the binary scoring philosophy translates to code:
-
-```python
-def exact_match_reward(parser: vf.Parser, completion: vf.Messages, answer: str, **kwargs) -> float:
-    """Rewards 1.0 if the parsed answer matches the ground truth, otherwise 0.0."""
-    parsed_answer = parser.parse_answer(completion)
-    ground_truth = answer.strip().upper()
-
-    return 1.0 if parsed_answer and parsed_answer == ground_truth else 0.0
-```
-
-This function embodies the binary philosophy: if the parser successfully extracts an answer AND it matches the ground truth, return 1.0. Otherwise, return 0.0. No partial credit, no fuzzy matching - just success or failure. This creates clear incentives for models to understand problems completely rather than hedge their responses.
-
-### System Prompt Strategy
-
-The system prompt plays a crucial role in environment design. It explicitly tells the model to "think step by step" before providing the final answer, encouraging the chain-of-thought reasoning that often leads to better performance. The prompt also sets expectations about being an "expert at reasoning" who picks "realistic answers" - this priming helps the model approach problems with the right mindset. Here's the actual system prompt:
-
-```python
-system_prompt = """You are an expert at reasoning and you always pick the most realistic answer. Think step by step and output your reasoning followed by your final answer using the following format: Final Answer: X where X is one of the letters A, B, C, D, E, or F."""
-```
-
-Notice how this prompt combines three key elements: identity priming ("expert at reasoning"), process guidance ("think step by step"), and format requirements ("Final Answer: X"). This isn't accidental - each phrase serves a specific purpose in shaping model behavior to align with our evaluation needs.
-
-### Why This Design Works
-
-SimpleBench succeeds because every component reinforces the same goal: evaluating reasoning ability through clear, unambiguous responses. The format requirement eliminates parsing ambiguity, the binary scoring reflects the nature of reasoning tasks, and the system prompt encourages the thinking process we want to measure. This alignment between task goals and evaluation design is what makes environments effective.
-
-### Concepts Demonstrated
-
-SimpleBench perfectly illustrates the **SingleTurnEnv pattern**:
-
-::: {.callout-important title="SingleTurnEnv Key Concepts"}
-1. **Custom Parser**: `SimpleBenchParser` extracts structured answers from free text
-2. **Reward Function**: `exact_match_reward` implements binary scoring logic
-3. **System Prompt**: Guides model to produce expected format
-4. **Dataset Integration**: Seamless loading from external data sources
-5. **Modular Design**: Parser and rubric can be reused in other environments
-:::
-
-::: {.callout-note collapse="true" title="Complete SimpleBench Environment Code"}
-```python
-import re
-
-import verifiers as vf
-from datasets import load_dataset
-from verifiers.parsers.parser import Parser
-from verifiers.rubrics.rubric import Rubric
-from verifiers.types import Messages
-
-DATA_URL = "https://raw.githubusercontent.com/simple-bench/SimpleBench/fbc2e429085bdedad7d1a236d2bc9bc18c95f16e/simple_bench_public.json"
-
-
-class SimpleBenchParser(Parser):
-    def parse(self, text: str) -> str | None:
-        match = re.search(r"Final Answer:\s*([A-F])", text.strip(), re.IGNORECASE | re.DOTALL)
-        return match.group(1).upper() if match else None
-
-
-def exact_match_reward(parser: Parser, completion: Messages, answer: str, **kwargs) -> float:
-    """Rewards 1.0 if the parsed answer matches the ground truth, otherwise 0.0."""
-    parsed_answer = parser.parse_answer(completion)
-    ground_truth = answer.strip().upper()
-
-    return 1.0 if parsed_answer and parsed_answer == ground_truth else 0.0
-
-
-def load_environment(data_url=DATA_URL, **env_args) -> vf.Environment:
-    dataset = load_dataset("json", data_files={"train": data_url}, field="eval_data", split="train")
-
-    # The system prompt encourages the model to produce the "Final Answer: X" format.
-    # from https://github.com/simple-bench/SimpleBench/blob/main/system_prompt.txt
-    system_prompt = """You are an expert at reasoning and you always pick the most realistic answer. Think step by step and output your reasoning followed by your final answer using the following format: Final Answer: X where X is one of the letters A, B, C, D, E, or F."""
-
-    def preprocess(example):
-        return {
-            "question": example["prompt"],
-            "answer": example["answer"],
-        }
-
-    processed_dataset = dataset.map(preprocess, remove_columns=dataset.column_names)
-
-    parser = SimpleBenchParser()
-    rubric = Rubric(funcs=[exact_match_reward], parser=parser)
-
-    vf_env = vf.SingleTurnEnv(
-        dataset=processed_dataset, parser=parser, rubric=rubric, system_prompt=system_prompt, **env_args
-    )
-
-    return vf_env
-```
-:::
-
-## Multi-Turn Environments: Beyond Single Responses
-
-
-
-While SingleTurnEnv works great for Q&A, real AI agents often need **interactive conversations**. Consider a math tutoring scenario where the environment should:
-
-1. Present a problem
-2. Evaluate the student's attempt
-3. Provide hints if wrong
-4. Continue until solved or max attempts reached
-
-This requires **state management** and **dynamic responses** - capabilities that MultiTurnEnv provides.
-
-### MultiTurnEnv: Conceptual Framework
-
-MultiTurnEnv enables sophisticated interaction protocols through two key methods:
-
-#### **env_response()**: How Environment Reacts
-```python
-async def env_response(self, messages: Messages, state: State) -> Tuple[Messages, State]:
-    # Analyze conversation history
-    # Generate appropriate response based on current state
-    # Update state for next turn
-    return response_messages, updated_state
-```
-
-#### **is_completed()**: When to Stop
-```python
-async def is_completed(self, messages: Messages, state: State) -> bool:
-    # Define completion criteria
-    # Could be: max turns reached, goal achieved, failure condition
-    return completion_condition
-```
-
-### State Management in Multi-Turn
-
-State carries information across turns:
-```python
-state = {
-    # Automatic state managed by Verifiers
-    "prompt": original_question,
-    "completion": full_conversation,
-    "answer": ground_truth,
-    "info": metadata,
-
-    # Custom state for your environment
-    "attempts": 3,
-    "current_turn": 2,
-    "hints_given": ["break it into steps", "check your arithmetic"]
-}
-```
-
-## Example 2: AlphabetSort - MultiTurnEnv in Action
-
-
-AlphabetSort demonstrates MultiTurnEnv by creating an interactive sorting challenge that evolves across multiple turns. Let's understand the design thinking behind this more complex environment.
-
-### The Problem: Testing Persistent Reasoning
-
-While SimpleBench tests one-shot reasoning, many real-world tasks require maintaining context and building on previous work. AlphabetSort addresses this by creating a scenario where the model must remember previous sorting decisions while incorporating new information. The task seems simple - sort names alphabetically - but becomes challenging when you must maintain perfect accuracy across multiple additions while marking which names are new.
-
-### Designing Progressive Complexity
-
-The key insight in AlphabetSort is progressive difficulty. Turn 1 is straightforward: sort a few names alphabetically. But subsequent turns add complexity by requiring the model to integrate new names into the existing sorted list while marking which ones are new with a "// new name!" tag. This tests both working memory and the ability to follow evolving instructions.
-
-Why not just give all the names at once? Because the multi-turn structure tests a different cognitive capability: maintaining state across interactions. This mirrors real-world scenarios where agents must build on previous work rather than starting fresh each time.
-
-### Environment Response Strategy
-
-The `env_response()` method implements a crucial design pattern: the environment's response depends on the model's previous performance. After the model sorts the initial set of names, the environment provides a new set of names with updated instructions. This isn't random - the environment has pre-planned the entire sequence of additions to ensure consistent evaluation across different models.
-
-The response strategy carefully maintains the illusion of natural conversation while ensuring reproducible evaluation. Each follow-up prompt builds on the previous one, creating a coherent narrative that tests the model's ability to understand context and adapt to changing requirements. Here's how this strategy translates to code:
-
-```python
-async def env_response(self, messages: Messages, state: State, **kwargs) -> Tuple[Messages, State]:
-    assert isinstance(messages, list)
-    assistant_count = len([m for m in messages if m["role"] == "assistant"])
-    num_turns = state["info"]["num_turns"]
-
-    if assistant_count < num_turns:
-        follow_ups = state["info"]["follow_ups"]
-        follow_up_idx = assistant_count - 1
-
-        if follow_up_idx < len(follow_ups):
-            return [{"role": "user", "content": follow_ups[follow_up_idx]}], state
-
-    return [{"role": "user", "content": "Continue"}], state
-```
-
-This method counts how many assistant responses have occurred, then serves the appropriate follow-up prompt from the pre-planned sequence. The environment doesn't improvise - it follows a predetermined script that ensures consistent evaluation across all model runs.
-
-### State Management Philosophy
-
-AlphabetSort demonstrates sophisticated state management by storing multiple pieces of information across turns: the cumulative list of names, which names were added in each turn, and the expected outputs for each stage. This state isn't just data storage - it's the foundation that enables complex evaluation across multiple interactions.
-
-The state design reflects a key principle: environment state should capture everything needed to evaluate the interaction fairly. By storing ground truth answers for each turn, the environment can score each response independently while still considering the overall trajectory. Here's how the state structure supports this philosophy:
-
-```python
-# Example state structure for AlphabetSort
-state = {
-    "prompt": initial_user_message,
-    "answer": json.dumps({
-        "ground_truths": [
-            ["Alice", "Bob", "Charlie"],           # Turn 1 expected output
-            ["Alice", "Bob", "Charlie", "Diana // new name!", "Eve // new name!"]  # Turn 2 expected output
-        ],
-        "turn_names": [
-            ["Alice", "Bob", "Charlie"],           # Turn 1 names
-            ["Diana", "Eve"]                       # Turn 2 new names
-        ]
-    }),
+{
+    "prompt": "Sort these names: Alice, Charlie, Bob",
     "info": {
-        "follow_ups": ["Now sort ALL of these names..."],  # Pre-planned prompts
-        "num_turns": 2,                                    # Total expected turns
-        "ground_truths": [...],                            # Redundant for easy access
-        "turn_names": [...]                                # Names for each turn
+        "num_turns": 2,
+        "follow_ups": ["Now add Diana and Eve, sort all names and mark new ones"],
+        "ground_truths": [
+            ["Alice", "Bob", "Charlie"],
+            ["Alice", "Bob", "Charlie", "Diana // new name!", "Eve // new name!"]
+        ]
     }
 }
 ```
 
-This structure demonstrates the sophistication needed for multi-turn evaluation: pre-computed ground truths for each stage, the sequence of names to be introduced, and the exact follow-up prompts. Everything is deterministic and reproducible.
+### Building the Environment
 
-### Parser Choice: XML for Structure
+MultiTurnEnv needs two methods to control the conversation flow:
 
-The environment uses XMLParser because it needs to extract structured responses from potentially complex outputs. The model might provide reasoning, explanations, or formatting around the actual sorted list. XML tags like `<alphabetical_sorted>` create a clear boundary that separates the parseable answer from surrounding text.
+**1. `env_response()` - What the environment says after each agent response**
 
-Why different XML tags for different turns? The first turn uses `<alphabetical_sorted>` while subsequent turns use `<combined_alphabetical_sorted>`. This forces the model to recognize that the task has evolved and respond appropriately to the new context. Here's how the parser adapts to each turn:
+After the agent sorts the initial names, the environment needs to send the next challenge. This method decides what message to send based on how many turns have happened:
 
 ```python
-def eval_turn(completion: List[dict], turn_num: int, state: dict) -> float:
-    # Extract ground truth for this specific turn
-    ground_truths = state["info"]["ground_truths"]
-    expected = ground_truths[turn_num - 1]
+async def env_response(self, messages: Messages, state: State, **kwargs):
+    # Count how many times the agent has responded
+    assistant_count = len([m for m in messages if m["role"] == "assistant"])
 
-    # Get the assistant's response for this turn
+    # Send the next pre-planned follow-up prompt
+    if assistant_count < state["info"]["num_turns"]:
+        return [{"role": "user", "content": state["info"]["follow_ups"][assistant_count - 1]}], state
+
+    return [{"role": "user", "content": "Continue"}], state
+```
+
+**2. `is_completed()` - When to stop the conversation**
+
+The environment needs to know when the episode is done. In AlphabetSort, we stop after the agent has responded N times (where N = num_turns):
+
+```python
+async def is_completed(self, messages: Messages, state: State, **kwargs):
+    assistant_count = len([m for m in messages if m["role"] == "assistant"])
+    return assistant_count >= state["info"]["num_turns"]
+```
+
+**3. Parsing**
+
+The agent might add reasoning, explanations, or extra text. XMLParser pulls out just the sorted list. Different XML tags signal different task stages:
+
+```python
+xml_tag = "alphabetical_sorted" if turn_num == 1 else "combined_alphabetical_sorted"
+parser = vf.XMLParser([xml_tag], answer_field=xml_tag)
+parsed = parser.parse_answer(agent_response)
+```
+
+**4. Scoring**
+
+Each turn gets scored independently, then averaged. Using sequence similarity with an exponential penalty (^4) means near-perfect matters - 95% similarity scores 0.81, not 0.95:
+
+```python
+def eval_turn(completion, turn_num, state):
+    # Extract agent's answer for this specific turn
     assistant_msgs = [m["content"] for m in completion if m["role"] == "assistant"]
-    if len(assistant_msgs) < turn_num:
-        return 0.0
-
-    # Choose the appropriate XML tag based on turn number
     xml_tag = "alphabetical_sorted" if turn_num == 1 else "combined_alphabetical_sorted"
 
-    # Parse using the context-appropriate tag
     parser = vf.XMLParser([xml_tag], answer_field=xml_tag)
     parsed = parser.parse_answer(assistant_msgs[turn_num - 1])
 
-    if parsed is None:
-        return 0.0
-
-    predicted = parsed.split("\n")
-    return score_response(predicted, expected)
+    # Compare with ground truth using exponential similarity
+    similarity = difflib.SequenceMatcher(None, parsed, expected).ratio()
+    return similarity ** 4  # Penalizes mistakes heavily
 ```
 
-This code shows how the environment creates different XMLParser instances for different turns, adapting the parsing strategy to match the evolving task requirements.
+**5. Rubric**
 
-### Scoring Philosophy: Exponential Penalties
-
-The scoring function uses a sophisticated approach: it measures similarity between expected and actual responses, then applies an exponential penalty (raising similarity to the 4th power). This design choice reflects the reality that alphabetical sorting is either correct or wrong - there's no meaningful partial credit for "almost sorted" lists.
-
-Why exponential rather than binary scoring? Because the similarity measure captures important nuances like getting most names right but missing one or two. The exponential penalty ensures that near-perfect performance gets meaningfully higher scores than mediocre performance, while still recognizing degrees of success. Here's how this philosophy is implemented:
+The rubric needs to score all turns and average them. We do this by creating a reward function that loops through each turn:
 
 ```python
-def score_response(predicted: List[str], expected: List[str]) -> float:
-    if not predicted or not expected:
-        return 0.0
+def create_weighted_rewards():
+    def weighted_reward(completion, state, **kwargs):
+        actual_turns = state["info"]["num_turns"]
+        total_score = 0.0
 
-    # Normalize both lists for comparison
-    pred_clean = [s.strip().lower() for s in predicted]
-    exp_clean = [s.strip().lower() for s in expected]
+        # Score each turn
+        for turn_num in range(1, actual_turns + 1):
+            turn_score = eval_turn(completion, turn_num, state)
+            total_score += turn_score
 
-    # Convert to text for similarity measurement
-    pred_text = "\n".join(pred_clean)
-    exp_text = "\n".join(exp_clean)
+        # Return average across all turns
+        return total_score / actual_turns if actual_turns > 0 else 0.0
 
-    # Calculate sequence similarity (0.0 to 1.0)
-    similarity = difflib.SequenceMatcher(None, pred_text, exp_text).ratio()
+    return weighted_reward
 
-    # Apply exponential penalty (similarity_power = 4)
-    return similarity ** 4
+# Create the rubric
+rubric = vf.Rubric(funcs=[create_weighted_rewards()], weights=[1.0])
 ```
 
-This function demonstrates the exponential scoring philosophy: a response with 90% similarity gets a score of 0.9^4 = 0.66, while 95% similarity yields 0.95^4 = 0.81. The exponential penalty creates meaningful differentiation between good and excellent performance.
+### Key Concepts
 
-### Turn-by-Turn Evaluation
-
-The rubric evaluates each turn separately, then averages the scores. This design ensures that a single mistake doesn't doom the entire interaction while still requiring consistent performance across turns. The evaluation recognizes that maintaining accuracy across multiple turns is fundamentally harder than succeeding once.
-
-### Concepts Demonstrated
-
-AlphabetSort showcases **MultiTurnEnv capabilities**:
-
-::: {.callout-important title="MultiTurnEnv Key Concepts"}
-1. **Dynamic Interaction**: Environment responds based on model's previous answers
-2. **State Persistence**: Information carries across multiple turns
-3. **Complex Scoring**: Evaluation considers performance across all turns
-4. **XMLParser Usage**: Structured extraction from XML-tagged responses
-5. **Turn-by-turn Logic**: Different behavior for different conversation stages
-:::
+- **MultiTurnEnv** enables back-and-forth interaction
+- **env_response()** controls what the environment says next
+- **is_completed()** decides when to stop
+- **State** carries information across turns (ground truths, follow-ups, turn count)
+- **Per-turn evaluation** scores each response, then averages
+- **Rubric** wraps the scoring logic and gets called during evaluation
 
 ::: {.callout-note collapse="true" title="Complete AlphabetSort Environment Code"}
 ```python
@@ -1170,518 +683,6 @@ def load_environment(
     return env_instance
 ```
 :::
-
-## Tool Environments: Extending Agent Capabilities
-
-
-Both SingleTurnEnv and MultiTurnEnv assume the model can solve tasks with just text generation. But modern AI agents often need **external capabilities**:
-
-- **Search** the web for current information
-- **Execute code** to analyze data or solve math problems
-- **Call APIs** to get real-time data or perform actions
-- **Access file systems** to read documents or save results
-
-### ToolEnv: Conceptual Framework
-
-ToolEnv extends agents with external capabilities by automatically converting Python functions into **tool schemas** that models can call:
-
-#### **Automatic Tool Conversion**
-```python
-def search_web(query: str, max_results: int = 5) -> str:
-    """Search the web for information."""
-    # Implementation here
-    return search_results
-
-# Automatically becomes a tool the model can call
-env = vf.ToolEnv(tools=[search_web], dataset=dataset, rubric=rubric)
-```
-
-#### **Sandbox Integration**
-For safe code execution:
-```python
-def execute_python(code: str) -> str:
-    """Execute Python code safely in a sandbox."""
-    # Runs in isolated container
-    return execution_result
-
-# Model can now write and run code
-```
-
-#### **Stateful Tool Environments**
-For complex workflows requiring persistent state:
-```python
-class ResearchEnv(vf.StatefulToolEnv):
-    def __init__(self, **kwargs):
-        self.search_history = []
-        self.analysis_results = {}
-        super().__init__(tools=[self.search, self.analyze], **kwargs)
-
-    def search(self, query: str) -> str:
-        # Tool functions have access to environment state
-        results = perform_search(query)
-        self.search_history.append(query)
-        return results
-```
-
-### Tool Usage Patterns
-
-Tools enable sophisticated agent workflows:
-
-1. **Exploration**: Use tools to gather information
-2. **Analysis**: Process information with code or APIs
-3. **Iteration**: Refine approach based on results
-4. **Synthesis**: Combine insights into final answer
-
-## Example 3: ARC-AGI Tool - ToolEnv in Action
-
-
-
-ARC-AGI Tool represents the most sophisticated application of Verifiers concepts - a ToolEnv that enables models to solve visual pattern puzzles through iterative code exploration. The design choices here reveal how to build environments for complex problem-solving workflows.
-
-### The Problem: Complex Problem-Solving
-
-ARC-AGI puzzles present visual grids where models must discover the transformation rule from examples, then apply it to new inputs. These puzzles are deliberately difficult, often requiring multiple hypotheses, testing, and refinement. The key insight is that pure text reasoning isn't enough - models need to experiment with code to explore patterns and test theories.
-
-### Designing the Tool Ecosystem
-
-The environment provides four carefully chosen tools that mirror human problem-solving approaches. The `python_tool` allows free-form exploration - models can write any code to analyze patterns, visualize data, or test ideas. This exploratory capability is crucial because visual patterns often become clearer when expressed as code.
-
-The `test_fn_on_examples` tool implements a structured testing workflow. Rather than just running code, it specifically tests transformation functions against known examples and reports pass/fail results. This design choice reflects a key insight: the environment should guide models toward systematic validation rather than random experimentation. Here's how these tools are implemented:
-
-```python
-async def python_tool(self, code: str) -> str:
-    """Execute Python code for pattern exploration and analysis."""
-    return await self.sandbox.run_code(code)
-
-async def print_fn_outputs(self, fn_name: str) -> str:
-    """Print outputs of a transformation function on training examples."""
-    code = f"""
-print(f"Training examples for function '{fn_name}':")
-for i, train_example in enumerate(examples):
-    result = {fn_name}(train_example['input'])
-    print(f"Example {i+1}: {{result}}")
-"""
-    return await self.sandbox.run_code(code)
-
-async def test_fn_on_examples(self, fn_name: str) -> str:
-    """Test if a transformation function produces correct outputs on training examples."""
-    code = f"""
-correct = 0
-total = len(examples)
-
-for i, train_example in enumerate(examples):
-    expected = train_example['output']
-    result = {fn_name}(train_example['input'])
-
-    if result == expected:
-        correct += 1
-        print(f"Example {i+1}: PASS")
-    else:
-        print(f"Example {i+1}: FAIL - Expected {{expected}}, got {{result}}")
-
-print(f"\\nPassed {correct}/{total} examples")
-"""
-    return await self.sandbox.run_code(code)
-
-async def submit_fn(self, fn_name: str) -> str:
-    """Submit final transformation function for evaluation."""
-    if self.task_state.get("submitted"):
-        return "Already submitted a function for this task."
-
-    self.task_state["submitted"] = True
-    self.task_state["submission"] = fn_name
-
-    return f"Submitted function '{fn_name}' for evaluation."
-```
-
-These tools demonstrate the progressive scaffolding philosophy: from open exploration (`python_tool`) to structured testing (`test_fn_on_examples`) to final commitment (`submit_fn`).
-
-### Sandbox Philosophy: Safety Meets Capability
-
-Code execution environments face a fundamental tension: you want to give models powerful capabilities while preventing security risks. The sandbox design solves this by running all code in isolated containers that can't access the host system or network. The sandbox setup code automatically provides task data as variables, eliminating the need for models to handle data loading while ensuring they have everything needed to solve the puzzle.
-
-Why not just simulate code execution without actually running it? Because many patterns in ARC puzzles only become apparent through iterative experimentation. Models need to see actual outputs, modify their approach based on results, and build understanding through trial and error. Here's how the sandbox provides safe yet powerful capabilities:
-
-```python
-async def _setup_sandbox(self, task_data: dict) -> None:
-    """Initialize sandbox with task data and helper functions."""
-    setup_code = f"""
-import copy
-import numpy as np
-from typing import List
-
-# Automatically provide task data as variables
-examples = {task_data['train']}
-test_input = {task_data['test'][0]['input']}
-
-# Helper functions for common ARC operations
-def print_grid(grid):
-    for row in grid:
-        print(' '.join(str(cell) for cell in row))
-
-def count_colors(grid):
-    flat = [cell for row in grid for cell in row]
-    return {{color: flat.count(color) for color in set(flat)}}
-
-def find_objects(grid, color):
-    objects = []
-    # Object detection logic here...
-    return objects
-
-print("Sandbox initialized with task data and helper functions")
-print(f"Available: examples ({{len(examples)}} training), test_input, helper functions")
-"""
-
-    await self.sandbox.run_code(setup_code)
-```
-
-The sandbox setup demonstrates the safety-capability balance: provide everything needed for puzzle-solving (task data, helper functions) while maintaining complete isolation from the host system.
-
-
-### Tool Design: Progressive Scaffolding
-
-The tool progression reflects careful pedagogical design. The `python_tool` provides maximum freedom for initial exploration. The `print_fn_outputs` tool encourages models to develop and test transformation functions systematically. The `test_fn_on_examples` tool guides toward proper validation against known examples. Finally, `submit_fn` requires commitment to a final solution.
-
-This scaffolding addresses a common challenge in tool environments: models often get lost in endless exploration without making progress toward solutions. By providing increasingly structured tools, the environment guides models through a productive problem-solving process.
-
-### State Management: Persistent Context
-
-The StatefulToolEnv maintains crucial context across tool calls: the sandbox ID (preserving the computation environment), task data (making puzzle information available to all tools), and progress tracking (knowing when the model has submitted a solution). This persistence is essential because ARC puzzles require building understanding incrementally across multiple tool interactions. Here's how state persistence is implemented:
-
-```python
-class ARCToolEnvironment(vf.StatefulToolEnv):
-    def __init__(self, **kwargs):
-        self.task_state = {}  # Persistent state for current task
-        super().__init__(
-            tools=[self.python_tool, self.print_fn_outputs, self.test_fn_on_examples, self.submit_fn],
-            **kwargs
-        )
-
-    async def before_episode(self, dataset_item: dict) -> None:
-        """Initialize state before each ARC puzzle."""
-        # Reset task-specific state
-        self.task_state = {
-            "submitted": False,
-            "submission": None,
-            "sandbox_id": None
-        }
-
-        # Set up sandbox with task data
-        self.sandbox = await create_sandbox()
-        self.task_state["sandbox_id"] = self.sandbox.id
-        await self._setup_sandbox(dataset_item)
-
-    async def after_episode(self) -> None:
-        """Clean up after task completion."""
-        if self.sandbox:
-            await self.sandbox.cleanup()
-        self.task_state.clear()
-```
-
-This state management ensures that each puzzle gets a fresh environment while maintaining context throughout the problem-solving process.
-
-### Scoring Strategy: Binary with Clear Criteria
-
-The scoring is deliberately binary - either the submitted function produces the correct output on the test case, or it doesn't. This reflects the nature of ARC puzzles: there's an objective correct answer that can be verified automatically. The environment doesn't award partial credit for "interesting" code or "close" answers because the goal is measuring the model's ability to discover and implement the correct transformation rule. Here's how the binary scoring is implemented:
-
-```python
-async def arc_solve_rubric(completion: vf.Messages, state: dict, **kwargs) -> float:
-    """Binary scoring: 1.0 if submitted function solves test case, 0.0 otherwise."""
-    task_state = state.get("task_state", {})
-
-    # Check if model submitted a function
-    if not task_state.get("submitted") or not task_state.get("submission"):
-        return 0.0
-
-    fn_name = task_state["submission"]
-    test_input = state["test_input"]
-    expected_output = state["test_output"]
-
-    # Test the submitted function on the test case
-    test_code = f"""
-try:
-    result = {fn_name}({test_input})
-    success = (result == {expected_output})
-    print(f"Test result: {{result}}")
-    print(f"Expected: {{expected_output}}")
-    print(f"Correct: {{success}}")
-except Exception as e:
-    print(f"Error executing function: {{e}}")
-    success = False
-
-# Return the result
-success
-"""
-
-    try:
-        result = await sandbox.run_code(test_code)
-        return 1.0 if "True" in result else 0.0
-    except Exception:
-        return 0.0
-```
-
-This function embodies the binary philosophy: either the submitted transformation function correctly solves the test case (score = 1.0) or it doesn't (score = 0.0). No partial credit for effort or close attempts.
-
-### Workflow Design: Natural Problem-Solving
-
-The environment doesn't enforce a rigid sequence of tool usage. Models can explore freely, backtrack, try different approaches, and iterate as needed. This design choice reflects the reality that problem-solving is rarely linear. However, the requirement to call `submit_fn` creates a clear endpoint and ensures the model commits to a solution rather than exploring indefinitely.
-
-Why require explicit submission rather than just evaluating the last piece of code? Because the submission process forces the model to synthesize its learning into a single, complete solution. This mimics real-world scenarios where you must deliver a final answer based on your exploration and testing.
-
-### Concepts Demonstrated
-
-ARC-AGI Tool showcases **advanced ToolEnv capabilities**:
-
-::: {.callout-important title="ToolEnv Key Concepts"}
-1. **StatefulToolEnv**: Maintains persistent state across tool calls
-2. **Sandbox Integration**: Safe execution of untrusted code
-3. **Complex Tool Workflows**: Multi-step problem solving with multiple tools
-4. **Async Rubrics**: Handle time-intensive external operations
-5. **Tool State Management**: Tools can access and modify environment state
-:::
-
-::: {.callout-note collapse="true" title="Complete ARC-AGI Tool Environment Code"}
-```python
-import json
-from typing import Dict, Any
-
-import verifiers as vf
-from datasets import load_dataset
-from verifiers.sandbox import Sandbox
-
-
-class ARCToolEnvironment(vf.StatefulToolEnv):
-    def __init__(self, **kwargs):
-        self.task_state = {}
-        self.sandbox = None
-        super().__init__(
-            tools=[self.python_tool, self.print_fn_outputs, self.test_fn_on_examples, self.submit_fn],
-            **kwargs
-        )
-
-    async def before_episode(self, dataset_item: dict) -> None:
-        """Initialize state and sandbox for each ARC puzzle."""
-        self.task_state = {
-            "submitted": False,
-            "submission": None,
-            "task_data": dataset_item
-        }
-
-        # Set up sandbox with task data
-        self.sandbox = await Sandbox.create()
-        await self._setup_sandbox(dataset_item)
-
-    async def after_episode(self) -> None:
-        """Clean up after task completion."""
-        if self.sandbox:
-            await self.sandbox.cleanup()
-        self.task_state.clear()
-
-    async def _setup_sandbox(self, task_data: dict) -> None:
-        """Initialize sandbox with task data and helper functions."""
-        setup_code = f"""
-import copy
-import numpy as np
-from typing import List
-
-# Automatically provide task data as variables
-examples = {task_data['train']}
-test_input = {task_data['test'][0]['input']}
-
-# Helper functions for common ARC operations
-def print_grid(grid):
-    for row in grid:
-        print(' '.join(str(cell) for cell in row))
-
-def count_colors(grid):
-    flat = [cell for row in grid for cell in row]
-    return {{color: flat.count(color) for color in set(flat)}}
-
-print("Sandbox initialized with task data and helper functions")
-print(f"Available: examples ({{len(examples)}} training), test_input, helper functions")
-"""
-        await self.sandbox.run_code(setup_code)
-
-    async def python_tool(self, code: str) -> str:
-        """Execute Python code for pattern exploration and analysis."""
-        return await self.sandbox.run_code(code)
-
-    async def print_fn_outputs(self, fn_name: str) -> str:
-        """Print outputs of a transformation function on training examples."""
-        code = f"""
-print(f"Training examples for function '{fn_name}':")
-for i, train_example in enumerate(examples):
-    result = {fn_name}(train_example['input'])
-    print(f"Example {i+1}: {{result}}")
-"""
-        return await self.sandbox.run_code(code)
-
-    async def test_fn_on_examples(self, fn_name: str) -> str:
-        """Test if a transformation function produces correct outputs on training examples."""
-        code = f"""
-correct = 0
-total = len(examples)
-
-for i, train_example in enumerate(examples):
-    expected = train_example['output']
-    result = {fn_name}(train_example['input'])
-
-    if result == expected:
-        correct += 1
-        print(f"Example {i+1}: PASS")
-    else:
-        print(f"Example {i+1}: FAIL - Expected {{expected}}, got {{result}}")
-
-print(f"\\nPassed {correct}/{total} examples")
-"""
-        return await self.sandbox.run_code(code)
-
-    async def submit_fn(self, fn_name: str) -> str:
-        """Submit final transformation function for evaluation."""
-        if self.task_state.get("submitted"):
-            return "Already submitted a function for this task."
-
-        self.task_state["submitted"] = True
-        self.task_state["submission"] = fn_name
-
-        return f"Submitted function '{fn_name}' for evaluation."
-
-
-async def arc_solve_rubric(completion: vf.Messages, state: dict, **kwargs) -> float:
-    """Binary scoring: 1.0 if submitted function solves test case, 0.0 otherwise."""
-    task_state = state.get("task_state", {})
-
-    if not task_state.get("submitted") or not task_state.get("submission"):
-        return 0.0
-
-    fn_name = task_state["submission"]
-    test_input = state["test_input"]
-    expected_output = state["test_output"]
-
-    # Test the submitted function on the test case
-    test_code = f"""
-try:
-    result = {fn_name}({test_input})
-    success = (result == {expected_output})
-except Exception as e:
-    success = False
-
-success
-"""
-
-    try:
-        sandbox = state.get("sandbox")
-        result = await sandbox.run_code(test_code)
-        return 1.0 if "True" in result else 0.0
-    except Exception:
-        return 0.0
-
-
-def load_environment(**kwargs) -> vf.Environment:
-    """Load ARC-AGI Tool environment."""
-    dataset = load_dataset("abstraction-and-reasoning-corpus", split="train")
-
-    def preprocess(example):
-        return {
-            "train": example["train"],
-            "test": example["test"],
-            "test_input": example["test"][0]["input"],
-            "test_output": example["test"][0]["output"],
-        }
-
-    processed_dataset = dataset.map(preprocess)
-
-    rubric = vf.Rubric(funcs=[arc_solve_rubric])
-    env = ARCToolEnvironment(dataset=processed_dataset, rubric=rubric, **kwargs)
-
-    return env
-```
-:::
-
-## Production Environment Design: Scaling to Real-World Use
-
-The examples so far demonstrate core concepts, but production environments need additional considerations:
-
-### Configuration and Flexibility
-
-Real environments need to be **highly configurable** to support different use cases:
-
-```python
-def load_environment(
-    mode: str = "default",
-    difficulty: str = None,
-    filter_by_date: bool = False,
-    enable_tools: bool = False,
-    max_turns: int = 10,
-    **kwargs
-) -> vf.Environment:
-    # Adapt behavior based on configuration
-    pass
-```
-
-### Multiple Evaluation Modes
-
-A single environment might support different evaluation scenarios:
-
-- **Training mode**: Simplified tasks for model training
-- **Evaluation mode**: Full complexity for assessment
-- **Interactive mode**: For human-in-the-loop evaluation
-
-### Performance Optimization
-
-Production environments require:
-
-- **Async operations** for time-intensive tasks
-- **Caching** of expensive computations
-- **Efficient parsing** for high-throughput evaluation
-- **Resource management** for sandboxes and external services
-
-### Error Handling and Robustness
-
-Real-world environments must handle:
-
-- **Malformed model outputs** gracefully
-- **Network timeouts** and service failures
-- **Resource exhaustion** in sandboxes
-- **Edge cases** in data processing
-
-## Example 4: LiveCodeBench - Production Environment in Action
-
-LiveCodeBench represents the culmination of sophisticated environment design - a production system that demonstrates how to handle real-world complexity while maintaining the clean abstractions that make Verifiers powerful.
-
-### The Challenge: Comprehensive Coding Evaluation
-
-LiveCodeBench addresses a fundamental challenge in AI evaluation: how do you comprehensively test coding ability? The insight is that coding involves multiple distinct skills - generating working code, understanding existing code, and predicting program behavior. Rather than creating separate environments for each skill, LiveCodeBench elegantly handles all three through a single configurable system.
-
-### Architectural Decision: Three Modes, One Framework
-
-The key design decision was supporting three evaluation modes through configuration rather than separate implementations. Code generation tests the ability to write working programs, code execution tests the ability to trace through existing code mentally, and output prediction tests understanding without seeing implementation details. Each mode uses the same underlying environment architecture but with different datasets, parsers, and rubrics.
-
-Why this unified approach? Because it reflects the reality that coding evaluation systems need to be flexible and extensible. By building configurability into the foundation rather than bolting it on later, LiveCodeBench can adapt to new evaluation scenarios without architectural changes.
-
-### Parser Sophistication: Handling Real-World Responses
-
-LiveCodeBench's parser demonstrates advanced techniques for handling the messiness of real model outputs. The code extraction logic doesn't just look for code blocks - it intelligently handles multiple code blocks, different language specifications, and gracefully degrades when responses don't match expected formats. The parser can work in "strict" mode (requiring perfect formatting) or "lenient" mode (extracting the best candidate from messy responses).
-
-The integration with ThinkParser addresses a crucial insight: coding tasks often benefit from chain-of-thought reasoning, but evaluation needs to separate the reasoning process from the actual code. By optionally using ThinkParser, the environment can encourage reasoning while still extracting clean code for execution.
-
-### Rubric Design: Multi-Layered Evaluation
-
-The LiveCodeBench rubric demonstrates sophisticated scoring through multiple layers. The primary scoring function executes code in sandboxes and measures test passage rates, providing granular feedback about partial correctness. However, the final reward uses a binary pass score (all tests pass or not), reflecting the reality that production code must work completely.
-
-Why both granular and binary scoring? The granular scoring provides rich feedback for training and debugging, while the binary scoring ensures the evaluation metric reflects real-world requirements. This dual-layer approach gives you detailed diagnostics while maintaining meaningful aggregate metrics.
-
-### Configuration Philosophy: Flexibility Without Complexity
-
-LiveCodeBench's configuration system demonstrates how to build flexible environments without overwhelming users. The `load_environment` function accepts numerous parameters but provides sensible defaults for everything. Difficulty filtering, date range selection, and mode switching all work through simple parameter changes rather than requiring code modifications.
-
-The configuration design reflects a key principle: the environment should adapt to evaluation needs rather than forcing evaluators to adapt to the environment. By making common customizations easy while keeping advanced options available, LiveCodeBench serves both quick experiments and sophisticated research setups.
-
-### Production Considerations: Robustness and Performance
-
-LiveCodeBench embodies several production environment patterns. Async rubrics handle the latency of sandbox operations without blocking evaluation. Caching systems avoid redundant test case loading. Error handling gracefully manages sandbox failures, network timeouts, and malformed responses. Resource management ensures sandboxes are properly cleaned up even when errors occur.
-
-These production considerations aren't just performance optimizations - they're essential for reliable evaluation at scale. The environment design acknowledges that real evaluation workloads involve thousands of examples, limited resources, and inevitable failures that must be handled gracefully.
 
 ::: {.callout-note title="References"}
 
