@@ -10,7 +10,7 @@
 <atom:link href="https://www.heyyanshuman.com/ml-blog.xml" rel="self" type="application/rss+xml"/>
 <description>Introductions Anshuman Mishra.</description>
 <generator>quarto-1.7.31</generator>
-<lastBuildDate>Sun, 14 Sep 2025 18:30:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 04 Oct 2025 18:30:00 GMT</lastBuildDate>
 <item>
   <title>Evals are dead. Long live evals!</title>
   <dc:creator>Anshuman Mishra</dc:creator>
@@ -2250,12 +2250,10 @@ References
   <category>AI</category>
   <category>LLM</category>
   <category>Reinforcement Learning</category>
-  <category>Evaluation</category>
-  <category>Framework</category>
-  <category>GRPO</category>
-  <category>Training</category>
+  <category>Eval</category>
+  <category>Agents</category>
   <guid>https://www.heyyanshuman.com/posts/building_ai_environments_with_verifiers.html</guid>
-  <pubDate>Sun, 14 Sep 2025 18:30:00 GMT</pubDate>
+  <pubDate>Sat, 04 Oct 2025 18:30:00 GMT</pubDate>
 </item>
 <item>
   <title>Introducing Falafel: AI Video Generation in DaVinci Resolve</title>
