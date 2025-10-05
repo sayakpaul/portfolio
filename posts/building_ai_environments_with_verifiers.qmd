@@ -1,9 +1,9 @@
 ---
 title: "Evals are dead. Long live evals!"
-description: "Master Verifiers through conceptual understanding and practical examples - from theory to production environments and training pipelines"
+description: "deep dive into RL environments and Verifiers"
 author: "Anshuman Mishra"
-date: "2025-09-15"
-categories: [AI, LLM, Reinforcement Learning, Evaluation, Framework, GRPO, Training]
+date: "2025-10-05"
+categories: [AI, LLM, Reinforcement Learning, Eval, Agents]
 highlight-style: dracula
 badges: false
 toc: true
