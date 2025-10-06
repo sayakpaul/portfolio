@@ -199,7 +199,7 @@ Previously, we noted that distillation is a popular way to optimize latency. It 
 
 ### Architectural compression
 
-Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper [@hinton2015distillingknowledgeneuralnetwork]. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.
+Using distillation to compress a larger model into a smaller one dates back to 2015 [@hinton2015distillingknowledgeneuralnetwork]. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.
 
 When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial [@sreenivas2024llmpruningdistillationpractice]. This phase is often known as “teacher correction”.
 
