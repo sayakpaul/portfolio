@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.8.24</generator>
+<generator>quarto-1.8.25</generator>
 <lastBuildDate>Mon, 11 Aug 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Optimizing the Full Stack: Thoughts with Image and Video Generation Models</title>
@@ -195,7 +195,7 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <p>Previously, we noted that distillation is a popular way to optimize latency. It is a powerful technique that deserves a closer look, as it allows us to create smaller and faster models by transferring knowledge from a larger ‘teacher’ model to a compact ‘student’ model. This process directly tackles the speed-memory-performance trade-off and comes in two primary forms for the class of models we have been discussing.</p>
 <section id="architectural-compression" class="level3">
 <h3 class="anchored" data-anchor-id="architectural-compression">Architectural compression</h3>
-<p>Using distillation to compress a larger model into a smaller one dates back to 2015 through the paper <span class="citation" data-cites="hinton2015distillingknowledgeneuralnetwork">[31]</span>. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.</p>
+<p>Using distillation to compress a larger model into a smaller one dates back to 2015 <span class="citation" data-cites="hinton2015distillingknowledgeneuralnetwork">[31]</span>. We want a (smaller) “student” model to mimic the output of another (usually larger) “teacher” model.</p>
 <p>When distilling the teacher model into a student model, ideally, we need to have access to the training dataset of the teacher model. However, in reality, it may not always be the case, especially when the consumers of the teacher model are not the ones who created it. This is where a significant effort might be needed to create a good dataset for distillation. If the samples draw too far away from the ones used to train the teacher, distillation could even be detrimental. If this becomes a dire problem, then fine-tuning the teacher model on the available dataset for distillation before the actual distillation process could be beneficial <span class="citation" data-cites="sreenivas2024llmpruningdistillationpractice">[32]</span>. This phase is often known as “teacher correction”.</p>
 <p>A distilled model could be slightly worse than its teacher, but it could be significantly more memory-efficient and faster than the teacher. This could be particularly beneficial when model-serving resources are limited. Distilled models, in the premise of image and video generation, could be leveraged for real-time use cases. They could even be used as a proxy for the quality that users can expect. For example, during the first round of incoming requests, an application could show outputs from a distilled model. If the users are satisfied with the outputs, then we reduce costs by not invoking the larger model.</p>
 </section>
