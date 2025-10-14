@@ -75,22 +75,21 @@ Figure&nbsp;2: Different axes of optimization in generative diffusion-based mode
 <h2 class="anchored" data-anchor-id="selecting-the-model">Selecting the model</h2>
 <p>We know the use case(s) we want to serve, but we haven’t settled on a model. This can refer to the base model architecture itself or to different parameterizations of the same base model architecture. This can also refer to selecting a pre-trained checkpoint for a given model architecture. As we will see, selection of a model is a non-trivial aspect of the workflow, and when done correctly, can be quite beneficial. Therefore, unless explicitly specified, the approaches discussed in this section will apply to both training and inference.</p>
 <section id="hardware-awareness" class="level3">
-<h3 class="anchored">Hardware awareness</h3>
+<h3 class="anchored" data-anchor-id="hardware-awareness">Hardware awareness</h3>
 <p>Assuming we know the serving hardware, it makes sense to incorporate <em>hardware awareness</em> while developing the model architecture to maximize throughput while optimizing for quality.</p>
 <p>In ModernBERT <span class="citation" data-cites="warner2024smarterbetterfasterlonger">[9]</span>, for example, the authors decided on the dimensions (number of attention heads, number of Transformer blocks, hidden dimension, and expansion factor) of the Transformer block in a way that provided a good balance between downstream performance and hardware utilization.</p>
 <p>One way to think about this is by starting with the specifications of the hardware. For example, if the given GPU has tensor cores and if we want to leverage them (and we should), the size of each dimension weight matrix should be a multiple of 64.</p>
 <p>Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors<sup>3</sup> (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al.&nbsp;provide an excellent study on the math behind designing optimal model configurations for available hardware.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
+<div class="callout-body-container">
+<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[10]</span>, <span class="citation" data-cites="anthony2024casecodesigningmodelarchitectures">[11]</span>, and <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[12]</span>.</p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[10]</span>, <span class="citation" data-cites="anthony2024casecodesigningmodelarchitectures">[11]</span>, and <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[12]</span>. …</p>
+</div>
 <p><strong>A note on efficiency</strong><br>
 Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works <span class="citation" data-cites="10.5555/3600270.3602446">[13]</span>, it is possible that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.</p>
 <p>It is common to think that small models are more efficient than larger models. However, what is efficiency in this context? Is it the carbon footprint of a model? Is it the memory consumption of a model? Do models with fewer parameters obtain better throughput than models with more parameters?</p>
@@ -113,6 +112,7 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 </li>
 <li><em>Throughput</em> dictates the real-world performance.</li>
 </ul>
+</section>
 <section id="architectural-flexibility" class="level3">
 <h3 class="anchored" data-anchor-id="architectural-flexibility">Architectural flexibility</h3>
 <p>A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis of images and videos.</p>
@@ -125,20 +125,18 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 <li>SANA employs specialized blocks (dubbed Mix-FFN) in its Transformer architecture.</li>
 </ul>
 <p>One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control <span class="citation" data-cites="blackforestlabs2024flux1tools">[17]</span>) and additional image inputs (Flux Kontext <span class="citation" data-cites="blackforestlabs2025flux1kontextdev">[18]</span>). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p>It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).</p>
 </div>
 </div>
+</div>
 <p>At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.</p>
+</section>
 </section>
 <section id="model-is-decided-what-is-next" class="level2">
 <h2 class="anchored" data-anchor-id="model-is-decided-what-is-next">Model is decided – what is next?</h2>
@@ -242,11 +240,7 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <p><em>Acknowledgements: Thanks to Sanchit Gandhi and Sander Dieleman for their reviews on the early post draft.</em></p>
 
 
-</section>
-</div>
-</div>
 
-</section>
 </section>
 
 

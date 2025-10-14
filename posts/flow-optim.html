@@ -377,7 +377,22 @@ ga('send', {
   <li><a href="#selecting-the-model" id="toc-selecting-the-model" class="nav-link" data-scroll-target="#selecting-the-model">Selecting the model</a>
   <ul class="collapse">
   <li><a href="#hardware-awareness" id="toc-hardware-awareness" class="nav-link" data-scroll-target="#hardware-awareness">Hardware awareness</a></li>
+  <li><a href="#architectural-flexibility" id="toc-architectural-flexibility" class="nav-link" data-scroll-target="#architectural-flexibility">Architectural flexibility</a></li>
   </ul></li>
+  <li><a href="#model-is-decided-what-is-next" id="toc-model-is-decided-what-is-next" class="nav-link" data-scroll-target="#model-is-decided-what-is-next">Model is decided – what is next?</a>
+  <ul class="collapse">
+  <li><a href="#post-training" id="toc-post-training" class="nav-link" data-scroll-target="#post-training">Post-training</a></li>
+  <li><a href="#latency-optimization" id="toc-latency-optimization" class="nav-link" data-scroll-target="#latency-optimization">Latency optimization</a></li>
+  <li><a href="#inference-time-scaling" id="toc-inference-time-scaling" class="nav-link" data-scroll-target="#inference-time-scaling">Inference-time scaling</a></li>
+  <li><a href="#prompting" id="toc-prompting" class="nav-link" data-scroll-target="#prompting">Prompting</a></li>
+  </ul></li>
+  <li><a href="#advanced-model-optimization-distillation" id="toc-advanced-model-optimization-distillation" class="nav-link" data-scroll-target="#advanced-model-optimization-distillation">Advanced model optimization – Distillation</a>
+  <ul class="collapse">
+  <li><a href="#architectural-compression" id="toc-architectural-compression" class="nav-link" data-scroll-target="#architectural-compression">Architectural compression</a></li>
+  <li><a href="#timestep-distillation" id="toc-timestep-distillation" class="nav-link" data-scroll-target="#timestep-distillation">Timestep distillation</a></li>
+  </ul></li>
+  <li><a href="#generation-speed-the-endgame" id="toc-generation-speed-the-endgame" class="nav-link" data-scroll-target="#generation-speed-the-endgame">Generation speed: The endgame(?)</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/flow_optim.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -443,22 +458,21 @@ Figure&nbsp;2: Different axes of optimization in generative diffusion-based mode
 <h2 class="anchored" data-anchor-id="selecting-the-model">Selecting the model</h2>
 <p>We know the use case(s) we want to serve, but we haven’t settled on a model. This can refer to the base model architecture itself or to different parameterizations of the same base model architecture. This can also refer to selecting a pre-trained checkpoint for a given model architecture. As we will see, selection of a model is a non-trivial aspect of the workflow, and when done correctly, can be quite beneficial. Therefore, unless explicitly specified, the approaches discussed in this section will apply to both training and inference.</p>
 <section id="hardware-awareness" class="level3">
-<h3 class="anchored">Hardware awareness</h3>
+<h3 class="anchored" data-anchor-id="hardware-awareness">Hardware awareness</h3>
 <p>Assuming we know the serving hardware, it makes sense to incorporate <em>hardware awareness</em> while developing the model architecture to maximize throughput while optimizing for quality.</p>
 <p>In ModernBERT <span class="citation" data-cites="warner2024smarterbetterfasterlonger">[<a href="#ref-warner2024smarterbetterfasterlonger" role="doc-biblioref">9</a>]</span>, for example, the authors decided on the dimensions (number of attention heads, number of Transformer blocks, hidden dimension, and expansion factor) of the Transformer block in a way that provided a good balance between downstream performance and hardware utilization.</p>
 <p>One way to think about this is by starting with the specifications of the hardware. For example, if the given GPU has tensor cores and if we want to leverage them (and we should), the size of each dimension weight matrix should be a multiple of 64.</p>
 <p>Then there is tiling, wherein the iteration space of computation and data is chunked into small and fixed-sized “tiles” so that they can be operated on in parallel by the streaming multiprocessors<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> (SM). If the data cannot be partitioned evenly with respect to the number of processors available, performance can be suboptimal. In ModernBERT, the Transformer block dimensions were also chosen to realize efficient tiling across the number of SMs available. When a pool of different hardware is available (such as various types of GPUs), it makes sense to design an architecture that maximizes hardware utilization collectively. Anthony et al.&nbsp;provide an excellent study on the math behind designing optimal model configurations for available hardware.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
+<div class="callout-body-container">
+<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[<a href="#ref-Xiong_2021_CVPR" role="doc-biblioref">10</a>]</span>, <span class="citation" data-cites="anthony2024casecodesigningmodelarchitectures">[<a href="#ref-anthony2024casecodesigningmodelarchitectures" role="doc-biblioref">11</a>]</span>, and <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[<a href="#ref-bercovich2025puzzledistillationbasednasinferenceoptimized" role="doc-biblioref">12</a>]</span>.</p>
 </div>
 </div>
-<div class="callout-body-container callout-body">
-<p>Several other works have also used neural architecture search for hardware-aware inference-optimized model design <span class="citation" data-cites="Xiong_2021_CVPR">[<a href="#ref-Xiong_2021_CVPR" role="doc-biblioref">10</a>]</span>, <span class="citation" data-cites="anthony2024casecodesigningmodelarchitectures">[<a href="#ref-anthony2024casecodesigningmodelarchitectures" role="doc-biblioref">11</a>]</span>, and <span class="citation" data-cites="bercovich2025puzzledistillationbasednasinferenceoptimized">[<a href="#ref-bercovich2025puzzledistillationbasednasinferenceoptimized" role="doc-biblioref">12</a>]</span>. …</p>
+</div>
 <p><strong>A note on efficiency</strong><br>
 Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works <span class="citation" data-cites="10.5555/3600270.3602446">[<a href="#ref-10.5555/3600270.3602446" role="doc-biblioref">13</a>]</span>, it is possible that the compute-optimal model for a given dataset is smaller than the one currently being used. However, it could also require more training. If the compute-optimal model for the given dataset is smaller, then it could be beneficial from the perspective of efficiency.</p>
 <p>It is common to think that small models are more efficient than larger models. However, what is efficiency in this context? Is it the carbon footprint of a model? Is it the memory consumption of a model? Do models with fewer parameters obtain better throughput than models with more parameters?</p>
@@ -481,6 +495,7 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 </li>
 <li><em>Throughput</em> dictates the real-world performance.</li>
 </ul>
+</section>
 <section id="architectural-flexibility" class="level3">
 <h3 class="anchored" data-anchor-id="architectural-flexibility">Architectural flexibility</h3>
 <p>A more first-principles approach toward optimization would be to try exploiting the loopholes of the problem at hand. For various image and video generation models, we often operate on the latent space (as shown above). For the purpose of our discussions and also to give a taste of real-world applications, we take the example of high-resolution synthesis of images and videos.</p>
@@ -493,20 +508,18 @@ Figure&nbsp;3: Taken from <a href="https://arxiv.org/abs/2110.12894">Dehghani et
 <li>SANA employs specialized blocks (dubbed Mix-FFN) in its Transformer architecture.</li>
 </ul>
 <p>One can approach architectural flexibility through a slightly different lens, too. Flux was released as a text-to-image generation model. Later, its creators took the same Flux Transformer architecture and expanded it to incorporate structural inputs (Flux Control <span class="citation" data-cites="blackforestlabs2024flux1tools">[<a href="#ref-blackforestlabs2024flux1tools" role="doc-biblioref">17</a>]</span>) and additional image inputs (Flux Kontext <span class="citation" data-cites="blackforestlabs2025flux1kontextdev">[<a href="#ref-blackforestlabs2025flux1kontextdev" role="doc-biblioref">18</a>]</span>). While Flux Control required a single change at the input embedding layer dealing with the noisy latents, Flux Kontext didn’t require any change at all.</p>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center">
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-</div>
-<div class="callout-body-container callout-body">
+<div class="callout-body-container">
 <p>It should be noted that even though the Flux Transformer architecture went through minimal to no changes, its generation pipeline needed changes. These changes were mostly about connecting the other parts of the pipeline (such as the text encoders, the latent-to-pixel decoder, and the pixel-to-latent encoder).</p>
 </div>
 </div>
+</div>
 <p>At this point, a flexible model architecture that has been developed in a hardware-aware manner should be an excellent start to guide further the subsequent application optimization processes.</p>
+</section>
 </section>
 <section id="model-is-decided-what-is-next" class="level2">
 <h2 class="anchored" data-anchor-id="model-is-decided-what-is-next">Model is decided – what is next?</h2>
@@ -610,11 +623,7 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <p><em>Acknowledgements: Thanks to Sanchit Gandhi and Sander Dieleman for their reviews on the early post draft.</em></p>
 
 
-</section>
-</div>
-</div>
 
-</section>
 </section>
 
 
