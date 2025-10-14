@@ -17,6 +17,7 @@ csl: citation_styles/diabetologia.csl
 title: 'Optimizing the Full Stack: Thoughts with Image and Video Generation Models'
 format: html
 css: custom_css/figcaption.css
+callout-appearance: simple
 ---
 
 For the past few years, the space of synthetic image and video generation has been on the rise. The
@@ -98,7 +99,7 @@ Then there is tiling, wherein the iteration space of computation and data is chu
 ::: {.callout-tip}
 Several other works have also used neural architecture search for hardware-aware inference-optimized model design [@Xiong_2021_CVPR], [@anthony2024casecodesigningmodelarchitectures], and
 [@bercovich2025puzzledistillationbasednasinferenceoptimized].
-...
+:::
 
 **A note on efficiency**  
 Efficiency is an important criterion when navigating across this whole spectrum of hardware-aware model architecture design. As studied in various works [@10.5555/3600270.3602446], it is possible
