@@ -42,24 +42,27 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 -   Finished 2nd (with [Siddha Ganju](https://sidgan.github.io/siddhaganju)) at [this competition](https://nasa-impact.github.io/etci2021/) (2021) organized by the NASA Impact team ([Certificate](https://drive.google.com/file/d/1U4JTAYChV6PHwDA87gd2FJ04843YA6bN/view?usp=sharing)).
 -   Received (sometimes jointly) the [#TFCommunitySpotlight award](https://blog.tensorflow.org/2020/11/tensorflow-community-spotlight-program-update.html) multiple times for projects with varying use-cases, tooling, and motivation. Details in the
     following tweets by TensorFlow: [Tweet 1](https://twitter.com/TensorFlow/status/1351590466068783105), [Tweet 2](https://twitter.com/TensorFlow/status/1428433434972618754), [Tweet 3](https://twitter.com/TensorFlow/status/1446611368078086144?s=20), [Tweet 4](https://twitter.com/TensorFlow/status/1460321709488152579), [Tweet 5](https://twitter.com/TensorFlow/status/1469019016782041095?s=20), [Tweet 6](https://twitter.com/TensorFlow/status/1516869315517198337), [Tweet 7](https://twitter.com/TensorFlow/status/1521558632768409600), [Tweet 8](https://twitter.com/TensorFlow/status/1540033393462738944), [Tweet 9](https://twitter.com/TensorFlow/status/1545115276152389636), [Tweet 10](https://twitter.com/TensorFlow/status/1611469033714470919?s=20&t=a5LMpYXrPg6E0WGudsYezw), and [Tweet 11](https://twitter.com/TensorFlow/status/1626629821022208020).
--   Ranked 8 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
+-   Top 10 at [Applied Roots Blogathon 2021](https://drive.google.com/file/d/11j3gJSaaCtu-Gq4ziKbG0RMBvXecha45/view?usp=sharing).
 -   Recipient of the [Intel Top Innovator Award (2019)](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0).
 -   Became a [Google Cloud Innovator (Champion tier)](https://cloud.google.com/innovators/innovator?profileId=114302939543313329085).
 -   Awarded as the **Top Regional Contributor** from India for TensorFlow, 2021. [Blog post](https://blog.tensorflow.org/2021/11/2021-TF-Contributor-Awardees.html?linkId=8010214) and [Tweet](https://twitter.com/TensorFlow/status/1465369133873250307?s=20) from TensorFlow.
 -   Received [NeurIPS 2021 AI4Science Workshop Travel Grant](https://ai4sciencecommunity.github.io/) for [this
     work](https://openreview.net/forum?id=kXgbFvXcwDX). 
--   Received the [Google OSS Expert Prize (February, 2022)](https://www.kaggle.com/general/310354) with [Soumik Rakshit](https://www.kaggle.com/soumikrakshit) for [this work](https://www.kaggle.com/soumikrakshit/gaugan-keras/). 
--   Received the [Google OSS Expert Prize (March, 2022)](https://www.kaggle.com/general/316181) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
--   Received the [Google OSS Expert Prize (April, 2022)](https://www.kaggle.com/discussions/general/322041) for [this work](https://www.kaggle.com/code/spsayakpaul/distilling-vision-transformers). 
--   Received the [Google OSS Expert Prize (May, 2022)](https://www.kaggle.com/discussions/general/328914) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/aritrag/probing-vits). 
--   Awarded as a Top Contributor to [Papers With Code](https://paperswithcode.com/). Award link is [here](https://github.com/sayakpaul/portfolio/blob/master/images/pwc_award.jpg).
+- Google OSS Expert Prize
+  - [February, 2022](https://www.kaggle.com/general/310354) with [Soumik Rakshit](https://www.kaggle.com/soumikrakshit) for [this work](https://www.kaggle.com/soumikrakshit/gaugan-keras/). 
+  - [March, 2022](https://www.kaggle.com/general/316181) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/spsayakpaul/mae-keras). 
+  - [April, 2022](https://www.kaggle.com/discussions/general/322041) for [this work](https://www.kaggle.com/code/spsayakpaul/distilling-vision-transformers). 
+  - [May, 2022](https://www.kaggle.com/discussions/general/328914) with [Aritra Roy Gosthipaty](https://www.kaggle.com/aritrag) for [this work](https://www.kaggle.com/code/aritrag/probing-vits). 
+-   Top Contributor to [Papers With Code](https://paperswithcode.com/). Award link is [here](https://github.com/sayakpaul/portfolio/blob/master/images/pwc_award.jpg).
 -   Accepted to the [Oxford ML Summer School (2022)](https://www.oxfordml.school/) for the healthcare track. Certificate link is [here](https://drive.google.com/file/d/14DKioe8HRjKkXEeRXAhmclqUP8cvv9Z0/view?usp=sharing).
--   Received the [Kaggle ML Research Spotlight Prize (September, 2022)](https://www.kaggle.com/discussions/general/358450) for [this work](https://www.kaggle.com/code/spsayakpaul/cait-tf). 
--   Received the [Kaggle ML Research Spotlight Prize (November, 2022)](https://www.kaggle.com/discussions/general/370095) for [this work](https://www.kaggle.com/code/spsayakpaul/robustness-vit/notebook). 
--   [Secured 2nd place](https://discuss.tensorflow.org/t/announcing-the-keras-community-prize-first-edition/13148/29) in the first ever Keras Community Prize Competition organized by Google for [this project](https://github.com/sayakpaul/stable-diffusion-keras-ft) with [Chansung Park](https://twitter.com/algo_diver). 
+- Kaggle ML Research Spotlight Prize
+  - [September, 2022](https://www.kaggle.com/discussions/general/358450) for [this work](https://www.kaggle.com/code/spsayakpaul/cait-tf). 
+  - [November, 2022](https://www.kaggle.com/discussions/general/370095) for [this work](https://www.kaggle.com/code/spsayakpaul/robustness-vit/notebook). 
+-   [2nd place](https://discuss.tensorflow.org/t/announcing-the-keras-community-prize-first-edition/13148/29) in the first ever Keras Community Prize Competition organized by Google for [this project](https://github.com/sayakpaul/stable-diffusion-keras-ft) with [Chansung Park](https://twitter.com/algo_diver). 
 - Got financial aid for [EuroPython'24](https://ep2024.europython.eu/).
 - Got a scholarship for [Open-Source Summit Japan 2024](https://events.linuxfoundation.org/open-source-summit-japan/).
 - [Beacon Award 2024](https://x.com/RisingSayak/status/1887489752171225137) by Google for Developers.
+- PyTorch Contributor Award [Nominee](https://pytorch.org/contributor-awards) for 2025.
 
 ### Non-tech
 
