@@ -82,6 +82,7 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Crafting pixels in the wild with Flux 🧨**, [Practical GenAI: Image and Diffusion Models](https://rsvp.withgoogle.com/events/gen-ai-labs-image-hf-gcp), Google Bangalore, India (January 25, 2025). Slides are [here](https://docs.google.com/presentation/d/1ZUbM6dSzv-YSKzRXVgl-I7hRKqKLwxJmDNloFdsxfPI/edit?usp=sharing).
 - **State of Open Video Generation Models 🎥**, AI_dev, Amsterdam (August 29, 2025). Slides are [here](https://docs.google.com/presentation/d/1XuywKs0XTqU5sjaJuXK5zyCxpktfWRK2Dn-kPD5Ne1I/edit?usp=sharing). Recording is [here](https://www.youtube.com/watch?v=BLpzjJlv63s).
 - **Designing tests for ML libraries – lessons from the wild**, PyData Amsterdam (September 25, 2025). This talk was done in collaboration with [Benjamin Bossan](https://github.com/BenjaminBossan/) who also presented it in-person. Slides are [here](https://bit.ly/hf-tests).
+- torch compile and Diffusers - A Hands On Guide to Peak Performance - PyTorch Compiler Series. Recording is [here](https://www.youtube.com/watch?v=rWC0G0qw9ng).
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
