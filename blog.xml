@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.8.25</generator>
+<generator>quarto-1.8.26</generator>
 <lastBuildDate>Mon, 11 Aug 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Optimizing the Full Stack: Thoughts with Image and Video Generation Models</title>
