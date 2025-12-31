@@ -5,15 +5,6 @@ aliases:
 toc: false
 callout-appearance: minimal
 ---
-Authored the following liveProjects with [Manning](https://www.manning.com/):  
-
-* [Use Machine Learning to Detect Phishing Websites](https://www.manning.com/liveproject/use-machine-learning-to-detect-phishing-websites?a_aid=pyimagesearch&a_bid=643ce05e) 
-* [Summarize News Articles with NLP and TensorFlow](https://www.manning.com/liveproject/summarize-news-articles-with-nlp-and-tensorflow?a_aid=pyimagesearch&a_bid=643ce05e) (with [Souradip Chakraborty](https://www.linkedin.com/in/souradip-chakraborty/)) 
-
-Below are the blogs, articles, and tutorials I have written on Data Science, Machine Learning, and more. I am fortunate enough 
-to collaborate with  amazing folks from all around the globe. I am grateful to the [GDE Program](https://developers.google.com/programs/experts/)
-(ML Developer Programs team) that provides me with Google Cloud Platform credits which I use to run various experiments for my own curiosity
-and for blog posts.
 
 ### [Keras](https://keras.io/)
 
