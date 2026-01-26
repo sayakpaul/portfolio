@@ -14,11 +14,9 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 
 ### News
 
-- [SANA-Sprint: One-Step Diffusion with Continuous-Time Consistency Distillation](https://arxiv.org/abs/2503.09641) with NVIDIA (ICCV'25; Spotlight 💡).
-- [From Reflection to Perfection: Scaling Inference-Time Optimization for Text-to-Image Diffusion Models via Reflection Tuning](https://arxiv.org/abs/2504.16080) with Le Zhuo, Liangbing Zhao, and others (ICCV'25).
 - New work (NeurIPS'25): [Fine-Grained Perturbation Guidance via Attention Head Selection](https://arxiv.org/abs/2506.10978) with Donghoon Ahn et. al.
-- New work: [Factuality Matters: When Image Generation and Editing Meet Structured Visuals](https://structvisuals.github.io/) with my good friend and collaborator Le Zhuo (and et al.).
 - [MaPO](https://arxiv.org/abs/2406.06424) was accepted to AAAI'26. See you in Singapore if you're attending!
+- [StructBench](https://struct-bench.github.io/) and [NoiseRefine](https://cvlab-kaist.github.io/NoiseRefine) were accepted to ICLR'26 🤪
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). For an up-to-date list of my publications, refer to [my Google Scholar page](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#).
 
