@@ -58,7 +58,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 - Kaggle ML Research Spotlight Prize
   - [September, 2022](https://www.kaggle.com/discussions/general/358450). 
   - [November, 2022](https://www.kaggle.com/discussions/general/370095). 
-- [2nd place](https://discuss.tensorflow.org/t/announcing-the-keras-community-prize-first-edition/13148/29) in the first ever Keras Community Prize Competition organized by Google for [this project](https://github.com/sayakpaul/stable-diffusion-keras-ft) with [Chansung Park](https://twitter.com/algo_diver). 
+- [2nd place](https://discuss.ai.google.dev/t/announcing-the-keras-community-prize-first-edition/30942/29) in the first-ever Keras Community Prize Competition organized by Google for [this project](https://github.com/sayakpaul/stable-diffusion-keras-ft) with [Chansung Park](https://twitter.com/algo_diver). 
 - Financial aid for [EuroPython'24](https://ep2024.europython.eu/).
 - Scholarship for [Open-Source Summit Japan 2024](https://events.linuxfoundation.org/open-source-summit-japan/).
 - [Beacon Award 2024](https://x.com/RisingSayak/status/1887489752171225137) by Google for Developers.
