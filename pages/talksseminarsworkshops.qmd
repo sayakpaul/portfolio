@@ -84,6 +84,8 @@ Day](https://docs.google.com/document/d/1oRkGg3kc99Ozcketdkpwub8BI26omKkb/edit#)
 - **Designing tests for ML libraries – lessons from the wild**, PyData Amsterdam (September 25, 2025). This talk was done in collaboration with [Benjamin Bossan](https://github.com/BenjaminBossan/) who also presented it in-person. Slides are [here](https://bit.ly/hf-tests).
 - **torch compile and Diffusers - A Hands On Guide to Peak Performance** - PyTorch Compiler Series. Recording is [here](https://www.youtube.com/watch?v=rWC0G0qw9ng).
 -  **Designing tests for ML libraries**, PyData Amsterdam 2025 (with Benjamin Bossan). Recording is [here](https://www.youtube.com/watch?v=bFTPSq3l-lE). Slides are [here](https://docs.google.com/presentation/d/1cxdVkoUBtPYo9lbs8Bjy0ALMSZH4HHYmokALWFAYETI/edit?usp=sharing). I couldn't be there to present it in person with Benjamin. He presented it physically.
+- **Beyond the Brrr: Building a Unified Ecosystem for Optimized Kernels**, PyTorch Day India 2026 (with Aritra Roy Gosthipaty). Slides are [here](https://docs.google.com/presentation/d/1_tQ-L_-w0Qk4sjjjlEFfWMWDWntx5Ib-vo3GWRtdBVg/edit?usp=sharing).
+
 
 For more research-oriented talks, refer [here](https://sayak.dev/research/). 
 
