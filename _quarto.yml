@@ -15,7 +15,7 @@ website:
   title: Introductions
   site-url: "https://www.heyyanshuman.com"
   description: "Introductions Anshuman Mishra."
-  google-analytics: "G-36H2NR8FB7"
+  google-analytics: "G-EKSMXY3E8G"
   favicon: assets/images/pfp/varkala.jpg
   search: false
   twitter-card:
@@ -28,10 +28,16 @@ website:
   navbar:
     background: primary
     left:
-      - text: "Work"
-        href: pages/work.qmd
-      - text: "ML Blog"
-        href: ml-blog.qmd
+      - text: "ML"
+        href: pages/ml.qmd
+      - text: "Building"
+        href: pages/building.qmd
+      - text: "Talks"
+        href: pages/talks.qmd
+      - text: "Tech Blog"
+        href: tech-blog.qmd
+      - text: "My Notes"
+        href: my-notes.qmd
       # - text: "Life"
       #   href: pages/life.qmd
     right:

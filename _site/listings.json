@@ -1,6 +1,6 @@
 [
   {
-    "listing": "/ml-blog.html",
+    "listing": "/tech-blog.html",
     "items": [
       "/posts/building_ai_environments_with_verifiers.html",
       "/posts/falafel_launch.html",
@@ -13,6 +13,12 @@
       "/posts/sd_next.html",
       "/posts/semantic_sim_kerasnlp.html",
       "/posts/flux_is_so_flexible.html"
+    ]
+  },
+  {
+    "listing": "/my-notes.html",
+    "items": [
+      "/notes/thinking_out_loud.html"
     ]
   }
 ]

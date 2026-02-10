@@ -1,0 +1,56 @@
+---
+title: "Building"
+aliases:
+  - /building
+toc: true
+---
+
+## 2026
+
+### Sidekick
+
+You don't need claude cowork anymore! Announcing [Sidekick](https://github.com/kanpuriyanawab/sidekick) - an open source Claude Cowork alternative built on top of OpenAI Codex CLI.
+
+[Demo](https://x.com/athleticKoder/status/1884588042644881697)
+
+## 2025
+
+### Nebula
+
+Build Local Apps [on the fly](https://x.com/kanpuriyanawab/status/1945081337742025166) right in your web browser. [Github](https://github.com/kanpuriyanawab/nebula)
+
+Nebula is an open source agentic browser built with Electron & Chromium from scratch.
+
+### SlideBookLM
+
+[Announcing SlideBookLM](https://x.com/athleticKoder/status/1832430467133370471) - learn any concept via PPT, visuals only.
+
+Built for nano banana hackathon. Missing feature in NotebookLM. Built in 6 hours.
+
+**Tech Stack:** [@NanoBanana](https://twitter.com/NanoBanana) Image model on [@FAL](https://twitter.com/FAL), [@GeminiApp](https://twitter.com/GeminiApp) Flash 2.5, [@vercel](https://twitter.com/vercel) for hosting [@nextjs](https://twitter.com/nextjs) app, [@digitalocean](https://twitter.com/digitalocean) for [@FastAPI](https://twitter.com/FastAPI) backend.
+
+### Figma Plugin for AI Image Editing
+
+Never used Figma. Wrote a [plugin](https://x.com/athleticKoder/status/1823727976729903301) that lets you edit images with just prompts.
+
+Uses qwen-image-edit on [@FAL](https://twitter.com/FAL). Whatta banger model [@Alibaba_Qwen](https://twitter.com/Alibaba_Qwen)!
+
+### AI Agents via Cmd+Space
+
+Holy sh*t...I am [running AI Agents](https://x.com/athleticKoder/status/1825868030632595573) with Cmd+Space on Mac.
+
+Built this raycast app with [@composio](https://twitter.com/composio) and [@aisdk](https://twitter.com/aisdk).
+
+**Features:**
+- Email from cmd+space
+- Tweet from cmd+space
+- Book meetings from cmd+space
+- Search from cmd+space (powered by [@tavily](https://twitter.com/tavily))
+- No need of switching context
+- Focus be 10x productive with background agents
+
+**ps:** i wanted to build this since 2020. **JUST DO IT.**
+
+### Snapgenie
+
+My first [SaaS](https://snapgenie.pro) - to turn product snaps to professional photographs.

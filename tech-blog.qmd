@@ -1,0 +1,13 @@
+---
+title: "Tech Blog"
+listing:
+  sort: "date desc"
+  contents: "posts"
+  feed: true
+  filter-ui: true
+  sort-ui: true
+  categories: true
+page-layout: full
+---
+
+For deeper insights and weekly reflections on AI engineering, subscribe to [**The Conductor**](https://conductorbyam.substack.com/) — my newsletter for engineers learning to lead AI without losing the depth that makes their judgment irreplaceable.

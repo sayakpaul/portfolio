@@ -7,18 +7,15 @@ page-layout: full
 ::: {.columns}
 
 ::: {.column width="65%"}
-### Hi, I'm Anshuman.
+## Hi, I'm Anshuman.
 
-Thanks for dropping by. I'm a software engineer at heart with a deep passion for building with stuff with Machine Learning.
+I'm a **Machine Learning Engineer** building at the intersection of classical engineering depth and AI orchestration.
 
-After years of contributing to the core of major open-source machine learning frameworks, I now work as an AI consultant, helping startups build robust, AI-native products. 
+Currently at **Zomato**, where I'm building and leading an AI evaluation platform and SDK—tackling one of the hardest problems in AI today.
 
-#### [NOTE] - I am currently open to work
+I graduated from **NIT Warangal** in 2023 and have spent years contributing to the core of major open-source ML frameworks. My work spans from implementing foundational models from scratch to designing production ML systems at scale.
 
-My expertise comes from foundational, hands-on work—implementing models from scratch, designing training pipelines, and writing technical guides.
-
-I am also a [Google Developer Expert](https://g.dev/anshuizme) in Machine Learning.
-
+I'm also a [**Google Developer Expert**](https://g.dev/anshuizme) in Machine Learning and write [**The Conductor**](https://conductorbyam.substack.com/)—a newsletter for engineers learning to lead AI without losing the depth that makes their judgment irreplaceable.
 
 :::
 
@@ -40,11 +37,11 @@ I am also a [Google Developer Expert](https://g.dev/anshuizme) in Machine Learni
 
 ### Previous Clients (Consultancy):
 
-- **W&B** → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&B platform.
+- **Weights & Biases (acquired by CoreWeave)** → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&B platform.
 
 ### Experience
 
-**FlipAI** → Fifth employee of the company and 2nd **Machine Learning Engineer** hired.  My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications & feature in a fast-paced production environment as per customer needs.
+**FlipAI** → Tenth employee of the company and 2nd **Machine Learning Engineer** hired.  My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications & feature in a fast-paced production environment as per customer needs.
 
 **Google** → Selected for the **Google Summer of Code Program** to work with the TensorFlow and Keras teams. Mainly worked on KerasHub (then KerasNLP), implementing models like Llama2, GPT NeoX from scratch and writing technical articles.
 

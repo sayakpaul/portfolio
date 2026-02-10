@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Introductions</title>
+<link>https://www.heyyanshuman.com/my-notes.html</link>
+<atom:link href="https://www.heyyanshuman.com/my-notes.xml" rel="self" type="application/rss+xml"/>
+<description>Introductions Anshuman Mishra.</description>
+<generator>quarto-1.7.31</generator>
+<lastBuildDate>Mon, 09 Feb 2026 18:30:00 GMT</lastBuildDate>
+<item>
+  <title>(Thinking Out Loud) On Engineering, Identity, and What Comes Next</title>
+  <link>https://www.heyyanshuman.com/notes/thinking_out_loud.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>I’ve been sitting with a question for a while now. Not a technical question. A personal one. What am I, exactly?</p>
+<p>I graduated from NIT Warangal in 2023 with an electronics degree, ended up in software, and within two years found myself staring at Cursor completing my code and thinking — something is wrong here. Not with the tool. With what the tool revealed. The thing I was building my career on was quietly shifting underneath me.</p>
+<p>Most of my peers didn’t see it. Or didn’t want to. I did. So I left my job.</p>
+<hr>
+<p>I read <a href="https://media.licdn.com/dms/document/media/v2/D4E1FAQFSB5OvcNbALA/feedshare-document-url-metadata-scrapper-pdf/B4EZw_o8RPH8A4-/0/1770594224671?e=1771254000&amp;v=beta&amp;t=aGhL2aWPwKzZJr2O2z99r3X4MfV9LNzf2NS9rbf63dA">Anthropic’s 2026 Agentic Coding Trends Report</a> recently. It’s a vendor report — worth keeping that in mind. But one line stopped me cold.</p>
+<p><em>“The key to success lies in understanding that the goal isn’t to remove humans from the loop — it’s to make human expertise count where it matters most.”</em></p>
+<p>That sentence is doing a lot of work. It’s framed as reassurance, and it is. But underneath it is something more uncomfortable. If the goal is making human expertise count where it matters most, the question every engineer should be asking themselves is — do I actually know where that is for me?</p>
+<p>Most don’t. And that’s a problem.</p>
+<hr>
+<p>I think a big change is happening with engineering careers right now, and I haven’t seen anyone say it clearly enough.</p>
+<p>AI is making good, experienced engineers dramatically better. Their accumulated judgment — the taste they built through years of doing things wrong first — is being amplified. They move faster, think wider, ship more.</p>
+<p>But the same thing that’s helping seniors is quietly devastating juniors. Not because they’re being replaced. Because the reps that built judgment are disappearing.</p>
+<p>You used to get good by doing the easy stuff first. Fix small bugs. Write utility functions. Build CRUD features. Through that grind you developed an internal model of how systems break, where complexity hides, what good code actually feels like. That was the ladder.</p>
+<p>AI does the easy stuff now.</p>
+<p>So juniors are being asked to orchestrate AI agents before they’ve developed the intuitions needed to evaluate what the agent is producing. The AI is confident. It doesn’t flag its own subtle wrongness. And the junior without taste doesn’t know what they don’t know.</p>
+<p>The output looks fine. The learning isn’t happening.</p>
+<p><img src="https://www.heyyanshuman.com/notes/assets/thinking_out_loud/img1.png" class="img-fluid"></p>
+<p>In five to ten years we may have a generation of engineers who are excellent at operating AI tools but genuinely cannot diagnose a hard problem without them. They won’t know that about themselves until a moment arrives where the tools fail.</p>
+<hr>
+<p>I was two years into my career when I saw this coming. Not perfectly, but clearly enough to act. I left my job. I spent four months trying to build a SaaS. It failed — not because I couldn’t build, but because I didn’t know how to market. Four months after that, I joined Zomato, where I’m now building and leading an AI evaluation platform and SDK.</p>
+<p>Eval is one of the hardest problems in AI right now. Nobody has really solved it. And yet I found myself feeling empty a lot of the time. Not because the work isn’t meaningful — it is. But because I was in between identities and hadn’t named it.</p>
+<p>I wasn’t purely an engineer anymore. I wasn’t yet a creator with a real audience and clear positioning. I was straddling both and getting full validation from neither.</p>
+<p>I had 20K followers on Twitter and 28K on LinkedIn — all technical, all following for ML content. “How does X model work.” Decent impressions. No real differentiation. No clear conversion. A distribution, but not really an audience.</p>
+<p>I had four reasons for making content: building proof of work for future opportunities, monetizing attention through sponsorships, building a hedge if my job disappeared, and eventually having eyeballs when I built something. Four coherent reasons. But the content I was making served none of them well.</p>
+<p>“How X model works” is commodity content. Anyone can make it. It builds no unique positioning, and it builds no trust — only familiarity.</p>
+<hr>
+<p>What I actually have, and hadn’t named clearly until I thought hard about it, is a specific vantage point. I’m not a tech educator who learned about AI. I’m an engineer who felt the disruption viscerally, made bets on it, built something that failed, came back, and is now deep inside the infrastructure of AI evaluation at scale. I understand how models fail from the inside — not from reading papers.</p>
+<p>The audience I have doesn’t need more explainers. They need judgment. How to think about what to build. How to evaluate AI output. How to stay relevant as the ground shifts.</p>
+<p>And the thing is — I still am not good at this. I’m learning this in real time. I do not want to pul from a fixed pool of knowledge. I have to build the pool while drawing from it. Every piece of content I will make, teaching it will force me to actually figure it out. My job, my content, and my learning can all point in the same direction.</p>
+<hr>
+<p>The positioning I’ve landed on is this.</p>
+<p>Classical engineering depth meets the AI orchestration era. I post not on how MapReduce works, but on why MapReduce still matters and how to make your coding agent actually work with it. Not blabbering, not summarizing — teaching what I’m learning, bridging what I know deeply to what’s new, helping engineers make better decisions about what still requires their irreplaceable judgment.</p>
+<p>The newsletter is called The Conductor (came at this name after changing it multiple times, fullstackagents, onepromptaway, modernai and then this).</p>
+<p>I like that name because it captures the new engineering identity without abandoning the old one. A conductor doesn’t play every instrument. But a conductor who never learned music can’t make the orchestra coherent. The skills aren’t gone — they’ve changed form.</p>
+<p>The description I settled on: <em>For engineers learning to lead AI without losing the depth that makes their judgment irreplaceable.</em></p>
+<hr>
+<p>I’m still figuring this out. I won’t pretend otherwise. But this is the clearest I’ve been about what I’m doing and why.</p>
+<p>The financial freedom I want — the independence to navigate my career on my own terms, to not panic if a job disappears, to build something real when the time comes — doesn’t come from one big bet. It comes from compounding small ones consistently from a position of genuine expertise.</p>
+<p>The engineers who thrive in this era aren’t the ones who resist AI or blindly trust it. They’re the ones who’ve done enough hard work to know what good looks like — and can therefore evaluate what the AI produces. Taste isn’t a soft skill. In this era, it’s the core one.</p>
+<p>I’m building an audience of engineers who want to develop that. Starting with myself.</p>
+
+
+
+ ]]></description>
+  <category>Personal</category>
+  <category>Reflections</category>
+  <guid>https://www.heyyanshuman.com/notes/thinking_out_loud.html</guid>
+  <pubDate>Mon, 09 Feb 2026 18:30:00 GMT</pubDate>
+</item>
+</channel>
+</rss>

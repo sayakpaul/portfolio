@@ -1,0 +1,11 @@
+---
+title: "My Notes"
+listing:
+  sort: "date desc"
+  contents: "notes"
+  feed: true
+  filter-ui: false
+  sort-ui: false
+  categories: false
+page-layout: full
+---
