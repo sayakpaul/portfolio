@@ -204,6 +204,7 @@ You can check out the articles I have written or co-written on the hf.co/blog pl
 - [Build awesome datasets for video generation](https://huggingface.co/blog/vid_ds_scripts) (with [hlky](https://huggingface.co/hlky))
 - [Fast LoRA inference for Flux with Diffusers and PEFT](https://huggingface.co/blog/lora-fast) (with [Benjamin](https://huggingface.co/BenjaminB))
 - [Make your ZeroGPU Spaces go brrr with ahead-of-time compilation](https://huggingface.co/blog/zerogpu-aoti) (with Charles, Linoy, and Poli)
+- [Custom Kernels for All from Codex and Claude](https://huggingface.co/blog/custom-cuda-kernels-agent-skills) (with Ben, Aritra, and Shaun)
 
 Apart from these, I contribute to numerous documentation-related efforts, and they can be found by visiting these links: [link 1](https://github.com/huggingface/diffusers/commits?author=sayakpaul), [link 2](https://github.com/huggingface/notebooks/commits?author=sayakpaul).
 
