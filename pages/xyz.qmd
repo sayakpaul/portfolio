@@ -26,7 +26,10 @@ On this page, I have listed some things that I do/used to do in the pursuit of "
 - [Explore ML Bootcamp, Hyderabad (2020)](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg)  ([Tweet](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN%2Fstatus%2F1230456116158418944&sa=D&sntz=1&usg=AFQjCNGBh7XuMdRHv0vtDM-KZNgIgGpKdg) by [GoogleDevsIN](https://www.google.com/url?q=https%3A%2F%2Ftwitter.com%2FGoogleDevsIN&sa=D&sntz=1&usg=AFQjCNF2cyw8Wvt0ANu9OK_AC-LPZcY2Ww))
 - [Google for Startups MENA Accelerator 2020](https://startup.google.com/accelerator/middle-east-north-africa/) (this was formerly known as Launchpad)
 - [Google for Startups India Accelerator 2020, 2021](https://twitter.com/GoogleDevsIN/status/1302932126019411970) 
-- Mentored for TensorFlow at [Google Summer of Code 2021 (GSoC)](https://summerofcode.withgoogle.com/). Students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2). [Here's](https://blog.tensorflow.org/2021/09/tensorflow-hubs-experience-with-gsoc-2021.html) a related blog post from TensorFlow.
+- Google Summer of Code mentor for TensorFlow:
+  - 2021 students: [Aditya Kane](https://github.com/AdityaKane2001/regnety) and [Vasudev Gupta](https://github.com/vasudevgupta7/gsoc-wav2vec2)
+  - 2022 students: Aditya Kane
+  - [Here's](https://blog.tensorflow.org/2021/09/tensorflow-hubs-experience-with-gsoc-2021.html) a related blog post from TensorFlow.
 - [Deep Learning Indaba](https://deeplearningindaba.com/). Various university students from Africa since the mentorship program is Africa-focused (2021- 2022).
 - Mentored for TensorFlow at GSoC 2022. Students: [Aditya Kane](https://adityakane2001.github.io/opensource/gsoc2022report), [Sayan Nath](https://sayannath.github.io/MobileViT-GSoC/), and [Mohammad Shoaib](https://github.com/shoaib6174/GSOC-22-Video-Swin-Transformers/blob/main/assets/final_report.md). My mentorship certificate is [here](https://drive.google.com/file/d/1300UqW59N98d5No_LYhGAWdBaPVQwyfc/view?usp=share_link).
 - [Google for Startups India Women Founders Accelerator (2022)](https://rsvp.withgoogle.com/events/google-for-startups-accelerator-india-women-founders/home).
