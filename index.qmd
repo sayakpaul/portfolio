@@ -15,7 +15,7 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 ### News
 
 - New work (NeurIPS'25): [Fine-Grained Perturbation Guidance via Attention Head Selection](https://arxiv.org/abs/2506.10978) with Donghoon Ahn et. al.
-- [StructBench](https://struct-bench.github.io/) and [NoiseRefine](https://cvlab-kaist.github.io/NoiseRefine) were accepted to ICLR'26 🤪
+- [StructBench](https://structvisuals.github.io/) and [NoiseRefine](https://cvlab-kaist.github.io/NoiseRefine) were accepted to ICLR'26 🤪
 - Gave a talk on "Beyond the Brrr: Building a Unified Ecosystem for Optimized Kernels" with Aritra Roy Gosthipaty at the PyTorch Day India, 2026. Slides are [here](https://docs.google.com/presentation/d/1_tQ-L_-w0Qk4sjjjlEFfWMWDWntx5Ib-vo3GWRtdBVg/edit?usp=sharing). Recording is [here](https://youtu.be/q0GfzJmuaUM?si=piY_ZvO9Fqq3-hZ8).
 - We got Claude Code to write custom kernels for LTX and got them to beat the baseline benchmark! Check it out [here](https://huggingface.co/blog/custom-cuda-kernels-agent-skills).
 
