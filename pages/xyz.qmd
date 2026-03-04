@@ -66,6 +66,7 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 - Scholarship for [Open-Source Summit Japan 2024](https://events.linuxfoundation.org/open-source-summit-japan/).
 - [Beacon Award 2024](https://x.com/RisingSayak/status/1887489752171225137) by Google for Developers.
 - PyTorch Contributor Award [Nominee](https://pytorch.org/contributor-awards) for 2025. Thanks to Aritra Roy Gosthipaty for nominating.
+- Received Claude Max 20x for co-maintaining Diffusers ([tweet](https://x.com/RisingSayak/status/2028653642530881969?s=20)). Thanks, Anthropic!
 
 ### Non-tech
 
