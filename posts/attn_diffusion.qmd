@@ -232,12 +232,13 @@ two different modalities to co-evolve with training.
 
 The diagram below depicts the MMDiT architecture, which also introduces joint-attention. 
 
-```{=html}
 <div align="center">
+
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/mmdit.png" width=600/>
-<p><small>MMDiT architecture. Figure taken from SD 3 paper [@esser2024scalingrectifiedflowtransformers].</small>
+
+<p><small>MMDiT architecture. Figure taken from SD 3 paper [@esser2024scalingrectifiedflowtransformers].</small></p>
+
 </div>
-```
 
 If the diagram appears to be overwhelming, don’t worry, the implementation of it is simpler than
 one might think. In a nutshell, in joint-attention, the QKV projection is performed separately
@@ -421,12 +422,13 @@ output = self.attn_proj_mlp_second(concat_attn_mlp_in)
 
 The ViT-22B paper [@dehghani2023scalingvisiontransformers22] also provides a great visualization for this:
 
-```{=html}
 <div align="center">
+
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/parallel_layers.png" width=600/>
-<p><small>Transformer block with parallel layers. Figure taken from the ViT-22B paper [@dehghani2023scalingvisiontransformers22].</small>
+
+<p><small>Transformer block with parallel layers. Figure taken from the ViT-22B paper [@dehghani2023scalingvisiontransformers22].</small></p>
+
 </div>
-```
 
 It is also a good idea to mention that some of the other elements we discussed earlier — QK normalization, GQA, and RoPE — can
 also be combined with joint attention. One of the most popular models, Flux, uses QK normalization and RoPE. Lumina2 [@lumina2] combines
@@ -457,12 +459,13 @@ blocks, SANA has two kinds of attention:
 
 To facilitate local interactions between the tokens, it used “Mix-FFN” blocks [@xie2021segformersimpleefficientdesign; @liu2023efficientvitmemoryefficientvision]. 
 
-```{=html}
 <div align="center">
+
 <img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/attn_diffusion/sana_linear_attn.png" width=600/>
-<p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small>
+
+<p><small>Linear attention block and the Mix-FFN block. Figure taken from the SANA paper [@xie2024sanaefficienthighresolutionimage].</small></p>
+
 </div>
-```
 
 Implementation of this linear-attention variant is by far the simplest. We show the main changes introduced when compared to the classic self-attention: 
 
