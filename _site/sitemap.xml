@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.heyyanshuman.com/tech-blog.html</loc>
-    <lastmod>2026-03-22T09:29:40.865Z</lastmod>
+    <loc>https://www.heyyanshuman.com/writing.html</loc>
+    <lastmod>2026-03-22T16:13:25.474Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/text2sql_agent.html</loc>
@@ -25,16 +25,16 @@
     <lastmod>2025-07-26T20:18:23.853Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/pages/ml.html</loc>
-    <lastmod>2026-03-22T09:29:50.111Z</lastmod>
+    <loc>https://www.heyyanshuman.com/pages/talks.html</loc>
+    <lastmod>2026-03-22T16:40:00.779Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/pages/building.html</loc>
-    <lastmod>2026-03-22T16:38:42.318Z</lastmod>
+    <loc>https://www.heyyanshuman.com/pages/life.html</loc>
+    <lastmod>2025-06-07T17:25:33.905Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/my-notes.html</loc>
-    <lastmod>2026-03-22T09:29:44.168Z</lastmod>
+    <loc>https://www.heyyanshuman.com/notes/thinking_out_loud.html</loc>
+    <lastmod>2026-02-10T12:18:12.567Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/archive/julia_house_price_prediction.html</loc>
@@ -61,16 +61,16 @@
     <lastmod>2026-03-22T16:51:09.015Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/notes/thinking_out_loud.html</loc>
-    <lastmod>2026-02-10T12:18:12.567Z</lastmod>
+    <loc>https://www.heyyanshuman.com/pages/building.html</loc>
+    <lastmod>2026-03-22T16:38:42.318Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/pages/life.html</loc>
-    <lastmod>2025-06-07T17:25:33.905Z</lastmod>
+    <loc>https://www.heyyanshuman.com/pages/projects.html</loc>
+    <lastmod>2026-03-22T16:34:04.479Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/pages/talks.html</loc>
-    <lastmod>2026-03-22T16:40:00.779Z</lastmod>
+    <loc>https://www.heyyanshuman.com/pages/work.html</loc>
+    <lastmod>2026-03-22T16:42:42.967Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/building_ai_environments_with_verifiers.html</loc>
@@ -91,17 +91,5 @@
   <url>
     <loc>https://www.heyyanshuman.com/posts/what_is_gspo.html</loc>
     <lastmod>2025-07-27T11:40:40.346Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/writing.html</loc>
-    <lastmod>2026-03-22T16:13:25.474Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/pages/work.html</loc>
-    <lastmod>2026-03-22T16:42:42.967Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/pages/projects.html</loc>
-    <lastmod>2026-03-22T16:34:04.479Z</lastmod>
   </url>
 </urlset>
