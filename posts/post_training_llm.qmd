@@ -12,7 +12,6 @@ description: Post training a LLM for reasoning with GRPO using Unsloth
 hide: false
 output-file: post_training_reasoning_model.html
 search_exclude: false
-highlight-style: monokai
 
 ---
 

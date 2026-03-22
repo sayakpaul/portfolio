@@ -1,0 +1,383 @@
+:root {
+  --paper: #f5f1e9;
+  --ink: #111111;
+  --muted: #666666;
+  --rule: #bdb7ac;
+  --content-width: 600px;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: Times, serif;
+  line-height: 1.8;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+#quarto-content {
+  width: 100%;
+  padding-top: 60px;
+}
+
+#quarto-header,
+.navbar,
+#quarto-sidebar,
+#quarto-margin-sidebar,
+.quarto-secondary-nav,
+.page-navigation,
+.nav-page,
+.toc-actions,
+.quarto-color-scheme-toggle,
+.quarto-listing-category-title,
+.quarto-listing-category,
+.quarto-title-meta {
+  display: none !important;
+}
+
+#title-block-header.quarto-title-block .quarto-title-banner,
+.quarto-title-banner {
+  background: transparent !important;
+  color: var(--ink) !important;
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+#title-block-header {
+  margin: 0 0 2.5rem;
+  padding: 0;
+}
+
+#title-block-header:empty {
+  display: none;
+  margin: 0;
+}
+
+#title-block-header .title {
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+
+#title-block-header .subtitle,
+#title-block-header .description,
+#title-block-header .quarto-categories {
+  color: var(--muted);
+}
+
+main.content {
+  max-width: var(--content-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 50px 20px 80px;
+}
+
+.site-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: var(--paper);
+  padding: 16px 20px;
+  z-index: 1000;
+  text-align: center;
+}
+
+.site-nav a {
+  color: var(--ink);
+  border-bottom: none;
+  padding: 0 10px;
+}
+
+.site-nav a:hover {
+  color: #2563eb;
+  border-bottom: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: 25px;
+  line-height: 1.25;
+  margin: 0 0 2.5rem;
+}
+
+h2 {
+  font-size: 19px;
+  line-height: 1.4;
+  margin-top: 2.75rem;
+  margin-bottom: 0.9rem;
+}
+
+h3 {
+  font-size: 17px;
+  line-height: 1.5;
+  margin-top: 1.6rem;
+  margin-bottom: 0.35rem;
+}
+
+p,
+ul,
+ol,
+blockquote,
+table,
+iframe {
+  margin-bottom: 1.2rem;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+}
+
+a:hover {
+  color: #2563eb;
+  border-bottom-color: #2563eb;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 2.8rem 0 2rem;
+  opacity: 1;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+ul,
+ol {
+  padding-left: 1.2rem;
+}
+
+li + li {
+  margin-top: 0.45rem;
+}
+
+blockquote {
+  padding-left: 1rem;
+  border-left: 1px solid var(--rule);
+  color: var(--muted);
+}
+
+iframe {
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: 1px solid var(--rule);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  width: 100%;
+}
+
+code,
+pre,
+.sourceCode {
+  font-family: "SFMono-Regular", "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.92rem;
+}
+
+:not(pre) > code {
+  background: transparent;
+  color: var(--ink);
+  padding: 0;
+  border-radius: 0;
+}
+
+pre,
+.sourceCode {
+  background: #1f1f1f !important;
+  color: #d4d4d4 !important;
+  border: none;
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+.cell {
+  margin-bottom: 1rem;
+}
+
+.cell > .sourceCode {
+  margin-bottom: 0;
+}
+
+.cell-output > pre,
+.cell-output > .sourceCode > pre,
+.cell-output-stdout > pre {
+  margin-left: 0.8rem;
+  margin-top: 0;
+  background: none;
+  border: 0;
+  border-left: 2px solid var(--rule);
+  border-radius: 0;
+  padding-left: 1rem;
+}
+
+.cell-output > .sourceCode {
+  border: none;
+  background: none;
+  margin-top: 0;
+}
+
+.underline {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.home h1 {
+  font-size: 20px;
+  margin-bottom: 40px;
+}
+
+.home-links {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.secondary-links {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.secondary-links a {
+  color: inherit;
+  border-bottom-color: #c8c0b5;
+}
+
+.quarto-listing .listing-actions-group {
+  display: none !important;
+}
+
+.quarto-listing .list {
+  margin-top: 1.5rem;
+}
+
+.quarto-listing .quarto-post {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem 1.5rem;
+  align-items: start;
+  padding: 1.5rem 0 1.1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.quarto-listing .quarto-post .thumbnail,
+.quarto-listing .quarto-post .listing-categories,
+.quarto-listing .quarto-post .listing-author {
+  display: none !important;
+}
+
+.quarto-listing .quarto-post .body,
+.quarto-listing .quarto-post .metadata {
+  margin: 0;
+}
+
+.quarto-listing .quarto-post .metadata {
+  font-size: 17px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.quarto-listing .quarto-post .listing-title {
+  font-size: 17px;
+  line-height: 1.45;
+  margin: 0 0 0.55rem;
+}
+
+.quarto-listing .quarto-post .listing-description,
+.quarto-listing .quarto-post .listing-description p {
+  color: var(--muted);
+  margin: 0;
+}
+
+#quarto-content.page-columns {
+  display: block !important;
+}
+
+.quarto-categories {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0;
+  margin-top: 0.5rem;
+}
+
+.quarto-categories .quarto-category {
+  font-size: 0.85rem;
+  color: var(--muted);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.1rem 0.5rem;
+  background: transparent;
+}
+
+pre,
+.sourceCode {
+  overflow-x: auto;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+span[style*="background-color"] {
+  background: transparent !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: 999px !important;
+  padding: 0.12rem 0.45rem !important;
+}
+
+@media (max-width: 720px) {
+  body {
+    font-size: 17px;
+  }
+
+  main.content {
+    padding: 40px 15px 30px;
+  }
+
+  .home h1 {
+    font-size: 30px;
+  }
+
+  #title-block-header .title,
+  h1 {
+    font-size: 30px;
+  }
+
+  .quarto-listing .quarto-post {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .quarto-listing .quarto-post .metadata {
+    white-space: normal;
+  }
+}

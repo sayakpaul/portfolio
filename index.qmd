@@ -1,51 +1,24 @@
 ---
-# title: "Anshuman Mishra"
 toc: false
 page-layout: full
 ---
 
-::: {.columns}
+::: {.home}
+# Anshuman Mishra
 
-::: {.column width="65%"}
-## Hi, I'm Anshuman.
+I build AI systems for a living and tinker with them for fun.
 
-I'm a **Machine Learning Engineer** building at the intersection of classical engineering depth and AI orchestration.
+I lead AI evaluation work at **Zomato**. What started as a bunch of scripts I wrote to solve my own eval problems turned into **Gavel** — an internal platform I pitched to the VP, got approved, and now serves both AI teams and ops teams across the company. Before Zomato, I consulted with **Google** on KerasHub, integrating model families like Qwen and Mixtral into the framework, and worked with **Weights & Biases**.
 
-Currently at **Zomato**, where I'm building and leading an AI evaluation platform and SDK—tackling one of the hardest problems in AI today.
+I got into ML through open source. My first PR was a small fix to DeepMind's Optax library — I didn't really know what I was doing. That led to a Google Summer of Code with TensorFlow, where I ended up shipping GPT-NeoX and Llama 2 for KerasNLP, and eventually co-authoring a [paper in JMLR](http://jmlr.org/papers/v25/24-0404.html). Somewhere along the way, Google made me a **Developer Expert in Machine Learning**.
 
-I graduated from **NIT Warangal** in 2023 and have spent years contributing to the core of major open-source ML frameworks. My work spans from implementing foundational models from scratch to designing production ML systems at scale.
+After GSoC I gave talks in 11 cities across India. I still speak at conferences when I have something worth saying.
 
-I'm also a [**Google Developer Expert**](https://g.dev/anshuizme) in Machine Learning and write [**The Conductor**](https://conductorbyam.substack.com/)—a newsletter for engineers learning to lead AI without losing the depth that makes their judgment irreplaceable.
-
-:::
-
-::: {.column width="35%"}
-![](assets/images/pfp/varkala.jpg){fig-align="center" width="250" style="border-radius: 30%;"}
-:::
-
-
-:::
-
-
-
+On weekends I build things — an [agentic browser](https://github.com/kanpuriyanawab/nebula), a [Claude Cowork alternative](https://github.com/kanpuriyanawab/sidekick), a Figma plugin I made without ever having used Figma. Most of these don't go anywhere. Some do. I've been writing about it in [The Conductor](https://conductorbyam.substack.com/), though lately I'm figuring out what comes next.
 
 ---
 
-### Who I’m Working With (Consultancy)
-
-* **Google** → As an Independent AI Consultant, I support the Keras team by implementing state-of-the-art models in [KerasHub](https://github.com/keras-team/keras-hub) and writing technical deep-dives on their usage.
-
-### Previous Clients (Consultancy):
-
-- **Weights & Biases (acquired by CoreWeave)** → I focused on creating clear and compelling educational content for the machine learning community. I wrote in-depth articles, tutorials, and guides explaining complex ML concepts and demonstrating best practices using the W&B platform.
-
-### Experience
-
-**FlipAI** → Tenth employee of the company and 2nd **Machine Learning Engineer** hired.  My work involved the end-to-end ML lifecycle, from data preprocessing and model training to deployment and monitoring of core AI features. I also spent quite some time designing, building, and deploying applications & feature in a fast-paced production environment as per customer needs.
-
-**Google** → Selected for the **Google Summer of Code Program** to work with the TensorFlow and Keras teams. Mainly worked on KerasHub (then KerasNLP), implementing models like Llama2, GPT NeoX from scratch and writing technical articles.
-
-**BNY Mellon** → As a **Data Science Intern**, I gained hands-on experience within the financial services industry. My responsibilities included analyzing large datasets to uncover insights, building predictive models, and presenting my findings to support data-driven decision-making.
-
-**Amazon** → During my **Software Engineering internship** at Amazon, I contributed to a team responsible for developing large-scale software systems. This experience provided a strong foundation in the software development lifecycle, including coding, debugging, and working with cloud infrastructure to deliver a project feature.
-
+::: {.home-links .secondary-links}
+[GitHub](https://github.com/kanpuriyanawab) | [X](https://x.com/athleticKoder) | [LinkedIn](https://www.linkedin.com/in/anshuizme/) | [Scholar](https://scholar.google.fr/citations?user=70wh9jcAAAAJ) | [Newsletter](https://conductorbyam.substack.com/)
+:::
+:::

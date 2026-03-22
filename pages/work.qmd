@@ -1,10 +1,13 @@
 ---
-title: "ML Work"
+title: "Work"
 aliases:
   - /work
   - /ml
-toc: true
+  - /pages/ml
+toc: false
 ---
+
+A selection of open-source contributions, publications, and applied ML work.
 
 ## 2025
 
@@ -16,8 +19,9 @@ As a consultant for the Keras team, I led the integration of the state-of-the-ar
 
 * **Qwen-1.5 Mixture-of-Experts (MoE):** The integration of the [Qwen-1.5-MoE model](https://github.com/keras-team/keras-hub/pull/2163) presented unique challenges, particularly its high memory footprint. To address this, I engineered a memory-efficient MoE layer, adapting techniques from other advanced implementations to ensure the model was performant and accessible on standard hardware.
 
+---
 
-### Mixtral <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
+### Mixtral Integration in Keras  <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 Through this work I developed support for [Mixtral](https://github.com/keras-team/keras-hub/pull/2196) model in Keras Hub, making it accessible to community.
 
 ## 2024
@@ -29,6 +33,8 @@ I co-authored a foundational paper for the **Journal of Machine Learning Researc
 * **Title:** [*KerasCV and KerasNLP: Multi-framework Models*](http://jmlr.org/papers/v25/24-0404.html)
 * **Published:** Journal of Machine Learning Research (Volume 25, 2024)
 * **My Role:** Co-author, contributing to the framework development and experimental validation.
+
+---
 
 ## 2023
 
@@ -52,6 +58,8 @@ My Google Summer of Code project was centered on expanding the KerasNLP library 
     * **Beam Sampler Port:** To deepen my understanding of decoding strategies, I ported the [Beam Sampler to Keras 3](https://github.com/keras-team/keras-nlp/pull/1181), contributing to the framework's multi-backend compatibility.
     * **Testing Improvements:** I significantly improved the CI/CD pipeline by [speeding up RoBERTa testing by ~3x](https://github.com/keras-team/keras-nlp/pull/897) and adding new [TPU tests](https://github.com/keras-team/keras-nlp/pull/839) for backbones.
 
+
+---
 
 ### Julia Contributions <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 Metalhead is FluxML's (a julia deep learning package) official model zoo. I [contributed](https://github.com/FluxML/Metalhead.jl/pull/210) the UNet image segmentation model to Metalhead.jl, Julia's core computer vision library. By implementing the architecture with reference to the official PyTorch version, I made this popular model for semantic segmentation natively available to the FluxML community, fulfilling a key feature request for the library.
@@ -79,8 +87,7 @@ Metalhead is FluxML's (a julia deep learning package) official model zoo. I [con
 
 In 2022, [Deepchem Project](https://deepchem.io) decided to migrate from tensorflow to pytorch. I [contributed](https://github.com/deepchem/deepchem/pull/2963) to this mission by porting their generic, scalable CNN models and layers to torch. I also fixed couple ([1](https://github.com/deepchem/deepchem/pull/2988), [2](https://github.com/deepchem/deepchem/pull/2964)) of bugs in the library that have gone unnoticed.
 
-
-
+---
 
 ### Neural Ordinary Differential Equations <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 [Deepchem - Neural ODE tutorial 📚]
@@ -89,21 +96,26 @@ This [tutorial](https://deepchem.io/tutorials/about-node-using-torchdiffeq-in-de
 
 The [guide](https://github.com/deepchem/deepchem/pull/2859) walks through embedding a torchdiffeq ODE solver inside a PyTorch neural network to model continuous-time dynamics, making it possible to predict the future states of dynamic systems within the DeepChem ecosystem.
 
-
+---
 
 ### G2Net Detecting Continuous Gravitational Waves <span style="font-size: 0.65em; font-weight: 600; background-color: #E0F3FF; color: #196F9E; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Kaggle</span>
 
 I scored a bronze medal in this competition. The goal of this competition was to find continuous gravitational-wave signals. I developed a model sensitive enough to detect weak yet long-lasting signals emitted by rapidly-spinning neutron stars within noisy data. Here is one of the competition [notebooks](https://www.kaggle.com/code/shivanshuman/kaggle-t4x2-multi-gpu-training-g2net) that shows my approach to problem.
 
+---
 
 ### ICR - Identifying Age-Related Conditions <span style="font-size: 0.65em; font-weight: 600; background-color: #E0F3FF; color: #196F9E; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">Kaggle</span>
 The goal of this competition was to predict if a person has any of any medical conditions. Here are two notebooks that I submitted for the competition. One of them used an [ensemble based technique](https://www.kaggle.com/code/shivanshuman/lb-0-23-ensemble-catboost-xgboost-lightgbm) and the other used just LigthGBM. I used [optuna](https://www.kaggle.com/code/shivanshuman/lightgbm-optuna-baseline) library for hyperparameter optimization.
 
 
+---
 
 ### Support safe serialization while pushing to Huggingface Hub from H2O llmstudio<span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 [PR](https://github.com/h2oai/h2o-llmstudio/pull/221)
 
+---
 
 ### Deepmind - optax <span style="font-size: 0.65em; font-weight: 600; background-color: #fce8d1; color: #c55a11; padding: 3px 9px; border-radius: 12px; vertical-align: middle; text-transform: uppercase; letter-spacing: 0.5px;">OSS</span>
 [This](https://github.com/google-deepmind/optax/pull/413) is how I started open source. My first-ever contribution was a jax library called optax by google deepmind.
+
+---

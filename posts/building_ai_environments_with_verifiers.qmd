@@ -4,7 +4,6 @@ description: "deep dive into RL environments and Verifiers"
 author: "Anshuman Mishra"
 date: "2025-10-05"
 categories: [AI, LLM, Reinforcement Learning, Eval, Agents]
-highlight-style: dracula
 badges: false
 toc: true
 # image: "assets/verifiers_architecture.png"

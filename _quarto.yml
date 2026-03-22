@@ -1,60 +1,32 @@
 project:
   type: website
-  output-dir: _site  
+  output-dir: _site
+  render:
+    - "*.qmd"
+    - "archive/*.qmd"
+    - "notes/*.qmd"
+    - "pages/*.qmd"
+    - "posts/*.qmd"
 
 format:
   html:
-    theme:
-      # light: cosmo
-      light: custom_theme.scss
-      dark: darkly
-    css: styles.css
-    toc: true
+    theme: default
+    css: site.css
+    toc: false
+    highlight-style: github-dark
+    include-before-body: _nav.html
 
 website:
-  title: Introductions
+  title: Anshuman Mishra
   site-url: "https://www.heyyanshuman.com"
-  description: "Introductions Anshuman Mishra."
+  description: "Machine learning engineer building AI systems, open source software, and essays."
   google-analytics: "G-EKSMXY3E8G"
-  favicon: assets/images/pfp/varkala.jpg
+  favicon: assets/images/favicon.png
   search: false
   twitter-card:
     creator: "@athleticKoder"
     card-style: summary
   open-graph: true
-  repo-actions: [edit, issue]
-  repo-branch: "master"
-  repo-url: "https://github.com/kanpuriyanawab/"
-  navbar:
-    background: primary
-    left:
-      - text: "ML"
-        href: pages/ml.qmd
-      - text: "Building"
-        href: pages/building.qmd
-      - text: "Talks"
-        href: pages/talks.qmd
-      - text: "Tech Blog"
-        href: tech-blog.qmd
-      - text: "My Notes"
-        href: my-notes.qmd
-      # - text: "Life"
-      #   href: pages/life.qmd
-    right:
-      - icon: twitter
-        href: https://twitter.com/athleticKoder
-      - icon: linkedin
-        href: https://www.linkedin.com/in/anshuizme/
-      - icon: github
-        href: https://github.com/kanpuriyanawab
-      - icon: youtube
-        href: https://youtube.com/@1smollcoder
-      - icon: substack
-        href: https://fullstackagents.substack.com
-      - text: "{{< ai google-scholar >}}"
-        href: https://scholar.google.fr/citations?user=70wh9jcAAAAJ
-
-
 
 execute:
   freeze: auto

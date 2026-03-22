@@ -1,32 +1,34 @@
 ---
-title: "Talks & Media"
+title: "Talks"
 aliases:
   - /talks
-toc: true
+toc: false
 ---
 
-## 2026
+Talks, workshops, podcasts, and recordings.
 
 ### Abhishek Thakur' Podcast - GenAI Engineer's Journey
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/m3FZPsDo2vw?si=gq7v26RZV78OP8xM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-## 2024
+---
 
 ### YouTube - Building with AI
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/2Xo11kjJiZk?si=8WjEXpvuFG8jRfmx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+---
+
 ### Data Hack Summit - Demystify Parallel Programming: Hands-on with CUDA for GenAI
 
 I gave [this talk](https://www.analyticsvidhya.com/datahacksummit-2024/sessions/demystify-parallel-programming-hands-on-with-cuda-for-genai) at Data Hack Summit by Analytics Vidhya. It covered CUDA C fundamentals and core CUDA concepts like threads, blocks, and memory hierarchies. The session guided attendees through writing their first CUDA kernels, aiming to build the skills needed to optimize deep learning workloads.
 
-## 2023
+
+---
 
 *I gave a lot of talks travelling across 11 cities throughout India after finishing my Google Summer of Code.*
 
 
-### Conference Talks & Workshops
 
 1. [KerasNLP: From Words to Wisdom](https://twitter.com/gdg_nd/status/1709132486238724550?t=9V1JG6XwqQNJz6MEuiGqPA&s=08), on October 7, 2023 at DevFest New Delhi'23.
 

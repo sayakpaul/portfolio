@@ -1,83 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.heyyanshuman.com/pages/work.html</loc>
-    <lastmod>2025-09-15T05:56:34.871Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/index.html</loc>
-    <lastmod>2025-09-15T05:56:34.871Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/archive/interview_matt.html</loc>
-    <lastmod>2025-09-15T05:56:34.796Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/archive/interview_rajaswa.html</loc>
-    <lastmod>2025-09-15T05:56:34.796Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/archive/interview_rrk.html</loc>
-    <lastmod>2025-09-15T05:56:34.796Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/posts/fine-tuning-vlm.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
+    <loc>https://www.heyyanshuman.com/tech-blog.html</loc>
+    <lastmod>2026-03-22T09:29:40.865Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/text2sql_agent.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/posts/agent_memory_101.html</loc>
-    <lastmod>2025-09-15T05:56:34.871Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/posts/what_is_gspo.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/posts/flux_is_so_flexible.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
-  </url>
-  <url>
-    <loc>https://www.heyyanshuman.com/posts/illustrated_llmos.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
+    <lastmod>2025-07-26T20:18:55.420Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/sd_next.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
+    <lastmod>2025-06-08T09:29:03.003Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/posts/semantic_sim_kerasnlp.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
+    <loc>https://www.heyyanshuman.com/posts/illustrated_llmos.html</loc>
+    <lastmod>2025-06-07T15:08:02.776Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/posts/falafel_launch.html</loc>
-    <lastmod>2025-09-15T05:56:34.887Z</lastmod>
+    <loc>https://www.heyyanshuman.com/posts/fine-tuning-vlm.html</loc>
+    <lastmod>2026-03-22T16:03:14.932Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/posts/post_training_reasoning_model.html</loc>
-    <lastmod>2025-09-15T05:56:34.888Z</lastmod>
+    <loc>https://www.heyyanshuman.com/posts/agent_memory_101.html</loc>
+    <lastmod>2025-07-26T20:18:23.853Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/pages/ml.html</loc>
+    <lastmod>2026-03-22T09:29:50.111Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/pages/building.html</loc>
+    <lastmod>2026-03-22T16:38:42.318Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/my-notes.html</loc>
+    <lastmod>2026-03-22T09:29:44.168Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/archive/julia_house_price_prediction.html</loc>
-    <lastmod>2025-09-15T05:56:34.796Z</lastmod>
+    <lastmod>2025-07-26T20:18:59.356Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/archive/interview_rajaswa.html</loc>
+    <lastmod>2025-06-07T16:15:12.115Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/archive/interview_aakash.html</loc>
-    <lastmod>2025-09-15T05:56:34.796Z</lastmod>
+    <lastmod>2025-06-09T11:38:45.767Z</lastmod>
   </url>
   <url>
-    <loc>https://www.heyyanshuman.com/ml-blog.html</loc>
-    <lastmod>2025-09-15T05:56:34.871Z</lastmod>
+    <loc>https://www.heyyanshuman.com/archive/interview_matt.html</loc>
+    <lastmod>2025-06-07T16:15:22.228Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/archive/interview_rrk.html</loc>
+    <lastmod>2025-06-07T15:22:10.655Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/index.html</loc>
+    <lastmod>2026-03-22T16:51:09.015Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/notes/thinking_out_loud.html</loc>
+    <lastmod>2026-02-10T12:18:12.567Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/pages/life.html</loc>
-    <lastmod>2025-09-15T05:56:34.871Z</lastmod>
+    <lastmod>2025-06-07T17:25:33.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/pages/talks.html</loc>
+    <lastmod>2026-03-22T16:40:00.779Z</lastmod>
   </url>
   <url>
     <loc>https://www.heyyanshuman.com/posts/building_ai_environments_with_verifiers.html</loc>
-    <lastmod>2025-10-05T13:19:05.020Z</lastmod>
+    <lastmod>2026-03-22T16:02:49.012Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/posts/flux_is_so_flexible.html</loc>
+    <lastmod>2025-07-26T20:18:27.884Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/posts/post_training_reasoning_model.html</loc>
+    <lastmod>2026-03-22T16:03:10.452Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/posts/semantic_sim_kerasnlp.html</loc>
+    <lastmod>2025-06-08T09:29:14.894Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/posts/what_is_gspo.html</loc>
+    <lastmod>2025-07-27T11:40:40.346Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/writing.html</loc>
+    <lastmod>2026-03-22T16:13:25.474Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/pages/work.html</loc>
+    <lastmod>2026-03-22T16:42:42.967Z</lastmod>
+  </url>
+  <url>
+    <loc>https://www.heyyanshuman.com/pages/projects.html</loc>
+    <lastmod>2026-03-22T16:34:04.479Z</lastmod>
   </url>
 </urlset>

@@ -1,0 +1,20 @@
+---
+title: "Writing"
+aliases:
+  - /tech-blog
+  - /my-notes
+listing:
+  sort: "date desc"
+  contents:
+    - "posts"
+    - "notes"
+  feed: true
+  filter-ui: false
+  sort-ui: false
+  categories: false
+page-layout: full
+---
+
+Essays on agents, evals, post-training, model systems, and the practice of building with AI. Plus shorter notes and reflections.
+
+I also publish a weekly newsletter at [The Conductor](https://conductorbyam.substack.com/).

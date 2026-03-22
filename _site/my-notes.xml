@@ -5,10 +5,10 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Introductions</title>
+<title>Anshuman Mishra</title>
 <link>https://www.heyyanshuman.com/my-notes.html</link>
 <atom:link href="https://www.heyyanshuman.com/my-notes.xml" rel="self" type="application/rss+xml"/>
-<description>Introductions Anshuman Mishra.</description>
+<description>Machine learning engineer building AI systems, open source software, and essays.</description>
 <generator>quarto-1.7.31</generator>
 <lastBuildDate>Mon, 09 Feb 2026 18:30:00 GMT</lastBuildDate>
 <item>

@@ -1,0 +1,34 @@
+---
+title: "Projects"
+aliases:
+  - /building
+  - /projects
+  - /pages/building
+toc: false
+---
+
+Things I built, shipped, or abandoned.
+
+## [Sidekick]{.underline}
+
+An open source Claude Cowork alternative built on top of OpenAI Codex CLI. [GitHub](https://github.com/kanpuriyanawab/sidekick) · [Demo](https://x.com/athleticKoder/status/1884588042644881697)
+
+## [Nebula]{.underline}
+
+An open source agentic browser built with Electron & Chromium from scratch. Build local apps [on the fly](https://x.com/kanpuriyanawab/status/1945081337742025166) right in your web browser. [GitHub](https://github.com/kanpuriyanawab/nebula)
+
+## [SlideBookLM]{.underline}
+
+Learn any concept via PPT, visuals only. Built for Nano Banana hackathon in 6 hours — a missing feature in NotebookLM. [Announcement](https://x.com/athleticKoder/status/1832430467133370471)
+
+## [Figma Plugin for AI Image Editing]{.underline}
+
+A Figma plugin that lets you edit images with just prompts, powered by Qwen's image-edit model on FAL. [Demo](https://x.com/athleticKoder/status/1823727976729903301)
+
+## [AI Agents via Cmd+Space]{.underline}
+
+A Raycast app to run AI agents — email, tweet, book meetings, search — all from Cmd+Space. Built with Composio and AI SDK. [Demo](https://x.com/athleticKoder/status/1825868030632595573)
+
+## [Snapgenie]{.underline}
+
+Turn product snaps into professional photographs. My first [SaaS](https://snapgenie.pro).

@@ -1,7 +1,5 @@
 ---
 title: "Fine-Tuning a Vision Language Model in 2025"
-highlight-style: dracula
-
 aliases:
 - /fine-tuning-vlm
 - /fine-tuning-gemma3

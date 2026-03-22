@@ -1,11 +1,14 @@
 ---
-title: "Building"
+title: "Projects"
 aliases:
   - /building
-toc: true
+  - /projects
+toc: false
 ---
 
-## 2026
+Things I built, shipped, or abandoned.
+
+---
 
 ### Sidekick
 
@@ -13,7 +16,7 @@ You don't need claude cowork anymore! Announcing [Sidekick](https://github.com/k
 
 [Demo](https://x.com/athleticKoder/status/1884588042644881697)
 
-## 2025
+---
 
 ### Nebula
 
@@ -21,13 +24,13 @@ Build Local Apps [on the fly](https://x.com/kanpuriyanawab/status/19450813377420
 
 Nebula is an open source agentic browser built with Electron & Chromium from scratch.
 
+---
+
 ### SlideBookLM
 
-[Announcing SlideBookLM](https://x.com/athleticKoder/status/1832430467133370471) - learn any concept via PPT, visuals only.
+[Announcing SlideBookLM](https://x.com/athleticKoder/status/1832430467133370471) - learn any concept via PPT, visuals only. Built for nano banana hackathon. Missing feature in NotebookLM. Built in 6 hours. Tech Stack -- [NanoBanana](https://twitter.com/NanoBanana) Image model, Gemini Flash 2.5.
 
-Built for nano banana hackathon. Missing feature in NotebookLM. Built in 6 hours.
-
-**Tech Stack:** [@NanoBanana](https://twitter.com/NanoBanana) Image model on [@FAL](https://twitter.com/FAL), [@GeminiApp](https://twitter.com/GeminiApp) Flash 2.5, [@vercel](https://twitter.com/vercel) for hosting [@nextjs](https://twitter.com/nextjs) app, [@digitalocean](https://twitter.com/digitalocean) for [@FastAPI](https://twitter.com/FastAPI) backend.
+---
 
 ### Figma Plugin for AI Image Editing
 
@@ -35,13 +38,13 @@ Never used Figma. Wrote a [plugin](https://x.com/athleticKoder/status/1823727976
 
 Uses qwen-image-edit on [@FAL](https://twitter.com/FAL). Whatta banger model [@Alibaba_Qwen](https://twitter.com/Alibaba_Qwen)!
 
+---
+
 ### AI Agents via Cmd+Space
 
-Holy sh*t...I am [running AI Agents](https://x.com/athleticKoder/status/1825868030632595573) with Cmd+Space on Mac.
+Holy sh*t...I am [running AI Agents](https://x.com/athleticKoder/status/1825868030632595573) with Cmd+Space on Mac. Built this raycast app with [@composio](https://twitter.com/composio) and [@aisdk](https://twitter.com/aisdk).
 
-Built this raycast app with [@composio](https://twitter.com/composio) and [@aisdk](https://twitter.com/aisdk).
-
-**Features:**
+Features:
 - Email from cmd+space
 - Tweet from cmd+space
 - Book meetings from cmd+space
@@ -49,7 +52,9 @@ Built this raycast app with [@composio](https://twitter.com/composio) and [@aisd
 - No need of switching context
 - Focus be 10x productive with background agents
 
-**ps:** i wanted to build this since 2020. **JUST DO IT.**
+**ps:** i wanted to build this since 2020. 
+
+--- 
 
 ### Snapgenie
 
