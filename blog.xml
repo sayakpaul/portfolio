@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.8.27</generator>
+<generator>quarto-1.9.36</generator>
 <lastBuildDate>Mon, 11 Aug 2025 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Optimizing the Full Stack: Thoughts with Image and Video Generation Models</title>
@@ -324,7 +324,7 @@ Figure&nbsp;4: An example of using detailed prompts as opposed to using shallow 
 <div class="csl-left-margin">26. </div><div class="csl-right-inline">Singhal R, Horvitz Z, Teehan R, et al (2025) <a href="https://arxiv.org/abs/2501.06848">A general framework for inference-time scaling and steering of diffusion models</a></div>
 </div>
 <div id="ref-betker2023improvingimagegenerationwithbettercaptions" class="csl-entry">
-<div class="csl-left-margin">27. </div><div class="csl-right-inline">Betker J, Jun H, Ouyang L, Goh G, Ramesh A, et al (2023) <a href="https://cdn.openai.com/papers/dall-e-3.pdf">Improving image generation with better captions</a></div>
+<div class="csl-left-margin">27. </div><div class="csl-right-inline"><span class="nocase">Betker J, Jun H, Ouyang L, Goh G, Ramesh A, et al</span> (2023) <a href="https://cdn.openai.com/papers/dall-e-3.pdf">Improving image generation with better captions</a></div>
 </div>
 <div id="ref-segalis2023pictureworththousandwords" class="csl-entry">
 <div class="csl-left-margin">28. </div><div class="csl-right-inline">Segalis E, Valevski D, Lumen D, Matias Y, Leviathan Y (2023) <a href="https://arxiv.org/abs/2310.16656">A picture is worth a thousand words: Principled recaptioning improves image generation</a></div>
@@ -1334,7 +1334,7 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
 <div class="csl-left-margin">9. </div><div class="csl-right-inline">HaCohen Y, Chiprut N, Brazowski B, et al (2024) <a href="https://arxiv.org/abs/2501.00103">LTX-video: Realtime video latent diffusion</a></div>
 </div>
 <div id="ref-auraflow" class="csl-entry">
-<div class="csl-left-margin">10. </div><div class="csl-right-inline">fal.ai, Simo <a href="https://blog.fal.ai/auraflow">Introducing AuraFlow v0.1, an open exploration of large rectified flow models</a></div>
+<div class="csl-left-margin">10. </div><div class="csl-right-inline"><span class="nocase">fal.ai, Simo</span> <a href="https://blog.fal.ai/auraflow">Introducing AuraFlow v0.1, an open exploration of large rectified flow models</a></div>
 </div>
 <div id="ref-flux" class="csl-entry">
 <div class="csl-left-margin">11. </div><div class="csl-right-inline">Labs BF <a href="https://blackforestlabs.ai/announcing-black-forest-labs/">Announcing black forest labs</a></div>
