@@ -24,9 +24,10 @@ For my community contributions and innovative projects, the Intel Software Innov
 
 ### Timeline
 
-* ML Engineer, Hugging Face, July 2023 – Present
+* Senior Research Engineer, Hugging Face, March 2026 - present
+* ML Engineer, Hugging Face, July 2023 – March 2026
 * Developer Advocate Engineer, Hugging Face, October 2022 – July 2023
-* (Founding ML Engineer), Carted, June 2021 – October 2022
+* (Founding) ML Engineer, Carted, June 2021 – October 2022
 * DL Associate, PyImageSearch, June 2019 – June 2021
 * Data Science Instructor (contract), DataCamp, August 2018 – June 2019
 * Software Engineer, TCS Research and Innovation, January 2018 – August 2018
