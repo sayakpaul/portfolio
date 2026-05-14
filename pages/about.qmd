@@ -5,7 +5,9 @@ aliases:
 permalink: /about
 toc: false
 ---
-I work on diffusion models at [Hugging Face](https://huggingface.co). My day-to-day includes contributing features to [🧨 diffusers](https://github.com/huggingface/diffusers), maintaining it, training and babysitting diffusion models, and sometimes muddying up the social media with emojis 😂. I am fortunate to have worked in different areas of machine learning (such as training and deploying BERT-sized language models[^1], scalable MLOps architectures[^2], model robustness[^3], etc.). For more details on my work experience, check out my [GitHub](https://github.com/sayakpaul) and [LinkedIn](https://www.linkedin.com/in/sayak-paul/).
+I work on diffusion models for image and video generation at [Hugging Face](https://huggingface.co). My day-to-day includes contributing features to [🧨 diffusers](https://github.com/huggingface/diffusers), maintaining it, and training and babysitting diffusion models. My current interests include post-training, test-time scaling, and performance optimization. I also get to look after different aspects of the [Kernels project]((https://github.com/huggingface/kernels/commits?author=sayakpaul)).
+
+I am fortunate to have worked in different areas of machine learning (such as training and deploying BERT-sized language models[^1], scalable MLOps architectures[^2], model robustness[^3], etc.). For more details on my work experience, check out my [GitHub](https://github.com/sayakpaul) and [LinkedIn](https://www.linkedin.com/in/sayak-paul/).
 
 I run into ideas from time to time that need further looking around, experimentation, etc., which I like to refer to as "applied research". You can get an idea of what I mean by that from [this page](https://sayak.dev/research). I enjoy implementing research ideas, sometimes incorporating them into practical applications, and communicating my implementation details through [articles](https://sayak.dev/authoring/). I advocate for readable and self-contained code. I primarily use Python for programming. 
 
