@@ -5,15 +5,8 @@ aliases:
 toc: false
 ---
 
-On this page, I have listed some things that I do/used to do in the pursuit of "happyness".
-
-### Misc
-
-- Taught under-privileged children and managed operations for a TCS-CSR initiative called H20 (Helping Hand Organization) (2017)
-- [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [Campus Commune](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ) (Jan, 2018 - August, 2018)
-- Book reviewer for [Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw) (2019 - 2022)
-- Co-organizer of [GDG Kolkata](https://www.meetup.com/GDG-Kolkata/) (2019 - 2021)
-- Organizer of [TensorFlow User Group Kolkata](https://tfugkol.github.io/) (2020 - 2021)
+I try to mentor people from time to time, either through programs like GSoC or elsewhere. My work has fetched me what they call awards, etc. This page has
+an account of all that and a bit more.
 
 ### Mentorship
 
@@ -69,6 +62,14 @@ Apart from the occasions mentioned above, I have mentored individual students, s
 - Received Claude Max 20x for co-maintaining Diffusers ([tweet](https://x.com/RisingSayak/status/2028653642530881969?s=20)). Thanks, Anthropic!
 - Received ChatGPT Pro for the same. Thanks, OpenAI!
 - Received a DGX Spark Founder's edition (limited to a few in the world). Thanks, NVIDIA!
+
+### Misc
+
+- Taught under-privileged children and managed operations for a TCS-CSR initiative called H20 (Helping Hand Organization) (2017)
+- [Moderator](https://drive.google.com/file/d/1gezVW0yIzT6fyJXpY1Lp8MRk_3KjkpSt/view?usp=sharing) of the Artificial Intelligence channel of [Campus Commune](https://www.google.com/url?q=https%3A%2F%2Fcampuscommune.tcs.com%2Fintro&sa=D&sntz=1&usg=AFQjCNE5PHqA0UZ94F9-J1g45TeQrWaDqQ) (Jan, 2018 - August, 2018)
+- Book reviewer for [Manning Publications Co](https://www.google.com/url?q=https%3A%2F%2Fmanning.com&sa=D&sntz=1&usg=AFQjCNEc5srwZ30NHgmLXaLpiOqgjBMOHw) (2019 - 2022)
+- Co-organizer of [GDG Kolkata](https://www.meetup.com/GDG-Kolkata/) (2019 - 2021)
+- Organizer of [TensorFlow User Group Kolkata](https://tfugkol.github.io/) (2020 - 2021)
 
 ### Non-tech
 
