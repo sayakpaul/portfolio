@@ -65,6 +65,10 @@ Apart from the occasions mentioned above, I have mentored individual students an
 - Received ChatGPT Pro for the same. Thanks, OpenAI!
 - [Received](https://x.com/RisingSayak/status/2060990744475898128?s=20) a DGX Spark Founder's edition (limited to a few in the world). Thanks, NVIDIA!
 
+### Other programs
+
+Since 2019, I have been a [Google Developer Expert](https://developers.google.com/community/experts), and a [Google for Startups Accelerator Mentor](https://developers.google.com/community/accelerators/mentors). I was also an Intel Software Innovator ([certificate](https://www.dropbox.com/s/mzsy1q8jgkwj6cj/Intel_Top_Innovator_2019.jpg?dl=0)).  
+
 ### Misc
 
 - Taught under-privileged children and managed operations for a TCS-CSR initiative called H20 (Helping Hand Organization) (2017)
