@@ -63,7 +63,8 @@ Apart from the occasions mentioned above, I have mentored individual students an
 - PyTorch Contributor Award [Nominee](https://pytorch.org/contributor-awards) for 2025. Thanks to Aritra Roy Gosthipaty for nominating.
 - Received Claude Max 20x for co-maintaining Diffusers ([tweet](https://x.com/RisingSayak/status/2028653642530881969?s=20)). Thanks, Anthropic!
 - Received ChatGPT Pro for the same. Thanks, OpenAI!
-- [Received](https://x.com/RisingSayak/status/2060990744475898128?s=20) a DGX Spark Founder's edition (limited to a few in the world). Thanks, NVIDIA!
+- [Received](https://x.com/RisingSayak/status/2060990744475898128?s=20) a DGX Spark Founder's Edition (limited to a few in the world). Thanks, NVIDIA!
+- [Received](https://x.com/RisingSayak/status/2073638931321815501?s=20) a GMKtec EVO-X2. Thanks, AMD!
 
 ### Other programs
 
