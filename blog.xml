@@ -10,7 +10,1031 @@
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
 <generator>quarto-1.9.38</generator>
-<lastBuildDate>Mon, 11 Aug 2025 00:00:00 GMT</lastBuildDate>
+<lastBuildDate>Tue, 07 Jul 2026 00:00:00 GMT</lastBuildDate>
+<item>
+  <title>Up to speed with the AMD Strix Halo</title>
+  <link>https://sayak.dev/posts/strix-halo.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<p>A few days back, AMD gifted me a <a href="https://www.gmktec.com/products/amd-ryzen%E2%84%A2-ai-max-395-evo-x2-ai-mini-pc?srsltid=AfmBOoruGlHtcnTJ8MRDyFuovuOU90zWPICAUwum6ciE5mp6_2DNISOm">GMKtec EVO-X2</a> so that I could do some of my compute-heavy work locally. NVIDIA <a href="https://x.com/RisingSayak/status/2060990744475898128?s=20">did something similar</a> with their DGX Spark a few months back, and using it in my regular tasks has been very productive.</p>
+<p>For those who’re unfamiliar with EVO-X2, it’s a mini-PC equipped with an <a href="https://www.amd.com/en/products/processors/laptop/ryzen/ai-300-series/amd-ryzen-ai-max-plus-395.html">AMD Ryzen AI Max+ 395</a> (also known as “Strix Halo”) processor, ideal for local AI development work.</p>
+<p>I found the onboarding experience for the EVO-X2 far less seamless than that of the DGX Spark, and I encountered some rough edges along the way. This is why I decided to write a short post documenting my setup experience and my process of getting up to speed with the device.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/strix_halo.png" class="img-fluid figure-img"></p>
+<figcaption>Snap of the EVO-X2 device, captured by my friend Sourav.</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>The rest of this post’s sections come from a setup and development experience I shared with my friend <a href="https://www.linkedin.com/in/srvds7th/?lipi=urn%3Ali%3Apage%3Ad_flagship3_search_srp_all%3BHUZa9%2BHVRZGRftyZfZxYrg%3D%3D">Sourav</a> at his residence.</p>
+</div>
+</div>
+</div>
+<section id="booting-up" class="level2">
+<h2 class="anchored" data-anchor-id="booting-up">Booting up</h2>
+<p>To boot it up, the recommended path is to connect the device to a monitor, keyboard, and mouse. When the device is turned on for the first time, Windows appears. I didn’t want any Windows. Thankfully, my friend Sourav had it all set up with a bootable USB drive loaded with Ubuntu 26.04 and connected other peripherals mentioned above.</p>
+<p>The bootup process was smooth, and it took about half an hour. Windows was also gone 😌</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/boot_success.png" class="img-fluid figure-img"></p>
+<figcaption>Ubuntu bootup success!</figcaption>
+</figure>
+</div>
+<p>Note that this is a one-time process. If you want to access the device solely via SSH (as I do), you can discard the monitor, keyboard, and mouse after configuring SSH access.</p>
+</section>
+<section id="drivers" class="level2">
+<h2 class="anchored" data-anchor-id="drivers">Drivers</h2>
+<p>One of the very first things I do after getting access to an accelerator device like this (physically or remotely) is run commands to confirm that the device can detect the accelerator and print information about it. On the DGX Spark, this was about running the <code>nvidia-smi</code> . For this device, it would be <code>rocm-smi</code>. But getting there needed a few steps.</p>
+<p>We’re in the era of Agents. So, to speed up this process, I installed Claude Code on the device and tasked it with setting up the Drivers, which proved quite productive. The end goal here was to make the system identify the accelerator so that I could query it. Since I had done this driver installation process for NVIDIA devices many times before, I had a good idea of what Claude Code was supposed to do here. Below is a summary of what it did:</p>
+<ul>
+<li>Upgraded to the latest Linux kernels since Strix Halo’s RDNA 3.5 graphics require Linux kernel 6.14+ for native hardware detection.</li>
+<li>Asked me to download the <code>amdgpu-install</code> package from the <a href="https://www.amd.com/en/support/download/linux-drivers.html">AMD Linux Drivers Page</a> for my Ubuntu distribution. It then installed the <code>amdgpu</code> tool.</li>
+</ul>
+<p>Because Strix Halo dynamically shares system memory, I needed to create a configuration rule to load and run some of my favorite models [<a href="https://www.jeffgeerling.com/blog/2025/increasing-vram-allocation-on-amd-ai-apus-under-linux/">1</a>] [<a href="https://www.youtube.com/watch?v=QKdKcFjjZhE&amp;t=808s">2</a>].</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> nano /etc/modprobe.d/amdgpu.conf</span>
+<span id="cb1-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">options</span> amdgpu ttm_pages_limit=25600000</span>
+<span id="cb1-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">options</span> amdgpu ttm_page_pool_size=25600000</span></code></pre></div></div>
+<p>And then:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> update-initramfs <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-u</span></span>
+<span id="cb2-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sudo</span> reboot now</span></code></pre></div></div>
+<p>This allows the system to allocate ~100GB out of a 128GB RAM kit, adjust the pages count down if your system has less memory.</p>
+<p>After the bootup, I ran <code>rocminfo</code> to confirm the presence of <code>gfx1151</code> in the outputs. I additionally installed <code>rocm-smi</code> so that I could monitor the usage. So, a bare <code>rocm-smi</code> after installing would print:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">========================================</span> ROCm System Management Interface ========================================</span>
+<span id="cb3-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">==================================================</span> Concise Info ==================================================</span>
+<span id="cb3-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Device</span>  Node  IDs              Temp    Power     Partitions          SCLK  MCLK  Fan  Perf  PwrCap  VRAM%  GPU%</span>
+<span id="cb3-4">              <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">DID,</span>     GUID<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span>  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Edge</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span>  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Socket</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span>  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Mem,</span> Compute, ID<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb3-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">==================================================================================================================</span></span>
+<span id="cb3-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">0</span>       1     0x1586,   39404  32.0°C  9.012W    N/A, N/A, 0         N/A   N/A   0%   auto  N/A     0%     0%</span>
+<span id="cb3-7"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">==================================================================================================================</span></span>
+<span id="cb3-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">==============================================</span> End of ROCm SMI Log ===============================================</span></code></pre></div></div>
+<p>A quick way to also verify how much memory is available to VRAM is to run <code>sudo dmesg | grep "amdgpu.*memory"</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">[</span>    5.532048] amdgpu 0000:c5:00.0:  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">65536M</span> <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">of</span> VRAM memory ready</span>
+<span id="cb4-2"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">[</span>    5.532053] amdgpu 0000:c5:00.0:  <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">100000M</span> <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">of</span> GTT memory ready.</span></code></pre></div></div>
+<p>We would like to ensure that the GTT memory is ≥ 100000M (~100 GB).</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>For this kind of tasks, using Sonnet as the model in Claude Code was enough and also cost-effective.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="development-environment" class="level2">
+<h2 class="anchored" data-anchor-id="development-environment">Development environment</h2>
+<p>Since I exactly knew what I wanted in my development environment (Python, <code>uv</code>, PyTorch, Hugging Face Hub, etc.), I further asked Claude Code to set it up for me with very clear instructions (Python version, PyTorch ROCm build, etc.). For the PyTorch installation step, I asked it to verify the installation by training and inferring a very small model on the AMD GPU (<a href="https://huggingface.co/datasets/sayakpaul/sample-datasets/blob/main/strix-halo/gpu_test.py">script</a>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">============================================================</span></span>
+<span id="cb5-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">PyTorch</span> build      : 2.12.1+rocm7.2</span>
+<span id="cb5-3"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Built</span> with ROCm/HIP: 7.2.53211</span>
+<span id="cb5-4"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">null</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">:</span> No such file or directory</span>
+<span id="cb5-5"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">CUDA-API</span> available : True</span>
+<span id="cb5-6"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Device</span> count       : 1</span>
+<span id="cb5-7"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">GPU</span> name           : AMD Radeon 8060S</span>
+<span id="cb5-8"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">HSA_OVERRIDE_GFX_VERSION</span> = <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">unset</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb5-9"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">============================================================</span></span>
+<span id="cb5-10"></span>
+<span id="cb5-11"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Training</span> 20 steps on cuda ...</span>
+<span id="cb5-12">  <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">step</span>  0  loss = 2.3256</span>
+<span id="cb5-13">  <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">step</span>  5  loss = 1.4674</span>
+<span id="cb5-14">  <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">step</span> 10  loss = 0.6972</span>
+<span id="cb5-15">  <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">step</span> 15  loss = 0.2105</span>
+<span id="cb5-16">  <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">step</span> 19  loss = 0.0623</span>
+<span id="cb5-17"></span>
+<span id="cb5-18"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Result</span> tensor device : cuda:0</span>
+<span id="cb5-19"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Matmul</span> output device : cuda:0 <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">|</span> <span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">shape:</span> <span class="er" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">(</span><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">1024,</span> 1024<span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span></span>
+<span id="cb5-20"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">GPU</span> memory allocated : 76.2 MiB</span>
+<span id="cb5-21"></span>
+<span id="cb5-22"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">✅</span> SUCCESS: model trained and ran on the AMD GPU via ROCm.</span></code></pre></div></div>
+<p>The installation was done with:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">uv</span> pip install <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">--index-url</span> https://download.pytorch.org/whl/rocm7.2 <span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\</span></span>
+<span id="cb6-2">    torch torchvision</span></code></pre></div></div>
+<p>This brought me to the most important check of the first day of my using the device — running actual models!</p>
+</section>
+<section id="running-models" class="level2">
+<h2 class="anchored" data-anchor-id="running-models">Running models</h2>
+<p>At the time of writing this post, I am working on image and video generation at Hugging Face (and thereby working on <a href="https://github.com/huggingface/diffusers/">Diffusers</a>). My favorite model to run and to get the lay of the land is <a href="https://huggingface.co/black-forest-labs/FLUX.2-klein-4B">black-forest-labs/FLUX.2-klein-4B</a>. So, I started with a simple script:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb7-2"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> diffusers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Flux2KleinPipeline</span>
+<span id="cb7-3"></span>
+<span id="cb7-4">device <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span></span>
+<span id="cb7-5">dtype <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.bfloat16</span>
+<span id="cb7-6"></span>
+<span id="cb7-7">pipe <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Flux2KleinPipeline.from_pretrained(</span>
+<span id="cb7-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"black-forest-labs/FLUX.2-klein-4B"</span>, torch_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>dtype</span>
+<span id="cb7-9">).to(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span>)</span>
+<span id="cb7-10"></span>
+<span id="cb7-11">prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a tiny astronaut hatching from an egg on the moon"</span></span>
+<span id="cb7-12">image <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pipe(</span>
+<span id="cb7-13">    prompt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>prompt,</span>
+<span id="cb7-14">    height<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1024</span>,</span>
+<span id="cb7-15">    width<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1024</span>,</span>
+<span id="cb7-16">    guidance_scale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1.0</span>,</span>
+<span id="cb7-17">    num_inference_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>,</span>
+<span id="cb7-18">    generator<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch.Generator(device<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>device).manual_seed(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb7-19">).images[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]</span>
+<span id="cb7-20">image.show()</span></code></pre></div></div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/test.png" class="img-fluid figure-img"></p>
+<figcaption>Output from FLUX.2-klein-4B for the prompt “a tiny astronaut hatching from an egg on the moon”.</figcaption>
+</figure>
+</div>
+<p>I tried another model at Sourav’s request: <a href="https://huggingface.co/ACE-Step/acestep-v15-xl-turbo-diffusers">AceStep</a>, since he’s into music. It also worked.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>ACE-Step generation script
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb8-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">Generate an audio clip with ACE-Step/acestep-v15-xl-turbo-diffusers.</span></span>
+<span id="cb8-3"></span>
+<span id="cb8-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">Reads the generation spec from prompt.txt (prompt, lyrics, bpm, time</span></span>
+<span id="cb8-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">signature, key/scale, duration) and runs the diffusers AceStepPipeline.</span></span>
+<span id="cb8-6"></span>
+<span id="cb8-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">Target hardware: AMD Radeon 8060S (Strix Halo APU, gfx1151), ROCm PyTorch.</span></span>
+<span id="cb8-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">On ROCm builds the GPU is exposed through the CUDA API, so device == 'cuda'.</span></span>
+<span id="cb8-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">If torch.cuda.is_available() is False, try exporting</span></span>
+<span id="cb8-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    HSA_OVERRIDE_GFX_VERSION=11.0.0</span></span>
+<span id="cb8-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">before running.</span></span>
+<span id="cb8-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""</span></span>
+<span id="cb8-13"></span>
+<span id="cb8-14"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> re</span>
+<span id="cb8-15"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> sys</span>
+<span id="cb8-16"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> pathlib <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> Path</span>
+<span id="cb8-17"></span>
+<span id="cb8-18"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> torch</span>
+<span id="cb8-19"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> soundfile <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">as</span> sf</span>
+<span id="cb8-20"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> diffusers <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> AceStepPipeline</span>
+<span id="cb8-21"></span>
+<span id="cb8-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># prompt.txt i available here:</span></span>
+<span id="cb8-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/prompt.txt</span></span>
+<span id="cb8-24">MODEL_ID <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ACE-Step/acestep-v15-xl-turbo-diffusers"</span></span>
+<span id="cb8-25">PROMPT_FILE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Path(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__file__</span>).with_name(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prompt.txt"</span>)</span>
+<span id="cb8-26">OUTPUT_FILE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> Path(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__file__</span>).with_name(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"acestep_output.wav"</span>)</span>
+<span id="cb8-27">SEED <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">42</span></span>
+<span id="cb8-28"></span>
+<span id="cb8-29"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> parse_spec(path: Path) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">dict</span>:</span>
+<span id="cb8-30">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Parse prompt.txt into the fields the pipeline needs.</span></span>
+<span id="cb8-31"></span>
+<span id="cb8-32"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Expected layout: a fenced ```...``` block after a `prompt-` line, a second</span></span>
+<span id="cb8-33"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    fenced block after a `lyrics-` line, then `key- value` metadata lines.</span></span>
+<span id="cb8-34"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb8-35">    text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> path.read_text(encoding<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"utf-8"</span>)</span>
+<span id="cb8-36"></span>
+<span id="cb8-37">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># The prompt and lyrics are the first two fenced code blocks, in order.</span></span>
+<span id="cb8-38">    blocks <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.findall(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"```</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*?</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">```"</span>, text, flags<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>re.DOTALL)</span>
+<span id="cb8-39">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(blocks) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>:</span>
+<span id="cb8-40">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">raise</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">ValueError</span>(</span>
+<span id="cb8-41">            <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"Expected 2 fenced ``` blocks (prompt, lyrics) in </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>path<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">, "</span></span>
+<span id="cb8-42">            <span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"found </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(blocks)<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">."</span></span>
+<span id="cb8-43">        )</span>
+<span id="cb8-44">    prompt <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> blocks[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>].strip()</span>
+<span id="cb8-45">    lyrics <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> blocks[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>].strip()</span>
+<span id="cb8-46"></span>
+<span id="cb8-47">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> find(key: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>):</span>
+<span id="cb8-48">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Matches lines like "bpm- 170", "time signature- 3", "duration- 191s".</span></span>
+<span id="cb8-49">        m <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> re.search(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">rf"</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">^</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>key<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\s</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[-:]</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\s</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">(</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">)</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">$</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, text, flags<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>re.IGNORECASE <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> re.MULTILINE)</span>
+<span id="cb8-50">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> m.group(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>).strip() <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> m <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span></span>
+<span id="cb8-51"></span>
+<span id="cb8-52">    bpm_raw <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> find(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bpm"</span>)</span>
+<span id="cb8-53">    dur_raw <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> find(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"duration"</span>)</span>
+<span id="cb8-54">    timesig <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> find(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"time signature"</span>)</span>
+<span id="cb8-55">    keyscale <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> find(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"keyscale"</span>)</span>
+<span id="cb8-56"></span>
+<span id="cb8-57">    bpm <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>(re.search(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, bpm_raw).group()) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> bpm_raw <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span></span>
+<span id="cb8-58">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># duration like "191s" -&gt; 191.0 seconds</span></span>
+<span id="cb8-59">    duration <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>(re.search(<span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">r"</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">[</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">\d</span><span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">.]</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span><span class="vs" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, dur_raw).group()) <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> dur_raw <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">else</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">60.0</span></span>
+<span id="cb8-60"></span>
+<span id="cb8-61">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> {</span>
+<span id="cb8-62">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prompt"</span>: prompt,</span>
+<span id="cb8-63">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lyrics"</span>: lyrics,</span>
+<span id="cb8-64">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bpm"</span>: bpm,</span>
+<span id="cb8-65">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"timesignature"</span>: timesig,</span>
+<span id="cb8-66">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"keyscale"</span>: keyscale,</span>
+<span id="cb8-67">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"audio_duration"</span>: duration,</span>
+<span id="cb8-68">    }</span>
+<span id="cb8-69"></span>
+<span id="cb8-70"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> pick_device() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>:</span>
+<span id="cb8-71">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> torch.cuda.is_available():</span>
+<span id="cb8-72">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"cuda"</span></span>
+<span id="cb8-73">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">raise</span> <span class="pp" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">SystemExit</span>(</span>
+<span id="cb8-74">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"No GPU visible to PyTorch (torch.cuda.is_available() is False).</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb8-75">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"For this Strix Halo (gfx1151) APU, try:</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span></span>
+<span id="cb8-76">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"    HSA_OVERRIDE_GFX_VERSION=11.0.0 python generate_audio.py"</span></span>
+<span id="cb8-77">    )</span>
+<span id="cb8-78"></span>
+<span id="cb8-79"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> main() <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>:</span>
+<span id="cb8-80">    spec <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> parse_spec(PROMPT_FILE)</span>
+<span id="cb8-81">    device <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pick_device()</span>
+<span id="cb8-82"></span>
+<span id="cb8-83">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"="</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">64</span>)</span>
+<span id="cb8-84">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Model         :"</span>, MODEL_ID)</span>
+<span id="cb8-85">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Torch / ROCm  :"</span>, torch.__version__, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"| HIP"</span>, torch.version.hip)</span>
+<span id="cb8-86">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"GPU           :"</span>, torch.cuda.get_device_name(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>))</span>
+<span id="cb8-87">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Duration (s)  :"</span>, spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"audio_duration"</span>])</span>
+<span id="cb8-88">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"BPM           :"</span>, spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bpm"</span>])</span>
+<span id="cb8-89">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Time signature:"</span>, spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"timesignature"</span>])</span>
+<span id="cb8-90">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Key / scale   :"</span>, spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"keyscale"</span>])</span>
+<span id="cb8-91">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"="</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">64</span>)</span>
+<span id="cb8-92">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Prompt:</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>, spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prompt"</span>], <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>)</span>
+<span id="cb8-93"></span>
+<span id="cb8-94">    pipe <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> AceStepPipeline.from_pretrained(MODEL_ID, torch_dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>torch.bfloat16)</span>
+<span id="cb8-95">    pipe <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pipe.to(device)</span>
+<span id="cb8-96">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Tiled VAE decode keeps memory bounded for long-form (multi-minute) audio.</span></span>
+<span id="cb8-97">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">hasattr</span>(pipe, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"vae"</span>) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">and</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">hasattr</span>(pipe.vae, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"enable_tiling"</span>):</span>
+<span id="cb8-98">        pipe.vae.enable_tiling()</span>
+<span id="cb8-99"></span>
+<span id="cb8-100">    generator <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> torch.Generator(device<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>device).manual_seed(SEED)</span>
+<span id="cb8-101"></span>
+<span id="cb8-102">    output <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> pipe(</span>
+<span id="cb8-103">        prompt<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"prompt"</span>],</span>
+<span id="cb8-104">        lyrics<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lyrics"</span>],</span>
+<span id="cb8-105">        audio_duration<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"audio_duration"</span>],</span>
+<span id="cb8-106">        num_inference_steps<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>,   <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># turbo model is designed for 8 steps</span></span>
+<span id="cb8-107">        bpm<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"bpm"</span>],</span>
+<span id="cb8-108">        keyscale<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"keyscale"</span>],</span>
+<span id="cb8-109">        timesignature<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>spec[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"timesignature"</span>],</span>
+<span id="cb8-110">        generator<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>generator,</span>
+<span id="cb8-111">    )</span>
+<span id="cb8-112"></span>
+<span id="cb8-113">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># audios shape: [batch, channels, samples] -&gt; soundfile wants [samples, channels]</span></span>
+<span id="cb8-114">    audio <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> output.audios[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]                       <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [channels, samples]</span></span>
+<span id="cb8-115">    audio_np <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> audio.T.cpu().<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">float</span>().numpy()       <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [samples, channels]</span></span>
+<span id="cb8-116">    sr <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">getattr</span>(pipe, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sample_rate"</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">48000</span>)</span>
+<span id="cb8-117">    sf.write(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>(OUTPUT_FILE), audio_np, sr)</span>
+<span id="cb8-118"></span>
+<span id="cb8-119">    <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="ch" style="color: #20794D;
+background-color: null;
+font-style: inherit;">\n</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">✅ Wrote </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>OUTPUT_FILE<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">  (</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>audio<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>shape[<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> sr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:.1f}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">s, </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>audio<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span>shape[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>]<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">ch @ </span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>sr<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;"> Hz)"</span>)</span>
+<span id="cb8-120"></span>
+<span id="cb8-121"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">__name__</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">==</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"__main__"</span>:</span>
+<span id="cb8-122">    sys.exit(main())</span></code></pre></div></div>
+</div>
+</div>
+</div>
+<audio controls="">
+<source src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/acestep_output.wav" type="audio/wav">
+<p>Your browser does not support the audio element. </p>
+</audio></section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
+<p>The ability to run models on a non-NVIDIA device at similar speed has appealed to me. I want to use the EVO-X2 device in my regular development work on the two libraries I co-maintain at Hugging Face: <a href="https://github.com/huggingface/diffusers"><code>diffusers</code></a> and <a href="https://github.com/huggingface/kernels"><code>kernels</code></a>. This will also help me to develop and test custom ROCm kernels and potentially speed up some of my favorite models. Finally, I want to test some video generation models, along with other community-favorite features such as quantization and offloading.</p>
+<p><em>Acknowledgements: Thanks to Sourav for jamming with me on this through and through.</em></p>
+
+
+</section>
+
+ ]]></description>
+  <category>amd</category>
+  <category>rocm</category>
+  <category>local-ai</category>
+  <category>diffusers</category>
+  <guid>https://sayak.dev/posts/strix-halo.html</guid>
+  <pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/strix-halo/strix-halo-thumbnail.png" medium="image" type="image/png"/>
+</item>
 <item>
   <title>Optimizing the Full Stack: Thoughts with Image and Video Generation Models</title>
   <link>https://sayak.dev/posts/flow-optim.html</link>

@@ -2,6 +2,7 @@
   {
     "listing": "/blog.html",
     "items": [
+      "/posts/strix-halo.html",
       "/posts/flow-optim.html",
       "/posts/attn-diffusion.html",
       "/posts/streamlined-releases.html",
