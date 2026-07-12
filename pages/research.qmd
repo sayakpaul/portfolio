@@ -19,23 +19,25 @@ on the publications I have been fortunate to be a part of.
 
 ### Invited talks, demos, etc.
 
-- SoTA Diffusion Models with 🧨 diffusers ([slides](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing) and [recording](https://youtu.be/qo5ubQadvfs))
-  - IBM Research (October 17, 2023)
-  - [The Dyson Robotics Lab](https://www.imperial.ac.uk/dyson-robotics-lab/), Imperial College London
-  - Department of Statistics, University of Oxford
-- 🧨 diffusers for research at [VAL](https://val.cds.iisc.ac.in/), Indian Institute of Science (IISc), June 12, 2023. Slides are [here](https://docs.google.com/presentation/d/1xBfs8yPVC4jeHJR4ShV0YIjpgC6glS4R6xD6BrxaU10/edit?usp=sharing).
-- Controlling Text-to-Image Diffusion Models: Assorted Approaches 
-  - [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) in 2023 ([slides](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p), [recording](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s))
-  - UCL in June 2024
-  - Texas A&M University in Sept 2024 ([slides](https://docs.google.com/presentation/d/12svjPQlZcnk5bykRguWeX1wEMGJ5XiBgzYFNWT3GMK0/edit?usp=sharing))
-  - UC Berkeley in October 2024 ([slides](https://docs.google.com/presentation/d/16DKCpmFNu0eUxHQJm9TpKnKm3grk6YAafEI0Mw8Lkqs/edit?usp=sharing), [recording](https://youtu.be/rcTsFgRF6DA))
-  - [ICDMAI'25](https://icdmai.org/) ([Slides](https://docs.google.com/presentation/d/1aSh53qM3Bv_edSfxXYtKmwaf0tiMn82w_-FYds7YTRc/edit?usp=sharing))
-- Demo of 🧨 diffusers at [ICCV 2023](https://iccv2023.thecvf.com/demos-111.php) ([Tweet](https://x.com/RisingSayak/status/1709495863700025363?s=20)).
-- A talk on diffusion models, ETH Zurich (May 06, 2024). Slides are [here](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing).
-- Transformers in Diffusion Models for Image Generation and Beyond, [CS25 v5](https://web.stanford.edu/class/cs25/), Stanford (May 27, 2025) ([slides](http://bit.ly/dit-cs25) and [recording](https://youtu.be/vXtapCFctTI?si=dlcEJZSJyaozk5W7)) (a little shoutout from [Sander Dieleman](https://x.com/sedielem/status/1948840076181438905)).
-- State of Open Video Generation Models, Indian Institute of Science (IISc) (Sept 17, 2025). Slides are [here](https://bit.ly/vid-gen-iisc).
-- Optimizing the Full Stack for Generative Image and Video Models, CBMM MIT (Sept 22, 2025). Slides are [here](https://docs.google.com/presentation/d/1swpEKA8o992Ezt2kEuKR50rnj9PnrFaVzJXwlh4TRSQ/edit?usp=sharing). Video is [here](https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI).
-- Controllable Video Diffusion for Length 📹, [LongVid Workshop (ICCV'25)](https://ramoscsv.github.io/longvid_foundations/) (Oct 20, 2025). Slides are [here](https://docs.google.com/presentation/d/1U5FaQAFhwPYTT0H2eNBn0q9bxa5KaFM2At32nvRfquI/edit?usp=sharing).
+| Talk | Venue | Date | Links |
+|---|---|---|---|
+| SoTA Diffusion Models with 🧨 diffusers | IBM Research | October 17, 2023 | [slides](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing), [recording](https://youtu.be/qo5ubQadvfs) |
+| SoTA Diffusion Models with 🧨 diffusers | [The Dyson Robotics Lab](https://www.imperial.ac.uk/dyson-robotics-lab/), Imperial College London | 2023 | [slides](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing), [recording](https://youtu.be/qo5ubQadvfs) |
+| SoTA Diffusion Models with 🧨 diffusers | Department of Statistics, University of Oxford | 2023 | [slides](https://docs.google.com/presentation/d/1y53Own2-934ljJUIu36aFhGDuW0y71Wd6ZxO64-Q-aI/edit?usp=sharing), [recording](https://youtu.be/qo5ubQadvfs) |
+| 🧨 diffusers for research | [VAL](https://val.cds.iisc.ac.in/), Indian Institute of Science (IISc) | June 12, 2023 | [slides](https://docs.google.com/presentation/d/1xBfs8yPVC4jeHJR4ShV0YIjpgC6glS4R6xD6BrxaU10/edit?usp=sharing) |
+| Controlling Text-to-Image Diffusion Models: Assorted Approaches | [BigMAC ICCV Workshop](https://bigmac-vision.github.io/) | 2023 | [slides](https://docs.google.com/presentation/d/1h5m96ne8OHh7mRigMqBTRtiLMADG-r2qudFGL57KCYA/edit#slide=id.p), [recording](https://www.youtube.com/watch?v=XiouM3MEOKs&t=9254s) |
+| Controlling Text-to-Image Diffusion Models: Assorted Approaches | UCL | June 2024 | — |
+| Controlling Text-to-Image Diffusion Models: Assorted Approaches | Texas A&M University | Sept 2024 | [slides](https://docs.google.com/presentation/d/12svjPQlZcnk5bykRguWeX1wEMGJ5XiBgzYFNWT3GMK0/edit?usp=sharing) |
+| Controlling Text-to-Image Diffusion Models: Assorted Approaches | UC Berkeley | October 2024 | [slides](https://docs.google.com/presentation/d/16DKCpmFNu0eUxHQJm9TpKnKm3grk6YAafEI0Mw8Lkqs/edit?usp=sharing), [recording](https://youtu.be/rcTsFgRF6DA) |
+| Controlling Text-to-Image Diffusion Models: Assorted Approaches | [ICDMAI'25](https://icdmai.org/) | 2025 | [slides](https://docs.google.com/presentation/d/1aSh53qM3Bv_edSfxXYtKmwaf0tiMn82w_-FYds7YTRc/edit?usp=sharing) |
+| Demo of 🧨 diffusers | [ICCV 2023](https://iccv2023.thecvf.com/demos-111.php) | 2023 | [Tweet](https://x.com/RisingSayak/status/1709495863700025363?s=20) |
+| A talk on diffusion models | ETH Zurich | May 06, 2024 | [slides](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing) |
+| Transformers in Diffusion Models for Image Generation and Beyond | [CS25 v5](https://web.stanford.edu/class/cs25/), Stanford | May 27, 2025 | [slides](http://bit.ly/dit-cs25), [recording](https://youtu.be/vXtapCFctTI?si=dlcEJZSJyaozk5W7) |
+| State of Open Video Generation Models | Indian Institute of Science (IISc) | Sept 17, 2025 | [slides](https://bit.ly/vid-gen-iisc) |
+| Optimizing the Full Stack for Generative Image and Video Models | CBMM MIT | Sept 22, 2025 | [slides](https://docs.google.com/presentation/d/1swpEKA8o992Ezt2kEuKR50rnj9PnrFaVzJXwlh4TRSQ/edit?usp=sharing), [recording](https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI) |
+| Controllable Video Diffusion for Length 📹 | [LongVid Workshop (ICCV'25)](https://ramoscsv.github.io/longvid_foundations/) | Oct 20, 2025 | [slides](https://docs.google.com/presentation/d/1U5FaQAFhwPYTT0H2eNBn0q9bxa5KaFM2At32nvRfquI/edit?usp=sharing) |
+
+*A little shoutout on the CS25 v5 Stanford talk from [Sander Dieleman](https://x.com/sedielem/status/1948840076181438905).*
 
 For regular talks, refer [here](https://sayak.dev/talksseminarsworkshops/). 
 
