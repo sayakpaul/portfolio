@@ -34,7 +34,7 @@ on the publications I have been fortunate to be a part of.
 | A talk on diffusion models | ETH Zurich | May 06, 2024 | [slides](https://docs.google.com/presentation/d/1vuAmG9O3N12d2amjjfy3_qUwvp1cRrjMAKjSDl-N_os/edit?usp=sharing) |
 | Transformers in Diffusion Models for Image Generation and Beyond | [CS25 v5](https://web.stanford.edu/class/cs25/), Stanford | May 27, 2025 | [slides](http://bit.ly/dit-cs25), [recording](https://youtu.be/vXtapCFctTI?si=dlcEJZSJyaozk5W7) |
 | State of Open Video Generation Models | Indian Institute of Science (IISc) | Sept 17, 2025 | [slides](https://bit.ly/vid-gen-iisc) |
-| Optimizing the Full Stack for Generative Image and Video Models | CBMM MIT | Sept 22, 2025 | [slides](https://docs.google.com/presentation/d/1swpEKA8o992Ezt2kEuKR50rnj9PnrFaVzJXwlh4TRSQ/edit?usp=sharing), [recording](https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI) |
+| Optimizing the Full Stack for Generative Image and Video Models | [CBMM MIT](https://cbmm.mit.edu/) | Sept 22, 2025 | [slides](https://docs.google.com/presentation/d/1swpEKA8o992Ezt2kEuKR50rnj9PnrFaVzJXwlh4TRSQ/edit?usp=sharing), [recording](https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI) |
 | Controllable Video Diffusion for Length 📹 | [LongVid Workshop (ICCV'25)](https://ramoscsv.github.io/longvid_foundations/) | Oct 20, 2025 | [slides](https://docs.google.com/presentation/d/1U5FaQAFhwPYTT0H2eNBn0q9bxa5KaFM2At32nvRfquI/edit?usp=sharing) |
 
 *A little shoutout on the CS25 v5 Stanford talk from [Sander Dieleman](https://x.com/sedielem/status/1948840076181438905).*
