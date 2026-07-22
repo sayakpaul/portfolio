@@ -191,21 +191,21 @@
   {
     "objectID": "blog.html",
     "href": "blog.html",
-    "title": "Sayak Paul",
+    "title": "Blog",
     "section": "",
     "text": "Setting up and getting up to speed with an AMD Strix Halo (Ryzen AI Max+ 395) mini-PC for local AI development.\n\n\n\n\n\nJul 7, 2026\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nOptimizing flow-based image and video generation models beyond just speed.\n\n\n\n\n\nAug 11, 2025\n\n21 min\n\n\n\n\n\n\n\n\n\n\n\n\nDifferent forms of attention mechanisms, used in modern diffusion models.\n\n\n\n\n\nFeb 27, 2025\n\n16 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearnings from streamlining the PyPI releases of 🧨 Diffusers.\n\n\n\n\n\nMar 15, 2024\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nThoughts on learning and exercising ML skills.\n\n\n\n\n\nMay 27, 2022\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nSharing my perspective on two primary questions related to Google Summer of Code.\n\n\n\n\n\nMar 13, 2022\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nConverting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.\n\n\n\n\n\nFeb 3, 2022\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis post shows how to build and install OpenCV 4.5.0 on a MacBook Pro that comes with an M1 chip.\n\n\n\n\n\nJan 1, 2021\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis post compares two Deep Learning-based text detectors CRAFT and EAST with respect to deployment-specific requirements.\n\n\n\n\n\nNov 27, 2020\n\n\nSayak Paul, Tulasi Ram Laghumavarapu\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearn about the criticalities of effectively optimizing MobileDet object detectors for mobile deployments.\n\n\n\n\n\nSep 29, 2020\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearn about different ways of doing data augmentation when training an image classifier in tf.keras.\n\n\n\n\n\nMay 10, 2020\n\n7 min\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html#all-posts",
     "href": "blog.html#all-posts",
-    "title": "Sayak Paul",
+    "title": "Blog",
     "section": "",
     "text": "Setting up and getting up to speed with an AMD Strix Halo (Ryzen AI Max+ 395) mini-PC for local AI development.\n\n\n\n\n\nJul 7, 2026\n\n11 min\n\n\n\n\n\n\n\n\n\n\n\n\nOptimizing flow-based image and video generation models beyond just speed.\n\n\n\n\n\nAug 11, 2025\n\n21 min\n\n\n\n\n\n\n\n\n\n\n\n\nDifferent forms of attention mechanisms, used in modern diffusion models.\n\n\n\n\n\nFeb 27, 2025\n\n16 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearnings from streamlining the PyPI releases of 🧨 Diffusers.\n\n\n\n\n\nMar 15, 2024\n\n4 min\n\n\n\n\n\n\n\n\n\n\n\n\nThoughts on learning and exercising ML skills.\n\n\n\n\n\nMay 27, 2022\n\n9 min\n\n\n\n\n\n\n\n\n\n\n\n\nSharing my perspective on two primary questions related to Google Summer of Code.\n\n\n\n\n\nMar 13, 2022\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nConverting PyTorch ConvNeXt models to TensorFlow and publishing them on TF-Hub.\n\n\n\n\n\nFeb 3, 2022\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis post shows how to build and install OpenCV 4.5.0 on a MacBook Pro that comes with an M1 chip.\n\n\n\n\n\nJan 1, 2021\n\n5 min\n\n\n\n\n\n\n\n\n\n\n\n\nThis post compares two Deep Learning-based text detectors CRAFT and EAST with respect to deployment-specific requirements.\n\n\n\n\n\nNov 27, 2020\n\n\nSayak Paul, Tulasi Ram Laghumavarapu\n\n8 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearn about the criticalities of effectively optimizing MobileDet object detectors for mobile deployments.\n\n\n\n\n\nSep 29, 2020\n\n12 min\n\n\n\n\n\n\n\n\n\n\n\n\nLearn about different ways of doing data augmentation when training an image classifier in tf.keras.\n\n\n\n\n\nMay 10, 2020\n\n7 min\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog.html#from-the-past",
     "href": "blog.html#from-the-past",
-    "title": "Sayak Paul",
+    "title": "Blog",
     "section": "From the Past",
     "text": "From the Past\nCheck them here."
   },
