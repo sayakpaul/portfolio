@@ -1,4 +1,5 @@
 ---
+title: "Blog"
 toc: false
 listing:
   - id: all-posts
