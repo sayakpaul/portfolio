@@ -404,6 +404,16 @@ ga('send', {
 
 
 
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This post has an accompanying talk I gave at the MIT BCS department. <a href="https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI">Watch the video here</a>.</p>
+</div>
+</div>
+</div>
 <p>For the past few years, the space of synthetic image and video generation has been on the rise. The results have been nothing short of extraordinary, and they continue to get better. At the center of this revolution lies a class of models – flow-matching – known for its unique framework to connect noise to data through a straight line<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> <span class="citation" data-cites="lipman2023flow">[<a href="#ref-lipman2023flow" role="doc-biblioref">1</a>]</span>.</p>
 <p>Typically, these generative models take different forms of input conditions, and natural language is perhaps the most popular one. Being able to generate images and videos just from natural language descriptions is liberating. You may already recall some popular models / organizations in this line: DALL-E 3, Stable Diffusion, Flux, Pika, Midjourney, etc. You may also know them to be “diffusion models” <span class="citation" data-cites="NEURIPS2020_4c5bcfec">[<a href="#ref-NEURIPS2020_4c5bcfec" role="doc-biblioref">2</a>]</span>. Flow-matching subsumes diffusion as a special case <span class="citation" data-cites="lipman2023flow">[<a href="#ref-lipman2023flow" role="doc-biblioref">1</a>]</span>. This means that the principles and optimizations discussed for flow-based models are often directly applicable to diffusion models, as they represent a specific instance within the broader flow-matching framework.</p>
 <p>Unlike GANs (Generative Adversarial Networks) <span class="citation" data-cites="NIPS2014_f033ed80">[<a href="#ref-NIPS2014_f033ed80" role="doc-biblioref">3</a>]</span>, these models are not one-shot. They are typically invoked multiple times over a fixed number of iterations to reach a reasonable output. By design, these steps cannot be parallelized<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Therefore, despite extremely convincing results, these models are believed to be notoriously difficult to optimize when it comes to serving.</p>
