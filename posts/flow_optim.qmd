@@ -20,6 +20,10 @@ css: custom_css/figcaption.css
 callout-appearance: simple
 ---
 
+::: {.callout-note}
+This post has an accompanying talk I gave at the MIT BCS department. [Watch the video here](https://youtu.be/okgOtuRUCBs?si=g9HrJs0kZ_1cdKZI).
+:::
+
 For the past few years, the space of synthetic image and video generation has been on the rise. The
 results have been nothing short of extraordinary, and they continue to get better. At the center
 of this revolution lies a class of models – flow-matching – known for its unique
