@@ -29,6 +29,14 @@ callout-appearance: simple
 This work was done at [Carted](https://www.carted.com/), where I worked as a (founding) machine learning engineer. The post was originally published on the [Carted blog](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-1/).
 :::
 
+::: {.callout-note}
+This article is part of a three-part series on handling variable-length text sequences in TensorFlow:
+
+1. Part 1: Optimizing Sequence Padding *(you are here)*
+2. [Part 2: Training a Simple BERT Model](variable-length-sequences-in-tensorflow-part-2.html)
+3. [Part 3: Using a Sentence-Conditioned BERT Encoder](variable-length-sequences-in-tensorflow-part-3.html)
+:::
+
 Text data comes in different shapes and sizes: sequences of characters, sequences of words, sequences of sentences, and so on. This lack of uniformity has implications when working with machine learning (ML) algorithms that process text sequences in batches. The batches need to have uniform-length sequences, however, text sequences are often of varying lengths.
 
 In this three-part series, we will review different strategies to handle variable-length sequences in TensorFlow with a focus on performance, and discuss the pros and cons of each strategy along with their implementations in TensorFlow.

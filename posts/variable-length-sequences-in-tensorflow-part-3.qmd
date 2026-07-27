@@ -29,6 +29,14 @@ callout-appearance: simple
 This work was done at [Carted](https://www.carted.com/), where I worked as a (founding) machine learning engineer. The post was originally published on the [Carted blog](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-3/).
 :::
 
+::: {.callout-note}
+This article is part of a three-part series on handling variable-length text sequences in TensorFlow:
+
+1. [Part 1: Optimizing Sequence Padding](variable-length-sequences-in-tensorflow-part-1.html)
+2. [Part 2: Training a Simple BERT Model](variable-length-sequences-in-tensorflow-part-2.html)
+3. Part 3: Using a Sentence-Conditioned BERT Encoder *(you are here)*
+:::
+
 In [Part 2](variable-length-sequences-in-tensorflow-part-2.html) of this series, we discussed techniques to efficiently process variable-length sequences for training a BERT-based text classification model. Since text descriptions often span multiple sentences, we will conclude this 3-part series with a look at a sentence-conditioned BERT encoder (such as [this](https://aclanthology.org/2021.emnlp-main.502/)) which is more applicable to real-world use.
 
 In this article, we'll be splitting the movie descriptions from our dataset into sentences and then encoding them with a suitable BERT encoder. This will require a few non-trivial changes to our codebase from [Part 2](variable-length-sequences-in-tensorflow-part-2.html).

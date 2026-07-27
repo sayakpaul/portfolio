@@ -29,6 +29,14 @@ callout-appearance: simple
 This work was done at [Carted](https://www.carted.com/), where I worked as a (founding) machine learning engineer. The post was originally published on the [Carted blog](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-2/).
 :::
 
+::: {.callout-note}
+This article is part of a three-part series on handling variable-length text sequences in TensorFlow:
+
+1. [Part 1: Optimizing Sequence Padding](variable-length-sequences-in-tensorflow-part-1.html)
+2. Part 2: Training a Simple BERT Model *(you are here)*
+3. [Part 3: Using a Sentence-Conditioned BERT Encoder](variable-length-sequences-in-tensorflow-part-3.html)
+:::
+
 In [Part 1](variable-length-sequences-in-tensorflow-part-1.html) of this series, we discussed a strategy to efficiently handle variable-length text data for simpler models. In this article, we will discuss the changes we need to make to our data pipeline when dealing with more complex models such as [BERT](https://arxiv.org/abs/1810.04805).
 
 If you've not already read [Part 1](variable-length-sequences-in-tensorflow-part-1.html) we strongly encourage you to read it first before continuing with this article.
