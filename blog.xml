@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.9.38</generator>
+<generator>quarto-1.10.18</generator>
 <lastBuildDate>Tue, 07 Jul 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>Up to speed with the AMD Strix Halo</title>
@@ -2479,6 +2479,490 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
   <media:content url="https://sayak.dev/posts/pypi-releases-diffusers.png" medium="image" type="image/png" height="72" width="144"/>
 </item>
 <item>
+  <title>Better Hardware Provisioning for ML Experiments</title>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/better-hardware-provisioning-for-ml-experiments.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/better-hardware-provisioning-for-ml-experiments/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>In this article, highlight the pain points of provisioning hardware manually (especially for ML experiments), discuss how they originate, and how we can address these issues by provisioning hardware with code.</p>
+<p>We’ll cover this using Vertex AI Workbench instances and Terraform. After going through the article, you’ll have the skills and knowledge to inspect your ML hardware provisioning workflows and find opportunities to improve them with code.</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Machine Learning (ML) requires extensive experimentation. Modern cloud service platforms such as Google Cloud Platform (GCP) provide feature-rich GUIs that enable ML practitioners to quickly spin-up hardware instances with everything set up – Python libraries, system-level packages, CUDA drivers, and so on.</p>
+<p>A typical workflow here involves a few clicks on a GUI where you configure your instance, and you’re set! The entire process is quite fast, enabling you to get started quickly.</p>
+<p>But what if there are certain requirements that your team needs to meet?</p>
+<ul>
+<li>Custom dependencies not covered by the pre-built container images provided by the cloud platform.</li>
+<li>Set up Python environments for running your experiments.</li>
+<li>Attach a startup script that monitors the CPU utilization of your instance and automatically shuts it down if the utilization is low.</li>
+<li>Accompany the instance with a Google Cloud Storage (GCS) bucket.</li>
+</ul>
+<p>It can quickly become painful if you need to go over the above steps every time you spin up a notebook via the GUI.</p>
+<p>It’s easy to miss a step when manually setting up a notebook instance via the GUI even with documented instructions. It can be even more complicated if the instructions themselves are not self-sufficient.</p>
+<p>Wouldn’t it be more effective if you could use a single command to provision your hardware per your configurations? This is where a programmatic approach for provisioning hardware can be powerful — encouraging version control, reproducibility, and transparency within your team and beyond.</p>
+<p>To learn more, read on.</p>
+</section>
+<section id="the-typical-hardware-provisioning-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="the-typical-hardware-provisioning-workflow">The typical hardware provisioning workflow</h2>
+<p>To run experiments that need to go beyond your local machine, you’d typically start by spinning up a notebook instance. You’ll likely use <a href="https://cloud.google.com/vertex-ai-workbench">Vertex AI Workbenches</a> if you’re on GCP, and it provides various options to customize your notebook instance to your specification:</p>
+<ul>
+<li>Base machine type</li>
+<li>Base machine image (Docker) to mount</li>
+<li>GPU type and its count</li>
+<li>Boot and data disk sizes</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/better-hardware-provisioning-for-ml-experiments/gcp-notebook-ui.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1</strong>: Vertex AI Workbench customization interface</figcaption>
+</figure>
+</div>
+<p>Next, you’d optionally create a Google Cloud Storage bucket to store the artifacts produced during the experimentation process. This can also be done using a few clicks from the GUI:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/better-hardware-provisioning-for-ml-experiments/cloud-storage-bucket-ui.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2</strong>: Cloud Storage interface</figcaption>
+</figure>
+</div>
+<p>If everything went well, you should be ready to start running the experiments. While this workflow appears straightforward, it comes with several hidden debts. Let’s discuss them now.</p>
+</section>
+<section id="problems-with-the-typical-workflow" class="level2">
+<h2 class="anchored" data-anchor-id="problems-with-the-typical-workflow">Problems with the typical workflow</h2>
+<p>It’s a manual, fallible process:</p>
+<ul>
+<li>Busy-work is created from repeating the same steps every time a new instance is created.</li>
+<li>Configuration drift and errors that stem from human error.</li>
+</ul>
+<p>Manual efforts, in this case, are error-prone. The more steps and resources involved in your hardware provisioning workflow, the harder it becomes to keep track of them.</p>
+<p>Moreover, missing a step is trivial if the process is manual, and it also has a direct effect on resource clean-up. Every time a resource is provisioned for experimentation, it must be manually cleaned up after its usage is complete.</p>
+<p>Terraform summarizes this aptly:</p>
+<blockquote class="blockquote">
+<p>“Provisioning infrastructure through point-and-click GUI’s or custom scripts is slow, error-prone, inefficient, and doesn’t scale.”</p>
+</blockquote>
+<p>Next, we’ll discuss how we can leverage Terraform to provision infrastructure with code and the advantages of moving away from a manual process.</p>
+</section>
+<section id="enter-terraform" class="level2">
+<h2 class="anchored" data-anchor-id="enter-terraform">Enter Terraform</h2>
+<p>We can realize the same workflow but with code this time. Figure 3 provides a schematic of the workflow:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/better-hardware-provisioning-for-ml-experiments/hardware-provisioning-workflow.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3</strong>: Standard hardware provisioning workflow with Terraform</figcaption>
+</figure>
+</div>
+<p>In case you need a refresher on Terraform, you can check out <a href="https://www.youtube.com/watch?v=iRaai1IBlB0">this video from freeCodeCamp</a>.</p>
+<p>The standard anatomy for Terraform code in our context contains a few files:</p>
+<ul>
+<li><code>variables.tf</code> where we define variables like notebook instance name, base machine type, type and number of GPUs, base Docker image, and so on.</li>
+<li><code>main.tf</code> where we specify what resources are to be provisioned with <code>variables.tf</code>.</li>
+<li><code>scripts/startup_script.sh</code> where we define anything additional that needs to be executed every time the instance is booted. This could be monitoring CPU utilization, checking for a custom system dependency, and so on.</li>
+</ul>
+<p>Note that we could just maintain a single <code>.tf</code> file and define everything inside of it. However, having separate, semantically-related files helps with separation of concerns and keeping the configuration maintainable. The <code>.tf</code> extension is for HCL (<a href="https://www.terraform.io/language">Hashicorp Configuration Language</a>).</p>
+<p>Let’s now discuss how we could write each of the above-mentioned files to maximize our productivity in the hardware provisioning workflow.</p>
+<p>The code discussed in the below sections can be found in <a href="https://github.com/carted/cloud-next-22-terraform">this repository</a>.</p>
+</section>
+<section id="the-variables.tf-file" class="level2">
+<h2 class="anchored" data-anchor-id="the-variables.tf-file">The <code>variables.tf</code> file</h2>
+<p>We can divide the contents of this file into meaningful components:</p>
+<ul>
+<li>GCP related information (project ID, location, etc.)</li>
+<li>Notebook instance related information (instance name, base machine type, etc.)</li>
+<li>GCS bucket related information (bucket name, region, etc.)</li>
+</ul>
+<p>For each of these components, we can create variables of the type <code>object</code> and define their structures. For example, we could define a variable called <code>gcp</code> like so:</p>
+<pre class="hcl"><code>variable "gcp" {
+  type = object(
+    {
+      project_id = string
+      location   = string
+      region     = string
+    }
+  )
+  default = {
+    project_id = "my-gcp-project"
+    location   = "us-central1-a"
+    region     = "us-central1"
+  }
+}</code></pre>
+<p>The code here is self-explanatory. Similarly, we can define the rest of the variables:</p>
+<pre class="hcl"><code>variable "notebook" {
+  type = object(
+    {
+      notebook_name      = string
+      machine_type       = string
+      gpu_type           = string
+      gpu_count          = number
+      image_family       = string
+      install_gpu_driver = bool
+      boot_disk_size     = number
+      data_disk_size     = number
+    }
+  )
+  default = {
+    notebook_name      = "my-ml-nb"
+    machine_type       = "n1-standard-8"
+    gpu_type           = "NVIDIA_TESLA_T4"
+    gpu_count          = 1
+    image_family       = "common-cu113"
+    install_gpu_driver = true
+    boot_disk_size     = 200
+    data_disk_size     = 500
+  }
+}</code></pre>
+<div class="figure">
+<p><em>Notebook variable</em></p>
+</div>
+<pre class="hcl"><code>variable "gcs" {
+  type = object(
+    {
+      name          = string
+      location      = string
+      force_destroy = bool
+    }
+  )
+  default = {
+    name          = "ml-bucket-terraform"
+    location      = "us-central1"
+    force_destroy = false
+  }
+}</code></pre>
+<div class="figure">
+<p><em>GCS bucket variable</em></p>
+</div>
+<p>The members for these variables (<code>notebook</code> and <code>gcs</code>) are governed by their respective resource types. We’ll revisit this in a moment. Also, note that the members we’re defining have a correspondence to options that we would previously specify in their respective GUIs.</p>
+<p>Additionally, we need to define configurations for the network and sub-network for provisioning the notebook instance, but they are not important for this article. You can find the complete <code>variables.tf</code> file <a href="https://github.com/carted/cloud-next-22-terraform/blob/main/terraform/vars.tf">here</a>.</p>
+<p>We can now specify the resources that need to be provisioned in the <code>main.tf</code> file.</p>
+</section>
+<section id="the-main.tf-file" class="level2">
+<h2 class="anchored" data-anchor-id="the-main.tf-file">The <code>main.tf</code> file</h2>
+<p>We’ll start with the notebook instance because that’s where most of the money will be spent:</p>
+<pre class="hcl"><code>resource "google_notebooks_instance" "notebook_instance" {
+  project      = var.gcp.project_id
+  name         = var.notebook.notebook_name
+  machine_type = var.notebook.machine_type
+  location     = var.gcp.location
+
+  network = …
+  subnet  = …
+
+  vm_image {
+    project      = local.image_project
+    image_family = var.notebook.image_family
+  }
+
+  accelerator_config {
+    type       = var.notebook.gpu_type
+    core_count = var.notebook.gpu_count
+  }
+
+  install_gpu_driver = var.notebook.install_gpu_driver
+  boot_disk_size_gb  = var.notebook.boot_disk_size
+  data_disk_size_gb  = var.notebook.data_disk_size
+
+  metadata = { "startup-script" : file("startup.sh") }
+}</code></pre>
+<div class="figure">
+<p><em>Notebook instance Terraform resource</em></p>
+</div>
+<p>The configurations related to provisioning a notebook instance are all defined in the <code>variables.tf</code> file. Even though the configurations are fairly readable, you can find more details about them in the <a href="https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/notebooks_instance">official documentation</a>.</p>
+<p>One neat thing about Terraform is its support for passing arbitrary files to an instance’s <code>metadata</code>. This way, we can define all the logic in a separate script and simply pass that in accordingly. In this startup script, we create a Python virtual environment with Conda and monitor CPU utilization. You can find the implementation <a href="https://github.com/carted/cloud-next-22-terraform/blob/main/terraform/startup.sh">here</a>.</p>
+<p>The <a href="https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/storage_bucket">GCS bucket resource</a> can also be specified similarly:</p>
+<pre class="hcl"><code>resource "google_storage_bucket" "default" {
+  project                     = var.gcp.project_id
+  name                        = var.gcs.name
+  location                    = var.gcs.location
+  storage_class               = "REGIONAL"
+  force_destroy               = var.gcs.force_destroy
+  uniform_bucket_level_access = true
+}</code></pre>
+<div class="figure">
+<p><em>GCS bucket Terraform resource</em></p>
+</div>
+<p>Some optional things that we can do:</p>
+<ul>
+<li>Pass a URI of a custom container image if the custom dependencies are easier to manage that way. Check out the <a href="https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/notebooks_instance">official notebook resource documentation</a> to know more.</li>
+<li>Store the states created by Terraform in a remote location (like a GCS bucket) so that other team members can reuse them. Refer to <a href="https://cloud.google.com/docs/terraform/resource-management/store-state">this resource</a> for more details.</li>
+</ul>
+</section>
+<section id="tying-it-all-together" class="level2">
+<h2 class="anchored" data-anchor-id="tying-it-all-together">Tying it all together</h2>
+<p>Provided you have Terraform installed and GCP authentication out of the way, getting the hardware provisioned is just a matter of two commands:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb6-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terraform</span> init </span>
+<span id="cb6-2"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terraform</span> apply <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-auto-approve</span></span></code></pre></div></div>
+<p>Optionally, before the <code>apply</code> step, you can run <code>terraform plan</code> to get an overview of the resources that are going to be provisioned. It will take some time to process, and you will notice an output like so when it is finally done:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Apply</span> complete! Resources: 2 added, 0 changed, 0 destroyed.</span></code></pre></div></div>
+<p>From here, you can proceed straight to your <a href="https://console.cloud.google.com/vertex-ai/workbench/list/instances">Vertex AI Workbench console</a> and open the newly provisioned notebook instance. Then, after your ML experiments are done you can deprovision everything with a single command:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb8-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">terraform</span> destroy <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-auto-approve</span></span></code></pre></div></div>
+<p>Once deprovisioning is complete, you should notice the following output on your terminal:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb9-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">Destroy</span> complete! Resources: 2 destroyed.</span></code></pre></div></div>
+<p>You can also verify if the provisioned notebook instance matches the Terraform configuration. For example, you may want to check if the Python virtual environment got created appropriately or if the instance can log CPU utilization. You can refer to <a href="https://github.com/carted/cloud-next-22-terraform#verification">this section</a> if you’re interested in knowing more about verification.</p>
+<p>On the surface, it might look like a more involved process with all the files and commands, but it helps to establish a maintainable and repeatable process. Once you have figured out the variables and the resources you need to provision, the process is reduced to just a few shell commands. This becomes especially helpful when working in large or distributed teams.</p>
+</section>
+<section id="wrapping-up" class="level2">
+<h2 class="anchored" data-anchor-id="wrapping-up">Wrapping up</h2>
+<p>In this post, we shared how we provision hardware for ML experimentation at Carted. To summarize our discussion:</p>
+<p>Manual hardware provisioning is faulty, introducing repetitive work and rough edges. Streamlining the provisioning workflow establishes the <a href="https://en.wikipedia.org/wiki/Don%27t_repeat_yourself">DRY principle</a> and helps teams to have reproducibility and reduce errors when provisioning infrastructure.</p>
+<p>With infrastructure as code, we get:</p>
+<ul>
+<li>Version control</li>
+<li>Maintainability</li>
+<li>Reusability</li>
+</ul>
+<p>We hope you and your ML teams will benefit from the approaches we shared.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>terraform</category>
+  <category>gcp</category>
+  <category>vertex-ai</category>
+  <category>infrastructure</category>
+  <guid>https://sayak.dev/posts/better-hardware-provisioning-for-ml-experiments.html</guid>
+  <pubDate>Fri, 07 Oct 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/better-hardware-provisioning-for-ml-experiments/experiments-min.jpeg" medium="image" type="image/jpeg"/>
+</item>
+<item>
+  <title>Building an Efficient Machine Learning API</title>
+  <dc:creator>Nilabhra Roy Chowdhury</dc:creator>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/building-an-efficient-machine-learning-api.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/building-an-efficient-machine-learning-api/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>In ecommerce, accurate product categorization is important in order to provide contextual search results, effective filtering, relevant reporting, and product recommendations.</p>
+<p>At Carted, we’re building tools to enable developers to build seamless shopping experiences with access to the world’s billions of products. With such a large dataset, product categorization plays a crucial role in reaching this vision.</p>
+<p>The Machine Learning (ML) team at Carted was tasked with building a performant and efficient product categorization endpoint that will be used to categorize products within our product data pipeline. In this document, we’ll discuss some of the approaches we took to build our first iteration of this service.</p>
+<p>These methods can be extended to other discriminative tasks like <a href="https://huggingface.co/tasks/token-classification">token classification</a> and <a href="https://en.wikipedia.org/wiki/Textual_entailment">entailment</a>. It’s our hope that ML practitioners will benefit from understanding our approach and can incorporate some of our ideas into their own projects.</p>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>In the ML world, the predictive performance of models is important. But when using these models as a part of a broader system, efficiency becomes just as important. While predictive performance might be tightly related to a certain business metric (such as search relevance), efficiency is directly related to the dollars spent on running the model in production. Slower models take more time to produce predictions, which leads to higher costs.</p>
+<p>For <a href="https://developers.google.com/machine-learning/glossary/#online-inference">online and instantaneous predictions</a>, we often optimize for latency. For <a href="https://developers.google.com/machine-learning/glossary/#offline-inference">batch predictions</a>, it’s more common to optimize for throughput. In both cases, having faster models is beneficial as far as costs are concerned.</p>
+<p>As ML practitioners, our goal is to produce models that are accurate, performant, and efficient.</p>
+</section>
+<section id="measures-of-success" class="level2">
+<h2 class="anchored" data-anchor-id="measures-of-success">Measures of success</h2>
+<p>Given the title and/or description of an ecommerce product, the model is expected to predict the <a href="https://www.carted.com/blog/how-to-improve-sales-with-effective-categorization/">taxonomic category</a> to which the product should belong from Carted’s proprietary product taxonomy tree.</p>
+<p>For the model to be useful in production, an accuracy of 85-90% while being efficient were defined as minimum measures of success.</p>
+</section>
+<section id="the-data" class="level2">
+<h2 class="anchored" data-anchor-id="the-data">The data</h2>
+<p>For the first version of the product categorization model, we used eBay product titles and categories as our training data. To reduce complexity for our proof of concept, we limited the training data to items from the fashion vertical, and used category mappings provided by our category management team to understand the relationship between the Carted and eBay product taxonomy trees.</p>
+<p>In all, the resulting dataset comprised 1.2 million product titles and 65 potential target categories for each product.</p>
+</section>
+<section id="our-toolkit" class="level2">
+<h2 class="anchored" data-anchor-id="our-toolkit">Our toolkit</h2>
+<p>Below is a list of the main tools we used for this project, including a brief description of the role played by each:</p>
+<ul>
+<li><a href="https://huggingface.co/">Hugging Face (HF) Hub</a> to host model repositories for easy model access and checkpointing.</li>
+<li><a href="https://huggingface.co/docs/transformers/index">HF Transformers</a> to create variants of popular models using their intuitive API, such as our use of a custom variant of the <a href="https://github.com/huggingface/transformers/blob/main/src/transformers/models/roberta/modeling_roberta.py">RoBERTa model</a>. We leveraged the HF <a href="https://huggingface.co/docs/transformers/main_classes/trainer">Trainer</a> class to manage our training workloads.</li>
+<li><a href="https://huggingface.co/docs/datasets">HF Datasets</a> to manage our datasets.</li>
+<li><a href="https://pytorch.org/">PyTorch</a> to serve as the backend for HF.</li>
+<li><a href="https://wandb.ai/">Weights and Biases</a> to track training experiments.</li>
+<li><a href="https://www.terraform.io/">Terraform</a> to provision hardware infrastructure automation. <a href="https://onnxruntime.ai/">ONNX runtime</a> to facilitate a runtime for the model deployment.</li>
+</ul>
+</section>
+<section id="our-approach" class="level2">
+<h2 class="anchored" data-anchor-id="our-approach">Our approach</h2>
+<p>Our overall approach for obtaining the final product categorization model is presented in Figure 1.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-1---Diagram-of-our-overall-approach.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1:</strong> A diagram depicting our overall approach from our custom language model to the final, optimized categorization model.</figcaption>
+</figure>
+</div>
+<section id="building-a-custom-fine-tuned-language-model" class="level3">
+<h3 class="anchored" data-anchor-id="building-a-custom-fine-tuned-language-model">Building a custom, fine-tuned language model</h3>
+<p>We started by training a (masked) language model on our internal dataset consisting of product titles and descriptions, using a custom variant of <a href="https://arxiv.org/abs/1907.11692">RoBERTa</a>.</p>
+<p>Compared to equal capacity off-the-shelf models, our language model provided significant performance benefits on downstream tasks like product categorization. Having an in-house language model also meant that it could be used for other relevant downstream tasks like product attribute extraction, search relevance, and more. Figure 2 compares the performance of our in-house model to an off-the-shelf equivalent.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-2---Linear-evaluation-performance.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2:</strong> A chart showing the linear evaluation of our language model on an internal product categorization dataset compared to an off-the-shelf model.</figcaption>
+</figure>
+</div>
+<p>We then fine-tuned the language model on our internal product categorization dataset to obtain the initial version of the categorization model. The resulting model provided a top-1 accuracy of 89% on our held-out test set, which satisfied our goal of 85-90% accuracy.</p>
+</section>
+<section id="converting-to-onnx-for-free-performance-gains" class="level3">
+<h3 class="anchored" data-anchor-id="converting-to-onnx-for-free-performance-gains">Converting to ONNX for ‘free’ performance gains</h3>
+<p>ONNX is a model format that provides speed benefits on x86 CPUs without degrading the model’s predictive performance. Since our deployment infrastructure is CPU-based, optimizing the initial version of the model with ONNX was a no-brainer.</p>
+<p>With a vanilla ONNX export, we were able to reduce the latency by nearly 40% with very minimal effort. Figure 3 summarizes the gains obtained from the ONNX-optimized version of the original model.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-3---Average-latency-and-QPS.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3:</strong> A chart depicting the average latency and throughput improvements of the ONNX model over the original model.</figcaption>
+</figure>
+</div>
+<p>We performed the above benchmark on a <code>c2-standard-8</code> <a href="https://cloud.google.com/compute/docs/machine-types#compute-optimized_machine_family">machine type</a> to leverage its compute-optimized hardware (more on this later). After performing a couple of warm up runs, we reported the final latency and throughput — queries per second (QPS) — averaged across 100 iterations. Lower latency and higher throughput were achieved with the ONNX model.</p>
+<p>The benchmark results shown were calculated using a batch size of 1 and a sequence length of 64, however we observed similar behavior across different sequence lengths and batch sizes.</p>
+<p>But can we do better? Or more precisely, can we improve the latency further without hurting the predictive performance of the model?</p>
+<p>Read on to learn how we experimented to find the answer!</p>
+</section>
+</section>
+<section id="need-for-speed" class="level2">
+<h2 class="anchored" data-anchor-id="need-for-speed">Need for speed</h2>
+<p>As mentioned earlier, our goal was not only to build an accurate model. Success was also defined as an efficient model that could be cost-effectively deployed to production, and meet the latency expectations of our wider engineering team.</p>
+<p>Quantization, pruning, and distillation were the three techniques we examined to optimize the latency of our original model. A summary of our process and findings are described below.</p>
+<section id="quantization" class="level3">
+<h3 class="anchored" data-anchor-id="quantization">Quantization</h3>
+<p>In the context of Deep Learning, quantization reduces the numerical precision (for example, from Float32 to Int8) of the parameters and activations. The benefits of this are two-fold:</p>
+<ol type="1">
+<li>Reduced storage requirements due to the reduced numerical precision</li>
+<li>Lower latency through faster matrix multiplication</li>
+</ol>
+<p>We performed <a href="https://pytorch.org/blog/quantization-in-practice/#post-training-dynamicweight-only-quantization">dynamic-range quantization</a> on the original model, which produced a surprising result. Even though quantization is known to have some impact on a model’s predictive performance, in our case, it rendered our model to be about as accurate as a random choice!</p>
+<p>Upon further exploration we discovered the root cause of the issue. Our original model uses the <a href="https://arxiv.org/pdf/2002.05202">SwiGLU</a> activation function since it has shown performance benefits for <a href="https://arxiv.org/abs/1706.03762">Transformer</a>-based models. We found out that models using SwiGLU incur a tremendous amount of quantization error.</p>
+<p>In Figure 4, we present the histograms of the quantized parameter magnitudes of a Transformer block.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-4---Parameter-magnitudes-of-SwiGLU-vs-Non-SwiGLU-Transformer-block.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 4:</strong> Two charts showing the distribution of quantized parameters of the inner projection layer of a SwiGLU vs Non-SwiGLU Transformer block.</figcaption>
+</figure>
+</div>
+<p>We see that in the SwiGLU chart, the parameter magnitudes are highly-discretized. This makes it difficult to map the quantized values back to their floating-point counterparts during inference. We hypothesized that the quantized version of our original model wasn’t performing well because of this phenomenon.</p>
+<p>We incorporated this observation into the rest of the experiments we carried out.</p>
+</section>
+<section id="pruning" class="level3">
+<h3 class="anchored" data-anchor-id="pruning">Pruning</h3>
+<p>During training, a model usually has many weights which can be safely <a href="https://proceedings.neurips.cc/paper/1989/file/6c9882bbac1c7093bd25041881277658-Paper.pdf">“removed”</a> without incurring much change in the training loss by setting the value of a given weight to zero. In practice, it has been <a href="https://arxiv.org/pdf/1608.08710.pdf">seen</a> that up to 90% of all the weights of a neural network can be removed without any change in the model’s predictive prowess.</p>
+<p>This dramatic reduction of the model weights allows for effective compression of pruned neural networks. The secondary advantage is that less compute is required to make an inference as most of the weights are zeros. To do this, the neural network can be re-written such that only the computations involving the non-zero weights are performed, and the rest ignored.</p>
+<p>We pruned our trained model and ran our benchmark suite to test for improvements. While there were gains observed thanks to pruning, the gains were limited to the batched setting with a fixed (and large) sequence length, and performance actually regressed for ‘real-world’ scenarios of varying and much shorter product titles. Further details of this experiment are summarized below:</p>
+<ul>
+<li>We started from the original pruned model and then performed <a href="https://openreview.net/forum?id=jNB6vfl_680">Gradual Magnitude Pruning</a> with a target of 75% sparsity using the <a href="https://github.com/neuralmagic/sparseml">sparseml package</a> by <a href="https://neuralmagic.com/">Neural Magic</a>.</li>
+<li>During training, only the dense matrices of the RoBERTa encoder were pruned.</li>
+<li>The pruned model was converted to the ONNX format and then deployed in the <a href="https://github.com/neuralmagic/deepsparse">deepsparse</a> engine by Neural Magic.</li>
+<li>The pruned model had an accuracy of 87.9%.</li>
+<li>At a maximum sequence length of 512, the pruned model was 2x faster than the original model.</li>
+<li>In practice, the sequence lengths of the product titles are much shorter, for which the original ONNX model works faster than the pruned model on the <code>deepsparse</code> engine.</li>
+</ul>
+</section>
+<section id="distillation" class="level3">
+<h3 class="anchored" data-anchor-id="distillation">Distillation</h3>
+<p>After the poor results from pruning, we turned to <a href="https://arxiv.org/abs/1503.02531">knowledge distillation</a> which distills the so-called <em>‘dark knowledge’</em> of a bigger <em>teacher</em> model into a smaller <em>student</em> model. We used the following guiding principles to develop the student model architecture:</p>
+<ul>
+<li>No use of SwiGLU to avoid high quantization errors.</li>
+<li>Parameter initialization from the teacher model following <a href="https://arxiv.org/abs/1910.01108">DistilBERT</a>.</li>
+<li>Same model family as followed in <a href="https://arxiv.org/abs/2010.13382">FastFormers</a>.</li>
+</ul>
+<p>For performing knowledge distillation, we created a custom class inheriting from the <code>Trainer</code> class following the code from <a href="https://github.com/nlp-with-transformers/notebooks/blob/main/08_model-compression.ipynb">this notebook</a>. The student model was a standard <a href="https://huggingface.co/docs/transformers/model_doc/roberta">RoBERTa</a> with three encoder layers.</p>
+<p>Our student model built within these constraints incurred just over a 1% loss in the top-1 accuracy, but it also provided the best performance-speed trade-off. We did not experiment exhaustively with the distillation hyperparameters (such as distillation alpha and temperature). We believe with more hyperparameter tuning, we could have further optimized the accuracy performance.</p>
+<p>After obtaining the distilled model, we quantized it using dynamic-range quantization as we did earlier. Somewhat unsurprisingly (due to the removal of SwiGLU), the quantized student model (the distilled model) didn’t incur any drop in predictive performance.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-5---Average-latency-and-QPS-of-final-model.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 5:</strong> A chart showing the dramatic improvements to average latency and throughput of our final ONNX Quantized Distilled Model compared to earlier iterations.</figcaption>
+</figure>
+</div>
+<p>As shown in Figure 5, the quantized and distilled ONNX model brought a significant latency boost — we’re now down to <strong><em>4.63ms from 61.63ms</em></strong>! The combination of distillation and quantization also resulted in a dramatic size reduction, with the quantized student model weighing in at only 28MBs compared to 466MBs of the original model.</p>
+</section>
+</section>
+<section id="deployment-on-kubernetes-with-fastapi-and-gke" class="level2">
+<h2 class="anchored" data-anchor-id="deployment-on-kubernetes-with-fastapi-and-gke">Deployment on Kubernetes with FastAPI and GKE</h2>
+<p>In this section we walk through our deployment setup and take a look at how the deployed endpoint performed under a simulated production load. In short, we containerized the final (distilled and quantized) ONNX model as a Docker image and deployed it on a Kubernetes cluster. For inference we continued using CPUs, specifically 3rd Generation Intel® Xeon® Scalable CPUs.</p>
+<section id="setup" class="level3">
+<h3 class="anchored" data-anchor-id="setup">Setup</h3>
+<p>The model was deployed as a RESTful service with the help of <a href="https://fastapi.tiangolo.com/">FastAPI</a> running on a Kubernetes cluster. The following choices were made to suit our use case:</p>
+<ul>
+<li>The Docker image was constructed by adding layers on top of the <code>python:3.8</code> image.</li>
+<li>A worker manager such as <code>gunicorn</code> was not used since we wanted the Kubernetes load balancer to manage the pods. For the same reason, we served the model using a single <code>uvicorn</code> worker.</li>
+<li>We configured the horizontal pod autoscaling (HPA) to trigger if CPU utilization reached 60%. This was specific to the load testing setup we used. A higher percentage led to stalling during testing, and was not an issue we needed to triage at this time.</li>
+<li>We found that configuring CPU requests and CPU limits is unnecessary as the ONNX model is designed to use all the CPUs in parallel to maximize throughput.</li>
+</ul>
+</section>
+<section id="infrastructure" class="level3">
+<h3 class="anchored" data-anchor-id="infrastructure">Infrastructure</h3>
+<ul>
+<li>We automated the provisioning and the de-provisioning of the Google Cloud Platform (GCP) VMs using Terraform.</li>
+<li><code>kustomize</code> and <code>kubectl</code> are used to deploy our FastAPI image to the VMs provisioned by Terraform.</li>
+<li>To benefit from the parallel processing abilities of the ONNX runtime, we needed to use a VM with a CPU supporting AVX 512 instructions. We decided upon the c2 (or compute-optimized) instances offered by GCP, which offer the 3.9GHz Intel Cascade Lake processors. Specifically, we used the <a href="https://cloud.google.com/compute/docs/compute-optimized-machines#c2_machine_types">c2-standard-8</a> instances, where the 8 stands for the number of CPUs.</li>
+</ul>
+</section>
+<section id="load-testing" class="level3">
+<h3 class="anchored" data-anchor-id="load-testing">Load testing</h3>
+<p>One of our goals was to deliver an endpoint that can withstand a large volume of requests per second. To simulate this and monitor how the system performs under the stress, we decided to use Locust, an open-source Python-based load testing tool. Our load-testing setup was heavily inspired from the workflow presented in this article. We took the following steps to configure Locust and perform load testing:</p>
+<ul>
+<li>A master pod with 1 replica to control the Locust workers.</li>
+<li>5 replicas of the worker pod that would perform the actual load tests.</li>
+<li>We used a separate VM to port-forward the master pod’s port to our local machine via SSH to run the load test via the browser.</li>
+<li>In total, we spawned 2000 workers with 5 workers being spawned per second.</li>
+<li>We deployed the API with HPA set to spin up a maximum of 3 replicas for the sake of load testing.</li>
+</ul>
+<p>After running the load test, we observed that the system did not fail for a single request, although average latency increased rapidly as the number of requests per second increased.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/Figure-6---Load-test-statistics.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 6:</strong> A table showing the results of our load testing for request statistics and response times.</figcaption>
+</figure>
+</div>
+<p>As shown in Figure 6, latency during the test was as low as 4ms. The max and average latencies are very high, but it’s important to consider that these latencies are computed under high load and will not reflect usual working conditions.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this post, we shared our journey of obtaining a high-accuracy, low-latency product categorization endpoint, including a look at how the endpoint would perform in production with simulated load testing. We hope the approaches discussed in this post will help make your model endpoints faster and cheaper to run!</p>
+</section>
+<section id="acknowledgements" class="level2">
+<h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
+<p>Utilizing tools provided by <a href="https://huggingface.co/">Hugging Face</a> made our workflows more productive and enjoyable. We leveraged <code>transformers</code> to build our models and perform data preprocessing, <code>datasets</code> to manage our training data, <code>evaluate</code> to compare the different variants of the models we tried out, and Hugging Face Hub to manage all of the artifacts.</p>
+<p>Their tools let us focus on the core parts of our business while delegating away the boilerplate code. We recommend taking a look at their excellent resources for your own projects.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>onnx</category>
+  <category>quantization</category>
+  <category>distillation</category>
+  <category>kubernetes</category>
+  <category>nlp</category>
+  <guid>https://sayak.dev/posts/building-an-efficient-machine-learning-api.html</guid>
+  <pubDate>Fri, 02 Sep 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/building-an-efficient-machine-learning-api/milad-fakurian-bMSA5-tLFao-unsplash.jpg" medium="image" type="image/jpeg"/>
+</item>
+<item>
   <title>Practicing ML in a Non-ML Job</title>
   <link>https://sayak.dev/posts/ml-practice.html</link>
   <description><![CDATA[ 
@@ -2574,6 +3058,1421 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
   <pubDate>Fri, 27 May 2022 00:00:00 GMT</pubDate>
 </item>
 <item>
+  <title>Variable-Length Sequences in TensorFlow Part 3: Using a Sentence-Conditioned BERT Encoder</title>
+  <dc:creator>Nilabhra Roy Chowdhury</dc:creator>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-3.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-3/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>In <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> of this series, we discussed techniques to efficiently process variable-length sequences for training a BERT-based text classification model. Since text descriptions often span multiple sentences, we will conclude this 3-part series with a look at a sentence-conditioned BERT encoder (such as <a href="https://aclanthology.org/2021.emnlp-main.502/">this</a>) which is more applicable to real-world use.</p>
+<p>In this article, we’ll be splitting the movie descriptions from our dataset into sentences and then encoding them with a suitable BERT encoder. This will require a few non-trivial changes to our codebase from <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a>.</p>
+<p>If you haven’t already, we strongly recommend reading <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a> and <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> of this series before continuing with this article.</p>
+<section id="general-setup" class="level2">
+<h2 class="anchored" data-anchor-id="general-setup">General setup</h2>
+<p>As previously, we’ll be using <a href="https://www.kaggle.com/hijest/genre-classification-dataset-imdb">this dataset</a> from Kaggle which provides a <a href="https://developers.google.com/machine-learning/guides/text-classification">text classification problem</a>. Given a movie description of several sentences, our trained model should predict the genre out of 27 possible choices.</p>
+<p>Following standard practice, our approach was to first convert our dataset splits (training, validation, and testing) into TensorFlow Records (TFRecords). Specifically, we tokenized the movie descriptions using the <a href="https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3">respective BERT tokenizer</a> and then serialized them with respect to their labels (movie genres).</p>
+<p>You’re encouraged to check out the code that we’ve discussed so far <a href="https://github.com/carted/handling-variable-length-text-tf">in this repository</a>, where you’ll also find the code we’ll discuss in this article.</p>
+</section>
+<section id="what-are-we-doing-differently-this-time" class="level2">
+<h2 class="anchored" data-anchor-id="what-are-we-doing-differently-this-time">What are we doing differently this time?</h2>
+<p>In Part 2, we treated each movie description as a single sentence block and encoded it, however, the movie descriptions in our dataset often contain multiple sentences. This motivated us to test if encoding with a sentence-conditioned BERT model would help improve the performance of our text classification model even further.</p>
+<p>To do this, we’ll first split the movie descriptions into multiple sentences using the <a href="https://pypi.org/project/sentence-splitter/"><code>sentence-splitter</code></a> Python library. If a description contains a single sentence then the output will simply be a list containing that single sentence instead of multiple. The following is an example:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">from</span> sentence_splitter <span class="im" style="color: #00769E;
+background-color: null;
+font-style: inherit;">import</span> split_text_into_sentences</span>
+<span id="cb1-2"></span>
+<span id="cb1-3"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(split_text_into_sentences(</span>
+<span id="cb1-4">    text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'This is a paragraph. It contains several sentences. "But why," you ask?'</span>,</span>
+<span id="cb1-5">    language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'en'</span></span>
+<span id="cb1-6">    )</span>
+<span id="cb1-7">)</span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Outputs: ['This is a paragraph.', 'It contains several sentences.', '"But why," you ask?']</span></span>
+<span id="cb1-9"></span>
+<span id="cb1-10"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(split_text_into_sentences(</span>
+<span id="cb1-11">    text<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"This is a paragraph."</span>,</span>
+<span id="cb1-12">    language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'en'</span></span>
+<span id="cb1-13">    )</span>
+<span id="cb1-14">)</span>
+<span id="cb1-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Outputs: ['This is a paragraph.']</span></span></code></pre></div></div>
+<p>While simple enough, this change requires us to modify the original TFRecord preparation and parsing utilities. Let’s go over them one by one.</p>
+</section>
+<section id="changes-to-the-tfrecord-preparation-process" class="level2">
+<h2 class="anchored" data-anchor-id="changes-to-the-tfrecord-preparation-process">Changes to the TFRecord preparation process</h2>
+<p>The first change will be how we tokenize each movie description, which is shown below:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `summary` denotes a single movie description.</span></span>
+<span id="cb2-2">text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> split_text_into_sentences(summary, language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"en"</span>)</span>
+<span id="cb2-3">token_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> _tokenize_text.tokenizer(tf.constant(text))</span></code></pre></div></div>
+<p>To understand the effects better, let’s consider the following description:</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This is a paragraph. It contains several sentences. “But why,” you ask?</p>
+</div>
+</div>
+</div>
+<p>If we pass this description as it is to the BERT tokenizer the output will look like the following:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>tf.RaggedTensor [[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2003</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1037</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20423</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2009</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3397</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2195</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11746</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2021</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2339</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1010</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2017</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3198</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1029</span>]]]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
+<p>But if we first split the description into multiple sentences and then apply the tokenizer the outputs will be slightly different:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>tf.RaggedTensor [[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2023</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2003</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1037</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">20423</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>]], [[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2009</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3397</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2195</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11746</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>]], [[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2021</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2339</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1010</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2017</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3198</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1029</span>]]]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
+<p>Notice how the sentences have been tokenized here. Here’s the full code if you’d like to play around:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">tokenizer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> hub.load(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Requires `tensorflow-hub` and `tensorflow-text`.</span></span>
+<span id="cb5-2"></span>
+<span id="cb5-3">description <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'This is a paragraph. It contains several sentences. "But why," you ask?'</span></span>
+<span id="cb5-4"></span>
+<span id="cb5-5">text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> split_text_into_sentences(description, language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"en"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Requires `sentence-splitter` to be installed.</span></span>
+<span id="cb5-6">token_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tokenizer.tokenize(tf.constant(text))</span>
+<span id="cb5-7"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(token_list)</span></code></pre></div></div>
+<p>Since each description will now be a list of one or more sentences, we’ll first compute the <a href="https://developers.google.com/machine-learning/glossary/#embeddings">embeddings</a> on the individual sentences. We’ll then average those embeddings over the number of sentences for the given movie description. We’ll revisit this later in the article.</p>
+<p>To use the split sentences, we’ll need to store how many sentences a description has in its TFRecord example. Our TFRecord feature description would now look like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_serialized_text_features(features):</span>
+<span id="cb6-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Serializes all the Ragged features."""</span></span>
+<span id="cb6-3">    tokens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> features[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tokens"</span>]</span>
+<span id="cb6-4">    tokens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ragged_feature(tokens, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_sentences"</span>)</span>
+<span id="cb6-5"></span>
+<span id="cb6-6">    lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> features[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lens"</span>]</span>
+<span id="cb6-7">    lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.ragged.constant([lens])</span>
+<span id="cb6-8">    lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ragged_feature(lens, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_sentence_lens"</span>)</span>
+<span id="cb6-9"></span>
+<span id="cb6-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> tokens, lens</span>
+<span id="cb6-11"></span>
+<span id="cb6-12">features <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb6-13">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tokens"</span>: description_tokens,</span>
+<span id="cb6-14">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"lens"</span>: description_lens,</span>
+<span id="cb6-15">    }</span>
+<span id="cb6-16">    text_tokens, text_lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> get_serialized_text_features(features)</span>
+<span id="cb6-17"></span>
+<span id="cb6-18">    feature <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb6-19">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>: _bytes_feature(description),</span>
+<span id="cb6-20">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_num_sentences"</span>: _ints_feature([num_sentences]),</span>
+<span id="cb6-21">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>: _ints_feature([label]),</span>
+<span id="cb6-22">    }</span>
+<span id="cb6-23"></span>
+<span id="cb6-24">    feature.update(text_tokens)</span>
+<span id="cb6-25">    feature.update(text_lens)</span></code></pre></div></div>
+<p>Here, we use the <code>ragged_feature()</code> function introduced in <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> to represent both the sentence tokens and the number of tokens per sentence — as each summary will yield a variable number of sentences.</p>
+<p>To generate the <code>description_tokens</code>, we first split a given summary into a list of sentences and then perform the tokenization:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1">description_tokens, description_lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> _tokenize_text(</span>
+<span id="cb7-2">    split_text_into_sentences(summary, language<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"en"</span>)</span>
+<span id="cb7-3">)</span></code></pre></div></div>
+<p>All of the <code>summary</code>-related features will be utilized in our data pipeline and will be clarified in the forthcoming sections. With these changes, we can proceed to write the TFRecords. You can check <a href="https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/data-preparation-sentence-splitter.ipynb">this notebook</a> to see the full code.</p>
+</section>
+<section id="changes-to-the-tfrecord-parsing-utilities" class="level2">
+<h2 class="anchored" data-anchor-id="changes-to-the-tfrecord-parsing-utilities">Changes to the TFRecord parsing utilities</h2>
+<p>We need to add one more element to the parsing dictionary in order to read the lengths of the sentences per summary.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1">feature_descriptions <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb8-2">    ...</span>
+<span id="cb8-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_sentence_lens"</span>: tf.io.RaggedFeature(</span>
+<span id="cb8-4">        value_key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_sentence_lens_values"</span>,</span>
+<span id="cb8-5">        dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int64,</span>
+<span id="cb8-6">        partitions<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[</span>
+<span id="cb8-7">            tf.io.RaggedFeature.RowSplits(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_sentence_lens_splits_0"</span>),</span>
+<span id="cb8-8">        ],</span>
+<span id="cb8-9">    ),</span>
+<span id="cb8-10">    ...</span>
+<span id="cb8-11">}</span></code></pre></div></div>
+<p>Note that since this is a rank 1 <code>RaggedTensor</code>, we will only have one partition element.</p>
+</section>
+<section id="model-training" class="level2">
+<h2 class="anchored" data-anchor-id="model-training">Model training</h2>
+<p>We use the same model introduced in <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> which is essentially an affine layer with ReLU activation followed by another affine layer with softmax activation. The main difference here are the inputs to the model which is computed as the average of the sentence embeddings per summary.</p>
+<p>Specifically, for a given description we compute embeddings of all the sentences inside it and then average them. The averaging is done with the information on how many sentences the description contains. The sentence embeddings are obtained from the <a href="https://aclanthology.org/2021.emnlp-main.502/">Universal Sentence Encoder</a> model available in <a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1">TensorFlow Hub</a>.</p>
+<p>Discussing the details of how we average the sentence embeddings is out of scope for this article. However, for the full code on how we do that along with TFRecord parsing and model training please refer to <a href="https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/train-model-split-sentence.ipynb">this notebook</a>.</p>
+</section>
+<section id="performance" class="level2">
+<h2 class="anchored" data-anchor-id="performance">Performance</h2>
+<p>To evaluate our hypothesis, we compared the performance of our sentence-conditioned model against that used in <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a>. Additionally, we compared the performance of our new model using both variable-length and fixed-length batching strategies which we first discussed in <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a>.</p>
+<section id="sentence-conditioned-model" class="level3">
+<h3 class="anchored" data-anchor-id="sentence-conditioned-model">Sentence-conditioned model</h3>
+<p>Taken together, the much greater accuracy and relatively minor impact on training time of the sentence-conditioned model confirmed our hypothesis. For text data containing multiple sentences (such as our movie descriptions), using a sentence-conditioned BERT model is the recommended approach.</p>
+</section>
+<section id="training-time" class="level3">
+<h3 class="anchored" data-anchor-id="training-time">Training time</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/training-time-single-vs-multi-sentence.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1:</strong> Model training timings for single-sentence (top) and multi-sentence (bottom) BERT models using variable-length sequence padding.</figcaption>
+</figure>
+</div>
+<p>The average training time for the sentence-conditioned (multi-sentence) model was slightly longer than the single-sentence model trained in <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> by 3.9%.</p>
+</section>
+<section id="accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="accuracy">Accuracy</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/test-accuracy-single-vs-multi-sentence.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2:</strong> Model accuracy for single-sentence (top) and multi-sentence (bottom) BERT models.</figcaption>
+</figure>
+</div>
+<p>As shown in the cart, the multi-sentence (sentence-conditioned) model we trained in this article showed a rather dramatic improvement in test accuracy — achieving an accuracy of 61.9% compared to 56.0% for the simpler model trained in <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a>.</p>
+</section>
+<section id="sequence-padding-strategies" class="level3">
+<h3 class="anchored" data-anchor-id="sequence-padding-strategies">Sequence padding strategies</h3>
+<p>Consistent with the results we’ve seen in earlier parts of this series, using variable-length batch padding dramatically improves training time without loss of test accuracy.</p>
+</section>
+<section id="training-time-1" class="level3">
+<h3 class="anchored" data-anchor-id="training-time-1">Training time</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/training-time-padding-strategies.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3:</strong> Model training timings with variable (top) and fixed-length (bottom) sequences.</figcaption>
+</figure>
+</div>
+<p>The average training time for the model when using fixed-length batches of tokens is 6614 seconds while training with variable length batches is 1308 seconds — a reduction of over 80%.</p>
+</section>
+<section id="accuracy-1" class="level3">
+<h3 class="anchored" data-anchor-id="accuracy-1">Accuracy</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/test-accuracy-padding-strategies.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 4:</strong> Model test accuracies with variable (top) and fixed-length (bottom) sequences.</figcaption>
+</figure>
+</div>
+<p>The variable-length and fixed-length batching strategies yield test accuracies of 61.9% and 61.71% respectively.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this article series, we showed that handling sequence data in the right way can provide substantial timing improvements without affecting the final evaluation metric. We explained the importance of understanding your dataset — particularly, variability in sequence lengths and identifying appropriate sequence splits — before determining the approach used.</p>
+<p>Finally, we underscored that testing assumptions and validating alternative approaches is key to discovering ways to improve model training time whilst maintaining or even improving evaluation metrics.</p>
+<p>We hope you enjoyed the series and will be applying the discussed techniques in your own projects.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>tensorflow</category>
+  <category>nlp</category>
+  <category>bert</category>
+  <category>optimization</category>
+  <guid>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-3.html</guid>
+  <pubDate>Tue, 26 Apr 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/variable-length-sequences-part-3.png" medium="image" type="image/png"/>
+</item>
+<item>
+  <title>Variable-Length Sequences in TensorFlow Part 2: Training a Simple BERT Model</title>
+  <dc:creator>Nilabhra Roy Chowdhury</dc:creator>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-2.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-2/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>In <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a> of this series, we discussed a strategy to efficiently handle variable-length text data for simpler models. In this article, we will discuss the changes we need to make to our data pipeline when dealing with more complex models such as <a href="https://arxiv.org/abs/1810.04805">BERT</a>.</p>
+<p>If you’ve not already read <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a> we strongly encourage you to read it first before continuing with this article.</p>
+<section id="general-setup" class="level2">
+<h2 class="anchored" data-anchor-id="general-setup">General setup</h2>
+<p>As in <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a>, we’ll be using <a href="https://www.kaggle.com/hijest/genre-classification-dataset-imdb">this dataset</a> from Kaggle which provides a <a href="https://developers.google.com/machine-learning/guides/text-classification">text classification problem</a>. Given a movie description of several sentences, our trained model should predict the genre out of 27 possible choices.</p>
+<p>In <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a>, we already tokenized and encoded our descriptions and genres to prepare them for further processing.</p>
+<p>Next, we’ll convert the descriptions and their labels (i.e.&nbsp;their genres) to TensorFlow Records (TFRecords). Especially when using TensorFlow, serializing our data in this way means that we only need to apply preprocessing once during serialization rather than applying it each time data is loaded on demand.</p>
+<p>Text preprocessing typically includes stemming and lemmatization, tokenization, stopword and punctuation removal, and so on. You can refer to <a href="https://www.tensorflow.org/tutorials/load_data/tfrecord">this tutorial</a> for a refresher on TFRecords.</p>
+<p>In our case, we’ll be using a <a href="https://aclanthology.org/2021.emnlp-main.502/">Sentence BERT model</a> for encoding the movie descriptions but the discussed strategies will work with other sequence models as well. We have two preprocessing options here:</p>
+<ul>
+<li>Treat each description as a single sentence and tokenize it with an <a href="https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3">appropriate tokenizer</a>.</li>
+<li>Split each description into sentences and then tokenize them.</li>
+</ul>
+<p>In this article, we’ll cover the first option and the latter option will be covered in Part 3 of this series. Ultimately, we’ll take the tokenized descriptions and their labels and serialize them into multiple TFRecord shards.</p>
+<p>Full-fledged versions of the code shown in this article are <a href="https://github.com/carted/handling-variable-length-text-tf">available on GitHub</a>.</p>
+</section>
+<section id="tokenizing-the-descriptions" class="level2">
+<h2 class="anchored" data-anchor-id="tokenizing-the-descriptions">Tokenizing the descriptions</h2>
+<p>The movie descriptions will be stored as byte features and their labels will be stored as integer features inside the TFRecords.</p>
+<p>The <a href="https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3">BERT tokenizer</a> we’ll be using produces a <a href="https://www.tensorflow.org/guide/ragged_tensor">RaggedTensor</a>. For example, consider the following movie description:</p>
+<p><em>“Alan Bennett and director Nicholas Hytner discuss and dissect the process they went through to produce the final version of The Habit of Art, the critically acclaimed play in which a group of actors rehearse a play about W.H. Auden and Benjamin Britten.</em>”</p>
+<p>Given this description, the tokenizer will output the below:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `tf` is aliased as `import tensorflow as tf`</span></span>
+<span id="cb1-2"><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span>tf.RaggedTensor [[[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5070</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8076</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1998</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2472</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6141</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1044</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">22123</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3678</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6848</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1998</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4487</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11393</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6593</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1996</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2832</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2027</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2253</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2083</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2000</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3965</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1996</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2345</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2544</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1997</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1996</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10427</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1997</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2396</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1010</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1996</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">11321</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10251</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2377</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1999</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2029</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1037</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2177</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1997</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5889</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2128</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">26560</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3366</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1037</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2377</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2055</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1059</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1044</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8740</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">4181</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1998</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">6425</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">29429</span>], [<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1012</span>]]]<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;</span></span></code></pre></div></div>
+<p>However, this RaggedTensor cannot be directly serialized and it must first be flattened. We also need to store the row splitting information so that the tensor can be constructed from the ragged dimensions when it is deserialized.</p>
+<p>The flattened RaggedTensor and row splits are serialized as integer features stored in a list (of type <a href="https://www.tensorflow.org/api_docs/python/tf/train/Int64List"><code>tf.train.Int64List</code></a>). We can see this in practice with the following code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> _ints_feature(int_input: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> tf.train.Feature:</span>
+<span id="cb2-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Encoded given data as an integer feature."""</span></span>
+<span id="cb2-3">    int64_list <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.train.Int64List(value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>int_input)</span>
+<span id="cb2-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> tf.train.Feature(int64_list<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>int64_list)</span>
+<span id="cb2-5">    </span>
+<span id="cb2-6"></span>
+<span id="cb2-7"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> ragged_feature(</span>
+<span id="cb2-8">    ragged_input: tf.RaggedTensor, name: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span></span>
+<span id="cb2-9">) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> Dict[<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>, tf.train.Feature]:</span>
+<span id="cb2-10">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Returns a dictionary to represent a single ragged tensor as int64 features."""</span></span>
+<span id="cb2-11">    int64_components <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_values"</span>: _ints_feature(ragged_input.flat_values)}</span>
+<span id="cb2-12">    </span>
+<span id="cb2-13">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Collecting boundary information for the ragged dimensions.</span></span>
+<span id="cb2-14">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> i, d <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">enumerate</span>(ragged_input.nested_row_splits):</span>
+<span id="cb2-15">        int64_components[<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>name<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">_splits_</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>i<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> _ints_feature(d)</span>
+<span id="cb2-16">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> int64_components</span></code></pre></div></div>
+<p>To create an example inside a single TFRecord shard, we first need to create a dictionary mapping between the feature names and their values. In our case, we structured it like so:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">feature <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb3-2">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>: _bytes_feature(description),</span>
+<span id="cb3-3">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_len"</span>: _ints_feature([description_len]),</span>
+<span id="cb3-4">        <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>: _ints_feature([label]),</span>
+<span id="cb3-5">    }</span>
+<span id="cb3-6">feature.update(ragged_feature(description_tokens, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens"</span>))</span></code></pre></div></div>
+<p><code>summary</code> is the movie description. <code>summary_tokens</code> contains the tokenized output of a single description as shown above and <code>summary_tokens_len</code> denotes the length of the description. The full code containing these utilities can be found <a href="https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/data-preparation.ipynb">here</a>.</p>
+<p>We are also storing <code>summary_tokens_len</code> so that we can derive the maximum sequence length for a given batch. Instead of padding our inputs to the maximum sequence length allowed by BERT (512) we’ll pad with respect to the maximum sequence of a given batch.</p>
+<p>Later in the article, we’ll show the advantage of this method over padding sequences with a global sequence length. You can also refer to <a href="improving-dataflow-pipelines-for-text-data-processing.html">this article</a> to know its benefits beforehand.</p>
+<p>Lastly, we simply write the TFRecord shards with the above-mentioned structure.</p>
+</section>
+<section id="parsing-the-tfrecords-and-preparing-bert-inputs" class="level2">
+<h2 class="anchored" data-anchor-id="parsing-the-tfrecords-and-preparing-bert-inputs">Parsing the TFRecords and preparing BERT inputs</h2>
+<p>The serialized TFRecords must be parsed before being used as inputs to our BERT model, and a feature description is needed for parsing the TFRecords — ours look like so:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1">feature_descriptions <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb4-2">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>: tf.io.FixedLenFeature([], dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.string),</span>
+<span id="cb4-3">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens"</span>: tf.io.RaggedFeature(</span>
+<span id="cb4-4">        value_key<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_values"</span>,</span>
+<span id="cb4-5">        dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int64,</span>
+<span id="cb4-6">        partitions<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>[</span>
+<span id="cb4-7">            tf.io.RaggedFeature.RowSplits(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_splits_0"</span>),</span>
+<span id="cb4-8">            tf.io.RaggedFeature.RowSplits(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_splits_1"</span>),</span>
+<span id="cb4-9">        ],</span>
+<span id="cb4-10">    ),</span>
+<span id="cb4-11">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_len"</span>: tf.io.FixedLenFeature([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int64),</span>
+<span id="cb4-12">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>: tf.io.FixedLenFeature([<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>], dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int64),</span>
+<span id="cb4-13">}</span></code></pre></div></div>
+<p>The main thing to note is how we parse the ragged features. We are asking <a href="https://www.tensorflow.org/api_docs/python/tf/io/RaggedFeature"><code>tf.io.RaggedFeature</code></a> to look for <code>summary_tokens_values</code> in the serialized TFRecord string where the reconstruction information (the row splits) is provided in the <code>partition</code> argument.</p>
+<p>After the ragged feature is reconstructed into its original form, it’s loaded into <code>summary_tokens</code>. ​​For a visual understanding of how encoding of ragged tensors works in TensorFlow please refer to <a href="https://www.tensorflow.org/guide/ragged_tensor#raggedtensor_encoding">this guide</a>.</p>
+<p>We can read a single TFRecord shard with this description like so:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1">example <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.data.TFRecordDataset(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"demo.tfrecord"</span>)</span>
+<span id="cb5-2">example <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.io.parse_single_example(example, feature_description)</span></code></pre></div></div>
+<p>Our final dataset preparation function looks like the below:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> get_dataset(split, batch_size, shuffle):</span>
+<span id="cb6-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Prepares tf.data.Dataset objects from TFRecords."""</span></span>
+<span id="cb6-3">    ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.data.Dataset.list_files(<span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">f"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>TFRECORDS_DIR<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">/</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">{</span>split<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">}</span><span class="ss" style="color: #20794D;
+background-color: null;
+font-style: inherit;">-*.tfrecord"</span>)</span>
+<span id="cb6-4">    ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.data.TFRecordDataset(ds)</span>
+<span id="cb6-5">    ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ds.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">map</span>(read_example)</span>
+<span id="cb6-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">if</span> shuffle:</span>
+<span id="cb6-7">        ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ds.shuffle(batch_size <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>)</span>
+<span id="cb6-8">    ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ds.batch(batch_size)</span>
+<span id="cb6-9">    ds <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> ds.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">map</span>(preprocess_batch)</span>
+<span id="cb6-10">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> ds</span></code></pre></div></div>
+<p>The <code>read_example()</code> function first parses a given TFRecord with respect to the feature description, then casts the tokens from <code>int64</code> to <code>int32</code> (which is the input expected by <code>bert_input_packer</code>):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> read_example(example):</span>
+<span id="cb7-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Parses a single TFRecord file."""</span></span>
+<span id="cb7-3">    features <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.io.parse_single_example(example, feature_descriptions)</span>
+<span id="cb7-4">    features[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens"</span>] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.cast(</span>
+<span id="cb7-5">        features[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens"</span>].with_row_splits_dtype(tf.int64), tf.int32</span>
+<span id="cb7-6">    )</span>
+<span id="cb7-7">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> features</span></code></pre></div></div>
+<p>The <code>preprocess_batch()</code> function first calculates the maximum sequence length for the given batch and then prepares the batch for our BERT encoder:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `hub` is aliased as `import tensorflow_hub as hub` </span></span>
+<span id="cb8-2"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@set_text_preprocessor</span>(</span>
+<span id="cb8-3">    preprocessor_path<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3"</span></span>
+<span id="cb8-4">)</span>
+<span id="cb8-5"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> preprocess_batch(batch):</span>
+<span id="cb8-6">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Batch processing utility."""</span></span>
+<span id="cb8-7">    text_tokens_max_len <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.cast(</span>
+<span id="cb8-8">        tf.math.reduce_max(batch[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens_len"</span>]), dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int32,</span>
+<span id="cb8-9">    )</span>
+<span id="cb8-10"></span>
+<span id="cb8-11">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Generating inputs for the BERT model.</span></span>
+<span id="cb8-12">    bert_input_packer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> hub.KerasLayer(</span>
+<span id="cb8-13">        preprocess_batch.preprocessor.bert_pack_inputs,</span>
+<span id="cb8-14">        arguments<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>{<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"seq_length"</span>: tf.minimum(text_tokens_max_len <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, BERT_MAX_SEQLEN)},</span>
+<span id="cb8-15">    )</span>
+<span id="cb8-16">    bert_packed_text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> bert_input_packer(</span>
+<span id="cb8-17">        [tf.squeeze(batch.pop(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary_tokens"</span>), axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>)]</span>
+<span id="cb8-18">    )</span>
+<span id="cb8-19"></span>
+<span id="cb8-20">    labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> batch.pop(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"label"</span>)</span>
+<span id="cb8-21">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> bert_packed_text, labels</span></code></pre></div></div>
+<p><code>set_text_preprocessor()</code> is a decorator that loads a given preprocessor module from TensorFlow Hub and sets its tokenizer as that of the provided function:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> set_text_preprocessor(preprocessor_path: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-&gt;</span> Callable:</span>
+<span id="cb9-2">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">""" Decorator to set the desired preprocessor for a</span></span>
+<span id="cb9-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        function from a TensorFlow Hub URL.</span></span>
+<span id="cb9-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">            Arguments:</span></span>
+<span id="cb9-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        preprocessor_path {str} -- URL of the TF-Hub preprocessor.</span></span>
+<span id="cb9-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    </span></span>
+<span id="cb9-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    Returns:</span></span>
+<span id="cb9-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">        Callable -- A function with the `preprocessor` attribute set.</span></span>
+<span id="cb9-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">    """</span></span>
+<span id="cb9-10">    <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> decoration(func: Callable):</span>
+<span id="cb9-11">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Loading the preprocessor from TF-Hub</span></span>
+<span id="cb9-12">        preprocessor <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> hub.load(preprocessor_path)</span>
+<span id="cb9-13">        </span>
+<span id="cb9-14">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Setting an attribute called `preprocessor` to</span></span>
+<span id="cb9-15">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># the passed function</span></span>
+<span id="cb9-16">        func.preprocessor <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> preprocessor</span>
+<span id="cb9-17">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> func</span>
+<span id="cb9-18">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> decoration</span></code></pre></div></div>
+<p>Instead of initializing the BERT packer each time a batch is processed, we can also write a custom function for implementing the packing utility. This reduces the compute and memory overhead associated with each batch, which further reduces the model training time. Our implementation is available in <a href="https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/train-vanilla-bert.ipynb">this notebook</a>.</p>
+<p>If we analyze the maximum sequence lengths of different batches we get the following plot:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-2/max-sequence-lengths.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1</strong>: Maximum sequence lengths across batches.</figcaption>
+</figure>
+</div>
+<p>As can be seen, many batches have a maximum sequence length shorter than 512. As discussed in <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a>, a fixed 512 maximum sequence length would therefore result in significant compute waste.</p>
+<p>We acknowledge that padding with respect to the batch-wise maximum sequence length complicates the implementation but it also comes with significant performance improvements as shown in <a href="improving-dataflow-pipelines-for-text-data-processing.html">this article</a>. Note that if this strategy does not provide a performance boost as expected it’s better to use a global sequence length (shown later in the article).</p>
+</section>
+<section id="model-training" class="level2">
+<h2 class="anchored" data-anchor-id="model-training">Model training</h2>
+<p>With our data now preprocessed and encoded, we again choose to use a very simple classification model for demonstrating the advantage of variable length batching of text sequences. The model is defined as:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> genre_classifier(</span>
+<span id="cb10-2">    encoder_path: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>,</span>
+<span id="cb10-3">    input_features: List[<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">str</span>],</span>
+<span id="cb10-4">    train_encoder: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">bool</span>,</span>
+<span id="cb10-5">    proj_dim: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>,</span>
+<span id="cb10-6">    num_labels: <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">int</span>,</span>
+<span id="cb10-7">):</span>
+<span id="cb10-8">    <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">"""Creates a simple classification model."""</span></span>
+<span id="cb10-9">    text_encoder <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> hub.KerasLayer(encoder_path)</span>
+<span id="cb10-10">    text_encoder.trainable <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> train_encoder</span>
+<span id="cb10-11"></span>
+<span id="cb10-12">    inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> {</span>
+<span id="cb10-13">        feature_name: tf.keras.Input(shape<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>,), dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>tf.int32, name<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>feature_name)</span>
+<span id="cb10-14">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> feature_name <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> input_features</span>
+<span id="cb10-15">    }</span>
+<span id="cb10-16"></span>
+<span id="cb10-17">    text_encodings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> text_encoder(inputs)</span>
+<span id="cb10-18">    projections <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.keras.layers.Dense(proj_dim, activation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"relu"</span>)(</span>
+<span id="cb10-19">        text_encodings[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"pooled_output"</span>]</span>
+<span id="cb10-20">    )</span>
+<span id="cb10-21">    probs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.keras.layers.Dense(num_labels, activation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"softmax"</span>)(projections)</span>
+<span id="cb10-22">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> tf.keras.Model(inputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>inputs, outputs<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>probs)</span></code></pre></div></div>
+<p>We initialize the model in the following way:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1">tfhub_model_uri <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"https://tfhub.dev/tensorflow/bert_en_uncased_L-12_H-768_A-12/4"</span></span>
+<span id="cb11-2">bert_inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> [<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"input_word_ids"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"input_type_ids"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"input_mask"</span>]</span>
+<span id="cb11-3">proj_dim <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">128</span></span>
+<span id="cb11-4">num_labels <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">27</span></span>
+<span id="cb11-5"></span>
+<span id="cb11-6">model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> genre_classifier(tfhub_model_uri, bert_inputs, <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">False</span>, proj_dim, num_labels)</span></code></pre></div></div>
+<p>We train the model ten times using the Adam optimizer on the cross-entropy loss and report the average training time and test set accuracy.</p>
+<p>The full code of model training including TFRecord parsing can be found in <a href="https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/train-vanilla-bert.ipynb">this notebook</a>.</p>
+</section>
+<section id="performance" class="level2">
+<h2 class="anchored" data-anchor-id="performance">Performance</h2>
+<section id="training-time" class="level3">
+<h3 class="anchored" data-anchor-id="training-time">Training Time</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-2/vanilla-bert-training-time.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2:</strong> Model training timings with variable (top) and fixed-length (bottom) sequences.</figcaption>
+</figure>
+</div>
+<p>The average training time for the model when using fixed-length batches of tokens is 1423 seconds while training with variable length batches is 1260 seconds which is an 11% improvement.</p>
+</section>
+<section id="accuracy" class="level3">
+<h3 class="anchored" data-anchor-id="accuracy">Accuracy</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-2/vanilla-bert-test-acc.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3:</strong> Model test accuracies with variable (top) and fixed-length (bottom) sequences.</figcaption>
+</figure>
+</div>
+<p>The variable-length and fixed-length batching strategies yield test accuracies of 55.59% and 55.31% respectively.</p>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>While the training time difference between the two batching strategies is not as drastic as the ones reported in <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a> using a much simpler model, the relationship still holds for a BERT-based model as the variable-length batching is around 163 seconds faster while obtaining very similar results on the test set.</p>
+<p>In the next and final part of this series, we’ll consider the descriptions to be lists of sentences rather than single entities to test if the same lessons can be applied.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>tensorflow</category>
+  <category>nlp</category>
+  <category>bert</category>
+  <category>optimization</category>
+  <guid>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-2.html</guid>
+  <pubDate>Tue, 19 Apr 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-2/variable-length-sequences-part-2.png" medium="image" type="image/png"/>
+</item>
+<item>
+  <title>Variable-Length Sequences in TensorFlow Part 1: Optimizing Sequence Padding</title>
+  <dc:creator>Nilabhra Roy Chowdhury</dc:creator>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-1.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-1/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>Text data comes in different shapes and sizes: sequences of characters, sequences of words, sequences of sentences, and so on. This lack of uniformity has implications when working with machine learning (ML) algorithms that process text sequences in batches. The batches need to have uniform-length sequences, however, text sequences are often of varying lengths.</p>
+<p>In this three-part series, we will review different strategies to handle variable-length sequences in TensorFlow with a focus on performance, and discuss the pros and cons of each strategy along with their implementations in TensorFlow.</p>
+<p>We have successfully applied some of these strategies to the large-scale data here at Carted and have seen significant timing improvements as a result. We hope you’ll be able to apply them to your own projects as well.</p>
+<p>This discussion is made available as a three part series:</p>
+<ul>
+<li>Part 1 (this article): learn how to process variable-length text data with simpler models consisting of <a href="https://developers.google.com/machine-learning/glossary/#dense-layer">fully-connected layers</a> and <a href="https://en.wikipedia.org/wiki/Gated_recurrent_unit">GRU units</a>.</li>
+<li><a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a>: explore more complex models like <a href="https://arxiv.org/abs/1810.04805">BERT</a> and discuss strategies for handling variable-length text data for that setup.</li>
+<li><a href="variable-length-sequences-in-tensorflow-part-3.html">Part 3</a>: continue our discussion of handling variable-length text sequences for a BERT variant available on TensorFlow Hub (which is better for representing whole sentences).</li>
+</ul>
+<p>We’ll assume that the reader has intermediate-level knowledge of TensorFlow, especially <a href="https://www.tensorflow.org/guide/data_performance"><code>tf.data</code></a>, and beginner-level knowledge of NLP.</p>
+<section id="general-setup" class="level2">
+<h2 class="anchored" data-anchor-id="general-setup">General setup</h2>
+<p>We’ll be using <a href="https://www.kaggle.com/hijest/genre-classification-dataset-imdb">this dataset</a> from Kaggle which provides a <a href="https://developers.google.com/machine-learning/guides/text-classification">text classification problem</a>. Specifically, given a description of a movie, we need to predict its genre. Each description consists of multiple sentences and there are 27 unique genres (such as action, adult, adventure, animation, biography, comedy, etc.).</p>
+<p>As a disclaimer, our focus is on designing efficient data pipelines for handling variable-length text sequences that can help us reduce compute waste. For completeness, we will also show how to use these pipelines to train text classification models.</p>
+<p>You can find the full working code we’ll be discussing in <a href="https://gitlab.com/carted/public/handling-variable-length-text-tf">this GitHub repository</a>. For brevity, we won’t cover the entire codebase and instead focus on the non-trivial bits.</p>
+</section>
+<section id="designing-the-data-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="designing-the-data-pipeline">Designing the data pipeline</h2>
+<p>In NLP tasks, it’s common practice to first tokenize the input sequences. The tokenized sequences are typically batched together and are then provided to a model (such as a neural network) for training.</p>
+<p>Recall that for batching, we need to have all the sequences in a given batch be of uniform length. To do that, we either (1) <strong>pad</strong> the sequences that are shorter than a given length or (2) <strong>truncate</strong> the sequences that are bigger than the given length. The question is how do we decide this length? We have several options:</p>
+<ul>
+<li><p>We decide on a global maximum sequence length based on the sequence length characteristics of the training data. Consider the following statistical summary.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>count</td>
+<td>54214</td>
+</tr>
+<tr class="even">
+<td>mean</td>
+<td>101.906426</td>
+</tr>
+<tr class="odd">
+<td>std</td>
+<td>76.579309</td>
+</tr>
+<tr class="even">
+<td>min</td>
+<td>6</td>
+</tr>
+<tr class="odd">
+<td>25%</td>
+<td>55</td>
+</tr>
+<tr class="even">
+<td>50%</td>
+<td>79</td>
+</tr>
+<tr class="odd">
+<td>75%</td>
+<td>121</td>
+</tr>
+<tr class="even">
+<td>max</td>
+<td>1829</td>
+</tr>
+</tbody>
+</table>
+<p>We can see that the maximum sequence length is 1829 and pad all sequences to this length. To reduce the overall computation time, we could also use 121 since 75% of the sequences have this length — but this may affect the downstream model training performance.</p></li>
+<li><p>Another option is to calculate the maximum sequence length for a given batch of sequences and perform the padding based on that value.</p></li>
+</ul>
+<p>We will consider both these options and compare their performance in terms of total model training time. The second option appears to offer the advantage of reduced compute waste — given that within a particular batch there will be less variance in sequence length as compared to the global set of sequences — and therefore less wasted compute for a given batch.</p>
+</section>
+<section id="particulars-of-the-data-input-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="particulars-of-the-data-input-pipeline">Particulars of the data input pipeline</h2>
+<p>Let’s see these concepts expressed in code. TensorFlow provides a <a href="https://keras.io/guides/preprocessing_layers/">whole array of preprocessing layers</a> for handling various data modalities such as text, images, video, and more. Among these layers, <a href="https://keras.io/api/layers/preprocessing_layers/core_preprocessing_layers/text_vectorization">TextVectorization</a> and <a href="https://keras.io/api/layers/preprocessing_layers/categorical/string_lookup/">StringLookup</a> are of particular interest to us. The first one will allow us to tokenize the movie descriptions while the second one will allow us to integer-encode the labels (the movie genres).</p>
+<p>Both of these layers require a fixed, predetermined set of words — a vocabulary — to perform tokenization and encoding. We can either supply a precomputed vocabulary or we can call the <code>adapt()</code> method of these layers to compute the vocabulary from the data itself. In code, it looks as follows:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Compute the vocabulary from data.</span></span>
+<span id="cb1-2">text_vectorizer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.TextVectorization()</span>
+<span id="cb1-3">text_vectorizer.adapt(train_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>])</span>
+<span id="cb1-4"></span>
+<span id="cb1-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Supply a precomputed vocabulary during initialization. </span></span>
+<span id="cb1-6">label_encoder <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.StringLookup(vocabulary<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>train_df[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"genre"</span>].unique())</span>
+<span id="cb1-7"></span>
+<span id="cb1-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Investigate the vocabulary. </span></span>
+<span id="cb1-9"><span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">print</span>(label_encoder.get_vocabulary())</span></code></pre></div></div>
+<p>The text vectorization layer will map each movie description to integer sequences. It will take care of the following:</p>
+<ul>
+<li>Text normalization with lower-case letters and punctuation stripping.</li>
+<li>Splitting based on whitespace.</li>
+</ul>
+<p>Additional details about the layer are available <a href="https://keras.io/api/layers/preprocessing_layers/text/text_vectorization/#textvectorization-class">here</a>.</p>
+<p>With these two preprocessing layers set up we can now prepare our data input pipeline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> preprocess_single_row(summary, label):</span>
+<span id="cb2-2">    summary <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> text_vectorizer(summary)</span>
+<span id="cb2-3">    label <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> label_encoder(label)</span>
+<span id="cb2-4">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> summary, label</span>
+<span id="cb2-5"></span>
+<span id="cb2-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `AUTO` is aliased as `tf.data.AUTOTUNE`</span></span>
+<span id="cb2-7"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> prepare_dataset(dataframe):</span>
+<span id="cb2-8">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.data.Dataset.from_tensor_slices(</span>
+<span id="cb2-9">        (dataframe[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>].values, dataframe[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"genre"</span>].values)</span>
+<span id="cb2-10">    )</span>
+<span id="cb2-11">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dataset.<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">map</span>(preprocess_single_row, num_parallel_calls<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>AUTO)</span>
+<span id="cb2-12">    dataset <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> dataset.padded_batch(BATCH_SIZE)</span>
+<span id="cb2-13">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> dataset.prefetch(AUTO)</span></code></pre></div></div>
+<p>Notice the use of <a href="https://www.tensorflow.org/api_docs/python/tf/data/Dataset#padded_batch"><code>padded_batch()</code></a>. It takes input as a batch of sequences and will pad them with respect to the maximum sequence length within the batch. As a sanity check, we can analyze the batch-wise maximum sequence lengths:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-1/maximum_sequence_lengths.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1</strong>: Batch-wise maximum sequence lengths.</figcaption>
+</figure>
+</div>
+<p>As shown in the chart, most batches have a much smaller maximum sequence length than the global maximum length — supporting our choice to use variable length padding per-batch.</p>
+<p>We can compare this approach to the conventional <code>batch()</code> method, where a global maximum sequence length is used.</p>
+<p>First, the initialization of the TextVectorization layer would change:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">text_vectorizer <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.TextVectorization(output_sequence_length<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>max_seqlen)</span>
+<span id="cb3-2">text_vectorizer.adapt(train_df_new[<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"summary"</span>])</span></code></pre></div></div>
+<p><code>max_seqlen</code> is 1829 in this case. This initialization of <code>text_vectorizer</code> will first tokenize the sequences and will then pad them to the length set to <code>output_sequence_length</code>. Since all the tokenized sentences will now have the same length, we can call <code>batch()</code>.</p>
+</section>
+<section id="training-models-with-and-without-fixed-length-padding" class="level2">
+<h2 class="anchored" data-anchor-id="training-models-with-and-without-fixed-length-padding">Training models with and without fixed-length padding</h2>
+<p>Now that we’ve prepared our sequences, we can begin training our model. For the purpose of this article, we’ll use a simple model which can be constructed like so:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> make_model():</span>
+<span id="cb4-2">    inputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.Input(shape<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">None</span>,), dtype<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"int64"</span>)</span>
+<span id="cb4-3">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.Embedding(</span>
+<span id="cb4-4">        input_dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>text_vectorizer.vocabulary_size(),</span>
+<span id="cb4-5">        output_dim<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">16</span>,</span>
+<span id="cb4-6">    )(inputs)</span>
+<span id="cb4-7"></span>
+<span id="cb4-8">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.Bidirectional(keras.layers.GRU(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">8</span>))(x)</span>
+<span id="cb4-9">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.Dense(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">512</span>, activation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"relu"</span>)(x)</span>
+<span id="cb4-10">    x <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.Dense(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">256</span>, activation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"relu"</span>)(x)</span>
+<span id="cb4-11">    outputs <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.layers.Dense(label_encoder.vocabulary_size(), activation<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"softmax"</span>)(</span>
+<span id="cb4-12">        x</span>
+<span id="cb4-13">    )</span>
+<span id="cb4-14">    model <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> keras.Model(inputs, outputs)</span>
+<span id="cb4-15">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> model</span></code></pre></div></div>
+<p>Again, our aim with this article is to focus on training speed rather than training a state-of-the-art model. Training the above model with fixed (global) and variable (batch-wise) padding length leads to the following result:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-1/W-B-Chart-23_12_2021--15_08_51.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2</strong>: Model training timings with fixed-length padding (top) vs variable-length padding (bottom).</figcaption>
+</figure>
+</div>
+<p>Even with significantly improved model training time, we don’t notice any drop in model performance:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-1/W-B-Chart-23_12_2021--15_12_17.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3</strong>: Top-1 accuracy on the test set with fixed-length padding (top) and variable-length padding (bottom).</figcaption>
+</figure>
+</div>
+<blockquote class="blockquote">
+<p>Achieving the same accuracy but with a much shorter training time is an undoubted success, and demonstrates that variable-length sequence padding is the preferred approach when handling text data of varying sequence lengths.</p>
+</blockquote>
+<p>The results reported above were averaged across five individual runs; a self-contained <a href="https://gitlab.com/carted/public/handling-variable-length-text-tf/-/blob/main/smart-batching-shallow-mlp.ipynb">notebook is available here</a> if you would like to reproduce the results.</p>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s next?</h2>
+<p>That’s all for Part 1, where we discussed the impact on model training time of variable-length versus fixed-length sequence padding. We hope you’ll be able to apply the simple recipe we discussed for dealing with variable-length text sequences in your own projects.</p>
+<p>In <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> of this series, we will work with a BERT encoder and discuss the techniques needed to process text sequences with variable lengths in that context.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>tensorflow</category>
+  <category>nlp</category>
+  <category>tf-data</category>
+  <category>optimization</category>
+  <guid>https://sayak.dev/posts/variable-length-sequences-in-tensorflow-part-1.html</guid>
+  <pubDate>Mon, 11 Apr 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-1/variable-length-sequences-part-1.png" medium="image" type="image/png"/>
+</item>
+<item>
   <title>First Steps in GSoC</title>
   <link>https://sayak.dev/posts/gsoc-faqs.html</link>
   <description><![CDATA[ 
@@ -2636,6 +4535,381 @@ font-style: inherit;">+    x = x[:, :, :-1] / (x[:, :, -1:] + 1e-15)</span></spa
   <category>open-source</category>
   <guid>https://sayak.dev/posts/gsoc-faqs.html</guid>
   <pubDate>Sun, 13 Mar 2022 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Improving Dataflow Pipelines for Text Data Processing</title>
+  <dc:creator>Nilabhra Roy Chowdhury</dc:creator>
+  <dc:creator>Sayak Paul</dc:creator>
+  <link>https://sayak.dev/posts/improving-dataflow-pipelines-for-text-data-processing.html</link>
+  <description><![CDATA[ 
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/improving-dataflow-pipelines-for-text-data-processing/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>Data scale is crucial at Carted. The machine learning (ML) capabilities we’re building need internet-scale data to power them. With such large-scale data regimes comes an obvious challenge of careful engineering that allows us to handle these regimes effectively and efficiently. To do this, we leverage several managed services from Google Cloud, such as <a href="https://cloud.google.com/dataflow">Dataflow</a>, <a href="https://cloud.google.com/bigquery">BigQuery</a>, and others.</p>
+<p>In this article, we’ll share a few recipes to improve Dataflow pipelines when dealing with sequence data. These methods came from our experience of processing and preparing large datasets for ML use. We hope you’ll apply these recipes to your own Dataflow pipelines to improve their performance.</p>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<p>The techniques discussed in this post are implemented within a demo pipeline, which can be run using Cloud Dataflow:</p>
+<p><a href="https://github.com/carted/processing-text-data">GitHub - carted/processing-text-data: Presents an optimized Apache Beam pipeline for generating sentence embeddings (runnable on Cloud Dataflow).</a></p>
+</section>
+<section id="about-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-data">About the data</h2>
+<p>The raw data available to us are text descriptions of products available on ecommerce websites. Each description comprises one or more sentences extracted as individual sentences, thus generating multiple text sequences per datum.</p>
+</section>
+<section id="our-data-processing-setup" class="level2">
+<h2 class="anchored" data-anchor-id="our-data-processing-setup">Our data processing setup</h2>
+<p>The product descriptions are stored in a BigQuery table, and we process this data with an <a href="https://beam.apache.org/">Apache Beam</a> pipeline run on Dataflow. If you want to get a quick overview of the two, <a href="https://www.youtube.com/watch?v=AZht1rkHIxk">this resource</a> is a good place to start. We encode the text features using a <a href="https://openreview.net/forum?id=WDVD4lUCTzU">conditional BERT model</a> that includes tokenization and computing the text embeddings with the pre-trained BERT model. For this part, we use <a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1">TensorFlow Hub</a>. We define all the different preprocessing steps as a part of an Apache Beam pipeline.</p>
+<p>We break the data processing pipeline into three concrete Beam steps:</p>
+<ol type="1">
+<li>Reading the descriptions from BigQuery.</li>
+<li>Tokenizing and encoding the sentences per description followed by a pooling operation. The pooling operation typically involves taking the mean or the max per dimension of the sentence vectors of a description to obtain a single vector for the whole description.</li>
+<li>Writing the vectors to a Google Cloud Storage (GCS) bucket in a serialized format, namely TensorFlow Records.</li>
+</ol>
+</section>
+<section id="optimizing-our-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="optimizing-our-pipeline">Optimizing our pipeline</h2>
+<p>To reduce compute waste, several optimizations can be made on the pipeline described above—mostly to step two. The optimizations were performed keeping certain factors in mind:</p>
+<ol type="1">
+<li>The optimizations should be simple enough to implement in a short timeframe. Even if there is room for improvement, development time plays a crucial role.</li>
+<li>GPUs can be leveraged to accelerate the computations for the embeddings of the tokenized text features. But GPUs are expensive, and hence it was decided not to use them for our purpose. But in general, the optimizations should also lead to improvement in performance on GPUs if they are to be used in the future.</li>
+<li>To track the performance of the pipeline, only the <a href="https://stackoverflow.com/questions/7335920/what-specifically-are-wall-clock-time-user-cpu-time-and-system-cpu-time-in-uni">wall time</a> of the relevant steps were monitored to avoid accounting for the time taken for setup and teardown of the Dataflow job. Note that wall time is different from the total pipeline time reported by the <a href="https://console.cloud.google.com/dataflow/jobs">Dataflow UI</a>.</li>
+</ol>
+<p>Listed below are the various optimizations that were applied to the existing pipeline. Ideally, these techniques should apply to any scenario where text data needs to be processed in a similar way. We first describe the motivations behind each optimization and then go into the full details.</p>
+<section id="batches-with-variable-sequence-lengths" class="level3">
+<h3 class="anchored" data-anchor-id="batches-with-variable-sequence-lengths">Batches with variable sequence lengths</h3>
+<p>The <a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1">sentence encoder model</a> expects the tokenized text features to have a uniform length of no more than 512 tokens, with a default length of 128. So, we have two options:</p>
+<ul>
+<li>We maintain a global sequence length of 512. That is, we pad all sequences with tokens less than 512 with a default padding token till they have 512 tokens in total. We do this to make the most of our data and the sentence encoder while keeping the code simple. This approach is depicted in Figure 1.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/smart_batching.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1</strong>: Padding batches of sequences with a global maximum sequence length.</figcaption>
+</figure>
+</div>
+<ul>
+<li>We first derive the maximum sequence length for a given batch of sequences and do the rest of the processing with the derived sequence length for the corresponding batch. This approach is depicted in Figure 2.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/variable_length_batch.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2</strong>: Padding batches of sequences with variable sequence lengths.</figcaption>
+</figure>
+</div>
+<p>In our pipeline, we implemented the second option because the first one can lead to a lot of compute waste as many batches may have much shorter sequence lengths than 512 and hence the sentence encoder will needlessly process a lot of padding tokens. For batches having a maximum sequence length of 512 or above, we truncate the sequences till the first 512 tokens. The implementation of this recipe was non-trivial and we intend to cover our approach in a future article.</p>
+</section>
+<section id="sorting-before-batching" class="level3">
+<h3 class="anchored" data-anchor-id="sorting-before-batching">Sorting before batching</h3>
+<p>In our <strong>un</strong>optimized pipeline, once the description sentences of an example are tokenized, they are grouped into batches and these batches are encoded one after another. The encoder expects the sequences in a batch to be of the same length. Since all sentences are not necessarily of the same length, it’s common practice to use a predefined padding token. Padding is applied to all the sequences that are shorter than the longest sequence in the batch. This results in a batch with all sequences having the same length. While this technique works, it still leads to a lot of wasted compute since the padding tokens are processed by the BERT encoder (their contributions to the final output are masked). The compute waste is more severe when the average difference between the maximum sequence length and the length of all other sequences increases in a batch.</p>
+<p>We grouped sequences of the same or similar length before batching in an attempt to save compute waste. We accomplished this by:</p>
+<ol type="1">
+<li>Sort the tokenized description sentences and store them in a list called <code>sorted_sentences</code>.</li>
+<li>Encode non-overlapping, consecutive chunks from <code>sorted_sentences</code>.</li>
+<li>Unsort the resultant embeddings from step 2 to preserve the original order.</li>
+</ol>
+<p>This process of sorting and unsorting for a given chunk_size looks like so in code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># `tf` is aliased as `import tensorflow as tf`</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Encode with BERT in a batch-wise manner to prevent OOM.</span></span>
+<span id="cb1-3">len_idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">len</span>(all_text_token_lens)</span>
+<span id="cb1-4">all_bert_encodings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> []</span>
+<span id="cb1-5"></span>
+<span id="cb1-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Sort sequences to reduce compute waste.</span></span>
+<span id="cb1-7">sort_idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.argsort(all_text_token_lens, direction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"DESCENDING"</span>, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb1-8">unsort_idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.argsort(</span>
+<span id="cb1-9">    sort_idx, direction<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ASCENDING"</span>, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span></span>
+<span id="cb1-10">)  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># indices to unsort the sorted embeddings</span></span>
+<span id="cb1-11"></span>
+<span id="cb1-12">sorted_all_text_tokens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.gather(all_text_tokens, sort_idx, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb1-13">sorted_all_text_token_lens <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.gather(all_text_token_lens, sort_idx, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb1-14"></span>
+<span id="cb1-15"><span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> idx <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">range</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>, len_idx, chunk_size):</span>
+<span id="cb1-16">    bert_encodings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> compute_text_encoding(</span>
+<span id="cb1-17">        sorted_all_text_tokens[idx : idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> chunk_size],</span>
+<span id="cb1-18">        sorted_all_text_token_lens[idx : idx <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> chunk_size],</span>
+<span id="cb1-19">    )</span>
+<span id="cb1-20">    all_bert_encodings.append(bert_encodings)</span>
+<span id="cb1-21"></span>
+<span id="cb1-22">all_bert_encodings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.concat(all_bert_encodings, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span>
+<span id="cb1-23"></span>
+<span id="cb1-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># Unsort the encodings.</span></span>
+<span id="cb1-25">all_bert_encodings <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> tf.gather(all_bert_encodings, unsort_idx, axis<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>)</span></code></pre></div></div>
+<p>One concept that becomes apparent after considering the optimization above is the concept of uniform batches. Formally, the uniformity of a batch can be defined as:</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>A batch is more uniform than another if the</strong> <a href="https://en.wikipedia.org/wiki/Average_absolute_deviation#Maximum_absolute_deviation"><strong>maximum absolute deviation</strong></a> <strong>(MAD) of the sequence lengths in that batch is less than the MAD of the sequence lengths in the other batch.</strong></p>
+</div>
+</div>
+</div>
+<p>We now can say that the compute waste due to the processing of padding tokens per batch is inversely proportional to the uniformity of a batch. Figure 3 visually presents this approach of sorting a block of sequences with respect to their sequence lengths and then applying padding with the approach discussed earlier.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/smart_batching--1-.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3</strong>: Sorting of the sequences and then padding them in a batch-wise manner.</figcaption>
+</figure>
+</div>
+<p>The reason for sorting the sequences in descending order is that if the chosen batch size is too large to fit in memory, we would get an out-of-memory (OOM) error at the very first batch. This allows us to reduce the batch size accordingly.</p>
+<p>If the sequences were sorted in ascending order, we would have to wait for a decent amount of batches to be encoded before the sequence lengths of the batches increase enough to cause the OOM error (the worst case being the last batch throwing an OOM error) which might lead to hours of wasted compute.</p>
+<p>In a way, sorting in a non-decreasing/descending order also makes the behavior of the inference process more predictable. If the first batch doesn’t throw an OOM error, none of the subsequent batches will.</p>
+<p>However, batching over unsorted data might lead to an OOM error at any time during the encoding process, and batching over data sorted in ascending order might lead to OOM error at the very end of the computation.</p>
+</section>
+<section id="decoupling-tokenization-and-encoding" class="level3">
+<h3 class="anchored" data-anchor-id="decoupling-tokenization-and-encoding">Decoupling tokenization and encoding</h3>
+<p>Tokenizing sentences for BERT is done via the BERT Tokenizer algorithm, a fairly CPU-bound process. Since there are not many numerical computations involved, this step cannot be sped up by using hardware accelerators or by special CPU instructions (such as the <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">AVX instructions</a> for Intel CPUs) for vector operations.</p>
+<p>Encoding the tokenized sentences involves passing the (sorted) tokenized sequence of batches to the BERT model, which can be sped up significantly via hardware accelerators or vector instructions.</p>
+<p>If we process sentences per example, we first have to:</p>
+<ol type="1">
+<li>Tokenize all the sentences.</li>
+<li>Sort them according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>While this sounds reasonable, you’ll notice that once the accelerator has finished computing all the batches from a single example, it has to wait for the next example’s sentences to be processed from steps 1 to 4. This wastes precious time which adds up with every single example.</p>
+<p>A much more streamlined way of doing this is to first tokenize all the examples at one go in one Beam step and then perform the encoding in the next Beam step. However, instead of encoding on a per-example basis, we could perform the encoding on a list of tokenized sentences collected across all the examples to minimize wait time for the accelerator. This is how it would look:</p>
+<p><strong>Substep 1:</strong></p>
+<ol type="1">
+<li>Tokenize the sentences for each example.</li>
+</ol>
+<p><strong>Substep 2:</strong></p>
+<ol type="1">
+<li>Collect the tokenized sentences from each example in a single list.</li>
+<li>Sort this list according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>Now, taking a closer look at substep 2, you’ll notice that the wait time for the accelerator is much shorter since it doesn’t need to wait for the tokenization to complete for the next example.</p>
+<p>Another key advantage of this two-step process is that while sorting, a larger pool of sentences is available, leading to more uniform batches and even less compute waste.</p>
+<p>The issue with the decoupling process above is that step 1 of substep 2 can easily lead to OOM errors when the total number of sentences is very large. Therefore, we feed the data to substep 2 in batches of tokenized sentences (not to be confused with the batching of tokenized sentences done inside substep 2) using Apache Beam’s <code>BatchElements</code> <a href="https://beam.apache.org/releases/pydoc/2.13.0/apache_beam.transforms.util.html">transform</a>. This ensures that OOMs are avoided, but at the same time, a large number of sentences are grouped to make the most of the sorting process.</p>
+<p>Another advantage of using Apache Beam’s <code>BatchElements</code> transform is that it intelligently figures out the optimal batch size between two given limits. If the batch size is too large, it might cause the workers to use swap memory which would degrade performance due to disk I/O. If the batch size is too small, then the encoding step needs to wait, which again degrades the performance of the whole pipeline. The <code>BatchElements</code> transform automatically analyzes the performance of the downstream steps (hence intelligent) to figure out the optimal batch size.</p>
+<p>The final steps look like the following:</p>
+<p><strong>Substep 1:</strong></p>
+<ol type="1">
+<li>Tokenize the sentences for each example.</li>
+</ol>
+<p><strong>Substep 2:</strong></p>
+<ol type="1">
+<li>Batch the examples.</li>
+</ol>
+<p><strong>Substep 3:</strong></p>
+<ol type="1">
+<li>Collect the tokenized sentences from each example in the batch in a single list.</li>
+<li>Sort this list according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>This is a brief example implemented as an Apache Beam pipeline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1">tfrecords <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (</span>
+<span id="cb2-2">    p</span>
+<span id="cb2-3">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Read rows from BigQuery"</span></span>
+<span id="cb2-4">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;&gt;</span> beam.io.ReadFromBigQuery(</span>
+<span id="cb2-5">        query<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>query,</span>
+<span id="cb2-6">        use_standard_sql<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">True</span>,</span>
+<span id="cb2-7">    )</span>
+<span id="cb2-8">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tokenize text description"</span></span>
+<span id="cb2-9">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;&gt;</span> beam.ParDo(</span>
+<span id="cb2-10">        tokenize_descriptions,</span>
+<span id="cb2-11">        config<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span>preprocessor_config,</span>
+<span id="cb2-12">    )</span>
+<span id="cb2-13">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Intelligently batch examples"</span></span>
+<span id="cb2-14">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;&gt;</span> beam.BatchElements(</span>
+<span id="cb2-15">        min_batch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>, max_batch_size<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1000</span></span>
+<span id="cb2-16">    )</span>
+<span id="cb2-17">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">|</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Embed the text features"</span></span>
+<span id="cb2-18">    <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&gt;&gt;</span> beam.ParDo(embed_examples)</span>
+<span id="cb2-19">    ...</span></code></pre></div></div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Now that we’ve discussed the key areas of improvement in our pipeline, it’s time to see the results. For a fair comparison, we used the same hardware infrastructure while running our experiments with and without the recipes we discussed.</p>
+<p>We limited the number of maximum workers to 500 for Dataflow and used the n1-custom-1-8192-ext <a href="https://cloud.google.com/compute/docs/machine-types">machine type</a> for running our experiments. For each experiment, we started with a total of 21328 entries coming from BigQuery. We then generated a total of 1317247 data points from them (with <code>tokenize_description()</code>). In this case, each experiment corresponds to a Dataflow job.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Experiment</th>
+<th style="text-align: left;">Wall Time (lower is better)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Unoptimized pipeline</td>
+<td style="text-align: left;">3d 11h 0m 40s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decoupled tokenization and encoding</td>
+<td style="text-align: left;">3d 5h 35m 39s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sorting before batching + Batches with variable sequence lengths</td>
+<td style="text-align: left;">4h 14m 34s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sorting before batching + Batches with variable sequence lengths + Decoupling tokenization and encoding</td>
+<td style="text-align: left;">2h 36m 46s</td>
+</tr>
+</tbody>
+</table>
+<p>From the above table, the impact of our optimizations is quite evident. Rather than taking more than three days, our pipeline now takes under three hours. We have also applied these optimizations to a much larger data regime to confirm their effectiveness.</p>
+<p>We can further improve the overall performance of our pipeline by using a smaller encoder model but that may come at the expense of reduced end performance. We can even perform <a href="https://arxiv.org/abs/1503.02531">knowledge distillation</a> to obtain a smaller model without compromising performance.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this article, we shared three recipes to improve the performance of our text preprocessing pipeline, summarized as:</p>
+<ul>
+<li>Using batch-wise maximum sequence length for padding as opposed to using a global sequence length.</li>
+<li>Sorting batches of sequences with respect to their maximum sequence lengths before encoding them.</li>
+<li>Decoupling sequence tokenization and encoding.</li>
+</ul>
+<p>You can try these recipes out with our demo project <a href="https://github.com/carted/processing-text-data">available on GitHub</a>. We hope these recipes also help improve the performance of your own pipelines.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>dataflow</category>
+  <category>apache-beam</category>
+  <category>nlp</category>
+  <category>gcp</category>
+  <guid>https://sayak.dev/posts/improving-dataflow-pipelines-for-text-data-processing.html</guid>
+  <pubDate>Thu, 10 Feb 2022 00:00:00 GMT</pubDate>
+  <media:content url="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/ML-2x-min.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Publishing ConvNeXt Models on TensorFlow Hub</title>

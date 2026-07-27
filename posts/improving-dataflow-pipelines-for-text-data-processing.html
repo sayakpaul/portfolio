@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Nilabhra Roy Chowdhury">
+<meta name="author" content="Sayak Paul">
+<meta name="dcterms.date" content="2022-02-10">
+<meta name="description" content="Recipes to improve Cloud Dataflow pipelines for large-scale datasets involving sequential text data.">
+
+<title>Improving Dataflow Pipelines for Text Data Processing – Sayak Paul</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-5a1953863e1f72ef3b996ef827f01ca7.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-bb62276ab45c84d9efd712f51ff97b5a.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-fbae8fcf092e5092000fbc1fdc3eb909.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-591f856baf3515dd4431166ac11abe6b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-fbae8fcf092e5092000fbc1fdc3eb909.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="custom_css/figcaption.css">
+<meta property="og:title" content="Improving Dataflow Pipelines for Text Data Processing – Sayak Paul">
+<meta property="og:description" content="Recipes to improve Cloud Dataflow pipelines for large-scale datasets involving sequential text data.">
+<meta property="og:image" content="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/ML-2x-min.png">
+<meta property="og:site_name" content="Sayak Paul">
+<meta name="twitter:title" content="Improving Dataflow Pipelines for Text Data Processing – Sayak Paul">
+<meta name="twitter:description" content="Recipes to improve Cloud Dataflow pipelines for large-scale datasets involving sequential text data.">
+<meta name="twitter:image" content="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/ML-2x-min.png">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Improving Dataflow Pipelines for Text Data Processing</h1>
+                  <div>
+        <div class="description">
+          Recipes to improve Cloud Dataflow pipelines for large-scale datasets involving sequential text data.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">dataflow</div>
+                <div class="quarto-category">apache-beam</div>
+                <div class="quarto-category">nlp</div>
+                <div class="quarto-category">gcp</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Authors</div>
+      <div class="quarto-title-meta-contents">
+               <p><a href="https://ae.linkedin.com/in/nilabhraroychowdhury">Nilabhra Roy Chowdhury</a> </p>
+               <p><a href="https://sayak.dev">Sayak Paul</a> </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 10, 2022</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#code" id="toc-code" class="nav-link active" data-scroll-target="#code">Code</a></li>
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data">About the data</a></li>
+  <li><a href="#our-data-processing-setup" id="toc-our-data-processing-setup" class="nav-link" data-scroll-target="#our-data-processing-setup">Our data processing setup</a></li>
+  <li><a href="#optimizing-our-pipeline" id="toc-optimizing-our-pipeline" class="nav-link" data-scroll-target="#optimizing-our-pipeline">Optimizing our pipeline</a>
+  <ul class="collapse">
+  <li><a href="#batches-with-variable-sequence-lengths" id="toc-batches-with-variable-sequence-lengths" class="nav-link" data-scroll-target="#batches-with-variable-sequence-lengths">Batches with variable sequence lengths</a></li>
+  <li><a href="#sorting-before-batching" id="toc-sorting-before-batching" class="nav-link" data-scroll-target="#sorting-before-batching">Sorting before batching</a></li>
+  <li><a href="#decoupling-tokenization-and-encoding" id="toc-decoupling-tokenization-and-encoding" class="nav-link" data-scroll-target="#decoupling-tokenization-and-encoding">Decoupling tokenization and encoding</a></li>
+  </ul></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/improving-dataflow-pipelines-for-text-data-processing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/improving-dataflow-pipelines-for-text-data-processing/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<p>Data scale is crucial at Carted. The machine learning (ML) capabilities we’re building need internet-scale data to power them. With such large-scale data regimes comes an obvious challenge of careful engineering that allows us to handle these regimes effectively and efficiently. To do this, we leverage several managed services from Google Cloud, such as <a href="https://cloud.google.com/dataflow">Dataflow</a>, <a href="https://cloud.google.com/bigquery">BigQuery</a>, and others.</p>
+<p>In this article, we’ll share a few recipes to improve Dataflow pipelines when dealing with sequence data. These methods came from our experience of processing and preparing large datasets for ML use. We hope you’ll apply these recipes to your own Dataflow pipelines to improve their performance.</p>
+<section id="code" class="level2">
+<h2 class="anchored" data-anchor-id="code">Code</h2>
+<p>The techniques discussed in this post are implemented within a demo pipeline, which can be run using Cloud Dataflow:</p>
+<p><a href="https://github.com/carted/processing-text-data">GitHub - carted/processing-text-data: Presents an optimized Apache Beam pipeline for generating sentence embeddings (runnable on Cloud Dataflow).</a></p>
+</section>
+<section id="about-the-data" class="level2">
+<h2 class="anchored" data-anchor-id="about-the-data">About the data</h2>
+<p>The raw data available to us are text descriptions of products available on ecommerce websites. Each description comprises one or more sentences extracted as individual sentences, thus generating multiple text sequences per datum.</p>
+</section>
+<section id="our-data-processing-setup" class="level2">
+<h2 class="anchored" data-anchor-id="our-data-processing-setup">Our data processing setup</h2>
+<p>The product descriptions are stored in a BigQuery table, and we process this data with an <a href="https://beam.apache.org/">Apache Beam</a> pipeline run on Dataflow. If you want to get a quick overview of the two, <a href="https://www.youtube.com/watch?v=AZht1rkHIxk">this resource</a> is a good place to start. We encode the text features using a <a href="https://openreview.net/forum?id=WDVD4lUCTzU">conditional BERT model</a> that includes tokenization and computing the text embeddings with the pre-trained BERT model. For this part, we use <a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1">TensorFlow Hub</a>. We define all the different preprocessing steps as a part of an Apache Beam pipeline.</p>
+<p>We break the data processing pipeline into three concrete Beam steps:</p>
+<ol type="1">
+<li>Reading the descriptions from BigQuery.</li>
+<li>Tokenizing and encoding the sentences per description followed by a pooling operation. The pooling operation typically involves taking the mean or the max per dimension of the sentence vectors of a description to obtain a single vector for the whole description.</li>
+<li>Writing the vectors to a Google Cloud Storage (GCS) bucket in a serialized format, namely TensorFlow Records.</li>
+</ol>
+</section>
+<section id="optimizing-our-pipeline" class="level2">
+<h2 class="anchored" data-anchor-id="optimizing-our-pipeline">Optimizing our pipeline</h2>
+<p>To reduce compute waste, several optimizations can be made on the pipeline described above—mostly to step two. The optimizations were performed keeping certain factors in mind:</p>
+<ol type="1">
+<li>The optimizations should be simple enough to implement in a short timeframe. Even if there is room for improvement, development time plays a crucial role.</li>
+<li>GPUs can be leveraged to accelerate the computations for the embeddings of the tokenized text features. But GPUs are expensive, and hence it was decided not to use them for our purpose. But in general, the optimizations should also lead to improvement in performance on GPUs if they are to be used in the future.</li>
+<li>To track the performance of the pipeline, only the <a href="https://stackoverflow.com/questions/7335920/what-specifically-are-wall-clock-time-user-cpu-time-and-system-cpu-time-in-uni">wall time</a> of the relevant steps were monitored to avoid accounting for the time taken for setup and teardown of the Dataflow job. Note that wall time is different from the total pipeline time reported by the <a href="https://console.cloud.google.com/dataflow/jobs">Dataflow UI</a>.</li>
+</ol>
+<p>Listed below are the various optimizations that were applied to the existing pipeline. Ideally, these techniques should apply to any scenario where text data needs to be processed in a similar way. We first describe the motivations behind each optimization and then go into the full details.</p>
+<section id="batches-with-variable-sequence-lengths" class="level3">
+<h3 class="anchored" data-anchor-id="batches-with-variable-sequence-lengths">Batches with variable sequence lengths</h3>
+<p>The <a href="https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1">sentence encoder model</a> expects the tokenized text features to have a uniform length of no more than 512 tokens, with a default length of 128. So, we have two options:</p>
+<ul>
+<li>We maintain a global sequence length of 512. That is, we pad all sequences with tokens less than 512 with a default padding token till they have 512 tokens in total. We do this to make the most of our data and the sentence encoder while keeping the code simple. This approach is depicted in Figure 1.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/smart_batching.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 1</strong>: Padding batches of sequences with a global maximum sequence length.</figcaption>
+</figure>
+</div>
+<ul>
+<li>We first derive the maximum sequence length for a given batch of sequences and do the rest of the processing with the derived sequence length for the corresponding batch. This approach is depicted in Figure 2.</li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/variable_length_batch.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 2</strong>: Padding batches of sequences with variable sequence lengths.</figcaption>
+</figure>
+</div>
+<p>In our pipeline, we implemented the second option because the first one can lead to a lot of compute waste as many batches may have much shorter sequence lengths than 512 and hence the sentence encoder will needlessly process a lot of padding tokens. For batches having a maximum sequence length of 512 or above, we truncate the sequences till the first 512 tokens. The implementation of this recipe was non-trivial and we intend to cover our approach in a future article.</p>
+</section>
+<section id="sorting-before-batching" class="level3">
+<h3 class="anchored" data-anchor-id="sorting-before-batching">Sorting before batching</h3>
+<p>In our <strong>un</strong>optimized pipeline, once the description sentences of an example are tokenized, they are grouped into batches and these batches are encoded one after another. The encoder expects the sequences in a batch to be of the same length. Since all sentences are not necessarily of the same length, it’s common practice to use a predefined padding token. Padding is applied to all the sequences that are shorter than the longest sequence in the batch. This results in a batch with all sequences having the same length. While this technique works, it still leads to a lot of wasted compute since the padding tokens are processed by the BERT encoder (their contributions to the final output are masked). The compute waste is more severe when the average difference between the maximum sequence length and the length of all other sequences increases in a batch.</p>
+<p>We grouped sequences of the same or similar length before batching in an attempt to save compute waste. We accomplished this by:</p>
+<ol type="1">
+<li>Sort the tokenized description sentences and store them in a list called <code>sorted_sentences</code>.</li>
+<li>Encode non-overlapping, consecutive chunks from <code>sorted_sentences</code>.</li>
+<li>Unsort the resultant embeddings from step 2 to preserve the original order.</li>
+</ol>
+<p>This process of sorting and unsorting for a given chunk_size looks like so in code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># `tf` is aliased as `import tensorflow as tf`</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Encode with BERT in a batch-wise manner to prevent OOM.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>len_idx <span class="op">=</span> <span class="bu">len</span>(all_text_token_lens)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>all_bert_encodings <span class="op">=</span> []</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort sequences to reduce compute waste.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sort_idx <span class="op">=</span> tf.argsort(all_text_token_lens, direction<span class="op">=</span><span class="st">"DESCENDING"</span>, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>unsort_idx <span class="op">=</span> tf.argsort(</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    sort_idx, direction<span class="op">=</span><span class="st">"ASCENDING"</span>, axis<span class="op">=</span><span class="dv">0</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)  <span class="co"># indices to unsort the sorted embeddings</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>sorted_all_text_tokens <span class="op">=</span> tf.gather(all_text_tokens, sort_idx, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>sorted_all_text_token_lens <span class="op">=</span> tf.gather(all_text_token_lens, sort_idx, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, len_idx, chunk_size):</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    bert_encodings <span class="op">=</span> compute_text_encoding(</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        sorted_all_text_tokens[idx : idx <span class="op">+</span> chunk_size],</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        sorted_all_text_token_lens[idx : idx <span class="op">+</span> chunk_size],</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    all_bert_encodings.append(bert_encodings)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>all_bert_encodings <span class="op">=</span> tf.concat(all_bert_encodings, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Unsort the encodings.</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>all_bert_encodings <span class="op">=</span> tf.gather(all_bert_encodings, unsort_idx, axis<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>One concept that becomes apparent after considering the optimization above is the concept of uniform batches. Formally, the uniformity of a batch can be defined as:</p>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>A batch is more uniform than another if the</strong> <a href="https://en.wikipedia.org/wiki/Average_absolute_deviation#Maximum_absolute_deviation"><strong>maximum absolute deviation</strong></a> <strong>(MAD) of the sequence lengths in that batch is less than the MAD of the sequence lengths in the other batch.</strong></p>
+</div>
+</div>
+</div>
+<p>We now can say that the compute waste due to the processing of padding tokens per batch is inversely proportional to the uniformity of a batch. Figure 3 visually presents this approach of sorting a block of sequences with respect to their sequence lengths and then applying padding with the approach discussed earlier.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/smart_batching--1-.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Figure 3</strong>: Sorting of the sequences and then padding them in a batch-wise manner.</figcaption>
+</figure>
+</div>
+<p>The reason for sorting the sequences in descending order is that if the chosen batch size is too large to fit in memory, we would get an out-of-memory (OOM) error at the very first batch. This allows us to reduce the batch size accordingly.</p>
+<p>If the sequences were sorted in ascending order, we would have to wait for a decent amount of batches to be encoded before the sequence lengths of the batches increase enough to cause the OOM error (the worst case being the last batch throwing an OOM error) which might lead to hours of wasted compute.</p>
+<p>In a way, sorting in a non-decreasing/descending order also makes the behavior of the inference process more predictable. If the first batch doesn’t throw an OOM error, none of the subsequent batches will.</p>
+<p>However, batching over unsorted data might lead to an OOM error at any time during the encoding process, and batching over data sorted in ascending order might lead to OOM error at the very end of the computation.</p>
+</section>
+<section id="decoupling-tokenization-and-encoding" class="level3">
+<h3 class="anchored" data-anchor-id="decoupling-tokenization-and-encoding">Decoupling tokenization and encoding</h3>
+<p>Tokenizing sentences for BERT is done via the BERT Tokenizer algorithm, a fairly CPU-bound process. Since there are not many numerical computations involved, this step cannot be sped up by using hardware accelerators or by special CPU instructions (such as the <a href="https://en.wikipedia.org/wiki/Advanced_Vector_Extensions">AVX instructions</a> for Intel CPUs) for vector operations.</p>
+<p>Encoding the tokenized sentences involves passing the (sorted) tokenized sequence of batches to the BERT model, which can be sped up significantly via hardware accelerators or vector instructions.</p>
+<p>If we process sentences per example, we first have to:</p>
+<ol type="1">
+<li>Tokenize all the sentences.</li>
+<li>Sort them according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>While this sounds reasonable, you’ll notice that once the accelerator has finished computing all the batches from a single example, it has to wait for the next example’s sentences to be processed from steps 1 to 4. This wastes precious time which adds up with every single example.</p>
+<p>A much more streamlined way of doing this is to first tokenize all the examples at one go in one Beam step and then perform the encoding in the next Beam step. However, instead of encoding on a per-example basis, we could perform the encoding on a list of tokenized sentences collected across all the examples to minimize wait time for the accelerator. This is how it would look:</p>
+<p><strong>Substep 1:</strong></p>
+<ol type="1">
+<li>Tokenize the sentences for each example.</li>
+</ol>
+<p><strong>Substep 2:</strong></p>
+<ol type="1">
+<li>Collect the tokenized sentences from each example in a single list.</li>
+<li>Sort this list according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>Now, taking a closer look at substep 2, you’ll notice that the wait time for the accelerator is much shorter since it doesn’t need to wait for the tokenization to complete for the next example.</p>
+<p>Another key advantage of this two-step process is that while sorting, a larger pool of sentences is available, leading to more uniform batches and even less compute waste.</p>
+<p>The issue with the decoupling process above is that step 1 of substep 2 can easily lead to OOM errors when the total number of sentences is very large. Therefore, we feed the data to substep 2 in batches of tokenized sentences (not to be confused with the batching of tokenized sentences done inside substep 2) using Apache Beam’s <code>BatchElements</code> <a href="https://beam.apache.org/releases/pydoc/2.13.0/apache_beam.transforms.util.html">transform</a>. This ensures that OOMs are avoided, but at the same time, a large number of sentences are grouped to make the most of the sorting process.</p>
+<p>Another advantage of using Apache Beam’s <code>BatchElements</code> transform is that it intelligently figures out the optimal batch size between two given limits. If the batch size is too large, it might cause the workers to use swap memory which would degrade performance due to disk I/O. If the batch size is too small, then the encoding step needs to wait, which again degrades the performance of the whole pipeline. The <code>BatchElements</code> transform automatically analyzes the performance of the downstream steps (hence intelligent) to figure out the optimal batch size.</p>
+<p>The final steps look like the following:</p>
+<p><strong>Substep 1:</strong></p>
+<ol type="1">
+<li>Tokenize the sentences for each example.</li>
+</ol>
+<p><strong>Substep 2:</strong></p>
+<ol type="1">
+<li>Batch the examples.</li>
+</ol>
+<p><strong>Substep 3:</strong></p>
+<ol type="1">
+<li>Collect the tokenized sentences from each example in the batch in a single list.</li>
+<li>Sort this list according to the number of tokens per sentence.</li>
+<li>Perform batching and padding.</li>
+<li>Compute embeddings from the padded batches.</li>
+<li>Unsort the embeddings.</li>
+</ol>
+<p>This is a brief example implemented as an Apache Beam pipeline:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tfrecords <span class="op">=</span> (</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    p</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="st">"Read rows from BigQuery"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> beam.io.ReadFromBigQuery(</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        query<span class="op">=</span>query,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        use_standard_sql<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="st">"Tokenize text description"</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> beam.ParDo(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        tokenize_descriptions,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        config<span class="op">=</span>preprocessor_config,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="st">"Intelligently batch examples"</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> beam.BatchElements(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        min_batch_size<span class="op">=</span><span class="dv">5</span>, max_batch_size<span class="op">=</span><span class="dv">1000</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="op">|</span> <span class="st">"Embed the text features"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="op">&gt;&gt;</span> beam.ParDo(embed_examples)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>Now that we’ve discussed the key areas of improvement in our pipeline, it’s time to see the results. For a fair comparison, we used the same hardware infrastructure while running our experiments with and without the recipes we discussed.</p>
+<p>We limited the number of maximum workers to 500 for Dataflow and used the n1-custom-1-8192-ext <a href="https://cloud.google.com/compute/docs/machine-types">machine type</a> for running our experiments. For each experiment, we started with a total of 21328 entries coming from BigQuery. We then generated a total of 1317247 data points from them (with <code>tokenize_description()</code>). In this case, each experiment corresponds to a Dataflow job.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Experiment</th>
+<th style="text-align: left;">Wall Time (lower is better)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Unoptimized pipeline</td>
+<td style="text-align: left;">3d 11h 0m 40s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Decoupled tokenization and encoding</td>
+<td style="text-align: left;">3d 5h 35m 39s</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sorting before batching + Batches with variable sequence lengths</td>
+<td style="text-align: left;">4h 14m 34s</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Sorting before batching + Batches with variable sequence lengths + Decoupling tokenization and encoding</td>
+<td style="text-align: left;">2h 36m 46s</td>
+</tr>
+</tbody>
+</table>
+<p>From the above table, the impact of our optimizations is quite evident. Rather than taking more than three days, our pipeline now takes under three hours. We have also applied these optimizations to a much larger data regime to confirm their effectiveness.</p>
+<p>We can further improve the overall performance of our pipeline by using a smaller encoder model but that may come at the expense of reduced end performance. We can even perform <a href="https://arxiv.org/abs/1503.02531">knowledge distillation</a> to obtain a smaller model without compromising performance.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>In this article, we shared three recipes to improve the performance of our text preprocessing pipeline, summarized as:</p>
+<ul>
+<li>Using batch-wise maximum sequence length for padding as opposed to using a global sequence length.</li>
+<li>Sorting batches of sequences with respect to their maximum sequence lengths before encoding them.</li>
+<li>Decoupling sequence tokenization and encoding.</li>
+</ul>
+<p>You can try these recipes out with our demo project <a href="https://github.com/carted/processing-text-data">available on GitHub</a>. We hope these recipes also help improve the performance of your own pipelines.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sayak\.dev\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/improving-dataflow-pipelines-for-text-data-processing.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
