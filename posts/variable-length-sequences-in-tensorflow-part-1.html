@@ -428,6 +428,21 @@ ga('send', {
 </div>
 </div>
 </div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This article is part of a three-part series on handling variable-length text sequences in TensorFlow:</p>
+<ol type="1">
+<li>Part 1: Optimizing Sequence Padding <em>(you are here)</em></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2: Training a Simple BERT Model</a></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-3.html">Part 3: Using a Sentence-Conditioned BERT Encoder</a></li>
+</ol>
+</div>
+</div>
+</div>
 <p>Text data comes in different shapes and sizes: sequences of characters, sequences of words, sequences of sentences, and so on. This lack of uniformity has implications when working with machine learning (ML) algorithms that process text sequences in batches. The batches need to have uniform-length sequences, however, text sequences are often of varying lengths.</p>
 <p>In this three-part series, we will review different strategies to handle variable-length sequences in TensorFlow with a focus on performance, and discuss the pros and cons of each strategy along with their implementations in TensorFlow.</p>
 <p>We have successfully applied some of these strategies to the large-scale data here at Carted and have seen significant timing improvements as a result. We hope you’ll be able to apply them to your own projects as well.</p>

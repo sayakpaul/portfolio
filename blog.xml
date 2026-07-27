@@ -3079,6 +3079,21 @@ font-style: inherit;">Destroy</span> complete! Resources: 2 destroyed.</span></c
 </div>
 </div>
 </div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This article is part of a three-part series on handling variable-length text sequences in TensorFlow:</p>
+<ol type="1">
+<li><a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1: Optimizing Sequence Padding</a></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2: Training a Simple BERT Model</a></li>
+<li>Part 3: Using a Sentence-Conditioned BERT Encoder <em>(you are here)</em></li>
+</ol>
+</div>
+</div>
+</div>
 <p>In <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> of this series, we discussed techniques to efficiently process variable-length sequences for training a BERT-based text classification model. Since text descriptions often span multiple sentences, we will conclude this 3-part series with a look at a sentence-conditioned BERT encoder (such as <a href="https://aclanthology.org/2021.emnlp-main.502/">this</a>) which is more applicable to real-world use.</p>
 <p>In this article, we’ll be splitting the movie descriptions from our dataset into sentences and then encoding them with a suitable BERT encoder. This will require a few non-trivial changes to our codebase from <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a>.</p>
 <p>If you haven’t already, we strongly recommend reading <a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1</a> and <a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2</a> of this series before continuing with this article.</p>
@@ -3485,6 +3500,21 @@ font-style: inherit;">"summary_sentence_lens_splits_0"</span>),</span>
 </div>
 <div class="callout-body-container">
 <p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-2/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This article is part of a three-part series on handling variable-length text sequences in TensorFlow:</p>
+<ol type="1">
+<li><a href="variable-length-sequences-in-tensorflow-part-1.html">Part 1: Optimizing Sequence Padding</a></li>
+<li>Part 2: Training a Simple BERT Model <em>(you are here)</em></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-3.html">Part 3: Using a Sentence-Conditioned BERT Encoder</a></li>
+</ol>
 </div>
 </div>
 </div>
@@ -4191,6 +4221,21 @@ font-style: inherit;">False</span>, proj_dim, num_labels)</span></code></pre></d
 </div>
 <div class="callout-body-container">
 <p>This work was done at <a href="https://www.carted.com/">Carted</a>, where I worked as a (founding) machine learning engineer. The post was originally published on the <a href="https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-1/">Carted blog</a>.</p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>This article is part of a three-part series on handling variable-length text sequences in TensorFlow:</p>
+<ol type="1">
+<li>Part 1: Optimizing Sequence Padding <em>(you are here)</em></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-2.html">Part 2: Training a Simple BERT Model</a></li>
+<li><a href="variable-length-sequences-in-tensorflow-part-3.html">Part 3: Using a Sentence-Conditioned BERT Encoder</a></li>
+</ol>
 </div>
 </div>
 </div>
