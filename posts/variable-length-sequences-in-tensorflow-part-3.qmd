@@ -1,0 +1,226 @@
+---
+aliases:
+- /variable-length-sequences-in-tensorflow-part-3
+permalink: /variable-length-sequences-in-tensorflow-part-3
+toc: true
+highlight-style: github
+author:
+- name: Nilabhra Roy Chowdhury
+  url: https://ae.linkedin.com/in/nilabhraroychowdhury
+- name: Sayak Paul
+  url: https://sayak.dev
+categories:
+- tensorflow
+- nlp
+- bert
+- optimization
+date: '2022-04-26'
+description: "To conclude this series, we examine the benefits of using a sentence-conditioned BERT model for multi-sentence text data."
+image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/variable-length-sequences-part-3.png
+hide: false
+output-file: variable-length-sequences-in-tensorflow-part-3.html
+title: "Variable-Length Sequences in TensorFlow Part 3: Using a Sentence-Conditioned BERT Encoder"
+format: html
+css: custom_css/figcaption.css
+callout-appearance: simple
+---
+
+::: {.callout-note}
+This work was done at [Carted](https://www.carted.com/), where I worked as a (founding) machine learning engineer. The post was originally published on the [Carted blog](https://www.carted.com/blog/variable-length-sequences-in-tensorflow-part-3/).
+:::
+
+In [Part 2](variable-length-sequences-in-tensorflow-part-2.html) of this series, we discussed techniques to efficiently process variable-length sequences for training a BERT-based text classification model. Since text descriptions often span multiple sentences, we will conclude this 3-part series with a look at a sentence-conditioned BERT encoder (such as [this](https://aclanthology.org/2021.emnlp-main.502/)) which is more applicable to real-world use.
+
+In this article, we'll be splitting the movie descriptions from our dataset into sentences and then encoding them with a suitable BERT encoder. This will require a few non-trivial changes to our codebase from [Part 2](variable-length-sequences-in-tensorflow-part-2.html).
+
+If you haven't already, we strongly recommend reading [Part 1](variable-length-sequences-in-tensorflow-part-1.html) and [Part 2](variable-length-sequences-in-tensorflow-part-2.html) of this series before continuing with this article.
+
+## General setup
+
+As previously, we'll be using [this dataset](https://www.kaggle.com/hijest/genre-classification-dataset-imdb) from Kaggle which provides a [text classification problem](https://developers.google.com/machine-learning/guides/text-classification). Given a movie description of several sentences, our trained model should predict the genre out of 27 possible choices.
+
+Following standard practice, our approach was to first convert our dataset splits (training, validation, and testing) into TensorFlow Records (TFRecords). Specifically, we tokenized the movie descriptions using the [respective BERT tokenizer](https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3) and then serialized them with respect to their labels (movie genres).
+
+You're encouraged to check out the code that we've discussed so far [in this repository](https://github.com/carted/handling-variable-length-text-tf), where you'll also find the code we'll discuss in this article.
+
+## What are we doing differently this time?
+
+In Part 2, we treated each movie description as a single sentence block and encoded it, however, the movie descriptions in our dataset often contain multiple sentences. This motivated us to test if encoding with a sentence-conditioned BERT model would help improve the performance of our text classification model even further.
+
+To do this, we'll first split the movie descriptions into multiple sentences using the [`sentence-splitter`](https://pypi.org/project/sentence-splitter/) Python library. If a description contains a single sentence then the output will simply be a list containing that single sentence instead of multiple. The following is an example:
+
+``` python
+from sentence_splitter import split_text_into_sentences
+
+print(split_text_into_sentences(
+    text='This is a paragraph. It contains several sentences. "But why," you ask?',
+    language='en'
+    )
+)
+# Outputs: ['This is a paragraph.', 'It contains several sentences.', '"But why," you ask?']
+
+print(split_text_into_sentences(
+    text="This is a paragraph.",
+    language='en'
+    )
+)
+# Outputs: ['This is a paragraph.']
+```
+
+While simple enough, this change requires us to modify the original TFRecord preparation and parsing utilities. Let's go over them one by one.
+
+## Changes to the TFRecord preparation process
+
+The first change will be how we tokenize each movie description, which is shown below:
+
+``` python
+# `summary` denotes a single movie description.
+text = split_text_into_sentences(summary, language="en")
+token_list = _tokenize_text.tokenizer(tf.constant(text))
+```
+
+To understand the effects better, let's consider the following description:
+
+::: {.callout-note}
+This is a paragraph. It contains several sentences. "But why," you ask?
+:::
+
+If we pass this description as it is to the BERT tokenizer the output will look like the following:
+
+``` python
+<tf.RaggedTensor [[[2023], [2003], [1037], [20423], [1012], [2009], [3397], [2195], [11746], [1012], [1000], [2021], [2339], [1010], [1000], [2017], [3198], [1029]]]>
+```
+
+But if we first split the description into multiple sentences and then apply the tokenizer the outputs will be slightly different:
+
+``` python
+<tf.RaggedTensor [[[2023], [2003], [1037], [20423], [1012]], [[2009], [3397], [2195], [11746], [1012]], [[1000], [2021], [2339], [1010], [1000], [2017], [3198], [1029]]]>
+```
+
+Notice how the sentences have been tokenized here. Here's the full code if you'd like to play around:
+
+``` python
+tokenizer = hub.load("https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3") # Requires `tensorflow-hub` and `tensorflow-text`.
+
+description = 'This is a paragraph. It contains several sentences. "But why," you ask?'
+
+text = split_text_into_sentences(description, language="en") # Requires `sentence-splitter` to be installed.
+token_list = tokenizer.tokenize(tf.constant(text))
+print(token_list)
+```
+
+Since each description will now be a list of one or more sentences, we'll first compute the [embeddings](https://developers.google.com/machine-learning/glossary/#embeddings) on the individual sentences. We'll then average those embeddings over the number of sentences for the given movie description. We'll revisit this later in the article.
+
+To use the split sentences, we'll need to store how many sentences a description has in its TFRecord example. Our TFRecord feature description would now look like this:
+
+``` python
+def get_serialized_text_features(features):
+    """Serializes all the Ragged features."""
+    tokens = features["tokens"]
+    tokens = ragged_feature(tokens, "summary_sentences")
+
+    lens = features["lens"]
+    lens = tf.ragged.constant([lens])
+    lens = ragged_feature(lens, "summary_sentence_lens")
+
+    return tokens, lens
+
+features = {
+        "tokens": description_tokens,
+        "lens": description_lens,
+    }
+    text_tokens, text_lens = get_serialized_text_features(features)
+
+    feature = {
+        "summary": _bytes_feature(description),
+        "summary_num_sentences": _ints_feature([num_sentences]),
+        "label": _ints_feature([label]),
+    }
+
+    feature.update(text_tokens)
+    feature.update(text_lens)
+```
+
+Here, we use the `ragged_feature()` function introduced in [Part 2](variable-length-sequences-in-tensorflow-part-2.html) to represent both the sentence tokens and the number of tokens per sentence --- as each summary will yield a variable number of sentences.
+
+To generate the `description_tokens`, we first split a given summary into a list of sentences and then perform the tokenization:
+
+``` python
+description_tokens, description_lens = _tokenize_text(
+    split_text_into_sentences(summary, language="en")
+)
+```
+
+All of the `summary`-related features will be utilized in our data pipeline and will be clarified in the forthcoming sections. With these changes, we can proceed to write the TFRecords. You can check [this notebook](https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/data-preparation-sentence-splitter.ipynb) to see the full code.
+
+## Changes to the TFRecord parsing utilities
+
+We need to add one more element to the parsing dictionary in order to read the lengths of the sentences per summary.
+
+``` python
+feature_descriptions = {
+    ...
+    "summary_sentence_lens": tf.io.RaggedFeature(
+        value_key="summary_sentence_lens_values",
+        dtype=tf.int64,
+        partitions=[
+            tf.io.RaggedFeature.RowSplits("summary_sentence_lens_splits_0"),
+        ],
+    ),
+    ...
+}
+```
+
+Note that since this is a rank 1 `RaggedTensor`, we will only have one partition element.
+
+## Model training
+
+We use the same model introduced in [Part 2](variable-length-sequences-in-tensorflow-part-2.html) which is essentially an affine layer with ReLU activation followed by another affine layer with softmax activation. The main difference here are the inputs to the model which is computed as the average of the sentence embeddings per summary.
+
+Specifically, for a given description we compute embeddings of all the sentences inside it and then average them. The averaging is done with the information on how many sentences the description contains. The sentence embeddings are obtained from the [Universal Sentence Encoder](https://aclanthology.org/2021.emnlp-main.502/) model available in [TensorFlow Hub](https://tfhub.dev/google/universal-sentence-encoder-cmlm/en-base/1).
+
+Discussing the details of how we average the sentence embeddings is out of scope for this article. However, for the full code on how we do that along with TFRecord parsing and model training please refer to [this notebook](https://github.com/carted/handling-variable-length-text-tf/blob/main/bert/train-model-split-sentence.ipynb).
+
+## Performance
+
+To evaluate our hypothesis, we compared the performance of our sentence-conditioned model against that used in [Part 2](variable-length-sequences-in-tensorflow-part-2.html). Additionally, we compared the performance of our new model using both variable-length and fixed-length batching strategies which we first discussed in [Part 1](variable-length-sequences-in-tensorflow-part-1.html).
+
+### Sentence-conditioned model
+
+Taken together, the much greater accuracy and relatively minor impact on training time of the sentence-conditioned model confirmed our hypothesis. For text data containing multiple sentences (such as our movie descriptions), using a sentence-conditioned BERT model is the recommended approach.
+
+### Training time
+
+![**Figure 1:** Model training timings for single-sentence (top) and multi-sentence (bottom) BERT models using variable-length sequence padding.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/training-time-single-vs-multi-sentence.png)
+
+The average training time for the sentence-conditioned (multi-sentence) model was slightly longer than the single-sentence model trained in [Part 2](variable-length-sequences-in-tensorflow-part-2.html) by 3.9%.
+
+### Accuracy
+
+![**Figure 2:** Model accuracy for single-sentence (top) and multi-sentence (bottom) BERT models.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/test-accuracy-single-vs-multi-sentence.png)
+
+As shown in the cart, the multi-sentence (sentence-conditioned) model we trained in this article showed a rather dramatic improvement in test accuracy --- achieving an accuracy of 61.9% compared to 56.0% for the simpler model trained in [Part 2](variable-length-sequences-in-tensorflow-part-2.html).
+
+### Sequence padding strategies
+
+Consistent with the results we've seen in earlier parts of this series, using variable-length batch padding dramatically improves training time without loss of test accuracy.
+
+### Training time
+
+![**Figure 3:** Model training timings with variable (top) and fixed-length (bottom) sequences.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/training-time-padding-strategies.png)
+
+The average training time for the model when using fixed-length batches of tokens is 6614 seconds while training with variable length batches is 1308 seconds --- a reduction of over 80%.
+
+### Accuracy
+
+![**Figure 4:** Model test accuracies with variable (top) and fixed-length (bottom) sequences.](https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/test-accuracy-padding-strategies.png)
+
+The variable-length and fixed-length batching strategies yield test accuracies of 61.9% and 61.71% respectively.
+
+## Conclusion
+
+In this article series, we showed that handling sequence data in the right way can provide substantial timing improvements without affecting the final evaluation metric. We explained the importance of understanding your dataset --- particularly, variability in sequence lengths and identifying appropriate sequence splits --- before determining the approach used.
+
+Finally, we underscored that testing assumptions and validating alternative approaches is key to discovering ways to improve model training time whilst maintaining or even improving evaluation metrics.
+
+We hope you enjoyed the series and will be applying the discussed techniques in your own projects.
