@@ -18,7 +18,7 @@ The structure of this website is inspired by [Omar's site](https://osanseviero.g
 - Organizing a tutorial on Post-Training Diffusion Models: Enhancing Capabilities, Control, and Alignment at ECCV'26. Check out the details [here](https://pdm-tut.github.io/).
 - Published a kernel (and its development journey) for optimizing LTX2.3: [sayakpaul/ltx2-simple-optims](https://github.com/sayakpaul/ltx2-simple-optims).
 - New work: [Beyond LoRA: Can you beat the most popular fine-tuning technique?](https://huggingface.co/blog/peft-beyond-lora)
-- 3 papers accepted to ECCV: [Flash-BoN](https://flash-bon.github.io/), [DynEval](https://vcl-iisc.github.io/dyneval), and [PAFM](https://arxiv.org/abs/2605.00825). Very thankful for the collaborations!
+- 3 papers accepted to ECCV: [Flash-BoN](https://flash-bon.github.io/), [DynEval](https://vcl-iisc.github.io/dyneval), and [PAFM](https://arxiv.org/abs/2605.00825). See you in Sweden.
 
 To know more about my projects, please refer to [my GitHub profile](https://github.com/sayakpaul). For an up-to-date list of my publications, refer to [my Google Scholar page](https://scholar.google.com/citations?user=ecW-EE4AAAAJ&hl=en#).
 
