@@ -50,7 +50,7 @@ def attention(x, cache=None):
     return output, KVCache(keys=k, values=v)
 ```
 
-There is another family of models, MMDiT (Multimodal Diffusion Transformers), typically
+There is another family of models, MMDiT (Multimodal Diffusion Transformers [@pmlr-v235-esser24a]), typically
 used in media generation (such as images and videos). These models often operate across
 multiple modalities. The most popular example is text-to-image generation. There, we need
 to attend between text and image tokens in their respective representation spaces. In these
@@ -74,7 +74,7 @@ def mmdit_attention(image_tokens, text_tokens):
     return image_out_proj(image_out), text_out_proj(text_out)
 ```
 
-MMDiTs are generally used in flow-based media generation pipelines. This makes
+MMDiTs are generally used in flow-based [@lipman2023flow] media generation pipelines. This makes
 MMDiTs iterative — we start from pure random Gaussian noise, which is iteratively
 denoised over a few steps to produce the final output. In a flow-based pipeline, MMDiT
 serves as the “denoiser”. The final output depends on the space we’re operating on; it
@@ -129,7 +129,7 @@ This post focuses on a particular class of models — MMDiTs. In this section, w
 briefly go over what an MMDiT block looks like in code. Let’s start with an
 infographic of an MMDiT block:
 
-![MMDiT block diagram. Taken from the original paper.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image.png){#fig-mmdit-block width=70%}
+![MMDiT block diagram. Taken from the original paper [@pmlr-v235-esser24a].](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image.png){#fig-mmdit-block width=70%}
 
 Translating this to code is straightforward:
 
@@ -163,7 +163,7 @@ class MMDiTBlock:
             self.text_norm1(text_tokens), t_shift_a, t_scale_a
         )
 				
-				# `mmdit_attention()` is from above.
+		# `mmdit_attention()` is from above.
         image_attn, text_attn = mmdit_attention(
             image_for_attn, text_for_attn
         )
@@ -185,8 +185,8 @@ def modulate(x, shift, scale):
 
 Note that this resembles the original MMDiT block. More recent models use variants
 of it. It should also be noted that for simplicity, the snippet doesn’t show the
-additional techniques that are normally included, such as QK-norm, RoPE, and parallel
-attention blocks.
+additional techniques that are normally included, such as  [@10.1016/j.neucom.2023.127063], QK-norm, and parallel
+attention blocks [@dehghani2023scalingvisiontransformers22].
 
 The `mmdit_attention` code snippet shows how attention is generally computed in MMDiT
 architectures. This form of attention is also referred to as “joint attention”. 
@@ -194,7 +194,7 @@ architectures. This form of attention is also referred to as “joint attention�
 Put simply, in joint attention, the QKV projection is performed *separately* (with
 separate sets of parameters) on each of the two modalities shown above (`image_tokens`
 and `text_tokens`). Before computing attention, these projections are concatenated. Quoting
-the paper that introduced this style of attention:
+the paper that introduced this style of attention [@pmlr-v235-esser24a]:
 
 > Since text and image embeddings are conceptually quite different, we use two separate
 > sets of weights for the two modalities. […], this is equivalent to having two independent
@@ -223,8 +223,8 @@ for block in self.single_blocks:
 
 Modern media generation pipelines go beyond just text-to-image. They’re capable
 of accommodating image-level conditions, which are useful for tasks like image
-editing and pose-guided image generation. How do we incorporate these additional conditions
-into MMDiTs?
+editing and pose-guided image generation. How do we incorporate these additional
+conditions into MMDiTs?
 
 ::: {.callout-note}
 
@@ -240,11 +240,13 @@ a latent-space flow pipeline.
 
 ## Conditions in MMDiTs
 
-First, we need a way to encode the incoming conditions and reduce them to a representation
-that the MMDiT was trained on. For text, this is usually done with a dedicated language model.
-For images, a dedicated vision encoder (such as DINO, SigLIP, etc.) can be used. One can
-also leverage the encoder component of the Autoencoder involved in a latent-space flow
-pipeline. Popular pipelines like Flux2 and QwenImage Edit follow this approach.
+First, we need a way to encode the incoming conditions and reduce them to a
+representation that the MMDiT was trained on. For text, this is usually done
+with a dedicated language model. For images, a dedicated vision encoder
+(such as DINO [@oquab2024dinov], SigLIP [@siglip], etc.) can be used. One can
+also leverage the encoder component of the Autoencoder involved in a
+latent-space flow pipeline. Popular pipelines like Flux2 [@flux-2-2025] and QwenImage Edit [@wu2025qwenimagetechnicalreport]
+follow this approach.
 
 Once the image representations are computed, they’re concatenated with the noisy image
 latent being denoised:
@@ -280,8 +282,8 @@ belonging to the condition image tokens change across steps? Let’s find out.
 
 ## Room for reuse?
 
-@fig-reference-kv-projections confirms our intuition that the KV projections for the condition, aka reference
-image tokens, don’t change over the denoising steps. 
+@fig-reference-kv-projections confirms our intuition that the KV projections
+for the condition, aka reference image tokens, don’t change over the denoising steps. 
 
 ![Recomputed KV projections of the condition image tokens across denoising steps. Generated image tokens correspond to the noisy ones being denoised.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%202.png){#fig-reference-kv-projections}
 
@@ -527,9 +529,9 @@ added support for Flux.2-Klein KV.
 
 ## Speed-memory trade-off in KV caching
 
-We took the Flux.2-klein-9b-kv pipeline and benchmarked it with and without KV caching.
-Unless otherwise specified, we always use a single reference image (@fig-reference-cat) with this
-prompt:
+We took the [Flux.2-klein-9b-kv](https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv) pipeline
+and benchmarked it with and without KV caching. Unless otherwise specified, we always use a single
+reference image (@fig-reference-cat) with this prompt:
 
 > *Dress this cat as a wizard wearing a blue hat and cloak, keeping its face and pose.*
 
@@ -604,7 +606,7 @@ evaluating. In terms of numbers:
 | Latency (8 steps) | 4.227s | 3.861s (8.7%) |
 | Peak GPU memory | 35.48GB | 35.73GB |
 
-A more recent (at the time of writing) model, QwenImage 2.1, directly caches KV
+A more recent (at the time of writing) model, QwenImage 2.1 [@qwenimage21-2026], directly caches KV
 for both the text tokens and reference image tokens, discussed next.
 
 ## QwenImage 2.1 results
@@ -627,9 +629,11 @@ this don’t change much; however, the internal details warrant a separate discu
 In QwenImage 2.1, reference image tokens occupy positions within the conditioning
 sequence, and the noisy latent tokens come last. A simplified sequence looks like this:
 
-```text
-[text A | reference image 1 | text B | reference image 2 | noisy latent tokens]
- <---------------- conditioning prefix -------------->   denoised
+```{.ascii .no-highlight .code-overflow-scroll}
++-----------+-------------------+-----------+-------------------+---------------------+
+|   Text A  | Reference image 1 |   Text B  | Reference image 2 | Noisy latent tokens |
++-----------+-------------------+-----------+-------------------+---------------------+
+<--------------------- conditioning prefix ---------------------> <----- denoised ---->
 ```
 
 Let’s call everything before the noisy latent tokens the *conditioning prefix*. Unlike
@@ -714,13 +718,15 @@ A reference image segment contains all the latent tokens encoded from one refere
 image. Each reference forms a separate segment, even when two references appear next
 to each other without text between them.
 
-Each bracketed group below is one segment; its label stands for all the tokens
+Each boxed group below is one segment; its label stands for all the tokens
 in that group:
 
-```text
-[ Text A ] [ Reference 1 ] [ Text B ] [ Reference 2 ] [ Noisy latent tokens ]
-segment 1     segment 2    segment 3     segment 4           segment 5
-<--------------- conditioning prefix --------------->        denoised
+```{.ascii .no-highlight .code-overflow-scroll}
++-----------+-------------------+-----------+-------------------+---------------------+
+|   Text A  | Reference image 1 |   Text B  | Reference image 2 | Noisy latent tokens |
+| segment 1 |     segment 2     | segment 3 |     segment 4     |      segment 5      |
++-----------+-------------------+-----------+-------------------+---------------------+
+<--------------------- conditioning prefix ---------------------> <----- denoised ---->
 ```
 
 Segments 1–4 form the conditioning prefix and are processed by the `prefix_segments`
@@ -766,7 +772,7 @@ encoded from one reference, which can all attend to one another. Finally, querie
 from the noisy latent tokens attend to all keys and values.
 
 These separate calls implement the block-causal attention rule exactly. QwenImage 2.1
-also supports expressing the rule as a block mask for [FlexAttention](https://pytorch.org/blog/flexattention/),
+also supports expressing the rule as a block mask for FlexAttention [@guessous2024flexattention],
 which computes the attention in a single call.
 
 **Fixed timestep modulation**
@@ -784,8 +790,8 @@ denoised in the current step.
 Despite the technical differences, the cache lifecycle should now look familiar. During
 the first denoising step, each transformer block processes the full sequence and saves
 the prefix KV. This is where the block-causal restriction applies: text and reference image
-queries must be prevented from reading later segments (@fig-qwen-attention-mask). The segmented computation
-above enforces it through KV slicing and text masks.
+queries must be prevented from reading later segments (@fig-qwen-attention-mask). The segmented
+computation above enforces it through KV slicing and text masks.
 
 ```python
 q, k, v = prepare_qkv(all_tokens)
@@ -838,8 +844,8 @@ overlap compute with communication (offloading and onloading the cache in this c
 It’d be a fun exercise to implement this in practice and see how far we can push the
 speed-memory trade-offs.
 
-A specific class of caching techniques for flow-based pipelines exists, such as TaylorSeer,
-SeaCache, and TeaCache, which cache intermediate outputs within the denoiser. For example,
+A specific class of caching techniques for flow-based pipelines exists, such as TaylorSeer [@liu2025taylorseer],
+SeaCache [@chung2026seacache], and TeaCache [@liu2025teacache], which cache intermediate outputs within the denoiser. For example,
 TaylorSeer uses Taylor series expansions to approximate and cache intermediate activations
 across denoising steps. This family of caching techniques can be combined with KV caching, too. 
 
