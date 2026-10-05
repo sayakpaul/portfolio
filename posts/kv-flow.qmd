@@ -12,11 +12,11 @@ categories:
 - kv-caching
 date: '2026-10-05'
 description: KV caching in flow models for image generation.
-image: https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/llama_header.png
+image: https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail.png
 hide: false
 output-file: kv-flow.html
 search_exclude: false
-bibliography: bibs/attn_diffusion_references.bib
+bibliography: bibs/kv-flow-refs.bib
 csl: citation_styles/diabetologia.csl
 title: 'KV Caching in Flow Models'
 ---
