@@ -874,3 +874,11 @@ For videos, as one would imagine, these numbers would be even higher.
 
 Therefore, it’d remain interesting to see how KV caching is leveraged without blowing
 memory consumption too much.
+
+::: {.callout-note title="AI assistance"}
+
+The text content of this post comes primarily from the author. AI assistance (Codex) was
+used for the following: language polishing, code snippets, and coordination of
+the experiments.
+
+:::
