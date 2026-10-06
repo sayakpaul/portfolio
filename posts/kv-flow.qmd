@@ -10,7 +10,7 @@ categories:
 - diffusion-transformers
 - diffusion
 - kv-caching
-date: '2026-10-05'
+date: '2026-10-07'
 description: KV caching in flow models for image generation.
 image: https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail.png
 hide: false
@@ -20,11 +20,11 @@ bibliography: bibs/kv-flow-refs.bib
 csl: citation_styles/diabetologia.csl
 title: 'KV Caching in Flow Models'
 ---
-KV caching stores the key and value tensors from tokens a transformer has already
-processed. When generating the next token, the model computes keys and values only
-for that new token and reuses the cached ones for earlier tokens. This speeds up
-generation, especially for long sequences, but the cache uses memory that grows with
-sequence length.
+KV caching [@shazeer2019fasttransformerdecodingwritehead] stores the key and value
+tensors from tokens a transformer has already processed. When generating the next
+token, the model computes keys and values only for that new token and reuses the
+cached ones for earlier tokens. This speeds up generation, especially for long sequences,
+but the cache uses memory that grows with sequence length.
 
 Historically, KV caching has always been linked to autoregressive models (like language
 models) where the token being generated can only attend to the previous tokens. So, the
@@ -52,7 +52,7 @@ def attention(x, cache=None):
 
 There is another family of models, MMDiT (Multimodal Diffusion Transformers [@pmlr-v235-esser24a]), typically
 used in media generation (such as images and videos). These models often operate across
-multiple modalities. The most popular example is text-to-image generation. There, we need
+multiple modalities. A popular example is text-to-image generation. There, we need
 to attend between text and image tokens in their respective representation spaces. In these
 models, the information flow is made bidirectional. This is made clear in code:
 
@@ -125,9 +125,8 @@ a good one.
 
 ## An MMDiT block
 
-This post focuses on a particular class of models — MMDiTs. In this section, we’ll
-briefly go over what an MMDiT block looks like in code. Let’s start with an
-infographic of an MMDiT block:
+This post focuses on a particular class of models — MMDiTs. Let’s see how a single
+MMDiT block looks like:
 
 ![MMDiT block diagram. Taken from the original paper [@pmlr-v235-esser24a].](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image.png){#fig-mmdit-block width=70%}
 
@@ -183,7 +182,7 @@ def modulate(x, shift, scale):
     return x * (1 + scale) + shift
 ```
 
-Note that this resembles the original MMDiT block. More recent models use variants
+This resembles the original MMDiT block. More recent models use variants
 of it. It should also be noted that for simplicity, the snippet doesn’t show the
 additional techniques that are normally included, such as  [@10.1016/j.neucom.2023.127063], QK-norm, and parallel
 attention blocks [@dehghani2023scalingvisiontransformers22].
@@ -548,7 +547,7 @@ consumption of the pipeline:
 
 KV caching, as one would expect, does not affect quality:
 
-![Resultant images from Flux.2-klein-9b-kv with and without KV caching. Reproduce with the code from [here](https://github.com/sayakpaul/kv-caching-flow-models-benchmarks).](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%204.png){#fig-flux-kv-results}
+![Output images from Flux.2-klein-9b-kv with and without KV caching. Reproduce with the code from [here](https://github.com/sayakpaul/kv-caching-flow-models-benchmarks).](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%204.png){#fig-flux-kv-results}
 
 Readers should take the qualitative comparisons with a grain of salt because these
 comparisons are presented with a single example, which is far from being conclusive.
@@ -593,7 +592,7 @@ plausible images; let’s find out.
 We ran a small experiment to also cache text KV similar to the reference image
 KV and to assess its impact on the final generated image.
 
-![Resultant images from Flux.2 Klein 9B KV with text KV caching enabled.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%205.png){#fig-text-kv-results}
+![Output images from Flux.2 Klein 9B KV with text KV caching enabled.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%205.png){#fig-text-kv-results}
 
 As seen in @fig-text-kv-results, reusing text KV values produced coherent wizard-cat edits.
 The outputs changed in costume details and framing, but showed no obvious visual
@@ -618,7 +617,7 @@ Similar speed gains transfer to QwenImage 2.1:
 | Latency (40 steps) | 32.202s | 17.798s (44.7%) |
 | Peak GPU memory | 36.81GB | 38.89GB |
 
-![Sample output images for QwenImage 2.1 with and without KV caching.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%206.png){#fig-qwen-kv-results}
+![Output images for QwenImage 2.1 with and without KV caching.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%206.png){#fig-qwen-kv-results}
 
 QwenImage 2.1 uses a single stream of text and image tokens through its transformer
 blocks, unlike the design discussed so far. The broad design principles to accommodate
@@ -682,7 +681,7 @@ as well as every latent token encoded from that particular reference image.
 - Noisy latent tokens attend to the entire conditioning prefix and all noisy latent
 tokens, including themselves.
 
-@fig-qwen-attention-mask gives a visual way to think about this setup.
+@fig-qwen-attention-mask provides a visual way to think about this setup.
 
 ![QwenImage 2.1 attention mask. Text attention is causal; each reference's latent tokens can attend to one another in both directions. Noisy latent queries can attend to the entire sequence, while the conditioning prefix cannot attend to noisy latent tokens.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%207.png){#fig-qwen-attention-mask}
 
@@ -713,7 +712,7 @@ in these streams?
 
 We can compute this attention one segment at a time. A segment could be a text segment or
 an image segment. Here, a text segment is a consecutive run of text tokens: Text A and
-Text B in our example are separate segments because reference image 1 sits between them.
+Text B in our example are separate segments because Reference image 1 sits between them.
 A reference image segment contains all the latent tokens encoded from one reference
 image. Each reference forms a separate segment, even when two references appear next
 to each other without text between them.
@@ -738,7 +737,7 @@ by the causal rule discussed above. We also compute attention for the noisy late
 queries, then concatenate all the outputs in sequence order.
 
 ```python
-# No batching, masking, output projections, and all that yet
+# No batching, masking, output projections, and all that yet.
 def segmented_attention(q, k, v, prefix_segments, prefix_len):
     outputs = []
 
