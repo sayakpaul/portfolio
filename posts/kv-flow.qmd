@@ -854,7 +854,7 @@ across denoising steps. This family of caching techniques can be combined with K
 | Latency (8 steps) | 4.264s | 3.105s (27.2%) |
 | Peak GPU memory | 35.48GB | 37.24GB |
 
-However, this combination can lead to noticeable degradation in the outputs, as shown
+However, this combination can lead to noticeable degradation in output quality, as shown
 in @fig-taylorseer-results.
 
 ![Combining KV caching and TaylorSeer caching may lead to quality degradations for Flux.2-klein-9b-kv.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%209.png){#fig-taylorseer-results}
