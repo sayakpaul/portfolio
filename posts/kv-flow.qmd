@@ -539,11 +539,13 @@ reference image (@fig-reference-cat) with this prompt:
 The table below demonstrates the impact of KV caching on speed and memory
 consumption of the pipeline:
 
-| **Measurement ⬇️** | **Without cache** | **With cache** |
+| **Measurement (↓ better)** | **Without cache** | **With cache** |
 | --- | --- | --- |
-| Latency (4 steps)  | 3.085s | 2.374s (23.1%) |
-| Latency (8 steps) | 5.883s | 4.209s (28.4%) |
-| Peak GPU memory | 34.74GB | 35.48GB |
+| Latency (4 steps) | 3.085 s | 2.374 s (−23.0%) |
+| Latency (8 steps) | 5.883 s | 4.209 s (−28.5%) |
+| Peak GPU memory | 34.74 GB | 35.48 GB (+2.1%) |
+
+[In all tables, percentages are relative to the first numeric column.]{.small .text-muted}
 
 KV caching, as one would expect, does not affect quality:
 
@@ -557,16 +559,16 @@ PSNR and SSIM of the outputs to have a more robust comparison.
 The speed and memory numbers scale with multiple reference images. With 3 reference
 images, we get between 42.1% and 51.3% speedups. 
 
-| **Measurement ⬇️** | **Without cache** | **With cache** |
+| **Measurement (↓ better)** | **Without cache** | **With cache** |
 | --- | --- | --- |
-| Latency (4 steps) | 5.950s | 3.446s (42.1%) |
-| Latency (8 steps) | 11.459s | 5.580s (51.3%) |
-| Peak GPU memory | 35.45GB | 39.58GB |
+| Latency (4 steps) | 5.950 s | 3.446 s (−42.1%) |
+| Latency (8 steps) | 11.459 s | 5.580 s (−51.3%) |
+| Peak GPU memory | 35.45 GB | 39.58 GB (+11.7%) |
 
 The input prompt is a condition, just like the reference images. Since the
 prompt stays the same throughout denoising, could we cache its KV projections too?
 
-The distinction is between the fixed text-encoder output and the text
+There is a distinction between the fixed text-encoder output and the text
 representations inside the denoiser. The pipeline computes the prompt embeddings
 once and reuses them at every denoising step. Inside the denoiser, however, those
 embeddings undergo further processing.
@@ -595,27 +597,27 @@ KV and to assess its impact on the final generated image.
 ![Output images from Flux.2 Klein 9B KV with text KV caching enabled.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%205.png){#fig-text-kv-results}
 
 As seen in @fig-text-kv-results, reusing text KV values produced coherent wizard-cat edits.
-The outputs changed in costume details and framing, but showed no obvious visual
+The outputs changed in costume details and framing, but they don't show obvious visual
 failure in this small experiment. Text KV caching is therefore an approximation worth
 evaluating. In terms of numbers:
 
-| **Measurement ⬇️** | **Reference KV cache** | **+ Text KV cache** |
+| **Measurement (↓ better)** | **Reference KV cache** | **+ Text KV cache** |
 | --- | --- | --- |
-| Latency (4 steps) | 2.385s | 2.231s (6.31%) |
-| Latency (8 steps) | 4.227s | 3.861s (8.7%) |
-| Peak GPU memory | 35.48GB | 35.73GB |
+| Latency (4 steps) | 2.385 s | 2.231 s (−6.5%) |
+| Latency (8 steps) | 4.227 s | 3.861 s (−8.7%) |
+| Peak GPU memory | 35.48 GB | 35.73 GB (+0.7%) |
 
 A more recent (at the time of writing) model, QwenImage 2.1 [@qwenimage21-2026], directly caches KV
 for both the text tokens and reference image tokens, discussed next.
 
 ## QwenImage 2.1 results
 
-Similar speed gains transfer to QwenImage 2.1:
+Similar speed gains transfer to QwenImage 2.1 with KV caching:
 
-| **Measurement ⬇️** | **Without cache** | **With KV cache** |
+| **Measurement (↓ better)** | **Without cache** | **With KV cache** |
 | --- | --- | --- |
-| Latency (40 steps) | 32.202s | 17.798s (44.7%) |
-| Peak GPU memory | 36.81GB | 38.89GB |
+| Latency (40 steps) | 32.202 s | 17.798 s (−44.7%) |
+| Peak GPU memory | 36.81 GB | 38.89 GB (+5.7%) |
 
 ![Output images for QwenImage 2.1 with and without KV caching.](https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%206.png){#fig-qwen-kv-results}
 
@@ -848,11 +850,11 @@ SeaCache [@chung2026seacache], and TeaCache [@liu2025teacache], which cache inte
 TaylorSeer uses Taylor series expansions to approximate and cache intermediate activations
 across denoising steps. This family of caching techniques can be combined with KV caching, too. 
 
-| **Measurement ⬇️** | **Reference KV cache** | **+ TaylorSeer** |
+| **Measurement (↓ better)** | **Reference KV cache** | **+ TaylorSeer** |
 | --- | --- | --- |
-| Latency (4 steps) | 2.407s | 2.033s (15.5%) |
-| Latency (8 steps) | 4.264s | 3.105s (27.2%) |
-| Peak GPU memory | 35.48GB | 37.24GB |
+| Latency (4 steps) | 2.407 s | 2.033 s (−15.5%) |
+| Latency (8 steps) | 4.264 s | 3.105 s (−27.2%) |
+| Peak GPU memory | 35.48 GB | 37.24 GB (+5.0%) |
 
 However, this combination can lead to noticeable degradation in output quality, as shown
 in @fig-taylorseer-results.
