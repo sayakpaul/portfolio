@@ -1,0 +1,1658 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-10-07">
+<meta name="description" content="KV caching in flow models for image generation.">
+
+<title>KV Caching in Flow Models – Sayak Paul</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<link href="../posts/favicon.ico" rel="icon">
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5c1318cf63eba56dbef7ba16bc7d56f5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-6453f418aeef366c23116eb9cb0b6816.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-5c1318cf63eba56dbef7ba16bc7d56f5.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e512e4f775564158f97de903bb8a4584.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-0e5275ca3271269d5729d8951a5fd228.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-e512e4f775564158f97de903bb8a4584.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+<script type="text/javascript">
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-163448909-1', 'auto');
+
+ga('send', {
+  hitType: 'pageview',
+  'anonymizeIp': true,
+});
+</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+<meta property="og:title" content="KV Caching in Flow Models – Sayak Paul">
+<meta property="og:description" content="KV caching in flow models for image generation.">
+<meta property="og:image" content="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail.png">
+<meta property="og:site_name" content="Sayak Paul">
+<meta name="twitter:title" content="KV Caching in Flow Models – Sayak Paul">
+<meta name="twitter:description" content="KV caching in flow models for image generation.">
+<meta name="twitter:image" content="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail.png">
+<meta name="twitter:creator" content="@RisingSayak">
+<meta name="twitter:card" content="summary">
+</head>
+
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Sayak Paul</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/about.html"> 
+<span class="menu-text">About Me</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/authoring.html"> 
+<span class="menu-text">Authoring</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages/resources.html"> 
+<span class="menu-text">Resources</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://twitter.com/RisingSayak"> <i class="bi bi-twitter" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/sayak-paul/"> <i class="bi bi-linkedin" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/sayakpaul"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">KV Caching in Flow Models</h1>
+                  <div>
+        <div class="description">
+          KV caching in flow models for image generation.
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">flow</div>
+                <div class="quarto-category">diffusion-transformers</div>
+                <div class="quarto-category">diffusion</div>
+                <div class="quarto-category">kv-caching</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">October 7, 2026</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#an-mmdit-block" id="toc-an-mmdit-block" class="nav-link active" data-scroll-target="#an-mmdit-block">An MMDiT block</a></li>
+  <li><a href="#conditions-in-mmdits" id="toc-conditions-in-mmdits" class="nav-link" data-scroll-target="#conditions-in-mmdits">Conditions in MMDiTs</a></li>
+  <li><a href="#room-for-reuse" id="toc-room-for-reuse" class="nav-link" data-scroll-target="#room-for-reuse">Room for reuse?</a></li>
+  <li><a href="#kv-cache-design-in-mmdit" id="toc-kv-cache-design-in-mmdit" class="nav-link" data-scroll-target="#kv-cache-design-in-mmdit">KV cache design in MMDiT</a></li>
+  <li><a href="#speed-memory-trade-off-in-kv-caching" id="toc-speed-memory-trade-off-in-kv-caching" class="nav-link" data-scroll-target="#speed-memory-trade-off-in-kv-caching">Speed-memory trade-off in KV caching</a></li>
+  <li><a href="#qwenimage-2.1-results" id="toc-qwenimage-2.1-results" class="nav-link" data-scroll-target="#qwenimage-2.1-results">QwenImage 2.1 results</a>
+  <ul class="collapse">
+  <li><a href="#kv-caching-in-qwenimage-2.1" id="toc-kv-caching-in-qwenimage-2.1" class="nav-link" data-scroll-target="#kv-caching-in-qwenimage-2.1">KV caching in QwenImage 2.1</a></li>
+  </ul></li>
+  <li><a href="#room-for-optimization" id="toc-room-for-optimization" class="nav-link" data-scroll-target="#room-for-optimization">Room for optimization?</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/kv-flow.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+
+<p>KV caching <span class="citation" data-cites="shazeer2019fasttransformerdecodingwritehead">[<a href="#ref-shazeer2019fasttransformerdecodingwritehead" role="doc-biblioref">1</a>]</span> stores the key and value tensors from tokens a transformer has already processed. When generating the next token, the model computes keys and values only for that new token and reuses the cached ones for earlier tokens. This speeds up generation, especially for long sequences, but the cache uses memory that grows with sequence length.</p>
+<p>Historically, KV caching has always been linked to autoregressive models (like language models) where the token being generated can only attend to the previous tokens. So, the information flow is unidirectional here (left-to-right). The type of attention used here is causal. We enforce causality through a causal mask.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Pseudo code. Don't chase me if it doesn't run.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> attention(x, cache<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> project_q(x)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> project_k(x)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> project_v(x)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> cache <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        k <span class="op">=</span> concat(cache.keys, k, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        v <span class="op">=</span> concat(cache.values, v, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> (q <span class="op">@</span> k.transpose(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)) <span class="op">/</span> sqrt(head_dim)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> apply_causal_mask(scores)  <span class="co"># No token can see future tokens.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    weights <span class="op">=</span> softmax(scores, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> project_out(weights <span class="op">@</span> v)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> output, KVCache(keys<span class="op">=</span>k, values<span class="op">=</span>v)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>There is another family of models, MMDiT (Multimodal Diffusion Transformers <span class="citation" data-cites="pmlr-v235-esser24a">[<a href="#ref-pmlr-v235-esser24a" role="doc-biblioref">2</a>]</span>), typically used in media generation (such as images and videos). These models often operate across multiple modalities. A popular example is text-to-image generation. There, we need to attend between text and image tokens in their respective representation spaces. In these models, the information flow is made bidirectional. This is made clear in code:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mmdit_attention(image_tokens, text_tokens):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    qi, ki, vi <span class="op">=</span> image_qkv(image_tokens)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    qt, kt, vt <span class="op">=</span> text_qkv(text_tokens)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> concat(qi, qt, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> concat(ki, kt, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> concat(vi, vt, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    weights <span class="op">=</span> softmax((q <span class="op">@</span> k.transpose(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)) <span class="op">/</span> sqrt(head_dim), dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    attended <span class="op">=</span> weights <span class="op">@</span> v  <span class="co"># Bidirectional: image and text can see each other.</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    image_out, text_out <span class="op">=</span> split(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        attended, lengths<span class="op">=</span>[<span class="bu">len</span>(image_tokens), <span class="bu">len</span>(text_tokens)]</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image_out_proj(image_out), text_out_proj(text_out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>MMDiTs are generally used in flow-based <span class="citation" data-cites="lipman2023flow">[<a href="#ref-lipman2023flow" role="doc-biblioref">3</a>]</span> media generation pipelines. This makes MMDiTs iterative — we start from pure random Gaussian noise, which is iteratively denoised over a few steps to produce the final output. In a flow-based pipeline, MMDiT serves as the “denoiser”. The final output depends on the space we’re operating on; it can be pixel-space (for images and videos) or latent-space.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For the rest of this post, we’ll assume latent-space models, but the commentary and findings should carry over to pixel-space models, too. Flow and diffusion are often intertwined but they are different. Even though the post focuses on flow-based models but it is applicable to diffusion models, too.</p>
+</div>
+</div>
+<p>For each step in this denoising process, we’re <em>always</em> computing the QKV projections for the input tokens across all the MMDiT blocks. Similar to autoregressive models, can we reuse any KV projections from earlier steps in the current step? Let’s assess our options:</p>
+<ul>
+<li>The noisy latents (<code>image_tokens</code> above) that keep changing over steps. It’s meant to be denoised with each changing step in the flow trajectory.</li>
+<li>Condition tokens (text, reference images, etc.). <code>text_tokens</code> are the condition tokens above. We could think of the noisy latent tokens corresponding to the current tokens being generated and the condition tokens as the past ones.</li>
+</ul>
+<p>If we were to draw parallels to KV caching in autoregressive models, the condition tokens seem like the best fit for KV caching in this case. Several questions should arise at this point:</p>
+<ul>
+<li>How is that implemented in practice for MMDiT-based flow models?</li>
+<li>Does it lead to any latency speedups?</li>
+<li>Does it increase memory consumption?</li>
+</ul>
+<p>The rest of this post discusses these questions.</p>
+<p>As you might have guessed, we’ll use code snippets to cover some of these sections. So, expect pseudo Python and PyTorch code. Benchmarking code is available in <a href="https://github.com/sayakpaul/kv-caching-flow-models-benchmarks">this repository</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The readers are expected to know (at least at a high level) MMDiTs and how they’re implemented and used in text-to-image generation. If you’re looking for a quick intro, <a href="https://github.com/black-forest-labs/flux">the Flux.1 official codebase</a> is a good one.</p>
+</div>
+</div>
+<section id="an-mmdit-block" class="level2">
+<h2 class="anchored" data-anchor-id="an-mmdit-block">An MMDiT block</h2>
+<p>This post focuses on a particular class of models — MMDiTs. Let’s see how a single MMDiT block looks like:</p>
+<div id="fig-mmdit-block" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mmdit-block-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mmdit-block-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: MMDiT block diagram. Taken from the original paper <span class="citation" data-cites="pmlr-v235-esser24a">[<a href="#ref-pmlr-v235-esser24a" role="doc-biblioref">2</a>]</span>.
+</figcaption>
+</figure>
+</div>
+<p>Translating this to code is straightforward:</p>
+<ul>
+<li>Each of the two modalities <code>c</code> (text tokens) and <code>x</code> (noisy latent tokens) share the same set of operations. Those operations could be contained in a block, with each modality having its own block so that their parameters are different.</li>
+<li><code>y</code> is timestep. It is needed because, in the grand scheme of a flow-based generation pipeline, the MMDiT needs to be aware of its position in the iterative denoising process. Timestep is modulated across both modalities through a set of parameters.</li>
+</ul>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MMDiTBlock:</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add parameters in init.</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, image_tokens, text_tokens, cond):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co"># `cond` is timesteps.</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Each stream gets its own conditioning parameters.</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        i_shift_a, i_scale_a, i_gate_a, i_shift_m, i_scale_m, i_gate_m <span class="op">=</span> (</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.image_modulation(cond)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>        t_shift_a, t_scale_a, t_gate_a, t_shift_m, t_scale_m, t_gate_m <span class="op">=</span> (</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.text_modulation(cond)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        image_for_attn <span class="op">=</span> modulate(</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.image_norm1(image_tokens), i_shift_a, i_scale_a</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        text_for_attn <span class="op">=</span> modulate(</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.text_norm1(text_tokens), t_shift_a, t_scale_a</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># `mmdit_attention()` is from above.</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>        image_attn, text_attn <span class="op">=</span> mmdit_attention(</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>            image_for_attn, text_for_attn</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        image_tokens <span class="op">+=</span> i_gate_a <span class="op">*</span> image_attn</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        text_tokens <span class="op">+=</span> t_gate_a <span class="op">*</span> text_attn</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        image_tokens <span class="op">+=</span> i_gate_m <span class="op">*</span> <span class="va">self</span>.image_mlp(</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>            modulate(<span class="va">self</span>.image_norm2(image_tokens), i_shift_m, i_scale_m)</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>        text_tokens <span class="op">+=</span> t_gate_m <span class="op">*</span> <span class="va">self</span>.text_mlp(</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>            modulate(<span class="va">self</span>.text_norm2(text_tokens), t_shift_m, t_scale_m)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> image_tokens, text_tokens</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> modulate(x, shift, scale):</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">*</span> (<span class="dv">1</span> <span class="op">+</span> scale) <span class="op">+</span> shift</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This resembles the original MMDiT block. More recent models use variants of it. It should also be noted that for simplicity, the snippet doesn’t show the additional techniques that are normally included, such as <span class="citation" data-cites="10.1016/j.neucom.2023.127063">[<a href="#ref-10.1016/j.neucom.2023.127063" role="doc-biblioref">4</a>]</span>, QK-norm, and parallel attention blocks <span class="citation" data-cites="dehghani2023scalingvisiontransformers22">[<a href="#ref-dehghani2023scalingvisiontransformers22" role="doc-biblioref">5</a>]</span>.</p>
+<p>The <code>mmdit_attention</code> code snippet shows how attention is generally computed in MMDiT architectures. This form of attention is also referred to as “joint attention”.</p>
+<p>Put simply, in joint attention, the QKV projection is performed <em>separately</em> (with separate sets of parameters) on each of the two modalities shown above (<code>image_tokens</code> and <code>text_tokens</code>). Before computing attention, these projections are concatenated. Quoting the paper that introduced this style of attention <span class="citation" data-cites="pmlr-v235-esser24a">[<a href="#ref-pmlr-v235-esser24a" role="doc-biblioref">2</a>]</span>:</p>
+<blockquote class="blockquote">
+<p>Since text and image embeddings are conceptually quite different, we use two separate sets of weights for the two modalities. […], this is equivalent to having two independent transformers for each modality, but joining the sequences of the two modalities for the attention operation, such that both representations can work in their own space yet take the other one into account.</p>
+</blockquote>
+<p>A more modern variant of MMDiT utilizes part joint attention and part self-attention:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Regular MMDiT blocks.</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.double_blocks:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    context, x <span class="op">=</span> block(</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        image_tokens<span class="op">=</span>image_tokens,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        text_tokens<span class="op">=</span>text_tokens, </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>context_x <span class="op">=</span> torch.cat([context, x], dim<span class="op">=</span><span class="dv">1</span>)  </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Continue with the rest.</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> block <span class="kw">in</span> <span class="va">self</span>.single_blocks:</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> block(image_tokens<span class="op">=</span>context_x, ...) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Modern media generation pipelines go beyond just text-to-image. They’re capable of accommodating image-level conditions, which are useful for tasks like image editing and pose-guided image generation. How do we incorporate these additional conditions into MMDiTs?</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is better to think of the process of going from an input (like a prompt) to the final output (like an image) as a “pipeline” rather than a model. This is because it involves multiple models, non-parametric components, and coordination between them. <a href="#fig-flow-pipeline" class="quarto-xref">Figure&nbsp;2</a> presents a simple visual representation of how information usually flows in a latent-space flow pipeline.</p>
+</div>
+</div>
+<div id="fig-flow-pipeline" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flow-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%201.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flow-pipeline-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Information flow in standard flow-based generation pipelines (for illustration purposes only).
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="conditions-in-mmdits" class="level2">
+<h2 class="anchored" data-anchor-id="conditions-in-mmdits">Conditions in MMDiTs</h2>
+<p>First, we need a way to encode the incoming conditions and reduce them to a representation that the MMDiT was trained on. For text, this is usually done with a dedicated language model. For images, a dedicated vision encoder (such as DINO <span class="citation" data-cites="oquab2024dinov">[<a href="#ref-oquab2024dinov" role="doc-biblioref">6</a>]</span>, SigLIP <span class="citation" data-cites="siglip">[<a href="#ref-siglip" role="doc-biblioref">7</a>]</span>, etc.) can be used. One can also leverage the encoder component of the Autoencoder involved in a latent-space flow pipeline. Popular pipelines like Flux2 <span class="citation" data-cites="flux-2-2025">[<a href="#ref-flux-2-2025" role="doc-biblioref">8</a>]</span> and QwenImage Edit <span class="citation" data-cites="wu2025qwenimagetechnicalreport">[<a href="#ref-wu2025qwenimagetechnicalreport" role="doc-biblioref">9</a>]</span> follow this approach.</p>
+<p>Once the image representations are computed, they’re concatenated with the noisy image latent being denoised:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>num_generated <span class="op">=</span> latents.size(<span class="dv">1</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>num_reference <span class="op">=</span> image_latents.size(<span class="dv">1</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(denoising_iters):</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    latent_image_inputs <span class="op">=</span> concat(latents, image_latents, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    noise_pred <span class="op">=</span> denoiser(</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        image_tokens<span class="op">=</span>latent_image_inputs, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        text_tokens<span class="op">=</span>text_tokens, </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    noise_pred <span class="op">=</span> noise_pred[</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        :, num_reference : num_reference <span class="op">+</span> num_generated</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    latents <span class="op">=</span> <span class="co"># compute latents from the prediction with Euler</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>         </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Within <code>latent_image_inputs</code>, only <code>latents</code> change with each denoising step. This is why we slice the <code>prediction</code>.</p>
+<p>As mentioned earlier, text-level and image-level representations differ. So, we keep them separate for the input conditions and don’t mix them. The image tokens now are a concatenation of the condition image tokens and the noisy latent tokens. Once their KV projections are computed, do the projections belonging to the condition image tokens change across steps? Let’s find out.</p>
+</section>
+<section id="room-for-reuse" class="level2">
+<h2 class="anchored" data-anchor-id="room-for-reuse">Room for reuse?</h2>
+<p><a href="#fig-reference-kv-projections" class="quarto-xref">Figure&nbsp;3</a> confirms our intuition that the KV projections for the condition, aka reference image tokens, don’t change over the denoising steps.</p>
+<div id="fig-reference-kv-projections" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reference-kv-projections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%202.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reference-kv-projections-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Recomputed KV projections of the condition image tokens across denoising steps. Generated image tokens correspond to the noisy ones being denoised.
+</figcaption>
+</figure>
+</div>
+<p>This means that after the KV projections are computed in the first step, they can be cached and reused in the later steps. Let’s call this first step “prefill” and later steps “decode”.</p>
+<p>There are some important details to keep in mind:</p>
+<ul>
+<li>Reference tokens use a fixed timestep throughout the denoising process (typically the timestep associated with the first iteration).</li>
+<li>The concatenated image tokens are only passed to the denoiser during the first step. Once the KV projections are computed and cached, reference image tokens are discarded.</li>
+<li>Reference image tokens only self-attend; however, the noisy latent and text tokens attend to all tokens. How is this related to KV caching, though? This merits a section of its own.</li>
+</ul>
+</section>
+<section id="kv-cache-design-in-mmdit" class="level2">
+<h2 class="anchored" data-anchor-id="kv-cache-design-in-mmdit">KV cache design in MMDiT</h2>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>There are multiple ways in which a KV cache can be designed and integrated into an MMDiT. Here we present just one approach. Readers are encouraged to brainstorm other feasible approaches.</p>
+</div>
+</div>
+<p>To integrate KV caching for the reference image tokens into our earlier MMDiT blocks, what do we need?</p>
+<p>A standard model would have multiple MMDiT blocks. Each block would have its own set of parameters to compute QKV projections. So, we need to cache KV projections per block. Each layer-level cache should be able to store the KV projections, and users should be able to fetch them as needed. Mapping these requirements to a class would look something like this:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> KVLayerCache:</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.k_ref: torch.Tensor <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.v_ref: torch.Tensor <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> store(<span class="va">self</span>, k_ref: torch.Tensor, v_ref: torch.Tensor):</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.k_ref <span class="op">=</span> k_ref</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.v_ref <span class="op">=</span> v_ref</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="bu">tuple</span>[torch.Tensor, torch.Tensor]:</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.k_ref, <span class="va">self</span>.v_ref</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> clear(<span class="va">self</span>):</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.k_ref <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.v_ref <span class="op">=</span> <span class="va">None</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The model-level cache would then consist of <code>KVLayerCache</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> KVCache:</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, num_double_layers: <span class="bu">int</span>, num_single_layers: <span class="bu">int</span>):</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.double_block_caches <span class="op">=</span> [KVLayerCache() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_double_layers)]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.single_block_caches <span class="op">=</span> [KVLayerCache() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(num_single_layers)]</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_ref_tokens: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_double(<span class="va">self</span>, layer_idx: <span class="bu">int</span>) <span class="op">-&gt;</span> KVLayerCache:</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.double_block_caches[layer_idx]</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> get_single(<span class="va">self</span>, layer_idx: <span class="bu">int</span>) <span class="op">-&gt;</span> KVLayerCache:</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.single_block_caches[layer_idx]</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> clear(<span class="va">self</span>):</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> cache <span class="kw">in</span> <span class="va">self</span>.double_block_caches:</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>            cache.clear()</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> cache <span class="kw">in</span> <span class="va">self</span>.single_block_caches:</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>            cache.clear()</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.num_ref_tokens <span class="op">=</span> <span class="dv">0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Recall that modern variants of MMDiT do the classic MMDiT-style attention for the first couple of blocks, and then they turn to pure self-attention, operating on a single concatenated representation space. <code>KVCache</code> accommodates that design.</p>
+<p>Now, for the more important part: how is <code>KVCache</code> integrated into the model? When the model is invoked for the first time (prefill), we’ll extract the cache. For the subsequent steps, we’ll reuse the cache. Let’s trace this from the <code>forward()</code> of the model:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    ...,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    kv_cache: <span class="st">"KVCache | None"</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    kv_cache_mode: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    num_ref_tokens: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    ref_fixed_timestep: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kv_cache_mode <span class="op">==</span> <span class="st">"extract"</span> <span class="kw">and</span> num_ref_tokens <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        kv_cache <span class="op">=</span> KVCache(</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>            num_double_layers<span class="op">=</span><span class="bu">len</span>(<span class="va">self</span>.transformer_blocks),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>            num_single_layers<span class="op">=</span><span class="bu">len</span>(<span class="va">self</span>.single_transformer_blocks),</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        kv_cache.num_ref_tokens <span class="op">=</span> num_ref_tokens</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># modulate reference timestep embeddings, blend modulation</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># params, etc.</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>        ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>How is a single <code>KVLayerCache</code> populated inside <code>KVCache</code>?</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Within the same forward</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    ...,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    kv_cache: <span class="st">"KVCache | None"</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    kv_cache_mode: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    num_ref_tokens: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    ref_fixed_timestep: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    ...</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> block <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="va">self</span>.transformer_blocks):</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> kv_cache_mode <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span> <span class="kw">and</span> kv_cache <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>            kv_cache <span class="op">=</span> kv_cache.get_double(index_block)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>            encoder_hidden_states, hidden_states <span class="op">=</span> block(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>            ..., </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>            kv_cache<span class="op">=</span>kv_cache</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The next important detail is about how the <code>kv_cache</code> is used during attention computation, depending on the <code>kv_cache_mode</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mmdit_attention(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    image_tokens,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    text_tokens,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    kv_cache<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    kv_cache_mode<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    num_ref_tokens<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract mode: image_tokens = [ref, current image].</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Cached mode:  image_tokens = [current image].</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>    qi, ki, vi <span class="op">=</span> image_qkv(image_tokens)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    qt, kt, vt <span class="op">=</span> text_qkv(text_tokens)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    q <span class="op">=</span> concat(qt, qi, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> concat(kt, ki, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> concat(vt, vi, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    n_txt <span class="op">=</span> num_tokens(text_tokens)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    n_image_tokens <span class="op">=</span> num_tokens(image_tokens)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> kv_cache_mode <span class="op">==</span> <span class="st">"extract"</span>:</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>        <span class="co"># First denoising step: separate reference and current-image tokens.</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        n_img <span class="op">=</span> n_image_tokens <span class="op">-</span> num_ref_tokens</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        lengths <span class="op">=</span> [n_txt, num_ref_tokens, n_img]</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Split q, k, v into </span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># q_txt, q_ref, q_img</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># k_txt, k_ref, k_img</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        <span class="co"># v_txt, v_ref, v_img</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>        kv_cache.store(k_ref.clone(), v_ref.clone())</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Text + current image attend to all tokens; refs attend to refs.</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        txt_img <span class="op">=</span> attend(concat(q_txt, q_img, dim<span class="op">=</span><span class="st">"sequence"</span>), k, v)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        ref <span class="op">=</span> attend(q_ref, k_ref, v_ref)</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        txt_out, img_out <span class="op">=</span> split(txt_img, [n_txt, n_img], dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        attended <span class="op">=</span> concat(txt_out, ref, img_out, dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> kv_cache_mode <span class="op">==</span> <span class="st">"cached"</span>:</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Subsequent denoising steps: insert saved reference K/V.</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>            k_ref, v_ref <span class="op">=</span> kv_cache.get()</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>            k <span class="op">=</span> concat(k[:, :n_txt], k_ref, k[:, n_txt:], dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>            v <span class="op">=</span> concat(v[:, :n_txt], v_ref, v[:, n_txt:], dim<span class="op">=</span><span class="st">"sequence"</span>)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Cached mode or ordinary attention without caching.</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>        attended <span class="op">=</span> attend(q, k, v)</span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>    text_out, image_out <span class="op">=</span> split(</span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>        attended, [n_txt, n_image_tokens], dim<span class="op">=</span><span class="st">"sequence"</span></span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> image_out_proj(image_out), text_out_proj(text_out)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Now, we know the different pieces needed to integrate <code>KVCache</code> into an MMDiT-based model. Otherwise, the model won’t have access to the populated cache. The final piece remaining is how we pass the <code>KVCache</code> to the <code>forward()</code> the model, because it accepts a <code>KVCache</code>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> forward(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    ...,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    kv_cache: <span class="st">"KVCache | None"</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    kv_cache_mode: <span class="bu">str</span> <span class="op">|</span> <span class="va">None</span> <span class="op">=</span> <span class="va">None</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    num_ref_tokens: <span class="bu">int</span> <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    ref_fixed_timestep: <span class="bu">float</span> <span class="op">=</span> <span class="fl">0.0</span>,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>):</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This is important because it’d also reveal how the <code>KVCache</code> is used in the iterative denoising process:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>kv_cache <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, t <span class="kw">in</span> <span class="bu">enumerate</span>(denoising_iters):</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> i <span class="op">==</span> <span class="dv">0</span> <span class="kw">and</span> image_latents <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>        <span class="co"># First step: process reference tokens and cache their K/V.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>        noise_pred, kv_cache <span class="op">=</span> transformer(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>            ...,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>            hidden_states<span class="op">=</span>concat(image_latents, latents, dim<span class="op">=</span><span class="st">"sequence"</span>),</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            kv_cache_mode<span class="op">=</span><span class="st">"extract"</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            num_ref_tokens<span class="op">=</span>num_tokens(image_latents),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> kv_cache <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Later steps: reuse cached reference K/V.</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>        noise_pred <span class="op">=</span> transformer(</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>            ...,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>            hidden_states<span class="op">=</span>latents,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>            kv_cache<span class="op">=</span>kv_cache,</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>            kv_cache_mode<span class="op">=</span><span class="st">"cached"</span>,</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>        )[<span class="dv">0</span>]</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>        noise_pred <span class="op">=</span> transformer(..., hidden_states<span class="op">=</span>latents)[<span class="dv">0</span>]</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    latents <span class="op">=</span> <span class="co"># compute latents from the prediction with Euler</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>With KV caching enabled, the first denoising step would go as usual, but we should expect to see a speedup in the subsequent steps. For multi-reference image editing, this can yield substantial speedups. This speedup, however, would come at the expense of increased memory consumption because of the on-memory storage. Depending on the image resolution being used, this increased memory consumption can pose challenges. Let’s discuss these numbers next.</p>
+<p>This KV cache design is inspired by <a href="https://github.com/huggingface/diffusers/pull/13262">the PR</a> that added support for Flux.2-Klein KV.</p>
+</section>
+<section id="speed-memory-trade-off-in-kv-caching" class="level2">
+<h2 class="anchored" data-anchor-id="speed-memory-trade-off-in-kv-caching">Speed-memory trade-off in KV caching</h2>
+<p>We took the <a href="https://huggingface.co/black-forest-labs/FLUX.2-klein-9b-kv">Flux.2-klein-9b-kv</a> pipeline and benchmarked it with and without KV caching. Unless otherwise specified, we always use a single reference image (<a href="#fig-reference-cat" class="quarto-xref">Figure&nbsp;4</a>) with this prompt:</p>
+<blockquote class="blockquote">
+<p><em>Dress this cat as a wizard wearing a blue hat and cloak, keeping its face and pose.</em></p>
+</blockquote>
+<div id="fig-reference-cat" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reference-cat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%203.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reference-cat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Reference cat image.
+</figcaption>
+</figure>
+</div>
+<p>The table below demonstrates the impact of KV caching on speed and memory consumption of the pipeline:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Without cache</strong></th>
+<th><strong>With cache</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Latency (4 steps)</td>
+<td>3.085s</td>
+<td>2.374s (23.1%)</td>
+</tr>
+<tr class="even">
+<td>Latency (8 steps)</td>
+<td>5.883s</td>
+<td>4.209s (28.4%)</td>
+</tr>
+<tr class="odd">
+<td>Peak GPU memory</td>
+<td>34.74GB</td>
+<td>35.48GB</td>
+</tr>
+</tbody>
+</table>
+<p>KV caching, as one would expect, does not affect quality:</p>
+<div id="fig-flux-kv-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-flux-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%204.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-flux-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Output images from Flux.2-klein-9b-kv with and without KV caching. Reproduce with the code from <a href="https://github.com/sayakpaul/kv-caching-flow-models-benchmarks">here</a>.
+</figcaption>
+</figure>
+</div>
+<p>Readers should take the qualitative comparisons with a grain of salt because these comparisons are presented with a single example, which is far from being conclusive. Instead, readers should run experiments on a set of prompts and determine metrics like PSNR and SSIM of the outputs to have a more robust comparison.</p>
+<p>The speed and memory numbers scale with multiple reference images. With 3 reference images, we get between 42.1% and 51.3% speedups.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Without cache</strong></th>
+<th><strong>With cache</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Latency (4 steps)</td>
+<td>5.950s</td>
+<td>3.446s (42.1%)</td>
+</tr>
+<tr class="even">
+<td>Latency (8 steps)</td>
+<td>11.459s</td>
+<td>5.580s (51.3%)</td>
+</tr>
+<tr class="odd">
+<td>Peak GPU memory</td>
+<td>35.45GB</td>
+<td>39.58GB</td>
+</tr>
+</tbody>
+</table>
+<p>The input prompt is a condition, just like the reference images. Since the prompt stays the same throughout denoising, could we cache its KV projections too?</p>
+<p>The distinction is between the fixed text-encoder output and the text representations inside the denoiser. The pipeline computes the prompt embeddings once and reuses them at every denoising step. Inside the denoiser, however, those embeddings undergo further processing.</p>
+<p>Flux.2 Klein has two kinds of transformer blocks:</p>
+<ul>
+<li>The classic MMDiT blocks, which process text and image representations with separate parameters while allowing them to interact through joint attention.</li>
+<li>More regular DiT blocks, which process a concatenated sequence of text and image tokens.</li>
+</ul>
+<p>In both kinds of blocks, text representations depend on the current denoising timestep. Text tokens also attend to the changing noisy latent tokens, so their updated states and the KV projections in subsequent layers depend on the current noisy latent tokens.</p>
+<p>Reference image tokens in the KV variant behave differently: they use a fixed timestep and attend only to reference tokens. Their representations still evolve across layers, but each layer’s reference KV remains unchanged across denoising steps.</p>
+<p>Reusing text KV across steps would therefore be an approximation, rather than the equivalent computation provided by reference KV caching. It might still produce plausible images; let’s find out.</p>
+<p>We ran a small experiment to also cache text KV similar to the reference image KV and to assess its impact on the final generated image.</p>
+<div id="fig-text-kv-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-text-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%205.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-text-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Output images from Flux.2 Klein 9B KV with text KV caching enabled.
+</figcaption>
+</figure>
+</div>
+<p>As seen in <a href="#fig-text-kv-results" class="quarto-xref">Figure&nbsp;6</a>, reusing text KV values produced coherent wizard-cat edits. The outputs changed in costume details and framing, but showed no obvious visual failure in this small experiment. Text KV caching is therefore an approximation worth evaluating. In terms of numbers:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Reference KV cache</strong></th>
+<th><strong>+ Text KV cache</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Latency (4 steps)</td>
+<td>2.385s</td>
+<td>2.231s (6.31%)</td>
+</tr>
+<tr class="even">
+<td>Latency (8 steps)</td>
+<td>4.227s</td>
+<td>3.861s (8.7%)</td>
+</tr>
+<tr class="odd">
+<td>Peak GPU memory</td>
+<td>35.48GB</td>
+<td>35.73GB</td>
+</tr>
+</tbody>
+</table>
+<p>A more recent (at the time of writing) model, QwenImage 2.1 <span class="citation" data-cites="qwenimage21-2026">[<a href="#ref-qwenimage21-2026" role="doc-biblioref">10</a>]</span>, directly caches KV for both the text tokens and reference image tokens, discussed next.</p>
+</section>
+<section id="qwenimage-2.1-results" class="level2">
+<h2 class="anchored" data-anchor-id="qwenimage-2.1-results">QwenImage 2.1 results</h2>
+<p>Similar speed gains transfer to QwenImage 2.1:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Without cache</strong></th>
+<th><strong>With KV cache</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Latency (40 steps)</td>
+<td>32.202s</td>
+<td>17.798s (44.7%)</td>
+</tr>
+<tr class="even">
+<td>Peak GPU memory</td>
+<td>36.81GB</td>
+<td>38.89GB</td>
+</tr>
+</tbody>
+</table>
+<div id="fig-qwen-kv-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qwen-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%206.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qwen-kv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Output images for QwenImage 2.1 with and without KV caching.
+</figcaption>
+</figure>
+</div>
+<p>QwenImage 2.1 uses a single stream of text and image tokens through its transformer blocks, unlike the design discussed so far. The broad design principles to accommodate this don’t change much; however, the internal details warrant a separate discussion.</p>
+<section id="kv-caching-in-qwenimage-2.1" class="level3">
+<h3 class="anchored" data-anchor-id="kv-caching-in-qwenimage-2.1">KV caching in QwenImage 2.1</h3>
+<p>In QwenImage 2.1, reference image tokens occupy positions within the conditioning sequence, and the noisy latent tokens come last. A simplified sequence looks like this:</p>
+<pre class="ascii no-highlight code-overflow-scroll"><code>+-----------+-------------------+-----------+-------------------+---------------------+
+|   Text A  | Reference image 1 |   Text B  | Reference image 2 | Noisy latent tokens |
++-----------+-------------------+-----------+-------------------+---------------------+
+&lt;--------------------- conditioning prefix ---------------------&gt; &lt;----- denoised ----&gt;</code></pre>
+<p>Let’s call everything before the noisy latent tokens the <em>conditioning prefix</em>. Unlike the earlier reference-only caching example, the cache now contains KV projections for this entire prefix, separately for each transformer block. What makes it interesting is how these tokens attend to each other.</p>
+<p><strong>Groups of tokens and token influence</strong></p>
+<p>From our earlier discussions, we know that each reference image can be encoded into multiple latent tokens. QwenImage 2.1 assigns one image ID to all latent tokens from that reference, and a different ID to the noisy latent tokens being denoised. For the sequence above, the groups are:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Tokens</strong></th>
+<th><strong>Image ID</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>All latent tokens from reference image 1</td>
+<td><code>0</code></td>
+</tr>
+<tr class="even">
+<td>All latent tokens from reference image 2</td>
+<td><code>1</code></td>
+</tr>
+<tr class="odd">
+<td>All noisy latent tokens being denoised</td>
+<td><code>2</code></td>
+</tr>
+<tr class="even">
+<td>Text tokens, in either text segment</td>
+<td><code>-1</code> (no image ID)</td>
+</tr>
+</tbody>
+</table>
+<p>An <em>image block</em> means one of these groups with a non-negative image ID. A token can attend to earlier tokens and itself. It can also attend to later tokens within its own image block. For example, two latent tokens from reference image 1 can attend to each other in both directions. <strong>Reference image 1 cannot attend to reference image 2</strong>, which comes later and has a different image ID. <strong>Reference image 2 can attend to reference image 1</strong>, which comes earlier. This causal feature is implemented using the following rule.</p>
+<p><code>query_position</code> is the index of the token doing the attending, and <code>key_position</code> is the index of the token being attended to, both in the assembled sequence.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>same_image_block <span class="op">=</span> (query_image_id <span class="op">&gt;=</span> <span class="dv">0</span>) <span class="kw">and</span> (query_image_id <span class="op">==</span> key_image_id)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>allowed <span class="op">=</span> (query_position <span class="op">&gt;=</span> key_position) <span class="kw">or</span> same_image_block</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The noisy latent tokens all have ID <code>2</code>, so they also attend to one another in both directions. This gives us three cases:</p>
+<ul>
+<li>Text tokens attend to preceding tokens and themselves. Preceding tokens can include reference images.</li>
+<li>Reference image tokens attend to all preceding text and reference image tokens, as well as every latent token encoded from that particular reference image.</li>
+<li>Noisy latent tokens attend to the entire conditioning prefix and all noisy latent tokens, including themselves.</li>
+</ul>
+<p><a href="#fig-qwen-attention-mask" class="quarto-xref">Figure&nbsp;8</a> provides a visual way to think about this setup.</p>
+<div id="fig-qwen-attention-mask" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-qwen-attention-mask-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%207.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-qwen-attention-mask-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: QwenImage 2.1 attention mask. Text attention is causal; each reference’s latent tokens can attend to one another in both directions. Noisy latent queries can attend to the entire sequence, while the conditioning prefix cannot attend to noisy latent tokens.
+</figcaption>
+</figure>
+</div>
+<p><strong>Reading the figure</strong></p>
+<p>Read the matrix by choosing a query row and a key column: <strong>teal means attention is allowed; light gray means it is blocked</strong>. Thin white lines separate individual tokens, and wider white gaps separate the labeled groups. Each group contains two tokens for illustration.</p>
+<p>Let’s look at the two rows labeled <strong>Reference image 2</strong>. Their cells are teal under Text A, Reference image 1, Text B, and Reference image 2. Both tokens can therefore read all those tokens, including each other. Their cells under “Noisy latent tokens” are gray, so those connections are blocked. Reading in the opposite direction gives a different result: Reference image 1 cannot attend to the later “Reference image 2”.</p>
+<p><strong>Segmented attention</strong></p>
+<p>So, reference images can influence later text and later reference images. But no token in the conditioning prefix can attend to the noisy latent tokens. As these tokens change during denoising, they cannot change the prefix’s representations through attention.</p>
+<p>So far, we have established a vague notion of different tokens belonging to different segments (denoted by “Image ID”s). Thus far, we have also discussed how the different tokens are represented within a single stream of tokens. How is attention computed in these streams?</p>
+<p>We can compute this attention one segment at a time. A segment could be a text segment or an image segment. Here, a text segment is a consecutive run of text tokens: Text A and Text B in our example are separate segments because Reference image 1 sits between them. A reference image segment contains all the latent tokens encoded from one reference image. Each reference forms a separate segment, even when two references appear next to each other without text between them.</p>
+<p>Each boxed group below is one segment; its label stands for all the tokens in that group:</p>
+<pre class="ascii no-highlight code-overflow-scroll"><code>+-----------+-------------------+-----------+-------------------+---------------------+
+|   Text A  | Reference image 1 |   Text B  | Reference image 2 | Noisy latent tokens |
+| segment 1 |     segment 2     | segment 3 |     segment 4     |      segment 5      |
++-----------+-------------------+-----------+-------------------+---------------------+
+&lt;--------------------- conditioning prefix ---------------------&gt; &lt;----- denoised ----&gt;</code></pre>
+<p>Segments 1–4 form the conditioning prefix and are processed by the <code>prefix_segments</code> loop below. Segment 5 contains the noisy latent tokens, whose attention is computed after that loop.</p>
+<p>For each segment, we take its queries and attend to the keys and values allowed by the causal rule discussed above. We also compute attention for the noisy latent queries, then concatenate all the outputs in sequence order.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># No batching, masking, output projections, and all that yet.</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> segmented_attention(q, k, v, prefix_segments, prefix_len):</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> []</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> start, end, is_text <span class="kw">in</span> prefix_segments:</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        mask <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> is_text:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>            query_positions <span class="op">=</span> arange(start, end)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>            key_positions <span class="op">=</span> arange(end)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>            mask <span class="op">=</span> key_positions[<span class="va">None</span>, :] <span class="op">&lt;=</span> query_positions[:, <span class="va">None</span>]</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>        outputs.append(</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>            attend(q[start:end], k[:end], v[:end], mask<span class="op">=</span>mask)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>    outputs.append(attend(q[prefix_len:], k, v))</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> concat(outputs, dim<span class="op">=</span><span class="st">"sequence"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>QKV projection preserves token order, so <code>q[start:end]</code> selects the queries belonging to that segment. With two tokens per group and indices starting at zero, Reference image 2 occupies positions <code>6</code> and <code>7</code>. Its attention call is therefore <code>attend(q[6:8], k[:8], v[:8])</code>:</p>
+<div id="fig-reference-image-attention" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-reference-image-attention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%208.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-reference-image-attention-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Attention for Reference image 2. Query rows 6 and 7 attend to key columns 0 through 7. Noisy latent columns 8 and 9 are excluded by the K/V slice.
+</figcaption>
+</figure>
+</div>
+<p>Slicing KV at <code>end</code> excludes all later segments. For a text segment, an additional causal mask prevents each query from seeing later text positions within that segment. A reference image segment needs no such internal mask: it contains the latent tokens encoded from one reference, which can all attend to one another. Finally, queries from the noisy latent tokens attend to all keys and values.</p>
+<p>These separate calls implement the block-causal attention rule exactly. QwenImage 2.1 also supports expressing the rule as a block mask for FlexAttention <span class="citation" data-cites="guessous2024flexattention">[<a href="#ref-guessous2024flexattention" role="doc-biblioref">11</a>]</span>, which computes the attention in a single call.</p>
+<p><strong>Fixed timestep modulation</strong></p>
+<p>Like Flux.2, QwenImage 2.1 also uses fixed timesteps (zero in this case) for the text and reference image tokens, aka the conditioning prefix tokens.</p>
+<p><strong>Putting everything together</strong></p>
+<p>The attention mechanism and the fixed timestep modulation on conditioning prefix tokens make their computation independent of the denoising step. Its inputs stay fixed, its modulation doesn’t change, and it cannot receive information from the latents being denoised in the current step.</p>
+<p>Despite the technical differences, the cache lifecycle should now look familiar. During the first denoising step, each transformer block processes the full sequence and saves the prefix KV. This is where the block-causal restriction applies: text and reference image queries must be prevented from reading later segments (<a href="#fig-qwen-attention-mask" class="quarto-xref">Figure&nbsp;8</a>). The segmented computation above enforces it through KV slicing and text masks.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>q, k, v <span class="op">=</span> prepare_qkv(all_tokens)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>layer_cache.store(k[:prefix_len].clone(), v[:prefix_len].clone())</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>output <span class="op">=</span> segmented_attention(q, k, v, prefix_segments, prefix_len)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We cache only the prefix’s per-layer KV. To compute an attention output for a noisy latent token, we need its own query and the keys and values it can read. That computation does not use the queries of the text or reference image tokens.</p>
+<p>During the first step, prefix queries help compute the prefix’s hidden states as they pass through the blocks, allowing us to populate each layer’s KV cache. At a given layer, those hidden states stay constant across denoising steps because of the fixed timestep modulation and block-causal attention. Once every layer has its prefix KV cached, later denoising steps skip computing prefix queries, attention outputs, and feed-forward outputs. The noisy latent tokens continue to read the cached prefix KV, so the conditioning still influences denoising.</p>
+<p>On subsequent steps, each block therefore computes fresh QKV only for the noisy latent tokens and retrieves its saved prefix KV:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>q_noisy, k_noisy, v_noisy <span class="op">=</span> prepare_qkv(noisy_latent_tokens)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>k_prefix, v_prefix <span class="op">=</span> layer_cache.get()</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>noisy_latent_output <span class="op">=</span> attend(</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    q_noisy,</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    concat(k_prefix, k_noisy, dim<span class="op">=</span><span class="st">"sequence"</span>),</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    concat(v_prefix, v_noisy, dim<span class="op">=</span><span class="st">"sequence"</span>),</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Looking back at <a href="#fig-qwen-attention-mask" class="quarto-xref">Figure&nbsp;8</a>, we keep only the bottom two rows: the noisy latent queries. Every cell in those rows is teal because each query can read the entire prefix and all noisy latent tokens. There are therefore no block-causal restrictions to enforce on the remaining queries. With caching disabled, every denoising step recomputes the full sequence, so the block-causal restriction must be enforced at every step.</p>
+</section>
+</section>
+<section id="room-for-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="room-for-optimization">Room for optimization?</h2>
+<p>One problem with KV caching is that it increases memory consumption because we need to keep the cache in accelerator memory. Our cache is indexed with respect to the current layer being computed. Therefore, caches for other layers are not necessary. We could offload that cache to CPU (or even secondary storage) and onload when needed.</p>
+<p>However, during these onloading and offloading phases, the accelerator must not sit idle, those phases should be as non-blocking as possible. To reduce this I/O overhead, we could overlap compute with communication (offloading and onloading the cache in this case).</p>
+<p>It’d be a fun exercise to implement this in practice and see how far we can push the speed-memory trade-offs.</p>
+<p>A specific class of caching techniques for flow-based pipelines exists, such as TaylorSeer <span class="citation" data-cites="liu2025taylorseer">[<a href="#ref-liu2025taylorseer" role="doc-biblioref">12</a>]</span>, SeaCache <span class="citation" data-cites="chung2026seacache">[<a href="#ref-chung2026seacache" role="doc-biblioref">13</a>]</span>, and TeaCache <span class="citation" data-cites="liu2025teacache">[<a href="#ref-liu2025teacache" role="doc-biblioref">14</a>]</span>, which cache intermediate outputs within the denoiser. For example, TaylorSeer uses Taylor series expansions to approximate and cache intermediate activations across denoising steps. This family of caching techniques can be combined with KV caching, too.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Reference KV cache</strong></th>
+<th><strong>+ TaylorSeer</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Latency (4 steps)</td>
+<td>2.407s</td>
+<td>2.033s (15.5%)</td>
+</tr>
+<tr class="even">
+<td>Latency (8 steps)</td>
+<td>4.264s</td>
+<td>3.105s (27.2%)</td>
+</tr>
+<tr class="odd">
+<td>Peak GPU memory</td>
+<td>35.48GB</td>
+<td>37.24GB</td>
+</tr>
+</tbody>
+</table>
+<p>However, this combination can lead to noticeable degradation in output quality, as shown in <a href="#fig-taylorseer-results" class="quarto-xref">Figure&nbsp;10</a>.</p>
+<div id="fig-taylorseer-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-taylorseer-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/image%209.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-taylorseer-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Combining KV caching and TaylorSeer caching may lead to quality degradations for Flux.2-klein-9b-kv.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>KV caching has mostly been a technique tightly related to autoregressive models. It is promising to see it getting extended to other families of models and providing similar benefits.</p>
+<p>Even in the compressed latent space, image and video generation can involve tens of thousands of visual tokens. For example, for 1024x1024 pixel images, Flux.2 Klein operates on a sequence of 4096 tokens. Doubling that resolution increases this to 16384 tokens. Caching these representations also has a substantial memory cost. In Flux.2 Klein 9B, each additional 1024 reference tokens requires approximately 0.5GB of BF16 KV storage across all layers. This adds up quickly as we scale up the number of reference images and the resolution. For videos, as one would imagine, these numbers would be even higher.</p>
+<p>Therefore, it’d remain interesting to see how KV caching is leveraged without blowing memory consumption too much.</p>
+<div class="callout callout-style-default callout-note callout-titled" title="AI assistance">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>AI assistance
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The text content of this post comes primarily from the author. AI assistance (Codex) was used for the following: language polishing, code snippets, and coordination of the experiments.</p>
+</div>
+</div>
+
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body" role="list">
+<div id="ref-shazeer2019fasttransformerdecodingwritehead" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Shazeer N (2019) <a href="https://arxiv.org/abs/1911.02150">Fast transformer decoding: One write-head is all you need</a></div>
+</div>
+<div id="ref-pmlr-v235-esser24a" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Esser P, Kulal S, Blattmann A, et al (2024) <a href="https://proceedings.mlr.press/v235/esser24a.html">Scaling rectified flow transformers for high-resolution image synthesis</a>. In: Salakhutdinov R, Kolter Z, Heller K, et al (eds) Proceedings of the 41st international conference on machine learning. PMLR, pp 12606–12633</div>
+</div>
+<div id="ref-lipman2023flow" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Lipman Y, Chen RTQ, Ben-Hamu H, Nickel M, Le M (2023) <a href="https://openreview.net/forum?id=PqvMRDCJT9t">Flow matching for generative modeling</a>. In: The eleventh international conference on learning representations</div>
+</div>
+<div id="ref-10.1016/j.neucom.2023.127063" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Su J, Ahmed M, Lu Y, Pan S, Bo W, Liu Y (2024) RoFormer: Enhanced transformer with rotary position embedding. Neurocomput 568(C). <a href="https://doi.org/10.1016/j.neucom.2023.127063">https://doi.org/10.1016/j.neucom.2023.127063</a></div>
+</div>
+<div id="ref-dehghani2023scalingvisiontransformers22" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Dehghani M, Djolonga J, Mustafa B, et al (2023) <a href="https://arxiv.org/abs/2302.05442">Scaling vision transformers to 22 billion parameters</a></div>
+</div>
+<div id="ref-oquab2024dinov" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Oquab M, Darcet T, Moutakanni T, et al (2024) <a href="https://openreview.net/forum?id=a68SUt6zFt"><span>DINO</span>v2: Learning robust visual features without supervision</a>. Transactions on Machine Learning Research</div>
+</div>
+<div id="ref-siglip" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Zhai X, Mustafa B, Kolesnikov A, Beyer L (2023) <a href="https://doi.org/10.1109/ICCV51070.2023.01100">Sigmoid loss for language image pre-training</a>. In: 2023 IEEE/CVF international conference on computer vision (ICCV). pp 11941–11952</div>
+</div>
+<div id="ref-flux-2-2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Black Forest Labs (2025) <a href="https://bfl.ai/blog/flux-2"><span>FLUX.2</span>: Frontier visual intelligence</a></div>
+</div>
+<div id="ref-wu2025qwenimagetechnicalreport" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Wu C, Li J, Zhou J, et al (2025) <a href="https://arxiv.org/abs/2508.02324"><span>Qwen-Image</span> technical report</a></div>
+</div>
+<div id="ref-qwenimage21-2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Qwen Team (2026) <a href="https://qwen.ai/blog?id=qwen-image-2.1"><span>Qwen-Image-2.1</span>: Compact, efficient, and unified image creation</a></div>
+</div>
+<div id="ref-guessous2024flexattention" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Guessous D, Liang Y, Dong J, He H (2024) <a href="https://pytorch.org/blog/flexattention/"><span>FlexAttention</span>: The flexibility of <span>PyTorch</span> with the performance of <span>FlashAttention</span></a></div>
+</div>
+<div id="ref-liu2025taylorseer" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Liu J, Zou C, Lyu Y, Chen J, Zhang L (2025) <a href="https://openaccess.thecvf.com/content/ICCV2025/html/Liu_From_Reusing_to_Forecasting_Accelerating_Diffusion_Models_with_TaylorSeers_ICCV_2025_paper.html">From reusing to forecasting: Accelerating diffusion models with <span>TaylorSeers</span></a>. In: Proceedings of the IEEE/CVF international conference on computer vision (ICCV). pp 15853–15863</div>
+</div>
+<div id="ref-chung2026seacache" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Chung J, Hyun S, Lee M, et al (2026) <a href="https://openaccess.thecvf.com/content/CVPR2026/html/Chung_SeaCache_Spectral-Evolution-Aware_Cache_for_Accelerating_Diffusion_Models_CVPR_2026_paper.html"><span>SeaCache</span>: Spectral-evolution-aware cache for accelerating diffusion models</a>. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 14283–14294</div>
+</div>
+<div id="ref-liu2025teacache" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Liu F, Zhang S, Wang X, et al (2025) <a href="https://openaccess.thecvf.com/content/CVPR2025/html/Liu_Timestep_Embedding_Tells_Its_Time_to_Cache_for_Video_Diffusion_CVPR_2025_paper.html">Timestep embedding tells: It’s time to cache for video diffusion model</a>. In: Proceedings of the IEEE/CVF conference on computer vision and pattern recognition (CVPR). pp 7353–7363</div>
+</div>
+</div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/sayak\.dev\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/sayakpaul/portfolio/edit/master/posts/kv-flow.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/sayakpaul/portfolio/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
