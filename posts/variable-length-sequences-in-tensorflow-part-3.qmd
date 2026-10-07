@@ -17,7 +17,7 @@ categories:
 date: '2022-04-26'
 description: "To conclude this series, we examine the benefits of using a sentence-conditioned BERT model for multi-sentence text data."
 image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/variable-length-sequences-in-tensorflow-part-3/variable-length-sequences-part-3.png
-hide: false
+hide: true
 output-file: variable-length-sequences-in-tensorflow-part-3.html
 title: "Variable-Length Sequences in TensorFlow Part 3: Using a Sentence-Conditioned BERT Encoder"
 format: html
