@@ -1281,7 +1281,7 @@ Figure&nbsp;4: Reference cat image.
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Measurement (↓ better)</strong></th>
 <th><strong>Without cache</strong></th>
 <th><strong>With cache</strong></th>
 </tr>
@@ -1289,21 +1289,22 @@ Figure&nbsp;4: Reference cat image.
 <tbody>
 <tr class="odd">
 <td>Latency (4 steps)</td>
-<td>3.085s</td>
-<td>2.374s (23.1%)</td>
+<td>3.085 s</td>
+<td>2.374 s (−23.0%)</td>
 </tr>
 <tr class="even">
 <td>Latency (8 steps)</td>
-<td>5.883s</td>
-<td>4.209s (28.4%)</td>
+<td>5.883 s</td>
+<td>4.209 s (−28.5%)</td>
 </tr>
 <tr class="odd">
 <td>Peak GPU memory</td>
-<td>34.74GB</td>
-<td>35.48GB</td>
+<td>34.74 GB</td>
+<td>35.48 GB (+2.1%)</td>
 </tr>
 </tbody>
 </table>
+<p><span class="small text-muted">In all tables, percentages are relative to the first numeric column.</span></p>
 <p>KV caching, as one would expect, does not affect quality:</p>
 <div id="fig-flux-kv-results" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1320,7 +1321,7 @@ Figure&nbsp;5: Output images from Flux.2-klein-9b-kv with and without KV caching
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Measurement (↓ better)</strong></th>
 <th><strong>Without cache</strong></th>
 <th><strong>With cache</strong></th>
 </tr>
@@ -1328,23 +1329,23 @@ Figure&nbsp;5: Output images from Flux.2-klein-9b-kv with and without KV caching
 <tbody>
 <tr class="odd">
 <td>Latency (4 steps)</td>
-<td>5.950s</td>
-<td>3.446s (42.1%)</td>
+<td>5.950 s</td>
+<td>3.446 s (−42.1%)</td>
 </tr>
 <tr class="even">
 <td>Latency (8 steps)</td>
-<td>11.459s</td>
-<td>5.580s (51.3%)</td>
+<td>11.459 s</td>
+<td>5.580 s (−51.3%)</td>
 </tr>
 <tr class="odd">
 <td>Peak GPU memory</td>
-<td>35.45GB</td>
-<td>39.58GB</td>
+<td>35.45 GB</td>
+<td>39.58 GB (+11.7%)</td>
 </tr>
 </tbody>
 </table>
 <p>The input prompt is a condition, just like the reference images. Since the prompt stays the same throughout denoising, could we cache its KV projections too?</p>
-<p>The distinction is between the fixed text-encoder output and the text representations inside the denoiser. The pipeline computes the prompt embeddings once and reuses them at every denoising step. Inside the denoiser, however, those embeddings undergo further processing.</p>
+<p>There is a distinction between the fixed text-encoder output and the text representations inside the denoiser. The pipeline computes the prompt embeddings once and reuses them at every denoising step. Inside the denoiser, however, those embeddings undergo further processing.</p>
 <p>Flux.2 Klein has two kinds of transformer blocks:</p>
 <ul>
 <li>The classic MMDiT blocks, which process text and image representations with separate parameters while allowing them to interact through joint attention.</li>
@@ -1364,11 +1365,16 @@ Figure&nbsp;6: Output images from Flux.2 Klein 9B KV with text KV caching enable
 </figcaption>
 </figure>
 </div>
-<p>As seen in Figure&nbsp;6, reusing text KV values produced coherent wizard-cat edits. The outputs changed in costume details and framing, but showed no obvious visual failure in this small experiment. Text KV caching is therefore an approximation worth evaluating. In terms of numbers:</p>
+<p>As seen in Figure&nbsp;6, reusing text KV values produced coherent wizard-cat edits. The outputs changed in costume details and framing, but they don’t show obvious visual failure in this small experiment. Text KV caching is therefore an approximation worth evaluating. In terms of numbers:</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Measurement (↓ better)</strong></th>
 <th><strong>Reference KV cache</strong></th>
 <th><strong>+ Text KV cache</strong></th>
 </tr>
@@ -1376,18 +1382,18 @@ Figure&nbsp;6: Output images from Flux.2 Klein 9B KV with text KV caching enable
 <tbody>
 <tr class="odd">
 <td>Latency (4 steps)</td>
-<td>2.385s</td>
-<td>2.231s (6.31%)</td>
+<td>2.385 s</td>
+<td>2.231 s (−6.5%)</td>
 </tr>
 <tr class="even">
 <td>Latency (8 steps)</td>
-<td>4.227s</td>
-<td>3.861s (8.7%)</td>
+<td>4.227 s</td>
+<td>3.861 s (−8.7%)</td>
 </tr>
 <tr class="odd">
 <td>Peak GPU memory</td>
-<td>35.48GB</td>
-<td>35.73GB</td>
+<td>35.48 GB</td>
+<td>35.73 GB (+0.7%)</td>
 </tr>
 </tbody>
 </table>
@@ -1395,11 +1401,11 @@ Figure&nbsp;6: Output images from Flux.2 Klein 9B KV with text KV caching enable
 </section>
 <section id="qwenimage-2.1-results" class="level2">
 <h2 class="anchored" data-anchor-id="qwenimage-2.1-results">QwenImage 2.1 results</h2>
-<p>Similar speed gains transfer to QwenImage 2.1:</p>
+<p>Similar speed gains transfer to QwenImage 2.1 with KV caching:</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
-<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Measurement (↓ better)</strong></th>
 <th><strong>Without cache</strong></th>
 <th><strong>With KV cache</strong></th>
 </tr>
@@ -1407,13 +1413,13 @@ Figure&nbsp;6: Output images from Flux.2 Klein 9B KV with text KV caching enable
 <tbody>
 <tr class="odd">
 <td>Latency (40 steps)</td>
-<td>32.202s</td>
-<td>17.798s (44.7%)</td>
+<td>32.202 s</td>
+<td>17.798 s (−44.7%)</td>
 </tr>
 <tr class="even">
 <td>Peak GPU memory</td>
-<td>36.81GB</td>
-<td>38.89GB</td>
+<td>36.81 GB</td>
+<td>38.89 GB (+5.7%)</td>
 </tr>
 </tbody>
 </table>
@@ -1637,9 +1643,14 @@ font-style: inherit;">"sequence"</span>),</span>
 <p>It’d be a fun exercise to implement this in practice and see how far we can push the speed-memory trade-offs.</p>
 <p>A specific class of caching techniques for flow-based pipelines exists, such as TaylorSeer <span class="citation" data-cites="liu2025taylorseer">[12]</span>, SeaCache <span class="citation" data-cites="chung2026seacache">[13]</span>, and TeaCache <span class="citation" data-cites="liu2025teacache">[14]</span>, which cache intermediate outputs within the denoiser. For example, TaylorSeer uses Taylor series expansions to approximate and cache intermediate activations across denoising steps. This family of caching techniques can be combined with KV caching, too.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
 <thead>
 <tr class="header">
-<th><strong>Measurement ⬇️</strong></th>
+<th><strong>Measurement (↓ better)</strong></th>
 <th><strong>Reference KV cache</strong></th>
 <th><strong>+ TaylorSeer</strong></th>
 </tr>
@@ -1647,18 +1658,18 @@ font-style: inherit;">"sequence"</span>),</span>
 <tbody>
 <tr class="odd">
 <td>Latency (4 steps)</td>
-<td>2.407s</td>
-<td>2.033s (15.5%)</td>
+<td>2.407 s</td>
+<td>2.033 s (−15.5%)</td>
 </tr>
 <tr class="even">
 <td>Latency (8 steps)</td>
-<td>4.264s</td>
-<td>3.105s (27.2%)</td>
+<td>4.264 s</td>
+<td>3.105 s (−27.2%)</td>
 </tr>
 <tr class="odd">
 <td>Peak GPU memory</td>
-<td>35.48GB</td>
-<td>37.24GB</td>
+<td>35.48 GB</td>
+<td>37.24 GB (+5.0%)</td>
 </tr>
 </tbody>
 </table>
