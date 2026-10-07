@@ -1758,7 +1758,7 @@ Figure&nbsp;10: Combining KV caching and TaylorSeer caching may lead to quality 
   <category>kv-caching</category>
   <guid>https://sayak.dev/posts/kv-flow.html</guid>
   <pubDate>Wed, 07 Oct 2026 00:00:00 GMT</pubDate>
-  <media:content url="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail.png" medium="image" type="image/png"/>
+  <media:content url="https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail-v2.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Up to speed with the AMD Strix Halo</title>
