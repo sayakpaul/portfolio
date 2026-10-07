@@ -12,7 +12,7 @@ categories:
 - kv-caching
 date: '2026-10-07'
 description: KV caching in flow models for image generation.
-image: image: https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail-v2.png
+image: https://huggingface.co/buckets/sayakpaul/kv-caching-flow-models-benchmarks/resolve/blog-post/kv-flow-thumbnail-v2.png
 hide: false
 output-file: kv-flow.html
 search_exclude: false
