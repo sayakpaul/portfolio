@@ -6,14 +6,8 @@
       "/posts/strix-halo.html",
       "/posts/flow-optim.html",
       "/posts/attn-diffusion.html",
-      "/posts/streamlined-releases.html",
       "/posts/ml-practice.html",
-      "/posts/gsoc-faqs.html",
-      "/posts/convnext-tfhub.html",
-      "/posts/install-opencv-m1.html",
-      "/posts/optimizing-text-detectors.html",
-      "/posts/mobiledet-optimization.html",
-      "/posts/augmentation-recipes.html"
+      "/posts/mobiledet-optimization.html"
     ]
   }
 ]
