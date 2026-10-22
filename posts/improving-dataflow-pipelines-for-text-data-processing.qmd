@@ -17,7 +17,7 @@ categories:
 date: '2022-02-10'
 description: "Recipes to improve Cloud Dataflow pipelines for large-scale datasets involving sequential text data."
 image: https://huggingface.co/datasets/sayakpaul/sample-datasets/resolve/main/carted/improving-dataflow-pipelines-for-text-data-processing/ML-2x-min.png
-hide: false
+hide: true
 output-file: improving-dataflow-pipelines-for-text-data-processing.html
 title: "Improving Dataflow Pipelines for Text Data Processing"
 format: html
