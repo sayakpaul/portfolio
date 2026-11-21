@@ -9,7 +9,7 @@
 <link>https://sayak.dev/blog.html</link>
 <atom:link href="https://sayak.dev/blog.xml" rel="self" type="application/rss+xml"/>
 <description>Personal site of Sayak Paul.</description>
-<generator>quarto-1.10.19</generator>
+<generator>quarto-1.11.9</generator>
 <lastBuildDate>Wed, 07 Oct 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>KV Caching in Flow Models</title>
@@ -1690,7 +1690,7 @@ Figure&nbsp;10: Combining KV caching and TaylorSeer caching may lead to quality 
 <p>KV caching has mostly been a technique tightly related to autoregressive models. It is promising to see it getting extended to other families of models and providing similar benefits.</p>
 <p>Even in the compressed latent space, image and video generation can involve tens of thousands of visual tokens. For example, for 1024x1024 pixel images, Flux.2 Klein operates on a sequence of 4096 tokens. Doubling that resolution increases this to 16384 tokens. Caching these representations also has a substantial memory cost. In Flux.2 Klein 9B, each additional 1024 reference tokens requires approximately 0.5GB of BF16 KV storage across all layers. This adds up quickly as we scale up the number of reference images and the resolution. For videos, as one would imagine, these numbers would be even higher.</p>
 <p>Therefore, it’d remain interesting to see how KV caching is leveraged without blowing memory consumption too much.</p>
-<div class="callout callout-style-default callout-note callout-titled" title="AI assistance">
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
